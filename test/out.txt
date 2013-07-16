@@ -1,6 +1,6 @@
 ffmpeg version 1.2
-built on Jun 12 2013 02:31:22 with gcc 4.6 (GCC)
-configuration: --fatal-warnings --prefix=/media/DATA/FILES/_Projects/git/javaavc/native/build --enable-version3 --enable-shared --enable-runtime-cpudetect --disable-static --enable-pic --pkg-config=pkg-config --cross-prefix=x86_64-w64-mingw32- --enable-cross-compile --target-os=mingw32 --arch=x86_64
+built on Jun 12 2013 02:20:51 with gcc 4.7 (Ubuntu/Linaro 4.7.3-1ubuntu1)
+configuration: --fatal-warnings --prefix=/media/DATA/FILES/_Projects/git/javaavc/native/build --enable-version3 --enable-shared --enable-runtime-cpudetect --disable-static --enable-pic --pkg-config=pkg-config --arch=x86_64
 libavutil      52. 18.100 / 52. 18.100
 libavcodec     54. 92.100 / 54. 92.100
 libavformat    54. 63.104 / 54. 63.104
