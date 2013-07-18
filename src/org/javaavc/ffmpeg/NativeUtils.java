@@ -1,11 +1,11 @@
 /*
- * Copyright 2013 Zavodnikov D. E.
+ * Copyright 2013 Dmitriy E. Zavodnikov
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -38,7 +38,6 @@ import java.util.regex.Pattern;
  * <STRONG>This class support only Linux and Windows operation systems and 32 and 64 bit architectures.</STRONG>
  * </P>
  *
- * @version 1.003
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class NativeUtils {
