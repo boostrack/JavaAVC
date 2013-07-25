@@ -75,6 +75,9 @@
         <delete dir="${bin.dir}" />
         <delete dir="${build.dir}" />
         <delete dir="${javadoc.dir}" />
+        <delete>
+            <fileset dir="${basedir}" includes="*.zip" />
+        </delete>
     </target>
 
     <!--
@@ -117,8 +120,8 @@
         Generate JavaDocs.
     -->
     <target name="javadoc">
-        <javadoc sourcepath="${src.dir}" destdir="${javadoc.dir}" encoding="UTF-8" docencoding="UTF-8" charset="UTF-8" 
-        	access="public" notree="true">
+        <javadoc sourcepath="${src.dir}" destdir="${javadoc.dir}" encoding="UTF-8" docencoding="UTF-8" charset="UTF-8"
+            access="public" notree="true">
             <fileset dir="${src.dir}">
                 <include name="**" />
             </fileset>
@@ -130,7 +133,7 @@
     <!--
         Build JAR-file.
     -->
-    <target name="build" depends="test, javadoc">
+    <target name="build" depends="clean, test, javadoc">
         <jar destfile="${build.dir}/${program.name}-${program.full.ver}-bin.jar" basedir="${bin.dir}" />
 
         <!--
@@ -156,7 +159,7 @@
     <!--
         Create distrib.
     -->
-    <target name="create-zip-distr" depends="clean, build">
+    <target name="create-zip-distr" depends="build">
         <zip destfile="${basedir}/${library.distr}" basedir="${build.dir}" />
     </target>
 </project>
