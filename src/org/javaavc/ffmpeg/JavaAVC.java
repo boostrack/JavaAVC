@@ -44,7 +44,14 @@ public class JavaAVC {
 
     public static final String LIB_NAME = "JavaAVC";
 
-    public static final String LIB_VER = "1.006";
+    public static final int LIB_VER_MAJOR = 1;
+
+    public static final int LIB_VER_MINOR = 7;
+
+    public static final int LIB_VER_PATCH = 1;
+
+    public static final String LIB_VER = Integer.toString(LIB_VER_MAJOR) + "." + Integer.toString(LIB_VER_MINOR) + "."
+                    + Integer.toString(LIB_VER_PATCH);
 
     public Libavutil avutil;
 

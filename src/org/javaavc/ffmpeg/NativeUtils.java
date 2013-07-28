@@ -21,10 +21,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-
 import java.net.JarURLConnection;
 import java.net.URL;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.jar.JarEntry;
@@ -39,29 +37,9 @@ import java.util.regex.Pattern;
  * </P>
  *
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
+ * @version 3.1.1
  */
 public class NativeUtils {
-
-    /**
-     * Architecture name property.
-     */
-    public static final String PROPERTY_ARCH_NAME = "os.arch";
-
-    /**
-     * OS name property.
-     */
-    public static final String PROPERTY_OS_NAME = "os.name";
-
-    /**
-     * Temporary directory property.
-     */
-    public static final String PROPERTY_TEMP_PATH = "java.io.tmpdir";
-
-    /**
-     * Path of search native code.
-     */
-    public static final String PROPERTY_NATIVE_LIBRARY_PATH = "java.library.path";
-
     /**
      * 32-bit architecture.
      */
@@ -93,7 +71,7 @@ public class NativeUtils {
     public static final String OS_UNKNOWN = "unknown_os";
 
     /**
-     * Return JVM architecture.
+     * Return JVM architecture ("os.arch" property).
      */
     public static String getArch() {
         /*
@@ -101,7 +79,7 @@ public class NativeUtils {
          * See:
          * * http://lopica.sourceforge.net/os.html
          */
-        String arch = System.getProperty(PROPERTY_ARCH_NAME);
+        final String arch = System.getProperty("os.arch");
 
         if (arch.indexOf("64") >= 0) {
             return ARCH_64;
@@ -114,7 +92,7 @@ public class NativeUtils {
     }
 
     /**
-     * Return operation system type.
+     * Return operation system type ("os.name" property).
      */
     public static String getOS() {
         /*
@@ -122,7 +100,7 @@ public class NativeUtils {
          * See:
          * * http://lopica.sourceforge.net/os.html
          */
-        String os = System.getProperty(PROPERTY_OS_NAME);
+        final String os = System.getProperty("os.name");
 
         if (os.indexOf("Linux") >= 0) {
             return OS_LINUX;
@@ -135,7 +113,7 @@ public class NativeUtils {
     }
 
     /**
-     * Return platform-specified directory for gaven library name in format <CODE>LibName_OsName_Arch</CODE> (for example,
+     * Return platform-specified directory for given library name in format <CODE>LibName_OsName_Arch</CODE> (for example,
      * <CODE>MyLibName_linux_64</CODE>).
      */
     public static String getPlatformLibDir(String libName) {
@@ -147,10 +125,10 @@ public class NativeUtils {
     }
 
     /**
-     * Return temporary directory path.
+     * Return temporary directory path ("java.io.tmpdir" property).
      */
     public static File getTemp() {
-        File f = new File(System.getProperty(PROPERTY_TEMP_PATH));
+        final File f = new File(System.getProperty("java.io.tmpdir"));
         if (f != null && f.exists() && f.isDirectory()) {
             return f;
         } else {
@@ -159,19 +137,19 @@ public class NativeUtils {
     }
 
     /**
-     * Return native code paths.
+     * Return native code paths ("java.library.path" property).
      */
     public static String getNativePaths() {
-        return System.getProperty(PROPERTY_NATIVE_LIBRARY_PATH);
+        return System.getProperty("java.library.path");
     }
 
     /**
      * Return native code paths.
      */
-    public static void addNativePath(File path) {
+    public static void addNativePath(final File path) {
+        final String property = "java.library.path";
         if (path != null && path.exists() && path.isDirectory()) {
-            System.setProperty(PROPERTY_NATIVE_LIBRARY_PATH, System.getProperty(PROPERTY_NATIVE_LIBRARY_PATH) + File.pathSeparatorChar
-                + path.getAbsolutePath());
+            System.setProperty(property, System.getProperty(property) + File.pathSeparatorChar + path.getAbsolutePath());
         } else {
             throw new IllegalArgumentException("Can not add new path!");
         }
@@ -195,14 +173,14 @@ public class NativeUtils {
      * See:
      * * http://docs.oracle.com/javase/tutorial/deployment/jar/jarclassloader.html
      */
-    public static File getJarFileByResName(String resName) throws IOException {
-        URL url = Class.class.getResource(resName);
+    public static File getJarFileByResName(final String resName) throws IOException {
+        final URL url = Class.class.getResource(resName);
         if (url == null) {
             throw new RuntimeException("Can not found JAR-file with resource: " + resName);
         }
 
         try {
-            JarURLConnection jarConn = (JarURLConnection) url.openConnection();
+            final JarURLConnection jarConn = (JarURLConnection) url.openConnection();
             return new File(jarConn.getJarFile().getName());
         } catch (IOException e) {
             throw new RuntimeException("Can not found JAR-file with URL: " + url);
@@ -212,7 +190,7 @@ public class NativeUtils {
     /**
      * Extracts a JAR-file to defined directory.
      */
-    public static void unpackJarToDir(File jarFile, File outputDir) throws IOException {
+    public static void unpackJarToDir(final File jarFile, final File outputDir) throws IOException {
         if (jarFile == null || !jarFile.exists() || jarFile.isDirectory()) {
             throw new IllegalArgumentException("Incorrect JAR-file!");
         }
@@ -220,14 +198,14 @@ public class NativeUtils {
             throw new IllegalArgumentException("Incorrect output directory!");
         }
 
-        JarInputStream in = new JarInputStream(new FileInputStream(jarFile));
+        final JarInputStream in = new JarInputStream(new FileInputStream(jarFile));
 
         JarEntry entry = in.getNextJarEntry();
         while (entry != null) {
-            String filePath = outputDir.getAbsolutePath() + File.separator + entry.getName();
+            final String filePath = outputDir.getAbsolutePath() + File.separator + entry.getName();
 
             if (!entry.isDirectory()) {
-                OutputStream out = new BufferedOutputStream(new FileOutputStream(filePath));
+                final OutputStream out = new BufferedOutputStream(new FileOutputStream(filePath));
 
                 byte[] buffer = new byte[4096];
                 int read = 0;
@@ -250,7 +228,7 @@ public class NativeUtils {
     /**
      * Extracts a JAR-file to temporary directory (defined into <CODE>java.io.tmpdir</CODE>).
      */
-    public static void unpackJarToDir(File jarFile) throws IOException {
+    public static void unpackJarToDir(final File jarFile) throws IOException {
         unpackJarToDir(jarFile, getTemp());
     }
 
@@ -262,12 +240,12 @@ public class NativeUtils {
      * directory and returned {@link File} of this copy (for example, <CODE>/tmp/mylib_linux_64</CODE>).
      * </P>
      */
-    public static File unpackNative(String libName) throws IOException {
-        String platformLibDir = getPlatformLibDir(libName);
+    public static File unpackNative(final String libName) throws IOException {
+        final String platformLibDir = getPlatformLibDir(libName);
 
         unpackJarToDir(getJarFileByResName("/" + platformLibDir));
 
-        File result = new File(getTemp().getAbsolutePath() + File.separatorChar + platformLibDir);
+        final File result = new File(getTemp().getAbsolutePath() + File.separatorChar + platformLibDir);
         if (result != null && result.exists() && result.isDirectory()) {
             return result;
         } else {
@@ -278,7 +256,7 @@ public class NativeUtils {
     /**
      * Return list of all files with name that matches on given pattern.
      */
-    public static List<File> getFilesByNamePattern(File parentDir, Pattern fileNamePattern) {
+    public static List<File> getFilesByNamePattern(final File parentDir, final Pattern fileNamePattern) {
         if (parentDir == null || !parentDir.exists() || parentDir.isFile()) {
             throw new IllegalArgumentException("Incorrect link to directory for search files!");
         }
@@ -286,7 +264,7 @@ public class NativeUtils {
             throw new IllegalArgumentException("Incorrect file name pattern!");
         }
 
-        List<File> result = new LinkedList<File>();
+        final List<File> result = new LinkedList<File>();
         for (File f : parentDir.listFiles()) {
             if (f.isFile() && fileNamePattern.matcher(f.getName()).matches()) {
                 result.add(f);
@@ -317,21 +295,21 @@ public class NativeUtils {
      * <STRONG>Note: The LIBPATH environment variable is not used.</STRONG>
      * </P>
      */
-    public static Process runProcess(File bin, String command) {
+    public static Process runProcess(final File bin, final String command) {
         try {
-            if (getOS().equals(OS_LINUX)) {
-                return Runtime.getRuntime().exec(
-                    new String[]{
-                        "/bin/sh",
-                        "-c",
-                        "chmod u+x " + bin.getAbsolutePath() + "; " + "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:" + bin.getParent() + "; "
-                            + "exec " + bin.getAbsolutePath() + " " + command });
-            } else
-                if (getOS().equals(OS_WINDOWS)) {
+            switch (getOS()) {
+                case OS_LINUX:
+                    return Runtime.getRuntime().exec(
+                        new String[]{
+                            "/bin/sh",
+                            "-c",
+                            "chmod u+x " + bin.getAbsolutePath() + "; " + "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:" + bin.getParent() + "; "
+                                + "exec " + bin.getAbsolutePath() + " " + command });
+                case OS_WINDOWS:
                     return Runtime.getRuntime().exec(new String[]{ "cmd.exe", "/c", bin.getAbsolutePath() + " " + command });
-                } else {
+                default:
                     throw new RuntimeException("Unknown OS!");
-                }
+            }
         } catch (IOException e) {
             throw new RuntimeException(e.getMessage());
         }

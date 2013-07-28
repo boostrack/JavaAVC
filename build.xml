@@ -43,9 +43,10 @@
         Common variables.
     -->
     <property name="program.name"       value="JavaAVC" />
-    <property name="program.ver"        value="1" />
-    <property name="program.build"      value="006" />
-    <property name="program.full.ver"   value="${program.ver}.${program.build}" />
+    <property name="program.ver.major"  value="1" />
+    <property name="program.ver.minor"  value="7" />
+    <property name="program.ver.patch"  value="1" />
+    <property name="program.ver"        value="${program.ver.major}.${program.ver.minor}.${program.ver.patch}" />
     <property name="license.file"       value="${basedir}/LICENSE" />
 
     <property name="src.dir"            value="${basedir}/src" />
@@ -61,8 +62,8 @@
     <property name="build.res.dir"      value="${build.dir}/resources" />
     <property name="build.doc.dir"      value="${build.dir}/doc" />
 
-    <property name="programe.dir"       value="${build.dir}/${program.name}-${program.full.ver}" />
-    <property name="library.distr"      value="${program.name}-${program.full.ver}.zip" />
+    <property name="programe.dir"       value="${build.dir}/${program.name}-${program.ver}" />
+    <property name="library.distr"      value="${program.name}-${program.ver}.zip" />
 
     <path id="classpath">
         <fileset dir="${lib.dir}" includes="**/*.jar" />
@@ -134,12 +135,12 @@
         Build JAR-file.
     -->
     <target name="build" depends="clean, test, javadoc">
-        <jar destfile="${build.dir}/${program.name}-${program.full.ver}-bin.jar" basedir="${bin.dir}" />
+        <jar destfile="${build.dir}/${program.name}-${program.ver}-bin.jar" basedir="${bin.dir}" />
 
         <!--
             http://stackoverflow.com/questions/5063630/generate-jars-with-source-code-using-ant
         -->
-        <jar destfile="${build.dir}/${program.name}-${program.full.ver}-src.jar" basedir="${src.dir}" />
+        <jar destfile="${build.dir}/${program.name}-${program.ver}-src.jar" basedir="${src.dir}" />
 
         <copy todir="${build.lib.dir}">
             <fileset dir="${lib.dir}" />
