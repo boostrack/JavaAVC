@@ -13,7 +13,7 @@ ARCH_32=32
 ARCH_64=64
 
 # FFmpeg distrib.
-FFMPEG_VER=1.2
+FFMPEG_VER=2.0
 FFMPEG_DIR=ffmpeg-$(FFMPEG_VER)
 FFMPEG_ARCH=$(FFMPEG_DIR).tar.gz
 FFMPEG_LINK=http://ffmpeg.org/releases/$(FFMPEG_ARCH)
