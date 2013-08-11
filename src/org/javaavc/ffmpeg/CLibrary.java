@@ -26,7 +26,7 @@ import com.sun.jna.PointerType;
  */
 public interface CLibrary {
 
-    public static CLibrary INSTANCE = (CLibrary) Native.loadLibrary((Platform.isLinux() ? "c" : "msvcrt"), CLibrary.class);
+    public static final CLibrary INSTANCE = (CLibrary) Native.loadLibrary((Platform.isLinux() ? "c" : "msvcrt"), CLibrary.class);
 
     /**
      * Open file.
@@ -50,7 +50,7 @@ public interface CLibrary {
      * </OL>
      * </P>
      */
-    public FILE fopen(String filename, String mode);
+    public FILE fopen(final String filename, final String mode);
 
     /**
      * Close file.
@@ -63,9 +63,8 @@ public interface CLibrary {
      * </OL>
      * </P>
      */
-    public void fclose(FILE f);
+    public void fclose(final FILE f);
 
     public static class FILE extends PointerType {
-
     };
 }

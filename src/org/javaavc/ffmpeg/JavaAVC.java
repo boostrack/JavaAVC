@@ -114,8 +114,8 @@ public class JavaAVC {
         return nativeDir;
     }
 
-    private static File getFileByName(String libName) throws IOException {
-        List<File> files = NativeUtils.getFilesByNamePattern(getNativeDir(), Pattern.compile(".*" + libName + ".*"));
+    private static File getFileByName(final String libName) throws IOException {
+        final List<File> files = NativeUtils.getFilesByNamePattern(getNativeDir(), Pattern.compile(".*" + libName + ".*"));
         if (files.size() != 0) {
             return files.get(0);
         } else {
@@ -123,7 +123,7 @@ public class JavaAVC {
         }
     }
 
-    private static String getPathByName(String libName) throws IOException {
+    private static String getPathByName(final String libName) throws IOException {
         return getFileByName(libName).getAbsolutePath();
     }
 
@@ -161,7 +161,7 @@ public class JavaAVC {
      * @param command
      *            Command to execute.
      */
-    public static void commandLineExecute(String bin, String command) {
+    public static void commandLineExecute(final String bin, final String command) {
         /*
          * (non-Javadoc)
          * See:
@@ -171,17 +171,17 @@ public class JavaAVC {
             String line;
 
             // Run FFmpeg.
-            Process run = NativeUtils.runProcess(getFileByName(bin), command);
+            final Process run = NativeUtils.runProcess(getFileByName(bin), command);
 
             // Print standard output.
-            BufferedReader input = new BufferedReader(new InputStreamReader(run.getInputStream()));
+            final BufferedReader input = new BufferedReader(new InputStreamReader(run.getInputStream()));
             while ((line = input.readLine()) != null) {
                 System.out.println(line);
             }
             input.close();
 
             // Print error output.
-            BufferedReader error = new BufferedReader(new InputStreamReader(run.getErrorStream()));
+            final BufferedReader error = new BufferedReader(new InputStreamReader(run.getErrorStream()));
             while ((line = error.readLine()) != null) {
                 System.err.println(line);
             }

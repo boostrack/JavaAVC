@@ -42,7 +42,7 @@ public class JavaAvcTest {
     @Test
     public void test1() {
         try {
-            JavaAVC avc = new JavaAVC();
+            final JavaAVC avc = new JavaAVC();
             assertNotNull(avc);
 
             // AVCodec.
@@ -73,21 +73,21 @@ public class JavaAvcTest {
         }
     }
 
-    private static File getFile(String name) {
+    private static File getFile(final String name) {
         return new File("test" + File.separatorChar + name);
     }
 
-    private static File getEmptyFile(String name) {
-        File f = getFile(name);
+    private static File getEmptyFile(final String name) {
+        final File f = getFile(name);
         if (f.exists()) {
             f.delete();
         }
         return f;
     }
 
-    private static String loadFile(String name) throws IOException {
-        File f = getFile(name);
-        StringBuilder sb = new StringBuilder();
+    private static String loadFile(final String name) throws IOException {
+        final File f = getFile(name);
+        final StringBuilder sb = new StringBuilder();
 
         if (f.exists()) {
             for (String str : Files.readAllLines(Paths.get(f.getAbsolutePath()), StandardCharsets.UTF_8)) {
@@ -101,8 +101,8 @@ public class JavaAvcTest {
     @Test
     public void test2() {
         try {
-            String outFile = "out.txt";
-            String errFile = "err.txt";
+            final String outFile = "out.txt";
+            final String errFile = "err.txt";
 
             System.setOut(new PrintStream(getEmptyFile(outFile)));
             System.setErr(new PrintStream(getEmptyFile(errFile)));
