@@ -10,5 +10,6 @@
 	<classpathentry kind="lib" path="lib/javaavc-linux-64-2.0-native.jar"/>
 	<classpathentry kind="lib" path="lib/javaavc-windows-32-2.0-native.jar"/>
 	<classpathentry kind="lib" path="lib/javaavc-windows-64-2.0-native.jar"/>
+	<classpathentry kind="lib" path="lib/jnaerator-0.12-SNAPSHOT-20130727.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

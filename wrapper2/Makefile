@@ -1,14 +1,22 @@
 ROOT_DIR=../src
 # See new version on: http://code.google.com/p/jnaerator/
-JNR=jnaerator-0.12-SNAPSHOT-20130609.jar
+JNR=jnaerator-0.12-SNAPSHOT-20130727.jar
 PACK_PREF=org.javaavc.gen
+
+
+# ============
+# Header path.
+# Ver. 1: User original headers.
+HEADER1=include/lib$@/$@.h
+HEADER2=include/libavutil/$@.h
+# Ver. 2: Use preprocessed headers.
+#HEADER1=../wrapper1/$@.h
+#HEADER2=$(HEADER1)
 
 
 # ========
 # Include.
-INC=
-INC:=-I include
-#INC:=$(INC) -I /usr/lib/gcc/x86_64-linux-gnu/4.7.2/include
+INC_DIR=-I include
 
 
 # ========
@@ -86,7 +94,7 @@ OPT:=$(OPT) -skipLibraryInstance
 # $2 -- package;
 # $3 -- header for generate wrapper.
 wrapper=\
-    java -jar $(JNR) $(OPT) $(INC) -o $(ROOT_DIR) -library $1 -package $2 $3
+    java -jar $(JNR) $(OPT) $(INC_DIR) -o $(ROOT_DIR) -library $1 -package $2 $3
 
 
 # ==========
@@ -103,11 +111,11 @@ wrapper=\
 all: avcodec avdevice avfilter avformat swresample swscale avutil channel_layout
 
 
-avcodec avdevice avfilter avformat swresample swscale:
-	$(call wrapper,Lib$@,$(PACK_PREF).$@,$(INC_DIR)/lib$@/$@.h)
+avcodec avdevice avfilter avformat avutil swresample swscale:
+	$(call wrapper,Lib$@,$(PACK_PREF).$@,$(HEADER1))
 
 
-avutil channel_layout:
-	$(call wrapper,Lib$@,$(PACK_PREF).avutil,$(INC_DIR)/libavutil/$@.h)
+channel_layout:
+	$(call wrapper,Lib$@,$(PACK_PREF).avutil,$(HEADER2))
 
 
