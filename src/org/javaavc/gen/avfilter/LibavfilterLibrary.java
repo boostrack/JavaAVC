@@ -13,25 +13,16 @@ import java.nio.IntBuffer;
  * For help, please visit <a href="http://nativelibs4java.googlecode.com/">NativeLibs4Java</a> , <a href="http://rococoa.dev.java.net/">Rococoa</a>, or <a href="http://jna.dev.java.net/">JNA</a>.
  */
 public interface LibavfilterLibrary extends Library {
-	public static final int LIBAVFILTER_VERSION_MAJOR = 3;
-	public static final String LIBAVFILTER_IDENT = "Lavfi";
-	public static final int LIBAVFILTER_VERSION_MICRO = 103;
-	public static final int LIBAVFILTER_VERSION_INT = (3 << 16 | 42 << 8 | 103);
-	public static final int AVFILTER_ALIGN = 16;
-	public static final int AV_PERM_ALIGN = 0x40;
-	public static final boolean FF_API_AVFILTERPAD_PUBLIC = (3 < 4);
-	public static final int AV_PERM_WRITE = 0x02;
-	public static final boolean FF_API_FILL_FRAME = (3 < 4);
-	public static final boolean FF_API_FOO_COUNT = (3 < 4);
-	public static final int AV_PERM_PRESERVE = 0x04;
-	public static final int AVFILTER_CMD_FLAG_FAST = 2;
-	public static final int AV_PERM_REUSE2 = 0x10;
 	public static final int AV_PERM_NEG_LINESIZES = 0x20;
+	public static final int AV_PERM_REUSE2 = 0x10;
+	public static final int AV_PERM_ALIGN = 0x40;
+	public static final int AVFILTER_CMD_FLAG_FAST = 2;
 	public static final int AV_PERM_REUSE = 0x08;
-	public static final int LIBAVFILTER_VERSION_MINOR = 42;
+	public static final int AVFILTER_ALIGN = 16;
+	public static final int __STDC_HOSTED__ = 1;
+	public static final int AV_PERM_PRESERVE = 0x04;
 	public static final int AV_PERM_READ = 0x01;
-	public static final int LIBAVFILTER_BUILD = (3 << 16 | 42 << 8 | 103);
-	public static final boolean FF_API_BUFFERSRC_BUFFER = (3 < 4);
+	public static final int AV_PERM_WRITE = 0x02;
 	public static final int AVFILTER_CMD_FLAG_ONE = 1;
 	/**
 	 * Return the LIBAVFILTER_VERSION_INT constant.<br>
@@ -52,7 +43,7 @@ public interface LibavfilterLibrary extends Library {
 	 * Get the class for the AVFilterContext struct.<br>
 	 * Original signature : <code>AVClass* avfilter_get_class()</code>
 	 */
-	Pointer avfilter_get_class();
+	LibavfilterLibrary.AVClass avfilter_get_class();
 	/**
 	 * Copy properties of src to dst, without copying the actual data<br>
 	 * Original signature : <code>void avfilter_copy_buffer_ref_props(AVFilterBufferRef*, AVFilterBufferRef*)</code>
@@ -117,7 +108,7 @@ public interface LibavfilterLibrary extends Library {
 	 * * @return type of the pad_idx'th pad in pads<br>
 	 * Original signature : <code>AVMediaType avfilter_pad_get_type(AVFilterPad*, int)</code>
 	 */
-	LibavfilterLibrary.AVMediaType avfilter_pad_get_type(AVFilterPad pads, int pad_idx);
+	int avfilter_pad_get_type(AVFilterPad pads, int pad_idx);
 	/**
 	 * Link two filters together.<br>
 	 * * @param src    the source filter<br>
@@ -196,7 +187,7 @@ public interface LibavfilterLibrary extends Library {
 	 * @param channel_layout the channel layout of the buffer<br>
 	 * Original signature : <code>AVFilterBufferRef* avfilter_get_audio_buffer_ref_from_arrays(uint8_t**, int, int, int, AVSampleFormat, uint64_t)</code>
 	 */
-	AVFilterBufferRef avfilter_get_audio_buffer_ref_from_arrays(PointerByReference data, int linesize, int perms, int nb_samples, LibavfilterLibrary.AVSampleFormat sample_fmt, long channel_layout);
+	AVFilterBufferRef avfilter_get_audio_buffer_ref_from_arrays(PointerByReference data, int linesize, int perms, int nb_samples, int sample_fmt, long channel_layout);
 	/**
 	 * Create an audio buffer reference wrapped around an already<br>
 	 * allocated samples buffer.<br>
@@ -210,7 +201,7 @@ public interface LibavfilterLibrary extends Library {
 	 *                       must be either 0 or consistent with channels<br>
 	 * Original signature : <code>AVFilterBufferRef* avfilter_get_audio_buffer_ref_from_arrays_channels(uint8_t**, int, int, int, AVSampleFormat, int, uint64_t)</code>
 	 */
-	AVFilterBufferRef avfilter_get_audio_buffer_ref_from_arrays_channels(PointerByReference data, int linesize, int perms, int nb_samples, LibavfilterLibrary.AVSampleFormat sample_fmt, int channels, long channel_layout);
+	AVFilterBufferRef avfilter_get_audio_buffer_ref_from_arrays_channels(PointerByReference data, int linesize, int perms, int nb_samples, int sample_fmt, int channels, long channel_layout);
 	/**
 	 * Make the filter instance process a command.<br>
 	 * It is recommended to use avfilter_graph_send_command().<br>
@@ -354,19 +345,27 @@ public interface LibavfilterLibrary extends Library {
 	 * Original signature : <code>int avfilter_insert_filter(AVFilterLink*, AVFilterContext*, unsigned, unsigned)</code>
 	 */
 	int avfilter_insert_filter(AVFilterLink link, AVFilterContext filt, int filt_srcpad_idx, int filt_dstpad_idx);
-	public static class AVMediaType extends PointerType {
-		public AVMediaType(Pointer address) {
-			super(address);
-		}
-		public AVMediaType() {
-			super();
-		}
-	};
 	public static class AVFilterChannelLayouts extends PointerType {
 		public AVFilterChannelLayouts(Pointer address) {
 			super(address);
 		}
 		public AVFilterChannelLayouts() {
+			super();
+		}
+	};
+	public static class AVClass extends PointerType {
+		public AVClass(Pointer address) {
+			super(address);
+		}
+		public AVClass() {
+			super();
+		}
+	};
+	public static class AVRational extends PointerType {
+		public AVRational(Pointer address) {
+			super(address);
+		}
+		public AVRational() {
 			super();
 		}
 	};
@@ -386,27 +385,11 @@ public interface LibavfilterLibrary extends Library {
 			super();
 		}
 	};
-	public static class AVSampleFormat extends PointerType {
-		public AVSampleFormat(Pointer address) {
-			super(address);
-		}
-		public AVSampleFormat() {
-			super();
-		}
-	};
 	public static class AVFilterPool extends PointerType {
 		public AVFilterPool(Pointer address) {
 			super(address);
 		}
 		public AVFilterPool() {
-			super();
-		}
-	};
-	public static class AVPictureType extends PointerType {
-		public AVPictureType(Pointer address) {
-			super(address);
-		}
-		public AVPictureType() {
 			super();
 		}
 	};

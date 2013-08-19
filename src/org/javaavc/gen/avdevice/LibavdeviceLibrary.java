@@ -7,12 +7,11 @@ import com.sun.jna.Library;
  * For help, please visit <a href="http://nativelibs4java.googlecode.com/">NativeLibs4Java</a> , <a href="http://rococoa.dev.java.net/">Rococoa</a>, or <a href="http://jna.dev.java.net/">JNA</a>.
  */
 public interface LibavdeviceLibrary extends Library {
-	public static final int LIBAVDEVICE_VERSION_MICRO = 103;
-	public static final String LIBAVDEVICE_IDENT = "Lavd";
-	public static final int LIBAVDEVICE_VERSION_MINOR = 3;
-	public static final int LIBAVDEVICE_BUILD = (54 << 16 | 3 << 8 | 103);
-	public static final int LIBAVDEVICE_VERSION_INT = (54 << 16 | 3 << 8 | 103);
 	public static final int LIBAVDEVICE_VERSION_MAJOR = 54;
+	public static final String LIBAVDEVICE_IDENT = "Lavd";
+	public static final int LIBAVDEVICE_VERSION_MICRO = 103;
+	public static final int __STDC_HOSTED__ = 1;
+	public static final int LIBAVDEVICE_VERSION_MINOR = 3;
 	/**
 	 * Return the LIBAVDEVICE_VERSION_INT constant.<br>
 	 * Original signature : <code>int avdevice_version()</code>

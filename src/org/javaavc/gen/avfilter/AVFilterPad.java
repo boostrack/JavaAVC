@@ -4,7 +4,6 @@ import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
 import java.util.Arrays;
 import java.util.List;
-import org.javaavc.gen.avfilter.LibavfilterLibrary.AVMediaType;
 /**
  * A filter pad used for either input or output.<br>
  * * See doc/filter_design.txt for details on how to implement the methods.<br>
@@ -26,9 +25,10 @@ public class AVFilterPad extends Structure {
 	public Pointer name;
 	/**
 	 * AVFilterPad type.<br>
+	 * @see AVMediaType<br>
 	 * C type : AVMediaType
 	 */
-	public AVMediaType type;
+	public int type;
 	/**
 	 * Input pads:<br>
 	 * Minimum required permissions on incoming buffers. Any buffer with<br>

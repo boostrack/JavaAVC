@@ -47,91 +47,74 @@ public interface LibavformatLibrary extends Library {
 		/** < Duration estimated from bitrate (less accurate) */
 		public static final int AVFMT_DURATION_FROM_BITRATE = 2;
 	};
-	public static final int AVIO_FLAG_DIRECT = 0x8000;
-	public static final int AVFMT_FLAG_MP4A_LATM = 0x8000;
-	public static final boolean FF_API_SET_PTS_INFO = (54 < 55);
-	public static final int AVSEEK_FLAG_FRAME = 8;
-	public static final int AVPROBE_SCORE_RETRY = (100 / 4);
-	public static final int AVIO_FLAG_WRITE = 2;
-	public static final int AVFMT_NOFILE = 0x0001;
-	public static final int RAW_PACKET_BUFFER_SIZE = 2500000;
-	public static final boolean FF_API_READ_PACKET = (54 < 55);
+	public static final int AVFMT_FLAG_IGNIDX = 0x0002;
 	public static final int AV_DISPOSITION_DUB = 0x0002;
-	public static final int AVFMT_GENERIC_INDEX = 0x0100;
-	public static final int AVFMT_ALLOW_FLUSH = 0x10000;
-	public static final int AVSEEK_FLAG_BACKWARD = 1;
-	public static final int AVFMT_FLAG_NONBLOCK = 0x0004;
+	public static final int AV_PROGRAM_RUNNING = 1;
+	public static final int AVFMT_NODIMENSIONS = 0x0800;
+	public static final int AVFMT_FLAG_NOBUFFER = 0x0040;
+	public static final int AVIO_FLAG_DIRECT = 0x8000;
+	public static final int AVFMTCTX_NOHEADER = 0x0001;
+	public static final int AVIO_FLAG_NONBLOCK = 8;
+	public static final int AVFMT_FLAG_MP4A_LATM = 0x8000;
+	public static final int AVFMT_NOTIMESTAMPS = 0x0080;
+	public static final int AVFMT_FLAG_SORT_DTS = 0x10000;
+	public static final int AV_DISPOSITION_DEFAULT = 0x0001;
+	public static final int AV_PTS_WRAP_SUB_OFFSET = -1;
+	public static final int AVFMT_SHOW_IDS = 0x0008;
+	public static final int AV_DISPOSITION_ATTACHED_PIC = 0x0400;
 	public static final int AVSEEK_SIZE = 0x10000;
+	public static final int AVFMT_GENERIC_INDEX = 0x0100;
+	public static final int AVFMT_NOBINSEARCH = 0x2000;
 	public static final int AVFMT_FLAG_DISCARD_CORRUPT = 0x0100;
-	public static final int LIBAVFORMAT_VERSION_MICRO = 104;
-	public static final boolean FF_API_FORMAT_PARAMETERS = (54 < 55);
+	public static final int AV_PTS_WRAP_IGNORE = 0;
+	public static final int AVSEEK_FLAG_BYTE = 2;
+	public static final int AVFMT_TS_DISCONT = 0x0200;
+	public static final int AVFMT_NO_BYTE_SEEK = 0x8000;
+	public static final int AVFMT_ALLOW_FLUSH = 0x10000;
+	public static final int AV_DISPOSITION_ORIGINAL = 0x0004;
+	public static final int AVFMT_NEEDNUMBER = 0x0002;
+	public static final int AVFMT_TS_NONSTRICT = 0x8020000;
+	public static final int AVFMT_FLAG_CUSTOM_IO = 0x0080;
+	public static final int AV_DISPOSITION_COMMENT = 0x0008;
+	public static final int AV_DISPOSITION_FORCED = 0x0040;
+	public static final int AVIO_FLAG_READ = 1;
+	public static final int AVFMT_NOGENSEARCH = 0x4000;
+	public static final int AVFMT_FLAG_NOPARSE = 0x0020;
 	public static final int AVFMT_FLAG_PRIV_OPT = 0x20000;
+	public static final int AVPROBE_SCORE_MAX = 100;
+	public static final int AVSEEK_FLAG_BACKWARD = 1;
+	public static final int AVFMT_FLAG_NOFILLIN = 0x0010;
+	public static final int FF_FDEBUG_TS = 0x0001;
+	public static final int AVSEEK_FORCE = 0x20000;
+	public static final int AVIO_FLAG_READ_WRITE = (1 | 2);
+	public static final int AVFMT_FLAG_GENPTS = 0x0001;
+	public static final int AVFMT_FLAG_IGNDTS = 0x0008;
+	public static final int AVFMT_RAWPICTURE = 0x0020;
+	public static final int MAX_PROBE_PACKETS = 2500;
+	public static final int AVSEEK_FLAG_FRAME = 8;
 	public static final int AVFMT_NOSTREAMS = 0x1000;
 	public static final int AV_PTS_WRAP_ADD_OFFSET = 1;
-	public static final int AVSEEK_FLAG_ANY = 4;
-	public static final int AV_DISPOSITION_LYRICS = 0x0010;
-	public static final int MAX_STD_TIMEBASES = (60 * 12 + 6);
-	public static final int AV_PROGRAM_RUNNING = 1;
-	public static final int AVSEEK_FLAG_BYTE = 2;
-	public static final int AVFMT_FLAG_CUSTOM_IO = 0x0080;
-	public static final int AVFMT_NOGENSEARCH = 0x4000;
-	public static final boolean FF_API_INTERLEAVE_PACKET = (54 < 55);
-	public static final boolean FF_API_AV_GETTIME = (54 < 55);
-	public static final int AVFMT_VARIABLE_FPS = 0x0400;
-	public static final int AVFMT_FLAG_KEEP_SIDE_DATA = 0x40000;
-	public static final int LIBAVFORMAT_VERSION_INT = (54 << 16 | 63 << 8 | 104);
-	public static final int AVFMT_FLAG_NOFILLIN = 0x0010;
-	public static final String LIBAVFORMAT_IDENT = "Lavf";
-	public static final int AVFMT_FLAG_IGNIDX = 0x0002;
-	public static final int AV_DISPOSITION_ATTACHED_PIC = 0x0400;
-	public static final int LIBAVFORMAT_VERSION_MAJOR = 54;
-	public static final int MAX_PROBE_PACKETS = 2500;
-	public static final int AVFMT_NO_BYTE_SEEK = 0x8000;
-	public static final int AVFMT_NEEDNUMBER = 0x0002;
-	public static final int AVIO_FLAG_READ = 1;
-	public static final int AVFMT_FLAG_GENPTS = 0x0001;
-	public static final boolean FF_API_R_FRAME_RATE = (54 < 55);
-	public static final boolean FF_API_PKT_DUMP = (54 < 54);
-	public static final int AVFMT_FLAG_SORT_DTS = 0x10000;
-	public static final int AV_PTS_WRAP_IGNORE = 0;
-	public static final int AVINDEX_KEYFRAME = 0x0001;
-	public static final int AVFMT_FLAG_NOBUFFER = 0x0040;
-	public static final int AVFMTCTX_NOHEADER = 0x0001;
-	public static final int AVSEEK_FORCE = 0x20000;
 	public static final int AV_DISPOSITION_VISUAL_IMPAIRED = 0x0100;
-	public static final int AVFMT_SEEK_TO_PTS = 0x4000000;
-	public static final int AVFMT_SHOW_IDS = 0x0008;
-	public static final int AVFMT_TS_DISCONT = 0x0200;
-	public static final int AV_DISPOSITION_COMMENT = 0x0008;
-	public static final int AVFMT_FLAG_NOPARSE = 0x0020;
-	public static final int AVPROBE_SCORE_MAX = 100;
-	public static final int FF_FDEBUG_TS = 0x0001;
-	public static final int AVIO_FLAG_READ_WRITE = (1 | 2);
-	public static final int AV_DISPOSITION_KARAOKE = 0x0020;
-	public static final int LIBAVFORMAT_VERSION_MINOR = 63;
-	public static final boolean FF_API_OLD_AVIO = (54 < 55);
-	public static final int AV_DISPOSITION_ORIGINAL = 0x0004;
-	public static final int AVFMT_FLAG_IGNDTS = 0x0008;
-	public static final int AVPROBE_PADDING_SIZE = 32;
-	public static final int AVFMT_NOTIMESTAMPS = 0x0080;
-	public static final boolean FF_API_NEW_STREAM = (54 < 55);
-	public static final int AV_DISPOSITION_DEFAULT = 0x0001;
-	public static final int AVFMT_NOBINSEARCH = 0x2000;
-	public static final boolean FF_API_ALLOC_OUTPUT_CONTEXT = (54 < 55);
-	public static final int LIBAVFORMAT_BUILD = (54 << 16 | 63 << 8 | 104);
-	public static final int AV_DISPOSITION_HEARING_IMPAIRED = 0x0080;
-	public static final int AVFMT_NODIMENSIONS = 0x0800;
-	public static final boolean FF_API_APPLEHTTP_PROTO = (54 < 55);
-	public static final int MAX_REORDER_DELAY = 16;
-	public static final int AV_PTS_WRAP_SUB_OFFSET = -1;
-	public static final int AV_DISPOSITION_FORCED = 0x0040;
-	public static final int AVFMT_RAWPICTURE = 0x0020;
-	public static final boolean FF_API_CLOSE_INPUT_FILE = (54 < 55);
-	public static final int AVIO_FLAG_NONBLOCK = 8;
-	public static final int AVFMT_TS_NONSTRICT = 0x8020000;
 	public static final int AV_DISPOSITION_CLEAN_EFFECTS = 0x0200;
+	public static final int AVFMT_FLAG_NONBLOCK = 0x0004;
+	public static final int AV_DISPOSITION_KARAOKE = 0x0020;
 	public static final int AVFMT_GLOBALHEADER = 0x0040;
+	public static final int AVIO_FLAG_WRITE = 2;
+	public static final int AVPROBE_SCORE_RETRY = (100 / 4);
+	public static final int __STDC_HOSTED__ = 1;
+	public static final int AVFMT_VARIABLE_FPS = 0x0400;
+	public static final int AVFMT_SEEK_TO_PTS = 0x4000000;
+	public static final int AVFMT_FLAG_KEEP_SIDE_DATA = 0x40000;
 	public static final int AVIO_SEEKABLE_NORMAL = 0x0001;
+	public static final int AV_DISPOSITION_HEARING_IMPAIRED = 0x0080;
+	public static final int AVSEEK_FLAG_ANY = 4;
+	public static final int AVINDEX_KEYFRAME = 0x0001;
+	public static final int AV_DISPOSITION_LYRICS = 0x0010;
+	public static final int AVFMT_NOFILE = 0x0001;
+	public static final int RAW_PACKET_BUFFER_SIZE = 2500000;
+	public static final int MAX_REORDER_DELAY = 16;
+	public static final int MAX_STD_TIMEBASES = (60 * 12 + 6);
+	public static final int AVPROBE_PADDING_SIZE = 32;
 	public interface avio_alloc_context_read_packet_callback extends Callback {
 		int apply(Pointer opaque, Pointer buf, int buf_size);
 	};
@@ -456,7 +439,7 @@ public interface LibavformatLibrary extends Library {
 	 * @return 0 in case of success, a negative value corresponding to an<br>
 	 * AVERROR code in case of failure<br>
 	 * Original signature : <code>int avio_open2(AVIOContext**, const char*, int, const AVIOInterruptCB*, AVDictionary**)</code><br>
-	 * @deprecated use the safer methods {@link #avio_open2(org.javaavc.gen.avformat.AVIOContext.ByReference[], java.lang.String, int, org.javaavc.gen.avformat.AVIOInterruptCB, com.sun.jna.ptr.PointerByReference)} and {@link #avio_open2(org.javaavc.gen.avformat.AVIOContext.ByReference[], com.sun.jna.Pointer, int, org.javaavc.gen.avformat.AVIOInterruptCB, com.sun.jna.ptr.PointerByReference)} instead
+	 * @deprecated use the safer methods {@link #avio_open2(org.javaavc.gen.avformat.AVIOContext.ByReference[], java.lang.String, int, org.javaavc.gen.avformat.AVIOInterruptCB, org.javaavc.gen.avformat.LibavformatLibrary.AVDictionary[])} and {@link #avio_open2(org.javaavc.gen.avformat.AVIOContext.ByReference[], com.sun.jna.Pointer, int, org.javaavc.gen.avformat.AVIOInterruptCB, org.javaavc.gen.avformat.LibavformatLibrary.AVDictionary[])} instead
 	 */
 	@Deprecated 
 	int avio_open2(PointerByReference s, Pointer url, int flags, AVIOInterruptCB int_cb, PointerByReference options);
@@ -477,7 +460,7 @@ public interface LibavformatLibrary extends Library {
 	 * AVERROR code in case of failure<br>
 	 * Original signature : <code>int avio_open2(AVIOContext**, const char*, int, const AVIOInterruptCB*, AVDictionary**)</code>
 	 */
-	int avio_open2(AVIOContext.ByReference s[], String url, int flags, AVIOInterruptCB int_cb, PointerByReference options);
+	int avio_open2(AVIOContext.ByReference s[], String url, int flags, AVIOInterruptCB int_cb, LibavformatLibrary.AVDictionary options[]);
 	/**
 	 * Create and initialize a AVIOContext for accessing the<br>
 	 * resource indicated by url.<br>
@@ -495,7 +478,7 @@ public interface LibavformatLibrary extends Library {
 	 * AVERROR code in case of failure<br>
 	 * Original signature : <code>int avio_open2(AVIOContext**, const char*, int, const AVIOInterruptCB*, AVDictionary**)</code>
 	 */
-	int avio_open2(AVIOContext.ByReference s[], Pointer url, int flags, AVIOInterruptCB int_cb, PointerByReference options);
+	int avio_open2(AVIOContext.ByReference s[], Pointer url, int flags, AVIOInterruptCB int_cb, LibavformatLibrary.AVDictionary options[]);
 	/**
 	 * Close the resource accessed by the AVIOContext s and free it.<br>
 	 * This function can only be used if s was opened by avio_open().<br>
@@ -601,7 +584,7 @@ public interface LibavformatLibrary extends Library {
 	 * @return >0 (read size) if OK, AVERROR_xxx otherwise<br>
 	 * Original signature : <code>int av_get_packet(AVIOContext*, AVPacket*, int)</code>
 	 */
-	int av_get_packet(AVIOContext s, Pointer pkt, int size);
+	int av_get_packet(AVIOContext s, LibavformatLibrary.AVPacket pkt, int size);
 	/**
 	 * Read data and append it to the current content of the AVPacket.<br>
 	 * If pkt->size is 0 this is identical to av_get_packet.<br>
@@ -615,7 +598,7 @@ public interface LibavformatLibrary extends Library {
 	 *         will not be lost even if an error occurs.<br>
 	 * Original signature : <code>int av_append_packet(AVIOContext*, AVPacket*, int)</code>
 	 */
-	int av_append_packet(AVIOContext s, Pointer pkt, int size);
+	int av_append_packet(AVIOContext s, LibavformatLibrary.AVPacket pkt, int size);
 	/**
 	 * Returns the method used to set ctx->duration.<br>
 	 * * @return AVFMT_DURATION_FROM_PTS, AVFMT_DURATION_FROM_STREAM, or AVFMT_DURATION_FROM_BITRATE.<br>
@@ -697,7 +680,7 @@ public interface LibavformatLibrary extends Library {
 	 * * @see av_opt_find().<br>
 	 * Original signature : <code>AVClass* avformat_get_class()</code>
 	 */
-	Pointer avformat_get_class();
+	LibavformatLibrary.AVClass avformat_get_class();
 	/**
 	 * Add a new stream to a media file.<br>
 	 * * When demuxing, it is called by the demuxer in read_header(). If the<br>
@@ -710,7 +693,7 @@ public interface LibavformatLibrary extends Library {
 	 * * @return newly created stream or NULL on error.<br>
 	 * Original signature : <code>AVStream* avformat_new_stream(AVFormatContext*, const AVCodec*)</code>
 	 */
-	AVStream avformat_new_stream(AVFormatContext s, Pointer c);
+	AVStream avformat_new_stream(AVFormatContext s, LibavformatLibrary.AVCodec c);
 	/** Original signature : <code>AVProgram* av_new_program(AVFormatContext*, int)</code> */
 	AVProgram av_new_program(AVFormatContext s, int id);
 	/**
@@ -903,7 +886,7 @@ public interface LibavformatLibrary extends Library {
 	 * * @return 0 on success, a negative AVERROR on failure.<br>
 	 * * @note If you want to use custom IO, preallocate the format context and set its pb field.<br>
 	 * Original signature : <code>int avformat_open_input(AVFormatContext**, const char*, AVInputFormat*, AVDictionary**)</code><br>
-	 * @deprecated use the safer methods {@link #avformat_open_input(org.javaavc.gen.avformat.AVFormatContext.ByReference[], java.lang.String, org.javaavc.gen.avformat.AVInputFormat, com.sun.jna.ptr.PointerByReference)} and {@link #avformat_open_input(org.javaavc.gen.avformat.AVFormatContext.ByReference[], com.sun.jna.Pointer, org.javaavc.gen.avformat.AVInputFormat, com.sun.jna.ptr.PointerByReference)} instead
+	 * @deprecated use the safer methods {@link #avformat_open_input(org.javaavc.gen.avformat.AVFormatContext.ByReference[], java.lang.String, org.javaavc.gen.avformat.AVInputFormat, org.javaavc.gen.avformat.LibavformatLibrary.AVDictionary[])} and {@link #avformat_open_input(org.javaavc.gen.avformat.AVFormatContext.ByReference[], com.sun.jna.Pointer, org.javaavc.gen.avformat.AVInputFormat, org.javaavc.gen.avformat.LibavformatLibrary.AVDictionary[])} instead
 	 */
 	@Deprecated 
 	int avformat_open_input(PointerByReference ps, Pointer filename, AVInputFormat fmt, PointerByReference options);
@@ -924,7 +907,7 @@ public interface LibavformatLibrary extends Library {
 	 * * @note If you want to use custom IO, preallocate the format context and set its pb field.<br>
 	 * Original signature : <code>int avformat_open_input(AVFormatContext**, const char*, AVInputFormat*, AVDictionary**)</code>
 	 */
-	int avformat_open_input(AVFormatContext.ByReference ps[], String filename, AVInputFormat fmt, PointerByReference options);
+	int avformat_open_input(AVFormatContext.ByReference ps[], String filename, AVInputFormat fmt, LibavformatLibrary.AVDictionary options[]);
 	/**
 	 * Open an input stream and read the header. The codecs are not opened.<br>
 	 * The stream must be closed with av_close_input_file().<br>
@@ -942,7 +925,7 @@ public interface LibavformatLibrary extends Library {
 	 * * @note If you want to use custom IO, preallocate the format context and set its pb field.<br>
 	 * Original signature : <code>int avformat_open_input(AVFormatContext**, const char*, AVInputFormat*, AVDictionary**)</code>
 	 */
-	int avformat_open_input(AVFormatContext.ByReference ps[], Pointer filename, AVInputFormat fmt, PointerByReference options);
+	int avformat_open_input(AVFormatContext.ByReference ps[], Pointer filename, AVInputFormat fmt, LibavformatLibrary.AVDictionary options[]);
 	/** Original signature : <code>int av_demuxer_open(AVFormatContext*)</code> */
 	int av_demuxer_open(AVFormatContext ic);
 	/** Original signature : <code>int av_find_stream_info(AVFormatContext*)</code> */
@@ -964,9 +947,31 @@ public interface LibavformatLibrary extends Library {
 	 *       options being non-empty at return is a perfectly normal behavior.<br>
 	 * * @todo Let the user decide somehow what information is needed so that<br>
 	 *       we do not waste time getting stuff the user does not need.<br>
+	 * Original signature : <code>int avformat_find_stream_info(AVFormatContext*, AVDictionary**)</code><br>
+	 * @deprecated use the safer method {@link #avformat_find_stream_info(org.javaavc.gen.avformat.AVFormatContext, org.javaavc.gen.avformat.LibavformatLibrary.AVDictionary[])} instead
+	 */
+	@Deprecated 
+	int avformat_find_stream_info(AVFormatContext ic, PointerByReference options);
+	/**
+	 * Read packets of a media file to get stream information. This<br>
+	 * is useful for file formats with no headers such as MPEG. This<br>
+	 * function also computes the real framerate in case of MPEG-2 repeat<br>
+	 * frame mode.<br>
+	 * The logical file position is not changed by this function;<br>
+	 * examined packets may be buffered for later processing.<br>
+	 * * @param ic media file handle<br>
+	 * @param options  If non-NULL, an ic.nb_streams long array of pointers to<br>
+	 *                 dictionaries, where i-th member contains options for<br>
+	 *                 codec corresponding to i-th stream.<br>
+	 *                 On return each dictionary will be filled with options that were not found.<br>
+	 * @return >=0 if OK, AVERROR_xxx on error<br>
+	 * * @note this function isn't guaranteed to open all the codecs, so<br>
+	 *       options being non-empty at return is a perfectly normal behavior.<br>
+	 * * @todo Let the user decide somehow what information is needed so that<br>
+	 *       we do not waste time getting stuff the user does not need.<br>
 	 * Original signature : <code>int avformat_find_stream_info(AVFormatContext*, AVDictionary**)</code>
 	 */
-	int avformat_find_stream_info(AVFormatContext ic, PointerByReference options);
+	int avformat_find_stream_info(AVFormatContext ic, LibavformatLibrary.AVDictionary options[]);
 	/**
 	 * Find the programs which belong to a given stream.<br>
 	 * * @param ic    media file handle<br>
@@ -1000,11 +1005,38 @@ public interface LibavformatLibrary extends Library {
 	 *          AVERROR_DECODER_NOT_FOUND if streams were found but no decoder<br>
 	 * @note  If av_find_best_stream returns successfully and decoder_ret is not<br>
 	 *        NULL, then *decoder_ret is guaranteed to be set to a valid AVCodec.<br>
+	 * Original signature : <code>int av_find_best_stream(AVFormatContext*, AVMediaType, int, int, AVCodec**, int)</code><br>
+	 * @deprecated use the safer method {@link #av_find_best_stream(org.javaavc.gen.avformat.AVFormatContext, int, int, int, org.javaavc.gen.avformat.LibavformatLibrary.AVCodec[], int)} instead
+	 */
+	@Deprecated 
+	int av_find_best_stream(AVFormatContext ic, int type, int wanted_stream_nb, int related_stream, PointerByReference decoder_ret, int flags);
+	/**
+	 * Find the "best" stream in the file.<br>
+	 * The best stream is determined according to various heuristics as the most<br>
+	 * likely to be what the user expects.<br>
+	 * If the decoder parameter is non-NULL, av_find_best_stream will find the<br>
+	 * default decoder for the stream's codec; streams for which no decoder can<br>
+	 * be found are ignored.<br>
+	 * * @param ic                media file handle<br>
+	 * @param type              stream type: video, audio, subtitles, etc.<br>
+	 * @param wanted_stream_nb  user-requested stream number,<br>
+	 *                          or -1 for automatic selection<br>
+	 * @param related_stream    try to find a stream related (eg. in the same<br>
+	 *                          program) to this one, or -1 if none<br>
+	 * @param decoder_ret       if non-NULL, returns the decoder for the<br>
+	 *                          selected stream<br>
+	 * @param flags             flags; none are currently defined<br>
+	 * @return  the non-negative stream number in case of success,<br>
+	 *          AVERROR_STREAM_NOT_FOUND if no stream with the requested type<br>
+	 *          could be found,<br>
+	 *          AVERROR_DECODER_NOT_FOUND if streams were found but no decoder<br>
+	 * @note  If av_find_best_stream returns successfully and decoder_ret is not<br>
+	 *        NULL, then *decoder_ret is guaranteed to be set to a valid AVCodec.<br>
 	 * Original signature : <code>int av_find_best_stream(AVFormatContext*, AVMediaType, int, int, AVCodec**, int)</code>
 	 */
-	int av_find_best_stream(AVFormatContext ic, LibavformatLibrary.AVMediaType type, int wanted_stream_nb, int related_stream, PointerByReference decoder_ret, int flags);
+	int av_find_best_stream(AVFormatContext ic, int type, int wanted_stream_nb, int related_stream, LibavformatLibrary.AVCodec decoder_ret[], int flags);
 	/** Original signature : <code>int av_read_packet(AVFormatContext*, AVPacket*)</code> */
-	int av_read_packet(AVFormatContext s, Pointer pkt);
+	int av_read_packet(AVFormatContext s, LibavformatLibrary.AVPacket pkt);
 	/**
 	 * Return the next frame of a stream.<br>
 	 * This function returns what is stored in the file, and does not validate<br>
@@ -1027,7 +1059,7 @@ public interface LibavformatLibrary extends Library {
 	 * * @return 0 if OK, < 0 on error or end of file<br>
 	 * Original signature : <code>int av_read_frame(AVFormatContext*, AVPacket*)</code>
 	 */
-	int av_read_frame(AVFormatContext s, Pointer pkt);
+	int av_read_frame(AVFormatContext s, LibavformatLibrary.AVPacket pkt);
 	/**
 	 * Seek to the keyframe at timestamp.<br>
 	 * 'timestamp' in 'stream_index'.<br>
@@ -1109,9 +1141,25 @@ public interface LibavformatLibrary extends Library {
 	 *                 options that were not found. May be NULL.<br>
 	 * * @return 0 on success, negative AVERROR on failure.<br>
 	 * * @see av_opt_find, av_dict_set, avio_open, av_oformat_next.<br>
+	 * Original signature : <code>int avformat_write_header(AVFormatContext*, AVDictionary**)</code><br>
+	 * @deprecated use the safer method {@link #avformat_write_header(org.javaavc.gen.avformat.AVFormatContext, org.javaavc.gen.avformat.LibavformatLibrary.AVDictionary[])} instead
+	 */
+	@Deprecated 
+	int avformat_write_header(AVFormatContext s, PointerByReference options);
+	/**
+	 * Allocate the stream private data and write the stream header to<br>
+	 * an output media file.<br>
+	 * * @param s Media file handle, must be allocated with avformat_alloc_context().<br>
+	 *          Its oformat field must be set to the desired output format;<br>
+	 *          Its pb field must be set to an already openened AVIOContext.<br>
+	 * @param options  An AVDictionary filled with AVFormatContext and muxer-private options.<br>
+	 *                 On return this parameter will be destroyed and replaced with a dict containing<br>
+	 *                 options that were not found. May be NULL.<br>
+	 * * @return 0 on success, negative AVERROR on failure.<br>
+	 * * @see av_opt_find, av_dict_set, avio_open, av_oformat_next.<br>
 	 * Original signature : <code>int avformat_write_header(AVFormatContext*, AVDictionary**)</code>
 	 */
-	int avformat_write_header(AVFormatContext s, PointerByReference options);
+	int avformat_write_header(AVFormatContext s, LibavformatLibrary.AVDictionary options[]);
 	/**
 	 * Write a packet to an output media file.<br>
 	 * * The packet shall contain one audio or video frame.<br>
@@ -1127,7 +1175,7 @@ public interface LibavformatLibrary extends Library {
 	 * @return < 0 on error, = 0 if OK, 1 if flushed and there is no more data to flush<br>
 	 * Original signature : <code>int av_write_frame(AVFormatContext*, AVPacket*)</code>
 	 */
-	int av_write_frame(AVFormatContext s, Pointer pkt);
+	int av_write_frame(AVFormatContext s, LibavformatLibrary.AVPacket pkt);
 	/**
 	 * Write a packet to an output media file ensuring correct interleaving.<br>
 	 * * The packet must contain one audio or video frame.<br>
@@ -1152,9 +1200,9 @@ public interface LibavformatLibrary extends Library {
 	 * * @return 0 on success, a negative AVERROR on error.<br>
 	 * Original signature : <code>int av_interleaved_write_frame(AVFormatContext*, AVPacket*)</code>
 	 */
-	int av_interleaved_write_frame(AVFormatContext s, Pointer pkt);
+	int av_interleaved_write_frame(AVFormatContext s, LibavformatLibrary.AVPacket pkt);
 	/** Original signature : <code>int av_interleave_packet_per_dts(AVFormatContext*, AVPacket*, AVPacket*, int)</code> */
-	int av_interleave_packet_per_dts(AVFormatContext s, Pointer out, Pointer pkt, int flush);
+	int av_interleave_packet_per_dts(AVFormatContext s, LibavformatLibrary.AVPacket out, LibavformatLibrary.AVPacket pkt, int flush);
 	/**
 	 * Write the stream trailer to an output media file and free the<br>
 	 * file private data.<br>
@@ -1195,15 +1243,15 @@ public interface LibavformatLibrary extends Library {
 	/**
 	 * Guess the codec ID based upon muxer and filename.<br>
 	 * Original signature : <code>AVCodecID av_guess_codec(AVOutputFormat*, const char*, const char*, const char*, AVMediaType)</code><br>
-	 * @deprecated use the safer methods {@link #av_guess_codec(org.javaavc.gen.avformat.AVOutputFormat, java.lang.String, java.lang.String, java.lang.String, org.javaavc.gen.avformat.LibavformatLibrary.AVMediaType)} and {@link #av_guess_codec(org.javaavc.gen.avformat.AVOutputFormat, com.sun.jna.Pointer, com.sun.jna.Pointer, com.sun.jna.Pointer, org.javaavc.gen.avformat.LibavformatLibrary.AVMediaType)} instead
+	 * @deprecated use the safer methods {@link #av_guess_codec(org.javaavc.gen.avformat.AVOutputFormat, java.lang.String, java.lang.String, java.lang.String, int)} and {@link #av_guess_codec(org.javaavc.gen.avformat.AVOutputFormat, com.sun.jna.Pointer, com.sun.jna.Pointer, com.sun.jna.Pointer, int)} instead
 	 */
 	@Deprecated 
-	LibavformatLibrary.AVCodecID av_guess_codec(AVOutputFormat fmt, Pointer short_name, Pointer filename, Pointer mime_type, LibavformatLibrary.AVMediaType type);
+	int av_guess_codec(AVOutputFormat fmt, Pointer short_name, Pointer filename, Pointer mime_type, int type);
 	/**
 	 * Guess the codec ID based upon muxer and filename.<br>
 	 * Original signature : <code>AVCodecID av_guess_codec(AVOutputFormat*, const char*, const char*, const char*, AVMediaType)</code>
 	 */
-	LibavformatLibrary.AVCodecID av_guess_codec(AVOutputFormat fmt, String short_name, String filename, String mime_type, LibavformatLibrary.AVMediaType type);
+	int av_guess_codec(AVOutputFormat fmt, String short_name, String filename, String mime_type, int type);
 	/**
 	 * Get timing information for the data currently output.<br>
 	 * The exact meaning of "currently output" depends on the format.<br>
@@ -1247,10 +1295,10 @@ public interface LibavformatLibrary extends Library {
 	 * @param size buffer size<br>
 	 * * @see av_hex_dump_log, av_pkt_dump2, av_pkt_dump_log2<br>
 	 * Original signature : <code>void av_hex_dump(FILE*, const uint8_t*, int)</code><br>
-	 * @deprecated use the safer methods {@link #av_hex_dump(com.sun.jna.ptr.PointerByReference, java.nio.ByteBuffer, int)} and {@link #av_hex_dump(com.sun.jna.ptr.PointerByReference, com.sun.jna.Pointer, int)} instead
+	 * @deprecated use the safer methods {@link #av_hex_dump(org.javaavc.gen.avformat.LibavformatLibrary.FILE, java.nio.ByteBuffer, int)} and {@link #av_hex_dump(org.javaavc.gen.avformat.LibavformatLibrary.FILE, com.sun.jna.Pointer, int)} instead
 	 */
 	@Deprecated 
-	void av_hex_dump(Pointer f, Pointer buf, int size);
+	void av_hex_dump(LibavformatLibrary.FILE f, Pointer buf, int size);
 	/**
 	 * Send a nice hexadecimal dump of a buffer to the specified file stream.<br>
 	 * * @param f The file stream pointer where the dump should be sent to.<br>
@@ -1259,16 +1307,7 @@ public interface LibavformatLibrary extends Library {
 	 * * @see av_hex_dump_log, av_pkt_dump2, av_pkt_dump_log2<br>
 	 * Original signature : <code>void av_hex_dump(FILE*, const uint8_t*, int)</code>
 	 */
-	void av_hex_dump(PointerByReference f, ByteBuffer buf, int size);
-	/**
-	 * Send a nice hexadecimal dump of a buffer to the specified file stream.<br>
-	 * * @param f The file stream pointer where the dump should be sent to.<br>
-	 * @param buf buffer<br>
-	 * @param size buffer size<br>
-	 * * @see av_hex_dump_log, av_pkt_dump2, av_pkt_dump_log2<br>
-	 * Original signature : <code>void av_hex_dump(FILE*, const uint8_t*, int)</code>
-	 */
-	void av_hex_dump(PointerByReference f, Pointer buf, int size);
+	void av_hex_dump(LibavformatLibrary.FILE f, ByteBuffer buf, int size);
 	/**
 	 * Send a nice hexadecimal dump of a buffer to the log.<br>
 	 * * @param avcl A pointer to an arbitrary struct of which the first field is a<br>
@@ -1301,20 +1340,9 @@ public interface LibavformatLibrary extends Library {
 	 * @param pkt packet to dump<br>
 	 * @param dump_payload True if the payload must be displayed, too.<br>
 	 * @param st AVStream that the packet belongs to<br>
-	 * Original signature : <code>void av_pkt_dump2(FILE*, AVPacket*, int, AVStream*)</code><br>
-	 * @deprecated use the safer method {@link #av_pkt_dump2(com.sun.jna.ptr.PointerByReference, com.sun.jna.Pointer, int, org.javaavc.gen.avformat.AVStream)} instead
-	 */
-	@Deprecated 
-	void av_pkt_dump2(Pointer f, Pointer pkt, int dump_payload, AVStream st);
-	/**
-	 * Send a nice dump of a packet to the specified file stream.<br>
-	 * * @param f The file stream pointer where the dump should be sent to.<br>
-	 * @param pkt packet to dump<br>
-	 * @param dump_payload True if the payload must be displayed, too.<br>
-	 * @param st AVStream that the packet belongs to<br>
 	 * Original signature : <code>void av_pkt_dump2(FILE*, AVPacket*, int, AVStream*)</code>
 	 */
-	void av_pkt_dump2(PointerByReference f, Pointer pkt, int dump_payload, AVStream st);
+	void av_pkt_dump2(LibavformatLibrary.FILE f, LibavformatLibrary.AVPacket pkt, int dump_payload, AVStream st);
 	/**
 	 * Send a nice dump of a packet to the log.<br>
 	 * * @param avcl A pointer to an arbitrary struct of which the first field is a<br>
@@ -1326,7 +1354,7 @@ public interface LibavformatLibrary extends Library {
 	 * @param st AVStream that the packet belongs to<br>
 	 * Original signature : <code>void av_pkt_dump_log2(void*, int, AVPacket*, int, AVStream*)</code>
 	 */
-	void av_pkt_dump_log2(Pointer avcl, int level, Pointer pkt, int dump_payload, AVStream st);
+	void av_pkt_dump_log2(Pointer avcl, int level, LibavformatLibrary.AVPacket pkt, int dump_payload, AVStream st);
 	/**
 	 * Get the AVCodecID for the given codec tag tag.<br>
 	 * If no codec id is found returns AV_CODEC_ID_NONE.<br>
@@ -1336,7 +1364,7 @@ public interface LibavformatLibrary extends Library {
 	 * @deprecated use the safer method {@link #av_codec_get_id(org.javaavc.gen.avformat.LibavformatLibrary.AVCodecTag[], int)} instead
 	 */
 	@Deprecated 
-	LibavformatLibrary.AVCodecID av_codec_get_id(PointerByReference tags, int tag);
+	int av_codec_get_id(PointerByReference tags, int tag);
 	/**
 	 * Get the AVCodecID for the given codec tag tag.<br>
 	 * If no codec id is found returns AV_CODEC_ID_NONE.<br>
@@ -1344,17 +1372,17 @@ public interface LibavformatLibrary extends Library {
 	 * in AVInputFormat.codec_tag and AVOutputFormat.codec_tag<br>
 	 * Original signature : <code>AVCodecID av_codec_get_id(const AVCodecTag**, unsigned int)</code>
 	 */
-	LibavformatLibrary.AVCodecID av_codec_get_id(LibavformatLibrary.AVCodecTag tags[], int tag);
+	int av_codec_get_id(LibavformatLibrary.AVCodecTag tags[], int tag);
 	/**
 	 * Get the codec tag for the given codec id id.<br>
 	 * If no codec tag is found returns 0.<br>
 	 * * @param tags list of supported codec_id-codec_tag pairs, as stored<br>
 	 * in AVInputFormat.codec_tag and AVOutputFormat.codec_tag<br>
 	 * Original signature : <code>int av_codec_get_tag(const AVCodecTag**, AVCodecID)</code><br>
-	 * @deprecated use the safer method {@link #av_codec_get_tag(org.javaavc.gen.avformat.LibavformatLibrary.AVCodecTag[], org.javaavc.gen.avformat.LibavformatLibrary.AVCodecID)} instead
+	 * @deprecated use the safer method {@link #av_codec_get_tag(org.javaavc.gen.avformat.LibavformatLibrary.AVCodecTag[], int)} instead
 	 */
 	@Deprecated 
-	int av_codec_get_tag(PointerByReference tags, LibavformatLibrary.AVCodecID id);
+	int av_codec_get_tag(PointerByReference tags, int id);
 	/**
 	 * Get the codec tag for the given codec id id.<br>
 	 * If no codec tag is found returns 0.<br>
@@ -1362,7 +1390,7 @@ public interface LibavformatLibrary extends Library {
 	 * in AVInputFormat.codec_tag and AVOutputFormat.codec_tag<br>
 	 * Original signature : <code>int av_codec_get_tag(const AVCodecTag**, AVCodecID)</code>
 	 */
-	int av_codec_get_tag(LibavformatLibrary.AVCodecTag tags[], LibavformatLibrary.AVCodecID id);
+	int av_codec_get_tag(LibavformatLibrary.AVCodecTag tags[], int id);
 	/**
 	 * Get the codec tag for the given codec id.<br>
 	 * * @param tags list of supported codec_id - codec_tag pairs, as stored<br>
@@ -1371,10 +1399,10 @@ public interface LibavformatLibrary extends Library {
 	 * @param tag A pointer to the found tag<br>
 	 * @return 0 if id was not found in tags, > 0 if it was found<br>
 	 * Original signature : <code>int av_codec_get_tag2(const AVCodecTag**, AVCodecID, unsigned int*)</code><br>
-	 * @deprecated use the safer methods {@link #av_codec_get_tag2(org.javaavc.gen.avformat.LibavformatLibrary.AVCodecTag[], org.javaavc.gen.avformat.LibavformatLibrary.AVCodecID, java.nio.IntBuffer)} and {@link #av_codec_get_tag2(org.javaavc.gen.avformat.LibavformatLibrary.AVCodecTag[], org.javaavc.gen.avformat.LibavformatLibrary.AVCodecID, com.sun.jna.ptr.IntByReference)} instead
+	 * @deprecated use the safer methods {@link #av_codec_get_tag2(org.javaavc.gen.avformat.LibavformatLibrary.AVCodecTag[], int, java.nio.IntBuffer)} and {@link #av_codec_get_tag2(org.javaavc.gen.avformat.LibavformatLibrary.AVCodecTag[], int, com.sun.jna.ptr.IntByReference)} instead
 	 */
 	@Deprecated 
-	int av_codec_get_tag2(PointerByReference tags, LibavformatLibrary.AVCodecID id, IntByReference tag);
+	int av_codec_get_tag2(PointerByReference tags, int id, IntByReference tag);
 	/**
 	 * Get the codec tag for the given codec id.<br>
 	 * * @param tags list of supported codec_id - codec_tag pairs, as stored<br>
@@ -1384,7 +1412,7 @@ public interface LibavformatLibrary extends Library {
 	 * @return 0 if id was not found in tags, > 0 if it was found<br>
 	 * Original signature : <code>int av_codec_get_tag2(const AVCodecTag**, AVCodecID, unsigned int*)</code>
 	 */
-	int av_codec_get_tag2(LibavformatLibrary.AVCodecTag tags[], LibavformatLibrary.AVCodecID id, IntBuffer tag);
+	int av_codec_get_tag2(LibavformatLibrary.AVCodecTag tags[], int id, IntBuffer tag);
 	/**
 	 * Get the codec tag for the given codec id.<br>
 	 * * @param tags list of supported codec_id - codec_tag pairs, as stored<br>
@@ -1394,7 +1422,7 @@ public interface LibavformatLibrary extends Library {
 	 * @return 0 if id was not found in tags, > 0 if it was found<br>
 	 * Original signature : <code>int av_codec_get_tag2(const AVCodecTag**, AVCodecID, unsigned int*)</code>
 	 */
-	int av_codec_get_tag2(LibavformatLibrary.AVCodecTag tags[], LibavformatLibrary.AVCodecID id, IntByReference tag);
+	int av_codec_get_tag2(LibavformatLibrary.AVCodecTag tags[], int id, IntByReference tag);
 	/** Original signature : <code>int av_find_default_stream_index(AVFormatContext*)</code> */
 	int av_find_default_stream_index(AVFormatContext s);
 	/**
@@ -1580,7 +1608,7 @@ public interface LibavformatLibrary extends Library {
 	 *         A negative number if this information is not available.<br>
 	 * Original signature : <code>int avformat_query_codec(AVOutputFormat*, AVCodecID, int)</code>
 	 */
-	int avformat_query_codec(AVOutputFormat ofmt, LibavformatLibrary.AVCodecID codec_id, int std_compliance);
+	int avformat_query_codec(AVOutputFormat ofmt, int codec_id, int std_compliance);
 	/**
 	 * @return the table mapping RIFF FourCCs for video to libavcodec AVCodecID.<br>
 	 * Original signature : <code>AVCodecTag* avformat_get_riff_video_tags()</code>
@@ -1591,6 +1619,22 @@ public interface LibavformatLibrary extends Library {
 	 * Original signature : <code>AVCodecTag* avformat_get_riff_audio_tags()</code>
 	 */
 	LibavformatLibrary.AVCodecTag avformat_get_riff_audio_tags();
+	/**
+	 * Guess the sample aspect ratio of a frame, based on both the stream and the<br>
+	 * frame aspect ratio.<br>
+	 * * Since the frame aspect ratio is set by the codec but the stream aspect ratio<br>
+	 * is set by the demuxer, these two may not be equal. This function tries to<br>
+	 * return the value that you should use if you would like to display the frame.<br>
+	 * * Basic logic is to use the stream aspect ratio if it is set to something sane<br>
+	 * otherwise use the frame aspect ratio. This way a container setting, which is<br>
+	 * usually easy to modify can override the coded value in the frames.<br>
+	 * * @param format the format context which the stream is part of<br>
+	 * @param stream the stream which the frame is part of<br>
+	 * @param frame the frame with the aspect ratio to be determined<br>
+	 * @return the guessed (valid) sample_aspect_ratio, 0/1 if no idea<br>
+	 * Original signature : <code>AVRational av_guess_sample_aspect_ratio(AVFormatContext*, AVStream*, AVFrame*)</code>
+	 */
+	LibavformatLibrary.AVRational av_guess_sample_aspect_ratio(AVFormatContext format, AVStream stream, LibavformatLibrary.AVFrame frame);
 	/**
 	 * Check if the stream st contained in s is matched by the stream specifier<br>
 	 * spec.<br>
@@ -1627,27 +1671,19 @@ public interface LibavformatLibrary extends Library {
 			super();
 		}
 	};
-	public static class AVMediaType extends PointerType {
-		public AVMediaType(Pointer address) {
+	public static class AVRational extends PointerType {
+		public AVRational(Pointer address) {
 			super(address);
 		}
-		public AVMediaType() {
+		public AVRational() {
 			super();
 		}
 	};
-	public static class AVCodecID extends PointerType {
-		public AVCodecID(Pointer address) {
+	public static class AVClass extends PointerType {
+		public AVClass(Pointer address) {
 			super(address);
 		}
-		public AVCodecID() {
-			super();
-		}
-	};
-	public static class AVCodecDefault extends PointerType {
-		public AVCodecDefault(Pointer address) {
-			super(address);
-		}
-		public AVCodecDefault() {
+		public AVClass() {
 			super();
 		}
 	};
@@ -1659,11 +1695,19 @@ public interface LibavformatLibrary extends Library {
 			super();
 		}
 	};
-	public static class AVDiscard extends PointerType {
-		public AVDiscard(Pointer address) {
+	public static class AVFrame extends PointerType {
+		public AVFrame(Pointer address) {
 			super(address);
 		}
-		public AVDiscard() {
+		public AVFrame() {
+			super();
+		}
+	};
+	public static class AVCodecContext extends PointerType {
+		public AVCodecContext(Pointer address) {
+			super(address);
+		}
+		public AVCodecContext() {
 			super();
 		}
 	};
@@ -1672,6 +1716,30 @@ public interface LibavformatLibrary extends Library {
 			super(address);
 		}
 		public AVDictionary() {
+			super();
+		}
+	};
+	public static class AVCodec extends PointerType {
+		public AVCodec(Pointer address) {
+			super(address);
+		}
+		public AVCodec() {
+			super();
+		}
+	};
+	public static class AVCodecParserContext extends PointerType {
+		public AVCodecParserContext(Pointer address) {
+			super(address);
+		}
+		public AVCodecParserContext() {
+			super();
+		}
+	};
+	public static class AVPacket extends PointerType {
+		public AVPacket(Pointer address) {
+			super(address);
+		}
+		public AVPacket() {
 			super();
 		}
 	};

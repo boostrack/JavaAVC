@@ -57,20 +57,15 @@ public interface LibswresampleLibrary extends Library {
 		public static final int SWR_FILTER_TYPE_KAISER = 2;
 	};
 	public static final int SWR_CH_MAX = 32;
+	public static final int __STDC_HOSTED__ = 1;
 	public static final int SWR_FLAG_RESAMPLE = 1;
-	public static final String LIBSWRESAMPLE_IDENT = "SwR";
-	public static final int LIBSWRESAMPLE_BUILD = (0 << 16 | 17 << 8 | 102);
-	public static final int LIBSWRESAMPLE_VERSION_MINOR = 17;
-	public static final int LIBSWRESAMPLE_VERSION_INT = (0 << 16 | 17 << 8 | 102);
-	public static final int LIBSWRESAMPLE_VERSION_MICRO = 102;
-	public static final int LIBSWRESAMPLE_VERSION_MAJOR = 0;
 	/**
 	 * Get the AVClass for swrContext. It can be used in combination with<br>
 	 * AV_OPT_SEARCH_FAKE_OBJ for examining options.<br>
 	 * * @see av_opt_find().<br>
 	 * Original signature : <code>AVClass* swr_get_class()</code>
 	 */
-	Pointer swr_get_class();
+	LibswresampleLibrary.AVClass swr_get_class();
 	/**
 	 * Allocate SwrContext.<br>
 	 * * If you use this function you will need to set the parameters (manually or<br>
@@ -111,10 +106,10 @@ public interface LibswresampleLibrary extends Library {
 	 * * @see swr_init(), swr_free()<br>
 	 * @return NULL on error, allocated context otherwise<br>
 	 * Original signature : <code>SwrContext* swr_alloc_set_opts(SwrContext*, int64_t, AVSampleFormat, int, int64_t, AVSampleFormat, int, int, void*)</code><br>
-	 * @deprecated use the safer method {@link #swr_alloc_set_opts(com.sun.jna.ptr.PointerByReference, long, org.javaavc.gen.swresample.LibswresampleLibrary.AVSampleFormat, int, long, org.javaavc.gen.swresample.LibswresampleLibrary.AVSampleFormat, int, int, com.sun.jna.Pointer)} instead
+	 * @deprecated use the safer method {@link #swr_alloc_set_opts(com.sun.jna.ptr.PointerByReference, long, int, int, long, int, int, int, com.sun.jna.Pointer)} instead
 	 */
 	@Deprecated 
-	PointerByReference swr_alloc_set_opts(Pointer s, long out_ch_layout, LibswresampleLibrary.AVSampleFormat out_sample_fmt, int out_sample_rate, long in_ch_layout, LibswresampleLibrary.AVSampleFormat in_sample_fmt, int in_sample_rate, int log_offset, Pointer log_ctx);
+	PointerByReference swr_alloc_set_opts(Pointer s, long out_ch_layout, int out_sample_fmt, int out_sample_rate, long in_ch_layout, int in_sample_fmt, int in_sample_rate, int log_offset, Pointer log_ctx);
 	/**
 	 * Allocate SwrContext if needed and set/reset common parameters.<br>
 	 * * This function does not require s to be allocated with swr_alloc(). On the<br>
@@ -133,7 +128,7 @@ public interface LibswresampleLibrary extends Library {
 	 * @return NULL on error, allocated context otherwise<br>
 	 * Original signature : <code>SwrContext* swr_alloc_set_opts(SwrContext*, int64_t, AVSampleFormat, int, int64_t, AVSampleFormat, int, int, void*)</code>
 	 */
-	PointerByReference swr_alloc_set_opts(PointerByReference s, long out_ch_layout, LibswresampleLibrary.AVSampleFormat out_sample_fmt, int out_sample_rate, long in_ch_layout, LibswresampleLibrary.AVSampleFormat in_sample_fmt, int in_sample_rate, int log_offset, Pointer log_ctx);
+	PointerByReference swr_alloc_set_opts(PointerByReference s, long out_ch_layout, int out_sample_fmt, int out_sample_rate, long in_ch_layout, int in_sample_fmt, int in_sample_rate, int log_offset, Pointer log_ctx);
 	/**
 	 * Free the given SwrContext and set the pointer to NULL.<br>
 	 * Original signature : <code>void swr_free(SwrContext**)</code>
@@ -355,11 +350,11 @@ public interface LibswresampleLibrary extends Library {
 	 * Original signature : <code>char* swresample_license()</code>
 	 */
 	String swresample_license();
-	public static class AVSampleFormat extends PointerType {
-		public AVSampleFormat(Pointer address) {
+	public static class AVClass extends PointerType {
+		public AVClass(Pointer address) {
 			super(address);
 		}
-		public AVSampleFormat() {
+		public AVClass() {
 			super();
 		}
 	};

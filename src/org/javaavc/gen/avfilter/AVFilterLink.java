@@ -6,7 +6,7 @@ import java.util.List;
 import org.javaavc.gen.avfilter.LibavfilterLibrary.AVFilterChannelLayouts;
 import org.javaavc.gen.avfilter.LibavfilterLibrary.AVFilterGraph;
 import org.javaavc.gen.avfilter.LibavfilterLibrary.AVFilterPool;
-import org.javaavc.gen.avfilter.LibavfilterLibrary.AVMediaType;
+import org.javaavc.gen.avfilter.LibavfilterLibrary.AVRational;
 /**
  * A link between two filters. This contains pointers to the source and<br>
  * destination filters between which this link exists, and the indexes of<br>
@@ -17,7 +17,7 @@ import org.javaavc.gen.avfilter.LibavfilterLibrary.AVMediaType;
  * a tool written by <a href="http://ochafik.com/">Olivier Chafik</a> that <a href="http://code.google.com/p/jnaerator/wiki/CreditsAndLicense">uses a few opensource projects.</a>.<br>
  * For help, please visit <a href="http://nativelibs4java.googlecode.com/">NativeLibs4Java</a> , <a href="http://rococoa.dev.java.net/">Rococoa</a>, or <a href="http://jna.dev.java.net/">JNA</a>.
  */
-public abstract class AVFilterLink extends Structure {
+public class AVFilterLink extends Structure {
 	/**
 	 * < source filter<br>
 	 * C type : AVFilterContext*
@@ -39,10 +39,11 @@ public abstract class AVFilterLink extends Structure {
 	 */
 	public org.javaavc.gen.avfilter.AVFilterPad.ByReference dstpad;
 	/**
+	 * @see AVMediaType<br>
 	 * < filter media type<br>
 	 * C type : AVMediaType
 	 */
-	public AVMediaType type;
+	public int type;
 	/**
 	 * These parameters apply only to video<br>
 	 * < agreed upon image width
@@ -51,13 +52,10 @@ public abstract class AVFilterLink extends Structure {
 	/** < agreed upon image height */
 	public int h;
 	/**
-	 * Conversion Error : struct AVRational {<br>
-	 * 	int num; ///< numerator<br>
-	 * <br>
-	 * 	int den; ///< denominator<br>
-	 * <br>
-	 * }
+	 * < agreed upon sample aspect ratio<br>
+	 * C type : AVRational
 	 */
+	public AVRational sample_aspect_ratio;
 	/**
 	 * These parameters apply only to audio<br>
 	 * < channel layout of current buffer (see libavutil/channel_layout.h)
@@ -68,13 +66,14 @@ public abstract class AVFilterLink extends Structure {
 	/** < agreed upon media format */
 	public int format;
 	/**
-	 * Conversion Error : struct AVRational {<br>
-	 * 	int num; ///< numerator<br>
-	 * <br>
-	 * 	int den; ///< denominator<br>
-	 * <br>
-	 * }
+	 * Define the time base used by the PTS of the frames/samples<br>
+	 * which will pass through this link.<br>
+	 * During the configuration stage, each filter is supposed to<br>
+	 * change only the output timebase, while the timebase of the<br>
+	 * input link is assumed to be an unchangeable property.<br>
+	 * C type : AVRational
 	 */
+	public AVRational time_base;
 	/**
 	 * Lists of formats and channel layouts supported by the input and output<br>
 	 * filters respectively. These lists are used for negotiating the format<br>
@@ -126,13 +125,16 @@ public abstract class AVFilterLink extends Structure {
 	/** Index in the age array. */
 	public int age_index;
 	/**
-	 * Conversion Error : struct AVRational {<br>
-	 * 	int num; ///< numerator<br>
-	 * <br>
-	 * 	int den; ///< denominator<br>
-	 * <br>
-	 * }
+	 * Frame rate of the stream on the link, or 1/0 if unknown;<br>
+	 * if left to 0/0, will be automatically be copied from the first input<br>
+	 * of the source filter if it exists.<br>
+	 * * Sources should set it to the best estimation of the real frame rate.<br>
+	 * Filters should update it if necessary depending on their function.<br>
+	 * Sinks can use it to set a default output frame rate.<br>
+	 * It is similar to the r_frame_rate field in AVStream.<br>
+	 * C type : AVRational
 	 */
+	public AVRational frame_rate;
 	/**
 	 * Buffer partially filled with samples to achieve a fixed/minimum size.<br>
 	 * C type : AVFilterBufferRef*
@@ -191,12 +193,12 @@ public abstract class AVFilterLink extends Structure {
 		super();
 	}
 	protected List<? > getFieldOrder() {
-		return Arrays.asList("src", "srcpad", "dst", "dstpad", "type", "w", "h", "channel_layout", "sample_rate", "format", "in_formats", "out_formats", "in_samplerates", "out_samplerates", "in_channel_layouts", "out_channel_layouts", "request_samples", "init_state", "pool", "graph", "current_pts", "age_index", "partial_buf", "partial_buf_size", "min_samples", "max_samples", "cur_buf_copy", "closed", "channels");
+		return Arrays.asList("src", "srcpad", "dst", "dstpad", "type", "w", "h", "sample_aspect_ratio", "channel_layout", "sample_rate", "format", "time_base", "in_formats", "out_formats", "in_samplerates", "out_samplerates", "in_channel_layouts", "out_channel_layouts", "request_samples", "init_state", "pool", "graph", "current_pts", "age_index", "frame_rate", "partial_buf", "partial_buf_size", "min_samples", "max_samples", "cur_buf_copy", "closed", "channels");
 	}
-	public static abstract class ByReference extends AVFilterLink implements Structure.ByReference {
+	public static class ByReference extends AVFilterLink implements Structure.ByReference {
 		
 	};
-	public static abstract class ByValue extends AVFilterLink implements Structure.ByValue {
+	public static class ByValue extends AVFilterLink implements Structure.ByValue {
 		
 	};
 }

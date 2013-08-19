@@ -3,6 +3,7 @@ import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
 import java.util.Arrays;
 import java.util.List;
+import org.javaavc.gen.avfilter.LibavfilterLibrary.AVClass;
 import org.javaavc.gen.avfilter.LibavfilterLibrary.AVFilterCommand;
 /**
  * An instance of a filter<br>
@@ -15,7 +16,7 @@ public class AVFilterContext extends Structure {
 	 * < needed for av_log()<br>
 	 * C type : const AVClass*
 	 */
-	public Pointer av_class;
+	public AVClass av_class;
 	/**
 	 * < the AVFilter of which this is an instance<br>
 	 * C type : AVFilter*

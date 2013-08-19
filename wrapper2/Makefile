@@ -7,11 +7,11 @@ PACK_PREF=org.javaavc.gen
 # ============
 # Header path.
 # Ver. 1: User original headers.
-HEADER1=include/lib$@/$@.h
-HEADER2=include/libavutil/$@.h
+#HEADER1=include/lib$@/$@.h
+#HEADER2=include/libavutil/$@.h
 # Ver. 2: Use preprocessed headers.
-#HEADER1=../wrapper1/$@.h
-#HEADER2=$(HEADER1)
+HEADER1=../wrapper1/$@.h
+HEADER2=$(HEADER1)
 
 
 # ========

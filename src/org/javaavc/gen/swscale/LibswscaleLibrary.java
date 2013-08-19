@@ -15,51 +15,50 @@ import java.nio.IntBuffer;
  * For help, please visit <a href="http://nativelibs4java.googlecode.com/">NativeLibs4Java</a> , <a href="http://rococoa.dev.java.net/">Rococoa</a>, or <a href="http://jna.dev.java.net/">JNA</a>.
  */
 public interface LibswscaleLibrary extends Library {
-	public static final int SWS_CS_SMPTE170M = 5;
-	public static final int SWS_BITEXACT = 0x80000;
-	public static final int SWS_AREA = 0x20;
-	public static final int SWS_FAST_BILINEAR = 1;
-	public static final int SWS_ACCURATE_RND = 0x40000;
-	public static final int SWS_CPU_CAPS_MMX = 0x80000000;
-	public static final int SWS_SINC = 0x100;
-	public static final int SWS_FULL_CHR_H_INP = 0x4000;
-	public static final int SWS_FULL_CHR_H_INT = 0x2000;
+	public static final int SWS_CPU_CAPS_MMX2 = 0x20000000;
 	public static final boolean FF_API_SWS_FORMAT_NAME = (2 < 3);
 	public static final int SWS_GAUSS = 0x80;
-	public static final boolean FF_API_SWS_CPU_CAPS = (2 < 3);
-	public static final int SWS_CS_FCC = 4;
-	public static final int SWS_LANCZOS = 0x200;
-	public static final int LIBSWSCALE_VERSION_MAJOR = 2;
-	public static final int SWS_BICUBLIN = 0x40;
-	public static final int SWS_BICUBIC = 4;
-	public static final int SWS_SRC_V_CHR_DROP_MASK = 0x30000;
-	public static final String LIBSWSCALE_IDENT = "SwS";
+	public static final int SWS_CPU_CAPS_SSE2 = 0x02000000;
+	public static final double SWS_MAX_REDUCE_CUTOFF = 0.002;
+	public static final int SWS_CS_SMPTE170M = 5;
 	public static final int SWS_SPLINE = 0x400;
-	public static final int LIBSWSCALE_BUILD = (2 << 16 | 2 << 8 | 100);
+	public static final int SWS_PRINT_INFO = 0x1000;
+	public static final int SWS_BITEXACT = 0x80000;
+	public static final boolean FF_API_SWS_CPU_CAPS = (2 < 3);
+	public static final int SWS_BICUBLIN = 0x40;
+	public static final int SWS_SINC = 0x100;
+	public static final int SWS_BICUBIC = 4;
+	public static final int SWS_CS_ITU601 = 5;
+	public static final int SWS_AREA = 0x20;
+	public static final int SWS_CS_ITU709 = 1;
+	public static final boolean FF_API_SWS_GETCONTEXT = (2 < 3);
 	public static final int SWS_DIRECT_BGR = 0x8000;
+	public static final int SWS_FAST_BILINEAR = 1;
+	public static final int SWS_CS_SMPTE240M = 7;
+	public static final int SWS_SRC_V_CHR_DROP_MASK = 0x30000;
+	public static final int SWS_ACCURATE_RND = 0x40000;
+	public static final int LIBSWSCALE_VERSION_MINOR = 2;
+	public static final int SWS_CS_DEFAULT = 5;
+	public static final int SWS_CS_FCC = 4;
+	public static final int SWS_BILINEAR = 2;
+	public static final int SWS_SRC_V_CHR_DROP_SHIFT = 16;
+	public static final int SWS_CPU_CAPS_MMX = 0x80000000;
+	public static final int SWS_FULL_CHR_H_INP = 0x4000;
+	public static final int SWS_LANCZOS = 0x200;
+	public static final int SWS_FULL_CHR_H_INT = 0x2000;
+	public static final int LIBSWSCALE_VERSION_MICRO = 100;
+	public static final int SWS_CPU_CAPS_MMXEXT = 0x20000000;
+	public static final int LIBSWSCALE_VERSION_MAJOR = 2;
+	public static final int SWS_POINT = 0x10;
+	public static final String LIBSWSCALE_IDENT = "SwS";
+	public static final int __STDC_HOSTED__ = 1;
+	public static final int SWS_CPU_CAPS_BFIN = 0x01000000;
 	public static final int SWS_ERROR_DIFFUSION = 0x800000;
+	public static final int SWS_PARAM_DEFAULT = 123456;
+	public static final int SWS_X = 8;
 	public static final int SWS_CPU_CAPS_3DNOW = 0x40000000;
 	public static final int SWS_CS_ITU624 = 5;
 	public static final int SWS_CPU_CAPS_ALTIVEC = 0x10000000;
-	public static final int SWS_PRINT_INFO = 0x1000;
-	public static final boolean FF_API_SWS_GETCONTEXT = (2 < 3);
-	public static final int SWS_SRC_V_CHR_DROP_SHIFT = 16;
-	public static final int SWS_CPU_CAPS_MMXEXT = 0x20000000;
-	public static final int SWS_POINT = 0x10;
-	public static final int SWS_CPU_CAPS_MMX2 = 0x20000000;
-	public static final int SWS_CPU_CAPS_SSE2 = 0x02000000;
-	public static final double SWS_MAX_REDUCE_CUTOFF = 0.002;
-	public static final int SWS_CS_ITU709 = 1;
-	public static final int SWS_CS_SMPTE240M = 7;
-	public static final int LIBSWSCALE_VERSION_INT = (2 << 16 | 2 << 8 | 100);
-	public static final int LIBSWSCALE_VERSION_MICRO = 100;
-	public static final int SWS_CPU_CAPS_BFIN = 0x01000000;
-	public static final int SWS_X = 8;
-	public static final int SWS_CS_ITU601 = 5;
-	public static final int LIBSWSCALE_VERSION_MINOR = 2;
-	public static final int SWS_CS_DEFAULT = 5;
-	public static final int SWS_BILINEAR = 2;
-	public static final int SWS_PARAM_DEFAULT = 123456;
 	/**
 	 * Return the LIBSWSCALE_VERSION_INT constant.<br>
 	 * Original signature : <code>int swscale_version()</code>
@@ -295,7 +294,7 @@ public interface LibswscaleLibrary extends Library {
 	 * if log_level <= av_log_level.<br>
 	 * Original signature : <code>void sws_printVec2(SwsVector*, AVClass*, int)</code>
 	 */
-	void sws_printVec2(SwsVector a, Pointer log_ctx, int log_level);
+	void sws_printVec2(SwsVector a, LibswscaleLibrary.AVClass log_ctx, int log_level);
 	/** Original signature : <code>void sws_freeVec(SwsVector*)</code> */
 	void sws_freeVec(SwsVector a);
 	/** Original signature : <code>SwsFilter* sws_getDefaultFilter(float, float, float, float, float, float, int)</code> */
@@ -378,7 +377,15 @@ public interface LibswscaleLibrary extends Library {
 	 * * @see av_opt_find().<br>
 	 * Original signature : <code>AVClass* sws_get_class()</code>
 	 */
-	Pointer sws_get_class();
+	LibswscaleLibrary.AVClass sws_get_class();
+	public static class AVClass extends PointerType {
+		public AVClass(Pointer address) {
+			super(address);
+		}
+		public AVClass() {
+			super();
+		}
+	};
 	public static class SwsContext extends PointerType {
 		public SwsContext(Pointer address) {
 			super(address);
