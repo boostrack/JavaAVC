@@ -17,15 +17,13 @@
 
     you should go to:
 
-        'Run' -> 'Run Configurations...'
+        '<WORKSPACE>/.metadata/.plugins/org.eclipse.debug.core/.launches/'
 
-    and select you run task and go to 'JRE' tab and set up your JDK.
+    and remove file:
 
-    You can select 'Project JRE (...)' and define project JRE on:
+        '<PROJECT_NAME> build.xml.launch'
 
-        'Window' -> 'Preferences' -> 'Java' -> 'Installed JRE'
-
-    This way is preferred!
+    or just remove all '*.launch' files.
 -->
 <!--
     If in Eclipse IDE you get an error:
