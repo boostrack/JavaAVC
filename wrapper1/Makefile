@@ -39,7 +39,7 @@ PARAMS:=$(PARAMS) -CC
 # $1 -- source header-file;
 # $2 -- output file.
 process = \
-    gcc -E $(PARAMS) -o $(TMP) $1; python cutter.py $(TMP) $1 > $2; rm $(TMP)
+    gcc -E $(PARAMS) -I $(INC_DIR) -o $(TMP) $1; python cutter.py $(TMP) $1 > $2; rm $(TMP)
 
 
 all: avcodec avdevice avfilter avformat avutil swresample swscale

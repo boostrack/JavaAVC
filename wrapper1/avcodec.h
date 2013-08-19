@@ -24,9 +24,4628 @@
 
 /**
  * @file
+ * @ingroup libavc
+ * Libavcodec external API header
+ */
+
+// --------------------------------[ include/libavutil/samplefmt.h ]--------------------------------
+/*
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+#define AVUTIL_SAMPLEFMT_H 
+
+// --------------------------------[ include/libavutil/avutil.h ]--------------------------------
+/*
+ * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+#define AVUTIL_AVUTIL_H 
+
+/**
+ * @file
  * external API header
  */
 
+/**
+ * @mainpage
+ *
+ * @section ffmpeg_intro Introduction
+ *
+ * This document describes the usage of the different libraries
+ * provided by FFmpeg.
+ *
+ * @li @ref libavc "libavcodec" encoding/decoding library
+ * @li @ref lavfi "libavfilter" graph-based frame editing library
+ * @li @ref libavf "libavformat" I/O and muxing/demuxing library
+ * @li @ref lavd "libavdevice" special devices muxing/demuxing library
+ * @li @ref lavu "libavutil" common utility library
+ * @li @ref lswr "libswresample" audio resampling, format conversion and mixing
+ * @li @ref lpp  "libpostproc" post processing library
+ * @li @ref lsws "libswscale" color conversion and scaling library
+ *
+ * @section ffmpeg_versioning Versioning and compatibility
+ *
+ * Each of the FFmpeg libraries contains a version.h header, which defines a
+ * major, minor and micro version number with the
+ * <em>LIBRARYNAME_VERSION_{MAJOR,MINOR,MICRO}</em> macros. The major version
+ * number is incremented with backward incompatible changes - e.g. removing
+ * parts of the public API, reordering public struct members, etc. The minor
+ * version number is incremented for backward compatible API changes or major
+ * new features - e.g. adding a new public function or a new decoder. The micro
+ * version number is incremented for smaller changes that a calling program
+ * might still want to check for - e.g. changing behavior in a previously
+ * unspecified situation.
+ *
+ * FFmpeg guarantees backward API and ABI compatibility for each library as long
+ * as its major version number is unchanged. This means that no public symbols
+ * will be removed or renamed. Types and names of the public struct members and
+ * values of public macros and enums will remain the same (unless they were
+ * explicitly declared as not part of the public API). Documented behavior will
+ * not change.
+ *
+ * In other words, any correct program that works with a given FFmpeg snapshot
+ * should work just as well without any changes with any later snapshot with the
+ * same major versions. This applies to both rebuilding the program against new
+ * FFmpeg versions or to replacing the dynamic FFmpeg libraries that a program
+ * links against.
+ *
+ * However, new public symbols may be added and new members may be appended to
+ * public structs whose size is not part of public ABI (most public structs in
+ * FFmpeg). New macros and enum values may be added. Behavior in undocumented
+ * situations may change slightly (and be documented). All those are accompanied
+ * by an entry in doc/APIchanges and incrementing either the minor or micro
+ * version number.
+ */
+
+/**
+ * @defgroup lavu Common utility functions
+ *
+ * @brief
+ * libavutil contains the code shared across all the other FFmpeg
+ * libraries
+ *
+ * @note In order to use the functions provided by avutil you must include
+ * the specific header.
+ *
+ * @{
+ *
+ * @defgroup lavu_crypto Crypto and Hashing
+ *
+ * @{
+ * @}
+ *
+ * @defgroup lavu_math Maths
+ * @{
+ *
+ * @}
+ *
+ * @defgroup lavu_string String Manipulation
+ *
+ * @{
+ *
+ * @}
+ *
+ * @defgroup lavu_mem Memory Management
+ *
+ * @{
+ *
+ * @}
+ *
+ * @defgroup lavu_data Data Structures
+ * @{
+ *
+ * @}
+ *
+ * @defgroup lavu_audio Audio related
+ *
+ * @{
+ *
+ * @}
+ *
+ * @defgroup lavu_error Error Codes
+ *
+ * @{
+ *
+ * @}
+ *
+ * @defgroup lavu_misc Other
+ *
+ * @{
+ *
+ * @defgroup lavu_internal Internal
+ *
+ * Not exported functions, for internal usage only
+ *
+ * @{
+ *
+ * @}
+ */
+
+/**
+ * @addtogroup lavu_ver
+ * @{
+ */
+
+/**
+ * Return the LIBAVUTIL_VERSION_INT constant.
+ */
+unsigned avutil_version(void);
+
+/**
+ * Return the libavutil build-time configuration.
+ */
+const char *avutil_configuration(void);
+
+/**
+ * Return the libavutil license.
+ */
+const char *avutil_license(void);
+
+/**
+ * @}
+ */
+
+/**
+ * @addtogroup lavu_media Media Type
+ * @brief Media Type
+ */
+
+enum AVMediaType {
+    AVMEDIA_TYPE_UNKNOWN = -1, ///< Usually treated as AVMEDIA_TYPE_DATA
+    AVMEDIA_TYPE_VIDEO,
+    AVMEDIA_TYPE_AUDIO,
+    AVMEDIA_TYPE_DATA, ///< Opaque data information usually continuous
+    AVMEDIA_TYPE_SUBTITLE,
+    AVMEDIA_TYPE_ATTACHMENT, ///< Opaque data information usually sparse
+    AVMEDIA_TYPE_NB
+};
+
+/**
+ * Return a string describing the media_type enum, NULL if media_type
+ * is unknown.
+ */
+const char *av_get_media_type_string(enum AVMediaType media_type);
+
+/**
+ * @defgroup lavu_const Constants
+ * @{
+ *
+ * @defgroup lavu_enc Encoding specific
+ *
+ * @note those definition should move to avcodec
+ * @{
+ */
+
+#define FF_LAMBDA_SHIFT 7
+#define FF_LAMBDA_SCALE (1<<FF_LAMBDA_SHIFT)
+#define FF_QP2LAMBDA 118 /*|< factor to convert from H.263 QP to lambda*/
+#define FF_LAMBDA_MAX (256*128-1)
+
+#define FF_QUALITY_SCALE FF_LAMBDA_SCALE /*FIXME maybe remove*/
+
+/**
+ * @}
+ * @defgroup lavu_time Timestamp specific
+ *
+ * FFmpeg internal timebase and timestamp definitions
+ *
+ * @{
+ */
+
+/**
+ * @brief Undefined timestamp value
+ *
+ * Usually reported by demuxer that work on containers that do not provide
+ * either pts or dts.
+ */
+
+#define AV_NOPTS_VALUE ((int64_t)UINT64_C(0x8000000000000000))
+
+/**
+ * Internal time base represented as integer
+ */
+
+#define AV_TIME_BASE 1000000
+
+/**
+ * Internal time base represented as fractional value
+ */
+
+#define AV_TIME_BASE_Q (AVRational){1, AV_TIME_BASE}
+
+/**
+ * @}
+ * @}
+ * @defgroup lavu_picture Image related
+ *
+ * AVPicture types, pixel formats and basic image planes manipulation.
+ *
+ * @{
+ */
+
+enum AVPictureType {
+    AV_PICTURE_TYPE_NONE = 0, ///< Undefined
+    AV_PICTURE_TYPE_I, ///< Intra
+    AV_PICTURE_TYPE_P, ///< Predicted
+    AV_PICTURE_TYPE_B, ///< Bi-dir predicted
+    AV_PICTURE_TYPE_S, ///< S(GMC)-VOP MPEG4
+    AV_PICTURE_TYPE_SI, ///< Switching Intra
+    AV_PICTURE_TYPE_SP, ///< Switching Predicted
+    AV_PICTURE_TYPE_BI, ///< BI type
+};
+
+/**
+ * Return a single letter to describe the given picture type
+ * pict_type.
+ *
+ * @param[in] pict_type the picture type @return a single character
+ * representing the picture type, '?' if pict_type is unknown
+ */
+char av_get_picture_type_char(enum AVPictureType pict_type);
+
+/**
+ * @}
+ */
+
+// --------------------------------[ include/libavutil/common.h ]--------------------------------
+/*
+ * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+/**
+ * @file
+ * common internal and external API header
+ */
+
+#define AVUTIL_COMMON_H 
+
+// --------------------------------[ include/libavutil/attributes.h ]--------------------------------
+/*
+ * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+/**
+ * @file
+ * Macro definitions for various function/variable attributes
+ */
+
+#define AVUTIL_ATTRIBUTES_H 
+
+#define AV_GCC_VERSION_AT_LEAST(x,y) 0
+#define av_always_inline inline
+
+#define av_extern_inline inline
+
+#define av_noinline 
+
+#define av_pure 
+
+#define av_restrict restrict
+
+#define av_const 
+
+#define av_cold 
+
+#define av_flatten 
+
+#define attribute_deprecated 
+
+/**
+ * Disable warnings about deprecated features
+ * This is useful for sections of code kept for backward compatibility and
+ * scheduled for removal.
+ */
+#define AV_NOWARN_DEPRECATED(code) code
+
+#define av_unused 
+
+/**
+ * Mark a variable as used and prevent the compiler from optimizing it
+ * away.  This is useful for variables accessed only from inline
+ * assembler without the compiler being aware.
+ */
+
+#define av_used 
+
+#define av_alias 
+
+#define av_uninit(x) x
+
+#define av_builtin_constant_p(x) 0
+#define av_printf_format(fmtpos,attrpos) 
+
+#define av_noreturn 
+// ================================[ include/libavutil/attributes.h ]================================
+// --------------------------------[ include/libavutil/version.h ]--------------------------------
+/*
+ * copyright (c) 2003 Fabrice Bellard
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+#define AVUTIL_VERSION_H 
+
+/**
+ * @defgroup preproc_misc Preprocessor String Macros
+ *
+ * String manipulation macros
+ *
+ * @{
+ */
+
+#define AV_STRINGIFY(s) AV_TOSTRING(s)
+#define AV_TOSTRING(s) #s
+
+#define AV_GLUE(a,b) a ## b
+#define AV_JOIN(a,b) AV_GLUE(a, b)
+
+#define AV_PRAGMA(s) _Pragma(#s)
+
+/**
+ * @}
+ */
+
+/**
+ * @defgroup version_utils Library Version Macros
+ *
+ * Useful to check and match library version in order to maintain
+ * backward compatibility.
+ *
+ * @{
+ */
+
+#define AV_VERSION_INT(a,b,c) (a<<16 | b<<8 | c)
+#define AV_VERSION_DOT(a,b,c) a ##. ## b ##. ## c
+#define AV_VERSION(a,b,c) AV_VERSION_DOT(a, b, c)
+
+/**
+ * @}
+ */
+
+/**
+ * @file
+ * @ingroup lavu
+ * Libavutil version macros
+ */
+
+/**
+ * @defgroup lavu_ver Version and Build diagnostics
+ *
+ * Macros and function useful to check at compiletime and at runtime
+ * which version of libavutil is in use.
+ *
+ * @{
+ */
+
+#define LIBAVUTIL_VERSION_MAJOR 52
+#define LIBAVUTIL_VERSION_MINOR 38
+#define LIBAVUTIL_VERSION_MICRO 100
+
+#define LIBAVUTIL_VERSION_INT AV_VERSION_INT(LIBAVUTIL_VERSION_MAJOR, LIBAVUTIL_VERSION_MINOR, LIBAVUTIL_VERSION_MICRO)
+
+#define LIBAVUTIL_VERSION AV_VERSION(LIBAVUTIL_VERSION_MAJOR, LIBAVUTIL_VERSION_MINOR, LIBAVUTIL_VERSION_MICRO)
+
+#define LIBAVUTIL_BUILD LIBAVUTIL_VERSION_INT
+
+#define LIBAVUTIL_IDENT "Lavu" AV_STRINGIFY(LIBAVUTIL_VERSION)
+
+/**
+ * @}
+ *
+ * @defgroup depr_guards Deprecation guards
+ * FF_API_* defines may be placed below to indicate public API that will be
+ * dropped at a future version bump. The defines themselves are not part of
+ * the public API and may change, break or disappear at any time.
+ *
+ * @{
+ */
+
+#define FF_API_GET_BITS_PER_SAMPLE_FMT (LIBAVUTIL_VERSION_MAJOR < 53)
+
+#define FF_API_FIND_OPT (LIBAVUTIL_VERSION_MAJOR < 53)
+
+#define FF_API_OLD_AVOPTIONS (LIBAVUTIL_VERSION_MAJOR < 53)
+
+#define FF_API_PIX_FMT (LIBAVUTIL_VERSION_MAJOR < 53)
+
+#define FF_API_CONTEXT_SIZE (LIBAVUTIL_VERSION_MAJOR < 53)
+
+#define FF_API_PIX_FMT_DESC (LIBAVUTIL_VERSION_MAJOR < 53)
+
+#define FF_API_AV_REVERSE (LIBAVUTIL_VERSION_MAJOR < 53)
+
+#define FF_API_AUDIOCONVERT (LIBAVUTIL_VERSION_MAJOR < 53)
+
+#define FF_API_CPU_FLAG_MMX2 (LIBAVUTIL_VERSION_MAJOR < 53)
+
+#define FF_API_SAMPLES_UTILS_RETURN_ZERO (LIBAVUTIL_VERSION_MAJOR < 53)
+
+#define FF_API_LLS_PRIVATE (LIBAVUTIL_VERSION_MAJOR < 53)
+
+#define FF_API_AVFRAME_LAVC (LIBAVUTIL_VERSION_MAJOR < 53)
+
+/**
+ * @}
+ */
+// ================================[ include/libavutil/version.h ]================================
+// --------------------------------[ include/libavutil/avconfig.h ]--------------------------------
+/* Generated by ffconf */
+
+#define AVUTIL_AVCONFIG_H 
+#define AV_HAVE_BIGENDIAN 0
+#define AV_HAVE_FAST_UNALIGNED 1
+#define AV_HAVE_INCOMPATIBLE_LIBAV_ABI 0
+#define AV_HAVE_INCOMPATIBLE_FORK_ABI 0
+// ================================[ include/libavutil/avconfig.h ]================================
+
+#define AV_NE(be,le) (le)
+
+//rounded division & shift
+#define RSHIFT(a,b) ((a) > 0 ? ((a) + ((1<<(b))>>1))>>(b) : ((a) + ((1<<(b))>>1)-1)>>(b))
+/* assume b>0 */
+#define ROUNDED_DIV(a,b) (((a)>0 ? (a) + ((b)>>1) : (a) - ((b)>>1))/(b))
+/* assume a>0 and b>0 */
+#define FF_CEIL_RSHIFT(a,b) (!av_builtin_constant_p(b) ? -((-(a)) >> (b)) : ((a) + (1<<(b)) - 1) >> (b))
+
+#define FFUDIV(a,b) (((a)>0 ?(a):(a)-(b)+1) / (b))
+#define FFUMOD(a,b) ((a)-(b)*FFUDIV(a,b))
+#define FFABS(a) ((a) >= 0 ? (a) : (-(a)))
+#define FFSIGN(a) ((a) > 0 ? 1 : -1)
+
+#define FFMAX(a,b) ((a) > (b) ? (a) : (b))
+#define FFMAX3(a,b,c) FFMAX(FFMAX(a,b),c)
+#define FFMIN(a,b) ((a) > (b) ? (b) : (a))
+#define FFMIN3(a,b,c) FFMIN(FFMIN(a,b),c)
+
+#define FFSWAP(type,a,b) do{type SWAP_tmp= b; b= a; a= SWAP_tmp;}while(0)
+#define FF_ARRAY_ELEMS(a) (sizeof(a) / sizeof((a)[0]))
+#define FFALIGN(x,a) (((x)+(a)-1)&~((a)-1))
+
+/* misc math functions */
+
+/**
+ * Reverse the order of the bits of an 8-bits unsigned integer.
+ */
+
+extern const uint8_t av_reverse[256];
+
+/* Pull in unguarded fallback defines at the end of this file. */
+// --------------------------------[ include/libavutil/common.h ]--------------------------------
+/*
+ * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+/**
+ * @file
+ * common internal and external API header
+ */
+/*
+ * The following definitions are outside the multiple inclusion guard
+ * to ensure they are immediately available in intmath.h.
+ */
+
+#define av_ceil_log2 av_ceil_log2_c
+
+#define av_clip av_clip_c
+
+#define av_clip64 av_clip64_c
+
+#define av_clip_uint8 av_clip_uint8_c
+
+#define av_clip_int8 av_clip_int8_c
+
+#define av_clip_uint16 av_clip_uint16_c
+
+#define av_clip_int16 av_clip_int16_c
+
+#define av_clipl_int32 av_clipl_int32_c
+
+#define av_clip_uintp2 av_clip_uintp2_c
+
+#define av_sat_add32 av_sat_add32_c
+
+#define av_sat_dadd32 av_sat_dadd32_c
+
+#define av_clipf av_clipf_c
+
+#define av_clipd av_clipd_c
+
+#define av_popcount av_popcount_c
+
+#define av_popcount64 av_popcount64_c
+
+ int av_log2(unsigned v);
+
+ int av_log2_16bit(unsigned v);
+
+/**
+ * Clip a signed integer value into the amin-amax range.
+ * @param a value to clip
+ * @param amin minimum value of the clip range
+ * @param amax maximum value of the clip range
+ * @return clipped value
+ */
+static inline int av_clip_c(int a, int amin, int amax)
+{
+
+    if (a < amin) return amin;
+    else if (a > amax) return amax;
+    else return a;
+}
+
+/**
+ * Clip a signed 64bit integer value into the amin-amax range.
+ * @param a value to clip
+ * @param amin minimum value of the clip range
+ * @param amax maximum value of the clip range
+ * @return clipped value
+ */
+static inline int64_t av_clip64_c(int64_t a, int64_t amin, int64_t amax)
+{
+
+    if (a < amin) return amin;
+    else if (a > amax) return amax;
+    else return a;
+}
+
+/**
+ * Clip a signed integer value into the 0-255 range.
+ * @param a value to clip
+ * @return clipped value
+ */
+static inline uint8_t av_clip_uint8_c(int a)
+{
+    if (a&(~0xFF)) return (-a)>>31;
+    else return a;
+}
+
+/**
+ * Clip a signed integer value into the -128,127 range.
+ * @param a value to clip
+ * @return clipped value
+ */
+static inline int8_t av_clip_int8_c(int a)
+{
+    if ((a+0x80) & ~0xFF) return (a>>31) ^ 0x7F;
+    else return a;
+}
+
+/**
+ * Clip a signed integer value into the 0-65535 range.
+ * @param a value to clip
+ * @return clipped value
+ */
+static inline uint16_t av_clip_uint16_c(int a)
+{
+    if (a&(~0xFFFF)) return (-a)>>31;
+    else return a;
+}
+
+/**
+ * Clip a signed integer value into the -32768,32767 range.
+ * @param a value to clip
+ * @return clipped value
+ */
+static inline int16_t av_clip_int16_c(int a)
+{
+    if ((a+0x8000) & ~0xFFFF) return (a>>31) ^ 0x7FFF;
+    else return a;
+}
+
+/**
+ * Clip a signed 64-bit integer value into the -2147483648,2147483647 range.
+ * @param a value to clip
+ * @return clipped value
+ */
+static inline int32_t av_clipl_int32_c(int64_t a)
+{
+    if ((a+0x80000000u) & ~0xFFFFFFFFULL) return (a>>63) ^ 0x7FFFFFFF;
+    else return (int32_t)a;
+}
+
+/**
+ * Clip a signed integer to an unsigned power of two range.
+ * @param  a value to clip
+ * @param  p bit position to clip at
+ * @return clipped value
+ */
+static inline unsigned av_clip_uintp2_c(int a, int p)
+{
+    if (a & ~((1<<p) - 1)) return -a >> 31 & ((1<<p) - 1);
+    else return a;
+}
+
+/**
+ * Add two signed 32-bit values with saturation.
+ *
+ * @param  a one value
+ * @param  b another value
+ * @return sum with signed saturation
+ */
+static inline int av_sat_add32_c(int a, int b)
+{
+    return av_clipl_int32_c((int64_t)a + b);
+}
+
+/**
+ * Add a doubled value to another value with saturation at both stages.
+ *
+ * @param  a first value
+ * @param  b value doubled and added to a
+ * @return sum with signed saturation
+ */
+static inline int av_sat_dadd32_c(int a, int b)
+{
+    return av_sat_add32_c(a, av_sat_add32_c(b, b));
+}
+
+/**
+ * Clip a float value into the amin-amax range.
+ * @param a value to clip
+ * @param amin minimum value of the clip range
+ * @param amax maximum value of the clip range
+ * @return clipped value
+ */
+static inline float av_clipf_c(float a, float amin, float amax)
+{
+
+    if (a < amin) return amin;
+    else if (a > amax) return amax;
+    else return a;
+}
+
+/**
+ * Clip a double value into the amin-amax range.
+ * @param a value to clip
+ * @param amin minimum value of the clip range
+ * @param amax maximum value of the clip range
+ * @return clipped value
+ */
+static inline double av_clipd_c(double a, double amin, double amax)
+{
+
+    if (a < amin) return amin;
+    else if (a > amax) return amax;
+    else return a;
+}
+
+/** Compute ceil(log2(x)).
+ * @param x value used to compute ceil(log2(x))
+ * @return computed ceiling of log2(x)
+ */
+static inline int av_ceil_log2_c(int x)
+{
+    return av_log2((x - 1) << 1);
+}
+
+/**
+ * Count number of bits set to one in x
+ * @param x value to count bits of
+ * @return the number of bits set to one in x
+ */
+static inline int av_popcount_c(uint32_t x)
+{
+    x -= (x >> 1) & 0x55555555;
+    x = (x & 0x33333333) + ((x >> 2) & 0x33333333);
+    x = (x + (x >> 4)) & 0x0F0F0F0F;
+    x += x >> 8;
+    return (x + (x >> 16)) & 0x3F;
+}
+
+/**
+ * Count number of bits set to one in x
+ * @param x value to count bits of
+ * @return the number of bits set to one in x
+ */
+static inline int av_popcount64_c(uint64_t x)
+{
+    return av_popcount_c((uint32_t)x) + av_popcount_c(x >> 32);
+}
+
+#define MKTAG(a,b,c,d) ((a) | ((b) << 8) | ((c) << 16) | ((unsigned)(d) << 24))
+#define MKBETAG(a,b,c,d) ((d) | ((c) << 8) | ((b) << 16) | ((unsigned)(a) << 24))
+
+/**
+ * Convert a UTF-8 character (up to 4 bytes) to its 32-bit UCS-4 encoded form.
+ *
+ * @param val      Output value, must be an lvalue of type uint32_t.
+ * @param GET_BYTE Expression reading one byte from the input.
+ *                 Evaluated up to 7 times (4 for the currently
+ *                 assigned Unicode range).  With a memory buffer
+ *                 input, this could be *ptr++.
+ * @param ERROR    Expression to be evaluated on invalid input,
+ *                 typically a goto statement.
+ */
+#define GET_UTF8(val,GET_BYTE,ERROR) val= GET_BYTE; { uint32_t top = (val & 128) >> 1; if ((val & 0xc0) == 0x80 || val >= 0xFE) ERROR while (val & top) { int tmp= GET_BYTE - 128; if(tmp>>6) ERROR val= (val<<6) + tmp; top <<= 5; } val &= (top << 1) - 1; }
+/**
+ * Convert a UTF-16 character (2 or 4 bytes) to its 32-bit UCS-4 encoded form.
+ *
+ * @param val       Output value, must be an lvalue of type uint32_t.
+ * @param GET_16BIT Expression returning two bytes of UTF-16 data converted
+ *                  to native byte order.  Evaluated one or two times.
+ * @param ERROR     Expression to be evaluated on invalid input,
+ *                  typically a goto statement.
+ */
+#define GET_UTF16(val,GET_16BIT,ERROR) val = GET_16BIT; { unsigned int hi = val - 0xD800; if (hi < 0x800) { val = GET_16BIT - 0xDC00; if (val > 0x3FFU || hi > 0x3FFU) ERROR val += (hi<<10) + 0x10000; } }
+/**
+ * @def PUT_UTF8(val, tmp, PUT_BYTE)
+ * Convert a 32-bit Unicode character to its UTF-8 encoded form (up to 4 bytes long).
+ * @param val is an input-only argument and should be of type uint32_t. It holds
+ * a UCS-4 encoded Unicode character that is to be converted to UTF-8. If
+ * val is given as a function it is executed only once.
+ * @param tmp is a temporary variable and should be of type uint8_t. It
+ * represents an intermediate value during conversion that is to be
+ * output by PUT_BYTE.
+ * @param PUT_BYTE writes the converted UTF-8 bytes to any proper destination.
+ * It could be a function or a statement, and uses tmp as the input byte.
+ * For example, PUT_BYTE could be "*output++ = tmp;" PUT_BYTE will be
+ * executed up to 4 times for values in the valid UTF-8 range and up to
+ * 7 times in the general case, depending on the length of the converted
+ * Unicode character.
+ */
+#define PUT_UTF8(val,tmp,PUT_BYTE) { int bytes, shift; uint32_t in = val; if (in < 0x80) { tmp = in; PUT_BYTE } else { bytes = (av_log2(in) + 4) / 5; shift = (bytes - 1) * 6; tmp = (256 - (256 >> bytes)) | (in >> shift); PUT_BYTE while (shift >= 6) { shift -= 6; tmp = 0x80 | ((in >> shift) & 0x3f); PUT_BYTE } } }
+/**
+ * @def PUT_UTF16(val, tmp, PUT_16BIT)
+ * Convert a 32-bit Unicode character to its UTF-16 encoded form (2 or 4 bytes).
+ * @param val is an input-only argument and should be of type uint32_t. It holds
+ * a UCS-4 encoded Unicode character that is to be converted to UTF-16. If
+ * val is given as a function it is executed only once.
+ * @param tmp is a temporary variable and should be of type uint16_t. It
+ * represents an intermediate value during conversion that is to be
+ * output by PUT_16BIT.
+ * @param PUT_16BIT writes the converted UTF-16 data to any proper destination
+ * in desired endianness. It could be a function or a statement, and uses tmp
+ * as the input byte.  For example, PUT_BYTE could be "*output++ = tmp;"
+ * PUT_BYTE will be executed 1 or 2 times depending on input character.
+ */
+#define PUT_UTF16(val,tmp,PUT_16BIT) { uint32_t in = val; if (in < 0x10000) { tmp = in; PUT_16BIT } else { tmp = 0xD800 | ((in - 0x10000) >> 10); PUT_16BIT tmp = 0xDC00 | ((in - 0x10000) & 0x3FF); PUT_16BIT } }
+// --------------------------------[ include/libavutil/mem.h ]--------------------------------
+/*
+ * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+/**
+ * @file
+ * memory handling functions
+ */
+
+#define AVUTIL_MEM_H 
+
+// --------------------------------[ include/libavutil/attributes.h ]--------------------------------
+/*
+ * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+/**
+ * @file
+ * Macro definitions for various function/variable attributes
+ */
+// ================================[ include/libavutil/attributes.h ]================================
+// --------------------------------[ include/libavutil/error.h ]--------------------------------
+/*
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+/**
+ * @file
+ * error code definitions
+ */
+
+#define AVUTIL_ERROR_H 
+
+/**
+ * @addtogroup lavu_error
+ *
+ * @{
+ */
+
+/* error handling */
+
+#define AVERROR(e) (-(e)) /*|< Returns a negative error code from a POSIX error code, to return from library functions.*/
+#define AVUNERROR(e) (-(e)) /*|< Returns a POSIX error code from a library function error return value.*/
+
+#define FFERRTAG(a,b,c,d) (-(int)MKTAG(a, b, c, d))
+
+#define AVERROR_BSF_NOT_FOUND FFERRTAG(0xF8,'B','S','F') /*|< Bitstream filter not found*/
+#define AVERROR_BUG FFERRTAG( 'B','U','G','!') /*|< Internal bug, also see AVERROR_BUG2*/
+#define AVERROR_BUFFER_TOO_SMALL FFERRTAG( 'B','U','F','S') /*|< Buffer too small*/
+#define AVERROR_DECODER_NOT_FOUND FFERRTAG(0xF8,'D','E','C') /*|< Decoder not found*/
+#define AVERROR_DEMUXER_NOT_FOUND FFERRTAG(0xF8,'D','E','M') /*|< Demuxer not found*/
+#define AVERROR_ENCODER_NOT_FOUND FFERRTAG(0xF8,'E','N','C') /*|< Encoder not found*/
+#define AVERROR_EOF FFERRTAG( 'E','O','F',' ') /*|< End of file*/
+#define AVERROR_EXIT FFERRTAG( 'E','X','I','T') /*|< Immediate exit was requested; the called function should not be restarted*/
+#define AVERROR_EXTERNAL FFERRTAG( 'E','X','T',' ') /*|< Generic error in an external library*/
+#define AVERROR_FILTER_NOT_FOUND FFERRTAG(0xF8,'F','I','L') /*|< Filter not found*/
+#define AVERROR_INVALIDDATA FFERRTAG( 'I','N','D','A') /*|< Invalid data found when processing input*/
+#define AVERROR_MUXER_NOT_FOUND FFERRTAG(0xF8,'M','U','X') /*|< Muxer not found*/
+#define AVERROR_OPTION_NOT_FOUND FFERRTAG(0xF8,'O','P','T') /*|< Option not found*/
+#define AVERROR_PATCHWELCOME FFERRTAG( 'P','A','W','E') /*|< Not yet implemented in FFmpeg, patches welcome*/
+#define AVERROR_PROTOCOL_NOT_FOUND FFERRTAG(0xF8,'P','R','O') /*|< Protocol not found*/
+
+#define AVERROR_STREAM_NOT_FOUND FFERRTAG(0xF8,'S','T','R') /*|< Stream not found*/
+/**
+ * This is semantically identical to AVERROR_BUG
+ * it has been introduced in Libav after our AVERROR_BUG and with a modified value.
+ */
+#define AVERROR_BUG2 FFERRTAG( 'B','U','G',' ')
+#define AVERROR_UNKNOWN FFERRTAG( 'U','N','K','N') /*|< Unknown error, typically from an external library*/
+#define AVERROR_EXPERIMENTAL (-0x2bb2afa8) /*|< Requested feature is flagged experimental. Set strict_std_compliance if you really want to use it.*/
+
+#define AV_ERROR_MAX_STRING_SIZE 64
+
+/**
+ * Put a description of the AVERROR code errnum in errbuf.
+ * In case of failure the global variable errno is set to indicate the
+ * error. Even in case of failure av_strerror() will print a generic
+ * error message indicating the errnum provided to errbuf.
+ *
+ * @param errnum      error code to describe
+ * @param errbuf      buffer to which description is written
+ * @param errbuf_size the size in bytes of errbuf
+ * @return 0 on success, a negative value if a description for errnum
+ * cannot be found
+ */
+int av_strerror(int errnum, char *errbuf, size_t errbuf_size);
+
+/**
+ * Fill the provided buffer with a string containing an error string
+ * corresponding to the AVERROR code errnum.
+ *
+ * @param errbuf         a buffer
+ * @param errbuf_size    size in bytes of errbuf
+ * @param errnum         error code to describe
+ * @return the buffer in input, filled with the error description
+ * @see av_strerror()
+ */
+static inline char *av_make_error_string(char *errbuf, size_t errbuf_size, int errnum)
+{
+    av_strerror(errnum, errbuf, errbuf_size);
+    return errbuf;
+}
+
+/**
+ * Convenience macro, the return value should be used only directly in
+ * function arguments but never stand-alone.
+ */
+#define av_err2str(errnum) av_make_error_string((char[AV_ERROR_MAX_STRING_SIZE]){0}, AV_ERROR_MAX_STRING_SIZE, errnum)
+
+/**
+ * @}
+ */
+// ================================[ include/libavutil/error.h ]================================
+// --------------------------------[ include/libavutil/avutil.h ]--------------------------------
+/*
+ * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+// ================================[ include/libavutil/avutil.h ]================================
+
+/**
+ * @addtogroup lavu_mem
+ * @{
+ */
+#define DECLARE_ALIGNED(n,t,v) t v
+#define DECLARE_ASM_CONST(n,t,v) static const t v
+
+#define av_malloc_attrib 
+
+#define av_alloc_size(...) 
+
+/**
+ * Allocate a block of size bytes with alignment suitable for all
+ * memory accesses (including vectors if available on the CPU).
+ * @param size Size in bytes for the memory block to be allocated.
+ * @return Pointer to the allocated block, NULL if the block cannot
+ * be allocated.
+ * @see av_mallocz()
+ */
+void *av_malloc(size_t size) ;
+
+/**
+ * Helper function to allocate a block of size * nmemb bytes with
+ * using av_malloc()
+ * @param nmemb Number of elements
+ * @param size Size of the single element
+ * @return Pointer to the allocated block, NULL if the block cannot
+ * be allocated.
+ * @see av_malloc()
+ */
+ static inline void *av_malloc_array(size_t nmemb, size_t size)
+{
+    if (size <= 0 || nmemb >= __INT_MAX__ / size)
+        return ((void *)0);
+    return av_malloc(nmemb * size);
+}
+
+/**
+ * Allocate or reallocate a block of memory.
+ * If ptr is NULL and size > 0, allocate a new block. If
+ * size is zero, free the memory block pointed to by ptr.
+ * @param ptr Pointer to a memory block already allocated with
+ * av_malloc(z)() or av_realloc() or NULL.
+ * @param size Size in bytes for the memory block to be allocated or
+ * reallocated.
+ * @return Pointer to a newly reallocated block or NULL if the block
+ * cannot be reallocated or the function is used to free the memory block.
+ * @see av_fast_realloc()
+ */
+void *av_realloc(void *ptr, size_t size) ;
+
+/**
+ * Allocate or reallocate a block of memory.
+ * This function does the same thing as av_realloc, except:
+ * - It takes two arguments and checks the result of the multiplication for
+ *   integer overflow.
+ * - It frees the input block in case of failure, thus avoiding the memory
+ *   leak with the classic "buf = realloc(buf); if (!buf) return -1;".
+ */
+void *av_realloc_f(void *ptr, size_t nelem, size_t elsize);
+
+/**
+ * Allocate or reallocate an array.
+ * If ptr is NULL and nmemb > 0, allocate a new block. If
+ * nmemb is zero, free the memory block pointed to by ptr.
+ * @param ptr Pointer to a memory block already allocated with
+ * av_malloc(z)() or av_realloc() or NULL.
+ * @param nmemb Number of elements
+ * @param size Size of the single element
+ * @return Pointer to a newly reallocated block or NULL if the block
+ * cannot be reallocated or the function is used to free the memory block.
+ */
+ void *av_realloc_array(void *ptr, size_t nmemb, size_t size);
+
+/**
+ * Allocate or reallocate an array.
+ * If *ptr is NULL and nmemb > 0, allocate a new block. If
+ * nmemb is zero, free the memory block pointed to by ptr.
+ * @param ptr Pointer to a pointer to a memory block already allocated
+ * with av_malloc(z)() or av_realloc(), or pointer to a pointer to NULL.
+ * The pointer is updated on success, or freed on failure.
+ * @param nmemb Number of elements
+ * @param size Size of the single element
+ * @return Zero on success, an AVERROR error code on failure.
+ */
+ int av_reallocp_array(void *ptr, size_t nmemb, size_t size);
+
+/**
+ * Free a memory block which has been allocated with av_malloc(z)() or
+ * av_realloc().
+ * @param ptr Pointer to the memory block which should be freed.
+ * @note ptr = NULL is explicitly allowed.
+ * @note It is recommended that you use av_freep() instead.
+ * @see av_freep()
+ */
+void av_free(void *ptr);
+
+/**
+ * Allocate a block of size bytes with alignment suitable for all
+ * memory accesses (including vectors if available on the CPU) and
+ * zero all the bytes of the block.
+ * @param size Size in bytes for the memory block to be allocated.
+ * @return Pointer to the allocated block, NULL if it cannot be allocated.
+ * @see av_malloc()
+ */
+void *av_mallocz(size_t size) ;
+
+/**
+ * Allocate a block of nmemb * size bytes with alignment suitable for all
+ * memory accesses (including vectors if available on the CPU) and
+ * zero all the bytes of the block.
+ * The allocation will fail if nmemb * size is greater than or equal
+ * to INT_MAX.
+ * @param nmemb
+ * @param size
+ * @return Pointer to the allocated block, NULL if it cannot be allocated.
+ */
+void *av_calloc(size_t nmemb, size_t size) ;
+
+/**
+ * Helper function to allocate a block of size * nmemb bytes with
+ * using av_mallocz()
+ * @param nmemb Number of elements
+ * @param size Size of the single element
+ * @return Pointer to the allocated block, NULL if the block cannot
+ * be allocated.
+ * @see av_mallocz()
+ * @see av_malloc_array()
+ */
+ static inline void *av_mallocz_array(size_t nmemb, size_t size)
+{
+    if (size <= 0 || nmemb >= __INT_MAX__ / size)
+        return ((void *)0);
+    return av_mallocz(nmemb * size);
+}
+
+/**
+ * Duplicate the string s.
+ * @param s string to be duplicated
+ * @return Pointer to a newly allocated string containing a
+ * copy of s or NULL if the string cannot be allocated.
+ */
+char *av_strdup(const char *s) ;
+
+/**
+ * Duplicate the buffer p.
+ * @param p buffer to be duplicated
+ * @return Pointer to a newly allocated buffer containing a
+ * copy of p or NULL if the buffer cannot be allocated.
+ */
+void *av_memdup(const void *p, size_t size);
+
+/**
+ * Free a memory block which has been allocated with av_malloc(z)() or
+ * av_realloc() and set the pointer pointing to it to NULL.
+ * @param ptr Pointer to the pointer to the memory block which should
+ * be freed.
+ * @see av_free()
+ */
+void av_freep(void *ptr);
+
+/**
+ * Add an element to a dynamic array.
+ *
+ * The array to grow is supposed to be an array of pointers to
+ * structures, and the element to add must be a pointer to an already
+ * allocated structure.
+ *
+ * The array is reallocated when its size reaches powers of 2.
+ * Therefore, the amortized cost of adding an element is constant.
+ *
+ * In case of success, the pointer to the array is updated in order to
+ * point to the new grown array, and the number pointed to by nb_ptr
+ * is incremented.
+ * In case of failure, the array is freed, *tab_ptr is set to NULL and
+ * *nb_ptr is set to 0.
+ *
+ * @param tab_ptr pointer to the array to grow
+ * @param nb_ptr  pointer to the number of elements in the array
+ * @param elem    element to add
+ * @see av_dynarray2_add()
+ */
+void av_dynarray_add(void *tab_ptr, int *nb_ptr, void *elem);
+
+/**
+ * Add an element of size elem_size to a dynamic array.
+ *
+ * The array is reallocated when its number of elements reaches powers of 2.
+ * Therefore, the amortized cost of adding an element is constant.
+ *
+ * In case of success, the pointer to the array is updated in order to
+ * point to the new grown array, and the number pointed to by nb_ptr
+ * is incremented.
+ * In case of failure, the array is freed, *tab_ptr is set to NULL and
+ * *nb_ptr is set to 0.
+ *
+ * @param tab_ptr   pointer to the array to grow
+ * @param nb_ptr    pointer to the number of elements in the array
+ * @param elem_size size in bytes of the elements in the array
+ * @param elem_data pointer to the data of the element to add. If NULL, the space of
+ *                  the new added element is not filled.
+ * @return          pointer to the data of the element to copy in the new allocated space.
+ *                  If NULL, the new allocated space is left uninitialized."
+ * @see av_dynarray_add()
+ */
+void *av_dynarray2_add(void **tab_ptr, int *nb_ptr, size_t elem_size,
+                       const uint8_t *elem_data);
+
+/**
+ * Multiply two size_t values checking for overflow.
+ * @return  0 if success, AVERROR(EINVAL) if overflow.
+ */
+static inline int av_size_mult(size_t a, size_t b, size_t *r)
+{
+    size_t t = a * b;
+    /* Hack inspired from glibc: only try the division if nelem and elsize
+     * are both greater than sqrt(SIZE_MAX). */
+    if ((a | b) >= ((size_t)1 << (sizeof(size_t) * 4)) && a && t / a != b)
+        return (-(22 /* Invalid argument */)) /*|< Returns a negative error code from a POSIX error code, to return from library functions.*/;
+    *r = t;
+    return 0;
+}
+
+/**
+ * Set the maximum size that may me allocated in one block.
+ */
+void av_max_alloc(size_t max);
+
+/**
+ * @brief deliberately overlapping memcpy implementation
+ * @param dst destination buffer
+ * @param back how many bytes back we start (the initial size of the overlapping window), must be > 0
+ * @param cnt number of bytes to copy, must be >= 0
+ *
+ * cnt > back is valid, this will copy the bytes we just copied,
+ * thus creating a repeating pattern with a period length of back.
+ */
+void av_memcpy_backptr(uint8_t *dst, int back, int cnt);
+
+/**
+ * @}
+ */
+// ================================[ include/libavutil/mem.h ]================================
+
+/*
+ * The following definitions are outside the multiple inclusion guard
+ * to ensure they are immediately available in intmath.h.
+ */
+// ================================[ include/libavutil/common.h ]================================
+// --------------------------------[ include/libavutil/error.h ]--------------------------------
+/*
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+/**
+ * @file
+ * error code definitions
+ */
+// ================================[ include/libavutil/error.h ]================================
+// --------------------------------[ include/libavutil/version.h ]--------------------------------
+/*
+ * copyright (c) 2003 Fabrice Bellard
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+// ================================[ include/libavutil/version.h ]================================
+// --------------------------------[ include/libavutil/mathematics.h ]--------------------------------
+/*
+ * copyright (c) 2005-2012 Michael Niedermayer <michaelni@gmx.at>
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+#define AVUTIL_MATHEMATICS_H 
+
+// --------------------------------[ include/libavutil/attributes.h ]--------------------------------
+/*
+ * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+/**
+ * @file
+ * Macro definitions for various function/variable attributes
+ */
+// ================================[ include/libavutil/attributes.h ]================================
+// --------------------------------[ include/libavutil/rational.h ]--------------------------------
+/*
+ * rational numbers
+ * Copyright (c) 2003 Michael Niedermayer <michaelni@gmx.at>
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+/**
+ * @file
+ * rational numbers
+ * @author Michael Niedermayer <michaelni@gmx.at>
+ */
+
+#define AVUTIL_RATIONAL_H 
+
+// --------------------------------[ include/libavutil/attributes.h ]--------------------------------
+/*
+ * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+/**
+ * @file
+ * Macro definitions for various function/variable attributes
+ */
+// ================================[ include/libavutil/attributes.h ]================================
+
+/**
+ * @addtogroup lavu_math
+ * @{
+ */
+
+/**
+ * rational number numerator/denominator
+ */
+typedef struct AVRational{
+    int num; ///< numerator
+    int den; ///< denominator
+} AVRational;
+
+/**
+ * Compare two rationals.
+ * @param a first rational
+ * @param b second rational
+ * @return 0 if a==b, 1 if a>b, -1 if a<b, and INT_MIN if one of the
+ * values is of the form 0/0
+ */
+static inline int av_cmp_q(AVRational a, AVRational b){
+    const int64_t tmp= a.num * (int64_t)b.den - b.num * (int64_t)a.den;
+
+    if(tmp) return ((tmp ^ a.den ^ b.den)>>63)|1;
+    else if(b.den && a.den) return 0;
+    else if(a.num && b.num) return (a.num>>31) - (b.num>>31);
+    else return (-__INT_MAX__ - 1);
+}
+
+/**
+ * Convert rational to double.
+ * @param a rational to convert
+ * @return (double) a
+ */
+static inline double av_q2d(AVRational a){
+    return a.num / (double) a.den;
+}
+
+/**
+ * Reduce a fraction.
+ * This is useful for framerate calculations.
+ * @param dst_num destination numerator
+ * @param dst_den destination denominator
+ * @param num source numerator
+ * @param den source denominator
+ * @param max the maximum allowed for dst_num & dst_den
+ * @return 1 if exact, 0 otherwise
+ */
+int av_reduce(int *dst_num, int *dst_den, int64_t num, int64_t den, int64_t max);
+
+/**
+ * Multiply two rationals.
+ * @param b first rational
+ * @param c second rational
+ * @return b*c
+ */
+AVRational av_mul_q(AVRational b, AVRational c) ;
+
+/**
+ * Divide one rational by another.
+ * @param b first rational
+ * @param c second rational
+ * @return b/c
+ */
+AVRational av_div_q(AVRational b, AVRational c) ;
+
+/**
+ * Add two rationals.
+ * @param b first rational
+ * @param c second rational
+ * @return b+c
+ */
+AVRational av_add_q(AVRational b, AVRational c) ;
+
+/**
+ * Subtract one rational from another.
+ * @param b first rational
+ * @param c second rational
+ * @return b-c
+ */
+AVRational av_sub_q(AVRational b, AVRational c) ;
+
+/**
+ * Invert a rational.
+ * @param q value
+ * @return 1 / q
+ */
+static inline AVRational av_inv_q(AVRational q)
+{
+    AVRational r = { q.den, q.num };
+    return r;
+}
+
+/**
+ * Convert a double precision floating point number to a rational.
+ * inf is expressed as {1,0} or {-1,0} depending on the sign.
+ *
+ * @param d double to convert
+ * @param max the maximum allowed numerator and denominator
+ * @return (AVRational) d
+ */
+AVRational av_d2q(double d, int max) ;
+
+/**
+ * @return 1 if q1 is nearer to q than q2, -1 if q2 is nearer
+ * than q1, 0 if they have the same distance.
+ */
+int av_nearer_q(AVRational q, AVRational q1, AVRational q2);
+
+/**
+ * Find the nearest value in q_list to q.
+ * @param q_list an array of rationals terminated by {0, 0}
+ * @return the index of the nearest value found in the array
+ */
+int av_find_nearest_q_idx(AVRational q, const AVRational* q_list);
+
+/**
+ * @}
+ */
+// ================================[ include/libavutil/rational.h ]================================
+// --------------------------------[ include/libavutil/intfloat.h ]--------------------------------
+/*
+ * Copyright (c) 2011 Mans Rullgard
+ *
+ * This file is part of Libav.
+ *
+ * Libav is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * Libav is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with Libav; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+#define AVUTIL_INTFLOAT_H 
+
+// --------------------------------[ include/libavutil/attributes.h ]--------------------------------
+/*
+ * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+/**
+ * @file
+ * Macro definitions for various function/variable attributes
+ */
+// ================================[ include/libavutil/attributes.h ]================================
+
+union av_intfloat32 {
+    uint32_t i;
+    float f;
+};
+
+union av_intfloat64 {
+    uint64_t i;
+    double f;
+};
+
+/**
+ * Reinterpret a 32-bit integer as a float.
+ */
+static inline float av_int2float(uint32_t i)
+{
+    union av_intfloat32 v;
+    v.i = i;
+    return v.f;
+}
+
+/**
+ * Reinterpret a float as a 32-bit integer.
+ */
+static inline uint32_t av_float2int(float f)
+{
+    union av_intfloat32 v;
+    v.f = f;
+    return v.i;
+}
+
+/**
+ * Reinterpret a 64-bit integer as a double.
+ */
+static inline double av_int2double(uint64_t i)
+{
+    union av_intfloat64 v;
+    v.i = i;
+    return v.f;
+}
+
+/**
+ * Reinterpret a double as a 64-bit integer.
+ */
+static inline uint64_t av_double2int(double f)
+{
+    union av_intfloat64 v;
+    v.f = f;
+    return v.i;
+}
+// ================================[ include/libavutil/intfloat.h ]================================
+#define M_LOG2_10 3.32192809488736234787 /* log_2 10 */
+
+#define M_PHI 1.61803398874989484820 /* phi / golden ratio */
+/**
+ * @addtogroup lavu_math
+ * @{
+ */
+
+enum AVRounding {
+    AV_ROUND_ZERO = 0, ///< Round toward zero.
+    AV_ROUND_INF = 1, ///< Round away from zero.
+    AV_ROUND_DOWN = 2, ///< Round toward -infinity.
+    AV_ROUND_UP = 3, ///< Round toward +infinity.
+    AV_ROUND_NEAR_INF = 5, ///< Round to nearest and halfway cases away from zero.
+    AV_ROUND_PASS_MINMAX = 8192, ///< Flag to pass INT64_MIN/MAX through instead of rescaling, this avoids special cases for AV_NOPTS_VALUE
+};
+
+/**
+ * Return the greatest common divisor of a and b.
+ * If both a and b are 0 or either or both are <0 then behavior is
+ * undefined.
+ */
+int64_t av_gcd(int64_t a, int64_t b);
+
+/**
+ * Rescale a 64-bit integer with rounding to nearest.
+ * A simple a*b/c isn't possible as it can overflow.
+ */
+int64_t av_rescale(int64_t a, int64_t b, int64_t c) ;
+
+/**
+ * Rescale a 64-bit integer with specified rounding.
+ * A simple a*b/c isn't possible as it can overflow.
+ *
+ * @return rescaled value a, or if AV_ROUND_PASS_MINMAX is set and a is
+ *         INT64_MIN or INT64_MAX then a is passed through unchanged.
+ */
+int64_t av_rescale_rnd(int64_t a, int64_t b, int64_t c, enum AVRounding) ;
+
+/**
+ * Rescale a 64-bit integer by 2 rational numbers.
+ */
+int64_t av_rescale_q(int64_t a, AVRational bq, AVRational cq) ;
+
+/**
+ * Rescale a 64-bit integer by 2 rational numbers with specified rounding.
+ *
+ * @return rescaled value a, or if AV_ROUND_PASS_MINMAX is set and a is
+ *         INT64_MIN or INT64_MAX then a is passed through unchanged.
+ */
+int64_t av_rescale_q_rnd(int64_t a, AVRational bq, AVRational cq,
+                         enum AVRounding) ;
+
+/**
+ * Compare 2 timestamps each in its own timebases.
+ * The result of the function is undefined if one of the timestamps
+ * is outside the int64_t range when represented in the others timebase.
+ * @return -1 if ts_a is before ts_b, 1 if ts_a is after ts_b or 0 if they represent the same position
+ */
+int av_compare_ts(int64_t ts_a, AVRational tb_a, int64_t ts_b, AVRational tb_b);
+
+/**
+ * Compare 2 integers modulo mod.
+ * That is we compare integers a and b for which only the least
+ * significant log2(mod) bits are known.
+ *
+ * @param mod must be a power of 2
+ * @return a negative value if a is smaller than b
+ *         a positive value if a is greater than b
+ *         0                if a equals          b
+ */
+int64_t av_compare_mod(uint64_t a, uint64_t b, uint64_t mod);
+
+/**
+ * Rescale a timestamp while preserving known durations.
+ *
+ * @param in_ts Input timestamp
+ * @param in_tb Input timesbase
+ * @param fs_tb Duration and *last timebase
+ * @param duration duration till the next call
+ * @param out_tb Output timesbase
+ */
+int64_t av_rescale_delta(AVRational in_tb, int64_t in_ts, AVRational fs_tb, int duration, int64_t *last, AVRational out_tb);
+
+/**
+ * @}
+ */
+// ================================[ include/libavutil/mathematics.h ]================================
+// --------------------------------[ include/libavutil/rational.h ]--------------------------------
+/*
+ * rational numbers
+ * Copyright (c) 2003 Michael Niedermayer <michaelni@gmx.at>
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+/**
+ * @file
+ * rational numbers
+ * @author Michael Niedermayer <michaelni@gmx.at>
+ */
+// ================================[ include/libavutil/rational.h ]================================
+// --------------------------------[ include/libavutil/intfloat_readwrite.h ]--------------------------------
+/*
+ * copyright (c) 2005 Michael Niedermayer <michaelni@gmx.at>
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+#define AVUTIL_INTFLOAT_READWRITE_H 
+
+// --------------------------------[ include/libavutil/attributes.h ]--------------------------------
+/*
+ * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+/**
+ * @file
+ * Macro definitions for various function/variable attributes
+ */
+// ================================[ include/libavutil/attributes.h ]================================
+
+/* IEEE 80 bits extended float */
+typedef struct AVExtFloat {
+    uint8_t exponent[2];
+    uint8_t mantissa[8];
+} AVExtFloat;
+
+ double av_int2dbl(int64_t v) ;
+ float av_int2flt(int32_t v) ;
+ double av_ext2dbl(const AVExtFloat ext) ;
+ int64_t av_dbl2int(double d) ;
+ int32_t av_flt2int(float d) ;
+ AVExtFloat av_dbl2ext(double d) ;
+// ================================[ include/libavutil/intfloat_readwrite.h ]================================
+// --------------------------------[ include/libavutil/log.h ]--------------------------------
+/*
+ * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+#define AVUTIL_LOG_H 
+
+// --------------------------------[ include/libavutil/avutil.h ]--------------------------------
+/*
+ * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+// ================================[ include/libavutil/avutil.h ]================================
+// --------------------------------[ include/libavutil/attributes.h ]--------------------------------
+/*
+ * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+/**
+ * @file
+ * Macro definitions for various function/variable attributes
+ */
+// ================================[ include/libavutil/attributes.h ]================================
+
+typedef enum {
+    AV_CLASS_CATEGORY_NA = 0,
+    AV_CLASS_CATEGORY_INPUT,
+    AV_CLASS_CATEGORY_OUTPUT,
+    AV_CLASS_CATEGORY_MUXER,
+    AV_CLASS_CATEGORY_DEMUXER,
+    AV_CLASS_CATEGORY_ENCODER,
+    AV_CLASS_CATEGORY_DECODER,
+    AV_CLASS_CATEGORY_FILTER,
+    AV_CLASS_CATEGORY_BITSTREAM_FILTER,
+    AV_CLASS_CATEGORY_SWSCALER,
+    AV_CLASS_CATEGORY_SWRESAMPLER,
+    AV_CLASS_CATEGORY_NB, ///< not part of ABI/API
+}AVClassCategory;
+
+struct AVOptionRanges;
+
+/**
+ * Describe the class of an AVClass context structure. That is an
+ * arbitrary struct of which the first field is a pointer to an
+ * AVClass struct (e.g. AVCodecContext, AVFormatContext etc.).
+ */
+typedef struct AVClass {
+    /**
+     * The name of the class; usually it is the same name as the
+     * context structure type to which the AVClass is associated.
+     */
+    const char* class_name;
+
+    /**
+     * A pointer to a function which returns the name of a context
+     * instance ctx associated with the class.
+     */
+    const char* (*item_name)(void* ctx);
+
+    /**
+     * a pointer to the first option specified in the class if any or NULL
+     *
+     * @see av_set_default_options()
+     */
+    const struct AVOption *option;
+
+    /**
+     * LIBAVUTIL_VERSION with which this structure was created.
+     * This is used to allow fields to be added without requiring major
+     * version bumps everywhere.
+     */
+
+    int version;
+
+    /**
+     * Offset in the structure where log_level_offset is stored.
+     * 0 means there is no such variable
+     */
+    int log_level_offset_offset;
+
+    /**
+     * Offset in the structure where a pointer to the parent context for
+     * logging is stored. For example a decoder could pass its AVCodecContext
+     * to eval as such a parent context, which an av_log() implementation
+     * could then leverage to display the parent context.
+     * The offset can be NULL.
+     */
+    int parent_log_context_offset;
+
+    /**
+     * Return next AVOptions-enabled child or NULL
+     */
+    void* (*child_next)(void *obj, void *prev);
+
+    /**
+     * Return an AVClass corresponding to the next potential
+     * AVOptions-enabled child.
+     *
+     * The difference between child_next and this is that
+     * child_next iterates over _already existing_ objects, while
+     * child_class_next iterates over _all possible_ children.
+     */
+    const struct AVClass* (*child_class_next)(const struct AVClass *prev);
+
+    /**
+     * Category used for visualization (like color)
+     * This is only set if the category is equal for all objects using this class.
+     * available since version (51 << 16 | 56 << 8 | 100)
+     */
+    AVClassCategory category;
+
+    /**
+     * Callback to return the category.
+     * available since version (51 << 16 | 59 << 8 | 100)
+     */
+    AVClassCategory (*get_category)(void* ctx);
+
+    /**
+     * Callback to return the supported/allowed ranges.
+     * available since version (52.12)
+     */
+    int (*query_ranges)(struct AVOptionRanges **, void *obj, const char *key, int flags);
+} AVClass;
+
+/* av_log API */
+
+#define AV_LOG_QUIET -8
+
+/**
+ * Something went really wrong and we will crash now.
+ */
+#define AV_LOG_PANIC 0
+
+/**
+ * Something went wrong and recovery is not possible.
+ * For example, no header was found for a format which depends
+ * on headers or an illegal combination of parameters is used.
+ */
+#define AV_LOG_FATAL 8
+
+/**
+ * Something went wrong and cannot losslessly be recovered.
+ * However, not all future data is affected.
+ */
+#define AV_LOG_ERROR 16
+
+/**
+ * Something somehow does not look correct. This may or may not
+ * lead to problems. An example would be the use of '-vstrict -2'.
+ */
+#define AV_LOG_WARNING 24
+
+#define AV_LOG_INFO 32
+#define AV_LOG_VERBOSE 40
+
+/**
+ * Stuff which is only useful for libav* developers.
+ */
+#define AV_LOG_DEBUG 48
+
+#define AV_LOG_MAX_OFFSET (AV_LOG_DEBUG - AV_LOG_QUIET)
+
+/**
+ * Send the specified message to the log if the level is less than or equal
+ * to the current av_log_level. By default, all logging messages are sent to
+ * stderr. This behavior can be altered by setting a different av_vlog callback
+ * function.
+ *
+ * @param avcl A pointer to an arbitrary struct of which the first field is a
+ * pointer to an AVClass struct.
+ * @param level The importance level of the message, lower values signifying
+ * higher importance.
+ * @param fmt The format string (printf-compatible) that specifies how
+ * subsequent arguments are converted to output.
+ * @see av_vlog
+ */
+void av_log(void *avcl, int level, const char *fmt, ...) ;
+
+void av_vlog(void *avcl, int level, const char *fmt, va_list);
+int av_log_get_level(void);
+void av_log_set_level(int);
+void av_log_set_callback(void (*)(void*, int, const char*, va_list));
+void av_log_default_callback(void* ptr, int level, const char* fmt, va_list vl);
+const char* av_default_item_name(void* ctx);
+AVClassCategory av_default_get_category(void *ptr);
+
+/**
+ * Format a line of log the same way as the default callback.
+ * @param line          buffer to receive the formated line
+ * @param line_size     size of the buffer
+ * @param print_prefix  used to store whether the prefix must be printed;
+ *                      must point to a persistent integer initially set to 1
+ */
+void av_log_format_line(void *ptr, int level, const char *fmt, va_list vl,
+                        char *line, int line_size, int *print_prefix);
+
+/**
+ * av_dlog macros
+ * Useful to print debug messages that shouldn't get compiled in normally.
+ */
+
+#define av_dlog(pctx,...) do { if (0) av_log(pctx, AV_LOG_DEBUG, __VA_ARGS__); } while (0)
+
+/**
+ * Skip repeated messages, this requires the user app to use av_log() instead of
+ * (f)printf as the 2 would otherwise interfere and lead to
+ * "Last message repeated x times" messages below (f)printf messages with some
+ * bad luck.
+ * Also to receive the last, "last repeated" line if any, the user app must
+ * call av_log(NULL, AV_LOG_QUIET, "%s", ""); at the end
+ */
+#define AV_LOG_SKIP_REPEATED 1
+void av_log_set_flags(int arg);
+// ================================[ include/libavutil/log.h ]================================
+// --------------------------------[ include/libavutil/pixfmt.h ]--------------------------------
+/*
+ * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+#define AVUTIL_PIXFMT_H 
+
+/**
+ * @file
+ * pixel format definitions
+ *
+ */
+
+// --------------------------------[ include/libavutil/avconfig.h ]--------------------------------
+/* Generated by ffconf */
+// ================================[ include/libavutil/avconfig.h ]================================
+// --------------------------------[ include/libavutil/version.h ]--------------------------------
+/*
+ * copyright (c) 2003 Fabrice Bellard
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+// ================================[ include/libavutil/version.h ]================================
+
+#define AVPALETTE_SIZE 1024
+#define AVPALETTE_COUNT 256
+
+/**
+ * Pixel format.
+ *
+ * @note
+ * PIX_FMT_RGB32 is handled in an endian-specific manner. An RGBA
+ * color is put together as:
+ *  (A << 24) | (R << 16) | (G << 8) | B
+ * This is stored as BGRA on little-endian CPU architectures and ARGB on
+ * big-endian CPUs.
+ *
+ * @par
+ * When the pixel format is palettized RGB (PIX_FMT_PAL8), the palettized
+ * image data is stored in AVFrame.data[0]. The palette is transported in
+ * AVFrame.data[1], is 1024 bytes long (256 4-byte entries) and is
+ * formatted the same as in PIX_FMT_RGB32 described above (i.e., it is
+ * also endian-specific). Note also that the individual RGB palette
+ * components stored in AVFrame.data[1] should be in the range 0..255.
+ * This is important as many custom PAL8 video codecs that were designed
+ * to run on the IBM VGA graphics adapter use 6-bit palette components.
+ *
+ * @par
+ * For all the 8bit per pixel formats, an RGB32 palette is in data[1] like
+ * for pal8. This palette is filled in automatically by the function
+ * allocating the picture.
+ *
+ * @note
+ * Make sure that all newly added big-endian formats have pix_fmt & 1 == 1
+ * and that all newly added little-endian formats have pix_fmt & 1 == 0.
+ * This allows simpler detection of big vs little-endian.
+ */
+enum AVPixelFormat {
+    AV_PIX_FMT_NONE = -1,
+    AV_PIX_FMT_YUV420P, ///< planar YUV 4:2:0, 12bpp, (1 Cr & Cb sample per 2x2 Y samples)
+    AV_PIX_FMT_YUYV422, ///< packed YUV 4:2:2, 16bpp, Y0 Cb Y1 Cr
+    AV_PIX_FMT_RGB24, ///< packed RGB 8:8:8, 24bpp, RGBRGB...
+    AV_PIX_FMT_BGR24, ///< packed RGB 8:8:8, 24bpp, BGRBGR...
+    AV_PIX_FMT_YUV422P, ///< planar YUV 4:2:2, 16bpp, (1 Cr & Cb sample per 2x1 Y samples)
+    AV_PIX_FMT_YUV444P, ///< planar YUV 4:4:4, 24bpp, (1 Cr & Cb sample per 1x1 Y samples)
+    AV_PIX_FMT_YUV410P, ///< planar YUV 4:1:0,  9bpp, (1 Cr & Cb sample per 4x4 Y samples)
+    AV_PIX_FMT_YUV411P, ///< planar YUV 4:1:1, 12bpp, (1 Cr & Cb sample per 4x1 Y samples)
+    AV_PIX_FMT_GRAY8, ///<        Y        ,  8bpp
+    AV_PIX_FMT_MONOWHITE, ///<        Y        ,  1bpp, 0 is white, 1 is black, in each byte pixels are ordered from the msb to the lsb
+    AV_PIX_FMT_MONOBLACK, ///<        Y        ,  1bpp, 0 is black, 1 is white, in each byte pixels are ordered from the msb to the lsb
+    AV_PIX_FMT_PAL8, ///< 8 bit with PIX_FMT_RGB32 palette
+    AV_PIX_FMT_YUVJ420P, ///< planar YUV 4:2:0, 12bpp, full scale (JPEG), deprecated in favor of PIX_FMT_YUV420P and setting color_range
+    AV_PIX_FMT_YUVJ422P, ///< planar YUV 4:2:2, 16bpp, full scale (JPEG), deprecated in favor of PIX_FMT_YUV422P and setting color_range
+    AV_PIX_FMT_YUVJ444P, ///< planar YUV 4:4:4, 24bpp, full scale (JPEG), deprecated in favor of PIX_FMT_YUV444P and setting color_range
+    AV_PIX_FMT_XVMC_MPEG2_MC,///< XVideo Motion Acceleration via common packet passing
+    AV_PIX_FMT_XVMC_MPEG2_IDCT,
+    AV_PIX_FMT_UYVY422, ///< packed YUV 4:2:2, 16bpp, Cb Y0 Cr Y1
+    AV_PIX_FMT_UYYVYY411, ///< packed YUV 4:1:1, 12bpp, Cb Y0 Y1 Cr Y2 Y3
+    AV_PIX_FMT_BGR8, ///< packed RGB 3:3:2,  8bpp, (msb)2B 3G 3R(lsb)
+    AV_PIX_FMT_BGR4, ///< packed RGB 1:2:1 bitstream,  4bpp, (msb)1B 2G 1R(lsb), a byte contains two pixels, the first pixel in the byte is the one composed by the 4 msb bits
+    AV_PIX_FMT_BGR4_BYTE, ///< packed RGB 1:2:1,  8bpp, (msb)1B 2G 1R(lsb)
+    AV_PIX_FMT_RGB8, ///< packed RGB 3:3:2,  8bpp, (msb)2R 3G 3B(lsb)
+    AV_PIX_FMT_RGB4, ///< packed RGB 1:2:1 bitstream,  4bpp, (msb)1R 2G 1B(lsb), a byte contains two pixels, the first pixel in the byte is the one composed by the 4 msb bits
+    AV_PIX_FMT_RGB4_BYTE, ///< packed RGB 1:2:1,  8bpp, (msb)1R 2G 1B(lsb)
+    AV_PIX_FMT_NV12, ///< planar YUV 4:2:0, 12bpp, 1 plane for Y and 1 plane for the UV components, which are interleaved (first byte U and the following byte V)
+    AV_PIX_FMT_NV21, ///< as above, but U and V bytes are swapped
+
+    AV_PIX_FMT_ARGB, ///< packed ARGB 8:8:8:8, 32bpp, ARGBARGB...
+    AV_PIX_FMT_RGBA, ///< packed RGBA 8:8:8:8, 32bpp, RGBARGBA...
+    AV_PIX_FMT_ABGR, ///< packed ABGR 8:8:8:8, 32bpp, ABGRABGR...
+    AV_PIX_FMT_BGRA, ///< packed BGRA 8:8:8:8, 32bpp, BGRABGRA...
+
+    AV_PIX_FMT_GRAY16BE, ///<        Y        , 16bpp, big-endian
+    AV_PIX_FMT_GRAY16LE, ///<        Y        , 16bpp, little-endian
+    AV_PIX_FMT_YUV440P, ///< planar YUV 4:4:0 (1 Cr & Cb sample per 1x2 Y samples)
+    AV_PIX_FMT_YUVJ440P, ///< planar YUV 4:4:0 full scale (JPEG), deprecated in favor of PIX_FMT_YUV440P and setting color_range
+    AV_PIX_FMT_YUVA420P, ///< planar YUV 4:2:0, 20bpp, (1 Cr & Cb sample per 2x2 Y & A samples)
+    AV_PIX_FMT_VDPAU_H264,///< H.264 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers
+    AV_PIX_FMT_VDPAU_MPEG1,///< MPEG-1 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers
+    AV_PIX_FMT_VDPAU_MPEG2,///< MPEG-2 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers
+    AV_PIX_FMT_VDPAU_WMV3,///< WMV3 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers
+    AV_PIX_FMT_VDPAU_VC1, ///< VC-1 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers
+    AV_PIX_FMT_RGB48BE, ///< packed RGB 16:16:16, 48bpp, 16R, 16G, 16B, the 2-byte value for each R/G/B component is stored as big-endian
+    AV_PIX_FMT_RGB48LE, ///< packed RGB 16:16:16, 48bpp, 16R, 16G, 16B, the 2-byte value for each R/G/B component is stored as little-endian
+
+    AV_PIX_FMT_RGB565BE, ///< packed RGB 5:6:5, 16bpp, (msb)   5R 6G 5B(lsb), big-endian
+    AV_PIX_FMT_RGB565LE, ///< packed RGB 5:6:5, 16bpp, (msb)   5R 6G 5B(lsb), little-endian
+    AV_PIX_FMT_RGB555BE, ///< packed RGB 5:5:5, 16bpp, (msb)1A 5R 5G 5B(lsb), big-endian, most significant bit to 0
+    AV_PIX_FMT_RGB555LE, ///< packed RGB 5:5:5, 16bpp, (msb)1A 5R 5G 5B(lsb), little-endian, most significant bit to 0
+
+    AV_PIX_FMT_BGR565BE, ///< packed BGR 5:6:5, 16bpp, (msb)   5B 6G 5R(lsb), big-endian
+    AV_PIX_FMT_BGR565LE, ///< packed BGR 5:6:5, 16bpp, (msb)   5B 6G 5R(lsb), little-endian
+    AV_PIX_FMT_BGR555BE, ///< packed BGR 5:5:5, 16bpp, (msb)1A 5B 5G 5R(lsb), big-endian, most significant bit to 1
+    AV_PIX_FMT_BGR555LE, ///< packed BGR 5:5:5, 16bpp, (msb)1A 5B 5G 5R(lsb), little-endian, most significant bit to 1
+
+    AV_PIX_FMT_VAAPI_MOCO, ///< HW acceleration through VA API at motion compensation entry-point, Picture.data[3] contains a vaapi_render_state struct which contains macroblocks as well as various fields extracted from headers
+    AV_PIX_FMT_VAAPI_IDCT, ///< HW acceleration through VA API at IDCT entry-point, Picture.data[3] contains a vaapi_render_state struct which contains fields extracted from headers
+    AV_PIX_FMT_VAAPI_VLD, ///< HW decoding through VA API, Picture.data[3] contains a vaapi_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers
+
+    AV_PIX_FMT_YUV420P16LE, ///< planar YUV 4:2:0, 24bpp, (1 Cr & Cb sample per 2x2 Y samples), little-endian
+    AV_PIX_FMT_YUV420P16BE, ///< planar YUV 4:2:0, 24bpp, (1 Cr & Cb sample per 2x2 Y samples), big-endian
+    AV_PIX_FMT_YUV422P16LE, ///< planar YUV 4:2:2, 32bpp, (1 Cr & Cb sample per 2x1 Y samples), little-endian
+    AV_PIX_FMT_YUV422P16BE, ///< planar YUV 4:2:2, 32bpp, (1 Cr & Cb sample per 2x1 Y samples), big-endian
+    AV_PIX_FMT_YUV444P16LE, ///< planar YUV 4:4:4, 48bpp, (1 Cr & Cb sample per 1x1 Y samples), little-endian
+    AV_PIX_FMT_YUV444P16BE, ///< planar YUV 4:4:4, 48bpp, (1 Cr & Cb sample per 1x1 Y samples), big-endian
+    AV_PIX_FMT_VDPAU_MPEG4, ///< MPEG4 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers
+    AV_PIX_FMT_DXVA2_VLD, ///< HW decoding through DXVA2, Picture.data[3] contains a LPDIRECT3DSURFACE9 pointer
+
+    AV_PIX_FMT_RGB444LE, ///< packed RGB 4:4:4, 16bpp, (msb)4A 4R 4G 4B(lsb), little-endian, most significant bits to 0
+    AV_PIX_FMT_RGB444BE, ///< packed RGB 4:4:4, 16bpp, (msb)4A 4R 4G 4B(lsb), big-endian, most significant bits to 0
+    AV_PIX_FMT_BGR444LE, ///< packed BGR 4:4:4, 16bpp, (msb)4A 4B 4G 4R(lsb), little-endian, most significant bits to 1
+    AV_PIX_FMT_BGR444BE, ///< packed BGR 4:4:4, 16bpp, (msb)4A 4B 4G 4R(lsb), big-endian, most significant bits to 1
+    AV_PIX_FMT_GRAY8A, ///< 8bit gray, 8bit alpha
+    AV_PIX_FMT_BGR48BE, ///< packed RGB 16:16:16, 48bpp, 16B, 16G, 16R, the 2-byte value for each R/G/B component is stored as big-endian
+    AV_PIX_FMT_BGR48LE, ///< packed RGB 16:16:16, 48bpp, 16B, 16G, 16R, the 2-byte value for each R/G/B component is stored as little-endian
+
+    //the following 10 formats have the disadvantage of needing 1 format for each bit depth, thus
+    //If you want to support multiple bit depths, then using AV_PIX_FMT_YUV420P16* with the bpp stored separately
+    //is better
+    AV_PIX_FMT_YUV420P9BE, ///< planar YUV 4:2:0, 13.5bpp, (1 Cr & Cb sample per 2x2 Y samples), big-endian
+    AV_PIX_FMT_YUV420P9LE, ///< planar YUV 4:2:0, 13.5bpp, (1 Cr & Cb sample per 2x2 Y samples), little-endian
+    AV_PIX_FMT_YUV420P10BE,///< planar YUV 4:2:0, 15bpp, (1 Cr & Cb sample per 2x2 Y samples), big-endian
+    AV_PIX_FMT_YUV420P10LE,///< planar YUV 4:2:0, 15bpp, (1 Cr & Cb sample per 2x2 Y samples), little-endian
+    AV_PIX_FMT_YUV422P10BE,///< planar YUV 4:2:2, 20bpp, (1 Cr & Cb sample per 2x1 Y samples), big-endian
+    AV_PIX_FMT_YUV422P10LE,///< planar YUV 4:2:2, 20bpp, (1 Cr & Cb sample per 2x1 Y samples), little-endian
+    AV_PIX_FMT_YUV444P9BE, ///< planar YUV 4:4:4, 27bpp, (1 Cr & Cb sample per 1x1 Y samples), big-endian
+    AV_PIX_FMT_YUV444P9LE, ///< planar YUV 4:4:4, 27bpp, (1 Cr & Cb sample per 1x1 Y samples), little-endian
+    AV_PIX_FMT_YUV444P10BE,///< planar YUV 4:4:4, 30bpp, (1 Cr & Cb sample per 1x1 Y samples), big-endian
+    AV_PIX_FMT_YUV444P10LE,///< planar YUV 4:4:4, 30bpp, (1 Cr & Cb sample per 1x1 Y samples), little-endian
+    AV_PIX_FMT_YUV422P9BE, ///< planar YUV 4:2:2, 18bpp, (1 Cr & Cb sample per 2x1 Y samples), big-endian
+    AV_PIX_FMT_YUV422P9LE, ///< planar YUV 4:2:2, 18bpp, (1 Cr & Cb sample per 2x1 Y samples), little-endian
+    AV_PIX_FMT_VDA_VLD, ///< hardware decoding through VDA
+
+    AV_PIX_FMT_GBRP, ///< planar GBR 4:4:4 24bpp
+    AV_PIX_FMT_GBRP9BE, ///< planar GBR 4:4:4 27bpp, big-endian
+    AV_PIX_FMT_GBRP9LE, ///< planar GBR 4:4:4 27bpp, little-endian
+    AV_PIX_FMT_GBRP10BE, ///< planar GBR 4:4:4 30bpp, big-endian
+    AV_PIX_FMT_GBRP10LE, ///< planar GBR 4:4:4 30bpp, little-endian
+    AV_PIX_FMT_GBRP16BE, ///< planar GBR 4:4:4 48bpp, big-endian
+    AV_PIX_FMT_GBRP16LE, ///< planar GBR 4:4:4 48bpp, little-endian
+
+    /**
+     * duplicated pixel formats for compatibility with libav.
+     * FFmpeg supports these formats since May 8 2012 and Jan 28 2012 (commits f9ca1ac7 and 143a5c55)
+     * Libav added them Oct 12 2012 with incompatible values (commit 6d5600e85)
+     */
+    AV_PIX_FMT_YUVA422P_LIBAV, ///< planar YUV 4:2:2 24bpp, (1 Cr & Cb sample per 2x1 Y & A samples)
+    AV_PIX_FMT_YUVA444P_LIBAV, ///< planar YUV 4:4:4 32bpp, (1 Cr & Cb sample per 1x1 Y & A samples)
+
+    AV_PIX_FMT_YUVA420P9BE, ///< planar YUV 4:2:0 22.5bpp, (1 Cr & Cb sample per 2x2 Y & A samples), big-endian
+    AV_PIX_FMT_YUVA420P9LE, ///< planar YUV 4:2:0 22.5bpp, (1 Cr & Cb sample per 2x2 Y & A samples), little-endian
+    AV_PIX_FMT_YUVA422P9BE, ///< planar YUV 4:2:2 27bpp, (1 Cr & Cb sample per 2x1 Y & A samples), big-endian
+    AV_PIX_FMT_YUVA422P9LE, ///< planar YUV 4:2:2 27bpp, (1 Cr & Cb sample per 2x1 Y & A samples), little-endian
+    AV_PIX_FMT_YUVA444P9BE, ///< planar YUV 4:4:4 36bpp, (1 Cr & Cb sample per 1x1 Y & A samples), big-endian
+    AV_PIX_FMT_YUVA444P9LE, ///< planar YUV 4:4:4 36bpp, (1 Cr & Cb sample per 1x1 Y & A samples), little-endian
+    AV_PIX_FMT_YUVA420P10BE, ///< planar YUV 4:2:0 25bpp, (1 Cr & Cb sample per 2x2 Y & A samples, big-endian)
+    AV_PIX_FMT_YUVA420P10LE, ///< planar YUV 4:2:0 25bpp, (1 Cr & Cb sample per 2x2 Y & A samples, little-endian)
+    AV_PIX_FMT_YUVA422P10BE, ///< planar YUV 4:2:2 30bpp, (1 Cr & Cb sample per 2x1 Y & A samples, big-endian)
+    AV_PIX_FMT_YUVA422P10LE, ///< planar YUV 4:2:2 30bpp, (1 Cr & Cb sample per 2x1 Y & A samples, little-endian)
+    AV_PIX_FMT_YUVA444P10BE, ///< planar YUV 4:4:4 40bpp, (1 Cr & Cb sample per 1x1 Y & A samples, big-endian)
+    AV_PIX_FMT_YUVA444P10LE, ///< planar YUV 4:4:4 40bpp, (1 Cr & Cb sample per 1x1 Y & A samples, little-endian)
+    AV_PIX_FMT_YUVA420P16BE, ///< planar YUV 4:2:0 40bpp, (1 Cr & Cb sample per 2x2 Y & A samples, big-endian)
+    AV_PIX_FMT_YUVA420P16LE, ///< planar YUV 4:2:0 40bpp, (1 Cr & Cb sample per 2x2 Y & A samples, little-endian)
+    AV_PIX_FMT_YUVA422P16BE, ///< planar YUV 4:2:2 48bpp, (1 Cr & Cb sample per 2x1 Y & A samples, big-endian)
+    AV_PIX_FMT_YUVA422P16LE, ///< planar YUV 4:2:2 48bpp, (1 Cr & Cb sample per 2x1 Y & A samples, little-endian)
+    AV_PIX_FMT_YUVA444P16BE, ///< planar YUV 4:4:4 64bpp, (1 Cr & Cb sample per 1x1 Y & A samples, big-endian)
+    AV_PIX_FMT_YUVA444P16LE, ///< planar YUV 4:4:4 64bpp, (1 Cr & Cb sample per 1x1 Y & A samples, little-endian)
+
+    AV_PIX_FMT_VDPAU, ///< HW acceleration through VDPAU, Picture.data[3] contains a VdpVideoSurface
+
+    AV_PIX_FMT_XYZ12LE, ///< packed XYZ 4:4:4, 36 bpp, (msb) 12X, 12Y, 12Z (lsb), the 2-byte value for each X/Y/Z is stored as little-endian, the 4 lower bits are set to 0
+    AV_PIX_FMT_XYZ12BE, ///< packed XYZ 4:4:4, 36 bpp, (msb) 12X, 12Y, 12Z (lsb), the 2-byte value for each X/Y/Z is stored as big-endian, the 4 lower bits are set to 0
+
+    AV_PIX_FMT_RGBA64BE=0x123, ///< packed RGBA 16:16:16:16, 64bpp, 16R, 16G, 16B, 16A, the 2-byte value for each R/G/B/A component is stored as big-endian
+    AV_PIX_FMT_RGBA64LE, ///< packed RGBA 16:16:16:16, 64bpp, 16R, 16G, 16B, 16A, the 2-byte value for each R/G/B/A component is stored as little-endian
+    AV_PIX_FMT_BGRA64BE, ///< packed RGBA 16:16:16:16, 64bpp, 16B, 16G, 16R, 16A, the 2-byte value for each R/G/B/A component is stored as big-endian
+    AV_PIX_FMT_BGRA64LE, ///< packed RGBA 16:16:16:16, 64bpp, 16B, 16G, 16R, 16A, the 2-byte value for each R/G/B/A component is stored as little-endian
+
+    AV_PIX_FMT_0RGB=0x123+4, ///< packed RGB 8:8:8, 32bpp, 0RGB0RGB...
+    AV_PIX_FMT_RGB0, ///< packed RGB 8:8:8, 32bpp, RGB0RGB0...
+    AV_PIX_FMT_0BGR, ///< packed BGR 8:8:8, 32bpp, 0BGR0BGR...
+    AV_PIX_FMT_BGR0, ///< packed BGR 8:8:8, 32bpp, BGR0BGR0...
+    AV_PIX_FMT_YUVA444P, ///< planar YUV 4:4:4 32bpp, (1 Cr & Cb sample per 1x1 Y & A samples)
+    AV_PIX_FMT_YUVA422P, ///< planar YUV 4:2:2 24bpp, (1 Cr & Cb sample per 2x1 Y & A samples)
+
+    AV_PIX_FMT_YUV420P12BE, ///< planar YUV 4:2:0,18bpp, (1 Cr & Cb sample per 2x2 Y samples), big-endian
+    AV_PIX_FMT_YUV420P12LE, ///< planar YUV 4:2:0,18bpp, (1 Cr & Cb sample per 2x2 Y samples), little-endian
+    AV_PIX_FMT_YUV420P14BE, ///< planar YUV 4:2:0,21bpp, (1 Cr & Cb sample per 2x2 Y samples), big-endian
+    AV_PIX_FMT_YUV420P14LE, ///< planar YUV 4:2:0,21bpp, (1 Cr & Cb sample per 2x2 Y samples), little-endian
+    AV_PIX_FMT_YUV422P12BE, ///< planar YUV 4:2:2,24bpp, (1 Cr & Cb sample per 2x1 Y samples), big-endian
+    AV_PIX_FMT_YUV422P12LE, ///< planar YUV 4:2:2,24bpp, (1 Cr & Cb sample per 2x1 Y samples), little-endian
+    AV_PIX_FMT_YUV422P14BE, ///< planar YUV 4:2:2,28bpp, (1 Cr & Cb sample per 2x1 Y samples), big-endian
+    AV_PIX_FMT_YUV422P14LE, ///< planar YUV 4:2:2,28bpp, (1 Cr & Cb sample per 2x1 Y samples), little-endian
+    AV_PIX_FMT_YUV444P12BE, ///< planar YUV 4:4:4,36bpp, (1 Cr & Cb sample per 1x1 Y samples), big-endian
+    AV_PIX_FMT_YUV444P12LE, ///< planar YUV 4:4:4,36bpp, (1 Cr & Cb sample per 1x1 Y samples), little-endian
+    AV_PIX_FMT_YUV444P14BE, ///< planar YUV 4:4:4,42bpp, (1 Cr & Cb sample per 1x1 Y samples), big-endian
+    AV_PIX_FMT_YUV444P14LE, ///< planar YUV 4:4:4,42bpp, (1 Cr & Cb sample per 1x1 Y samples), little-endian
+    AV_PIX_FMT_GBRP12BE, ///< planar GBR 4:4:4 36bpp, big-endian
+    AV_PIX_FMT_GBRP12LE, ///< planar GBR 4:4:4 36bpp, little-endian
+    AV_PIX_FMT_GBRP14BE, ///< planar GBR 4:4:4 42bpp, big-endian
+    AV_PIX_FMT_GBRP14LE, ///< planar GBR 4:4:4 42bpp, little-endian
+    AV_PIX_FMT_GBRAP, ///< planar GBRA 4:4:4:4 32bpp
+    AV_PIX_FMT_GBRAP16BE, ///< planar GBRA 4:4:4:4 64bpp, big-endian
+    AV_PIX_FMT_GBRAP16LE, ///< planar GBRA 4:4:4:4 64bpp, little-endian
+    AV_PIX_FMT_YUVJ411P, ///< planar YUV 4:1:1, 12bpp, (1 Cr & Cb sample per 4x1 Y samples) full scale (JPEG), deprecated in favor of PIX_FMT_YUV411P and setting color_range
+    AV_PIX_FMT_NB, ///< number of pixel formats, DO NOT USE THIS if you want to link with shared libav* because the number of formats might differ between versions
+
+// --------------------------------[ include/libavutil/old_pix_fmts.h ]--------------------------------
+/*
+ * copyright (c) 2006-2012 Michael Niedermayer <michaelni@gmx.at>
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+#define AVUTIL_OLD_PIX_FMTS_H 
+
+/*
+ * This header exists to prevent new pixel formats from being accidentally added
+ * to the deprecated list.
+ * Do not include it directly. It will be removed on next major bump
+ *
+ * Do not add new items to this list. Use the AVPixelFormat enum instead.
+ */
+    PIX_FMT_NONE = AV_PIX_FMT_NONE,
+    PIX_FMT_YUV420P, ///< planar YUV 4:2:0, 12bpp, (1 Cr & Cb sample per 2x2 Y samples)
+    PIX_FMT_YUYV422, ///< packed YUV 4:2:2, 16bpp, Y0 Cb Y1 Cr
+    PIX_FMT_RGB24, ///< packed RGB 8:8:8, 24bpp, RGBRGB...
+    PIX_FMT_BGR24, ///< packed RGB 8:8:8, 24bpp, BGRBGR...
+    PIX_FMT_YUV422P, ///< planar YUV 4:2:2, 16bpp, (1 Cr & Cb sample per 2x1 Y samples)
+    PIX_FMT_YUV444P, ///< planar YUV 4:4:4, 24bpp, (1 Cr & Cb sample per 1x1 Y samples)
+    PIX_FMT_YUV410P, ///< planar YUV 4:1:0,  9bpp, (1 Cr & Cb sample per 4x4 Y samples)
+    PIX_FMT_YUV411P, ///< planar YUV 4:1:1, 12bpp, (1 Cr & Cb sample per 4x1 Y samples)
+    PIX_FMT_GRAY8, ///<        Y        ,  8bpp
+    PIX_FMT_MONOWHITE, ///<        Y        ,  1bpp, 0 is white, 1 is black, in each byte pixels are ordered from the msb to the lsb
+    PIX_FMT_MONOBLACK, ///<        Y        ,  1bpp, 0 is black, 1 is white, in each byte pixels are ordered from the msb to the lsb
+    PIX_FMT_PAL8, ///< 8 bit with PIX_FMT_RGB32 palette
+    PIX_FMT_YUVJ420P, ///< planar YUV 4:2:0, 12bpp, full scale (JPEG), deprecated in favor of PIX_FMT_YUV420P and setting color_range
+    PIX_FMT_YUVJ422P, ///< planar YUV 4:2:2, 16bpp, full scale (JPEG), deprecated in favor of PIX_FMT_YUV422P and setting color_range
+    PIX_FMT_YUVJ444P, ///< planar YUV 4:4:4, 24bpp, full scale (JPEG), deprecated in favor of PIX_FMT_YUV444P and setting color_range
+    PIX_FMT_XVMC_MPEG2_MC,///< XVideo Motion Acceleration via common packet passing
+    PIX_FMT_XVMC_MPEG2_IDCT,
+    PIX_FMT_UYVY422, ///< packed YUV 4:2:2, 16bpp, Cb Y0 Cr Y1
+    PIX_FMT_UYYVYY411, ///< packed YUV 4:1:1, 12bpp, Cb Y0 Y1 Cr Y2 Y3
+    PIX_FMT_BGR8, ///< packed RGB 3:3:2,  8bpp, (msb)2B 3G 3R(lsb)
+    PIX_FMT_BGR4, ///< packed RGB 1:2:1 bitstream,  4bpp, (msb)1B 2G 1R(lsb), a byte contains two pixels, the first pixel in the byte is the one composed by the 4 msb bits
+    PIX_FMT_BGR4_BYTE, ///< packed RGB 1:2:1,  8bpp, (msb)1B 2G 1R(lsb)
+    PIX_FMT_RGB8, ///< packed RGB 3:3:2,  8bpp, (msb)2R 3G 3B(lsb)
+    PIX_FMT_RGB4, ///< packed RGB 1:2:1 bitstream,  4bpp, (msb)1R 2G 1B(lsb), a byte contains two pixels, the first pixel in the byte is the one composed by the 4 msb bits
+    PIX_FMT_RGB4_BYTE, ///< packed RGB 1:2:1,  8bpp, (msb)1R 2G 1B(lsb)
+    PIX_FMT_NV12, ///< planar YUV 4:2:0, 12bpp, 1 plane for Y and 1 plane for the UV components, which are interleaved (first byte U and the following byte V)
+    PIX_FMT_NV21, ///< as above, but U and V bytes are swapped
+
+    PIX_FMT_ARGB, ///< packed ARGB 8:8:8:8, 32bpp, ARGBARGB...
+    PIX_FMT_RGBA, ///< packed RGBA 8:8:8:8, 32bpp, RGBARGBA...
+    PIX_FMT_ABGR, ///< packed ABGR 8:8:8:8, 32bpp, ABGRABGR...
+    PIX_FMT_BGRA, ///< packed BGRA 8:8:8:8, 32bpp, BGRABGRA...
+
+    PIX_FMT_GRAY16BE, ///<        Y        , 16bpp, big-endian
+    PIX_FMT_GRAY16LE, ///<        Y        , 16bpp, little-endian
+    PIX_FMT_YUV440P, ///< planar YUV 4:4:0 (1 Cr & Cb sample per 1x2 Y samples)
+    PIX_FMT_YUVJ440P, ///< planar YUV 4:4:0 full scale (JPEG), deprecated in favor of PIX_FMT_YUV440P and setting color_range
+    PIX_FMT_YUVA420P, ///< planar YUV 4:2:0, 20bpp, (1 Cr & Cb sample per 2x2 Y & A samples)
+    PIX_FMT_VDPAU_H264,///< H.264 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers
+    PIX_FMT_VDPAU_MPEG1,///< MPEG-1 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers
+    PIX_FMT_VDPAU_MPEG2,///< MPEG-2 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers
+    PIX_FMT_VDPAU_WMV3,///< WMV3 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers
+    PIX_FMT_VDPAU_VC1, ///< VC-1 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers
+    PIX_FMT_RGB48BE, ///< packed RGB 16:16:16, 48bpp, 16R, 16G, 16B, the 2-byte value for each R/G/B component is stored as big-endian
+    PIX_FMT_RGB48LE, ///< packed RGB 16:16:16, 48bpp, 16R, 16G, 16B, the 2-byte value for each R/G/B component is stored as little-endian
+
+    PIX_FMT_RGB565BE, ///< packed RGB 5:6:5, 16bpp, (msb)   5R 6G 5B(lsb), big-endian
+    PIX_FMT_RGB565LE, ///< packed RGB 5:6:5, 16bpp, (msb)   5R 6G 5B(lsb), little-endian
+    PIX_FMT_RGB555BE, ///< packed RGB 5:5:5, 16bpp, (msb)1A 5R 5G 5B(lsb), big-endian, most significant bit to 0
+    PIX_FMT_RGB555LE, ///< packed RGB 5:5:5, 16bpp, (msb)1A 5R 5G 5B(lsb), little-endian, most significant bit to 0
+
+    PIX_FMT_BGR565BE, ///< packed BGR 5:6:5, 16bpp, (msb)   5B 6G 5R(lsb), big-endian
+    PIX_FMT_BGR565LE, ///< packed BGR 5:6:5, 16bpp, (msb)   5B 6G 5R(lsb), little-endian
+    PIX_FMT_BGR555BE, ///< packed BGR 5:5:5, 16bpp, (msb)1A 5B 5G 5R(lsb), big-endian, most significant bit to 1
+    PIX_FMT_BGR555LE, ///< packed BGR 5:5:5, 16bpp, (msb)1A 5B 5G 5R(lsb), little-endian, most significant bit to 1
+
+    PIX_FMT_VAAPI_MOCO, ///< HW acceleration through VA API at motion compensation entry-point, Picture.data[3] contains a vaapi_render_state struct which contains macroblocks as well as various fields extracted from headers
+    PIX_FMT_VAAPI_IDCT, ///< HW acceleration through VA API at IDCT entry-point, Picture.data[3] contains a vaapi_render_state struct which contains fields extracted from headers
+    PIX_FMT_VAAPI_VLD, ///< HW decoding through VA API, Picture.data[3] contains a vaapi_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers
+
+    PIX_FMT_YUV420P16LE, ///< planar YUV 4:2:0, 24bpp, (1 Cr & Cb sample per 2x2 Y samples), little-endian
+    PIX_FMT_YUV420P16BE, ///< planar YUV 4:2:0, 24bpp, (1 Cr & Cb sample per 2x2 Y samples), big-endian
+    PIX_FMT_YUV422P16LE, ///< planar YUV 4:2:2, 32bpp, (1 Cr & Cb sample per 2x1 Y samples), little-endian
+    PIX_FMT_YUV422P16BE, ///< planar YUV 4:2:2, 32bpp, (1 Cr & Cb sample per 2x1 Y samples), big-endian
+    PIX_FMT_YUV444P16LE, ///< planar YUV 4:4:4, 48bpp, (1 Cr & Cb sample per 1x1 Y samples), little-endian
+    PIX_FMT_YUV444P16BE, ///< planar YUV 4:4:4, 48bpp, (1 Cr & Cb sample per 1x1 Y samples), big-endian
+    PIX_FMT_VDPAU_MPEG4, ///< MPEG4 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers
+    PIX_FMT_DXVA2_VLD, ///< HW decoding through DXVA2, Picture.data[3] contains a LPDIRECT3DSURFACE9 pointer
+
+    PIX_FMT_RGB444LE, ///< packed RGB 4:4:4, 16bpp, (msb)4A 4R 4G 4B(lsb), little-endian, most significant bits to 0
+    PIX_FMT_RGB444BE, ///< packed RGB 4:4:4, 16bpp, (msb)4A 4R 4G 4B(lsb), big-endian, most significant bits to 0
+    PIX_FMT_BGR444LE, ///< packed BGR 4:4:4, 16bpp, (msb)4A 4B 4G 4R(lsb), little-endian, most significant bits to 1
+    PIX_FMT_BGR444BE, ///< packed BGR 4:4:4, 16bpp, (msb)4A 4B 4G 4R(lsb), big-endian, most significant bits to 1
+    PIX_FMT_GRAY8A, ///< 8bit gray, 8bit alpha
+    PIX_FMT_BGR48BE, ///< packed RGB 16:16:16, 48bpp, 16B, 16G, 16R, the 2-byte value for each R/G/B component is stored as big-endian
+    PIX_FMT_BGR48LE, ///< packed RGB 16:16:16, 48bpp, 16B, 16G, 16R, the 2-byte value for each R/G/B component is stored as little-endian
+
+    //the following 10 formats have the disadvantage of needing 1 format for each bit depth, thus
+    //If you want to support multiple bit depths, then using PIX_FMT_YUV420P16* with the bpp stored separately
+    //is better
+    PIX_FMT_YUV420P9BE, ///< planar YUV 4:2:0, 13.5bpp, (1 Cr & Cb sample per 2x2 Y samples), big-endian
+    PIX_FMT_YUV420P9LE, ///< planar YUV 4:2:0, 13.5bpp, (1 Cr & Cb sample per 2x2 Y samples), little-endian
+    PIX_FMT_YUV420P10BE,///< planar YUV 4:2:0, 15bpp, (1 Cr & Cb sample per 2x2 Y samples), big-endian
+    PIX_FMT_YUV420P10LE,///< planar YUV 4:2:0, 15bpp, (1 Cr & Cb sample per 2x2 Y samples), little-endian
+    PIX_FMT_YUV422P10BE,///< planar YUV 4:2:2, 20bpp, (1 Cr & Cb sample per 2x1 Y samples), big-endian
+    PIX_FMT_YUV422P10LE,///< planar YUV 4:2:2, 20bpp, (1 Cr & Cb sample per 2x1 Y samples), little-endian
+    PIX_FMT_YUV444P9BE, ///< planar YUV 4:4:4, 27bpp, (1 Cr & Cb sample per 1x1 Y samples), big-endian
+    PIX_FMT_YUV444P9LE, ///< planar YUV 4:4:4, 27bpp, (1 Cr & Cb sample per 1x1 Y samples), little-endian
+    PIX_FMT_YUV444P10BE,///< planar YUV 4:4:4, 30bpp, (1 Cr & Cb sample per 1x1 Y samples), big-endian
+    PIX_FMT_YUV444P10LE,///< planar YUV 4:4:4, 30bpp, (1 Cr & Cb sample per 1x1 Y samples), little-endian
+    PIX_FMT_YUV422P9BE, ///< planar YUV 4:2:2, 18bpp, (1 Cr & Cb sample per 2x1 Y samples), big-endian
+    PIX_FMT_YUV422P9LE, ///< planar YUV 4:2:2, 18bpp, (1 Cr & Cb sample per 2x1 Y samples), little-endian
+    PIX_FMT_VDA_VLD, ///< hardware decoding through VDA
+
+    PIX_FMT_GBRP, ///< planar GBR 4:4:4 24bpp
+    PIX_FMT_GBRP9BE, ///< planar GBR 4:4:4 27bpp, big endian
+    PIX_FMT_GBRP9LE, ///< planar GBR 4:4:4 27bpp, little endian
+    PIX_FMT_GBRP10BE, ///< planar GBR 4:4:4 30bpp, big endian
+    PIX_FMT_GBRP10LE, ///< planar GBR 4:4:4 30bpp, little endian
+    PIX_FMT_GBRP16BE, ///< planar GBR 4:4:4 48bpp, big endian
+    PIX_FMT_GBRP16LE, ///< planar GBR 4:4:4 48bpp, little endian
+
+    PIX_FMT_RGBA64BE=0x123, ///< packed RGBA 16:16:16:16, 64bpp, 16R, 16G, 16B, 16A, the 2-byte value for each R/G/B/A component is stored as big-endian
+    PIX_FMT_RGBA64LE, ///< packed RGBA 16:16:16:16, 64bpp, 16R, 16G, 16B, 16A, the 2-byte value for each R/G/B/A component is stored as little-endian
+    PIX_FMT_BGRA64BE, ///< packed RGBA 16:16:16:16, 64bpp, 16B, 16G, 16R, 16A, the 2-byte value for each R/G/B/A component is stored as big-endian
+    PIX_FMT_BGRA64LE, ///< packed RGBA 16:16:16:16, 64bpp, 16B, 16G, 16R, 16A, the 2-byte value for each R/G/B/A component is stored as little-endian
+
+    PIX_FMT_0RGB=0x123+4, ///< packed RGB 8:8:8, 32bpp, 0RGB0RGB...
+    PIX_FMT_RGB0, ///< packed RGB 8:8:8, 32bpp, RGB0RGB0...
+    PIX_FMT_0BGR, ///< packed BGR 8:8:8, 32bpp, 0BGR0BGR...
+    PIX_FMT_BGR0, ///< packed BGR 8:8:8, 32bpp, BGR0BGR0...
+    PIX_FMT_YUVA444P, ///< planar YUV 4:4:4 32bpp, (1 Cr & Cb sample per 1x1 Y & A samples)
+    PIX_FMT_YUVA422P, ///< planar YUV 4:2:2 24bpp, (1 Cr & Cb sample per 2x1 Y & A samples)
+
+    PIX_FMT_YUV420P12BE, ///< planar YUV 4:2:0,18bpp, (1 Cr & Cb sample per 2x2 Y samples), big-endian
+    PIX_FMT_YUV420P12LE, ///< planar YUV 4:2:0,18bpp, (1 Cr & Cb sample per 2x2 Y samples), little-endian
+    PIX_FMT_YUV420P14BE, ///< planar YUV 4:2:0,21bpp, (1 Cr & Cb sample per 2x2 Y samples), big-endian
+    PIX_FMT_YUV420P14LE, ///< planar YUV 4:2:0,21bpp, (1 Cr & Cb sample per 2x2 Y samples), little-endian
+    PIX_FMT_YUV422P12BE, ///< planar YUV 4:2:2,24bpp, (1 Cr & Cb sample per 2x1 Y samples), big-endian
+    PIX_FMT_YUV422P12LE, ///< planar YUV 4:2:2,24bpp, (1 Cr & Cb sample per 2x1 Y samples), little-endian
+    PIX_FMT_YUV422P14BE, ///< planar YUV 4:2:2,28bpp, (1 Cr & Cb sample per 2x1 Y samples), big-endian
+    PIX_FMT_YUV422P14LE, ///< planar YUV 4:2:2,28bpp, (1 Cr & Cb sample per 2x1 Y samples), little-endian
+    PIX_FMT_YUV444P12BE, ///< planar YUV 4:4:4,36bpp, (1 Cr & Cb sample per 1x1 Y samples), big-endian
+    PIX_FMT_YUV444P12LE, ///< planar YUV 4:4:4,36bpp, (1 Cr & Cb sample per 1x1 Y samples), little-endian
+    PIX_FMT_YUV444P14BE, ///< planar YUV 4:4:4,42bpp, (1 Cr & Cb sample per 1x1 Y samples), big-endian
+    PIX_FMT_YUV444P14LE, ///< planar YUV 4:4:4,42bpp, (1 Cr & Cb sample per 1x1 Y samples), little-endian
+    PIX_FMT_GBRP12BE, ///< planar GBR 4:4:4 36bpp, big endian
+    PIX_FMT_GBRP12LE, ///< planar GBR 4:4:4 36bpp, little endian
+    PIX_FMT_GBRP14BE, ///< planar GBR 4:4:4 42bpp, big endian
+    PIX_FMT_GBRP14LE, ///< planar GBR 4:4:4 42bpp, little endian
+
+    PIX_FMT_NB, ///< number of pixel formats, DO NOT USE THIS if you want to link with shared libav* because the number of formats might differ between versions
+// ================================[ include/libavutil/old_pix_fmts.h ]================================
+
+};
+
+#define AV_PIX_FMT_Y400A AV_PIX_FMT_GRAY8A
+#define AV_PIX_FMT_GBR24P AV_PIX_FMT_GBRP
+
+#define AV_PIX_FMT_NE(be,le) AV_PIX_FMT_ ##le
+
+#define AV_PIX_FMT_RGB32 AV_PIX_FMT_NE(ARGB, BGRA)
+#define AV_PIX_FMT_RGB32_1 AV_PIX_FMT_NE(RGBA, ABGR)
+#define AV_PIX_FMT_BGR32 AV_PIX_FMT_NE(ABGR, RGBA)
+#define AV_PIX_FMT_BGR32_1 AV_PIX_FMT_NE(BGRA, ARGB)
+#define AV_PIX_FMT_0RGB32 AV_PIX_FMT_NE(0RGB, BGR0)
+#define AV_PIX_FMT_0BGR32 AV_PIX_FMT_NE(0BGR, RGB0)
+
+#define AV_PIX_FMT_GRAY16 AV_PIX_FMT_NE(GRAY16BE, GRAY16LE)
+#define AV_PIX_FMT_RGB48 AV_PIX_FMT_NE(RGB48BE, RGB48LE)
+#define AV_PIX_FMT_RGB565 AV_PIX_FMT_NE(RGB565BE, RGB565LE)
+#define AV_PIX_FMT_RGB555 AV_PIX_FMT_NE(RGB555BE, RGB555LE)
+#define AV_PIX_FMT_RGB444 AV_PIX_FMT_NE(RGB444BE, RGB444LE)
+#define AV_PIX_FMT_BGR48 AV_PIX_FMT_NE(BGR48BE, BGR48LE)
+#define AV_PIX_FMT_BGR565 AV_PIX_FMT_NE(BGR565BE, BGR565LE)
+#define AV_PIX_FMT_BGR555 AV_PIX_FMT_NE(BGR555BE, BGR555LE)
+#define AV_PIX_FMT_BGR444 AV_PIX_FMT_NE(BGR444BE, BGR444LE)
+
+#define AV_PIX_FMT_YUV420P9 AV_PIX_FMT_NE(YUV420P9BE , YUV420P9LE)
+#define AV_PIX_FMT_YUV422P9 AV_PIX_FMT_NE(YUV422P9BE , YUV422P9LE)
+#define AV_PIX_FMT_YUV444P9 AV_PIX_FMT_NE(YUV444P9BE , YUV444P9LE)
+#define AV_PIX_FMT_YUV420P10 AV_PIX_FMT_NE(YUV420P10BE, YUV420P10LE)
+#define AV_PIX_FMT_YUV422P10 AV_PIX_FMT_NE(YUV422P10BE, YUV422P10LE)
+#define AV_PIX_FMT_YUV444P10 AV_PIX_FMT_NE(YUV444P10BE, YUV444P10LE)
+#define AV_PIX_FMT_YUV420P12 AV_PIX_FMT_NE(YUV420P12BE, YUV420P12LE)
+#define AV_PIX_FMT_YUV422P12 AV_PIX_FMT_NE(YUV422P12BE, YUV422P12LE)
+#define AV_PIX_FMT_YUV444P12 AV_PIX_FMT_NE(YUV444P12BE, YUV444P12LE)
+#define AV_PIX_FMT_YUV420P14 AV_PIX_FMT_NE(YUV420P14BE, YUV420P14LE)
+#define AV_PIX_FMT_YUV422P14 AV_PIX_FMT_NE(YUV422P14BE, YUV422P14LE)
+#define AV_PIX_FMT_YUV444P14 AV_PIX_FMT_NE(YUV444P14BE, YUV444P14LE)
+#define AV_PIX_FMT_YUV420P16 AV_PIX_FMT_NE(YUV420P16BE, YUV420P16LE)
+#define AV_PIX_FMT_YUV422P16 AV_PIX_FMT_NE(YUV422P16BE, YUV422P16LE)
+#define AV_PIX_FMT_YUV444P16 AV_PIX_FMT_NE(YUV444P16BE, YUV444P16LE)
+
+#define AV_PIX_FMT_RGBA64 AV_PIX_FMT_NE(RGBA64BE, RGBA64LE)
+#define AV_PIX_FMT_BGRA64 AV_PIX_FMT_NE(BGRA64BE, BGRA64LE)
+#define AV_PIX_FMT_GBRP9 AV_PIX_FMT_NE(GBRP9BE , GBRP9LE)
+#define AV_PIX_FMT_GBRP10 AV_PIX_FMT_NE(GBRP10BE, GBRP10LE)
+#define AV_PIX_FMT_GBRP12 AV_PIX_FMT_NE(GBRP12BE, GBRP12LE)
+#define AV_PIX_FMT_GBRP14 AV_PIX_FMT_NE(GBRP14BE, GBRP14LE)
+#define AV_PIX_FMT_GBRP16 AV_PIX_FMT_NE(GBRP16BE, GBRP16LE)
+
+#define AV_PIX_FMT_YUVA420P9 AV_PIX_FMT_NE(YUVA420P9BE , YUVA420P9LE)
+#define AV_PIX_FMT_YUVA422P9 AV_PIX_FMT_NE(YUVA422P9BE , YUVA422P9LE)
+#define AV_PIX_FMT_YUVA444P9 AV_PIX_FMT_NE(YUVA444P9BE , YUVA444P9LE)
+#define AV_PIX_FMT_YUVA420P10 AV_PIX_FMT_NE(YUVA420P10BE, YUVA420P10LE)
+#define AV_PIX_FMT_YUVA422P10 AV_PIX_FMT_NE(YUVA422P10BE, YUVA422P10LE)
+#define AV_PIX_FMT_YUVA444P10 AV_PIX_FMT_NE(YUVA444P10BE, YUVA444P10LE)
+#define AV_PIX_FMT_YUVA420P16 AV_PIX_FMT_NE(YUVA420P16BE, YUVA420P16LE)
+#define AV_PIX_FMT_YUVA422P16 AV_PIX_FMT_NE(YUVA422P16BE, YUVA422P16LE)
+#define AV_PIX_FMT_YUVA444P16 AV_PIX_FMT_NE(YUVA444P16BE, YUVA444P16LE)
+
+#define AV_PIX_FMT_XYZ12 AV_PIX_FMT_NE(XYZ12BE, XYZ12LE)
+
+#define PixelFormat AVPixelFormat
+
+#define PIX_FMT_Y400A AV_PIX_FMT_Y400A
+#define PIX_FMT_GBR24P AV_PIX_FMT_GBR24P
+
+#define PIX_FMT_NE(be,le) AV_PIX_FMT_NE(be, le)
+
+#define PIX_FMT_RGB32 AV_PIX_FMT_RGB32
+#define PIX_FMT_RGB32_1 AV_PIX_FMT_RGB32_1
+#define PIX_FMT_BGR32 AV_PIX_FMT_BGR32
+#define PIX_FMT_BGR32_1 AV_PIX_FMT_BGR32_1
+#define PIX_FMT_0RGB32 AV_PIX_FMT_0RGB32
+#define PIX_FMT_0BGR32 AV_PIX_FMT_0BGR32
+
+#define PIX_FMT_GRAY16 AV_PIX_FMT_GRAY16
+#define PIX_FMT_RGB48 AV_PIX_FMT_RGB48
+#define PIX_FMT_RGB565 AV_PIX_FMT_RGB565
+#define PIX_FMT_RGB555 AV_PIX_FMT_RGB555
+#define PIX_FMT_RGB444 AV_PIX_FMT_RGB444
+#define PIX_FMT_BGR48 AV_PIX_FMT_BGR48
+#define PIX_FMT_BGR565 AV_PIX_FMT_BGR565
+#define PIX_FMT_BGR555 AV_PIX_FMT_BGR555
+#define PIX_FMT_BGR444 AV_PIX_FMT_BGR444
+
+#define PIX_FMT_YUV420P9 AV_PIX_FMT_YUV420P9
+#define PIX_FMT_YUV422P9 AV_PIX_FMT_YUV422P9
+#define PIX_FMT_YUV444P9 AV_PIX_FMT_YUV444P9
+#define PIX_FMT_YUV420P10 AV_PIX_FMT_YUV420P10
+#define PIX_FMT_YUV422P10 AV_PIX_FMT_YUV422P10
+#define PIX_FMT_YUV444P10 AV_PIX_FMT_YUV444P10
+#define PIX_FMT_YUV420P12 AV_PIX_FMT_YUV420P12
+#define PIX_FMT_YUV422P12 AV_PIX_FMT_YUV422P12
+#define PIX_FMT_YUV444P12 AV_PIX_FMT_YUV444P12
+#define PIX_FMT_YUV420P14 AV_PIX_FMT_YUV420P14
+#define PIX_FMT_YUV422P14 AV_PIX_FMT_YUV422P14
+#define PIX_FMT_YUV444P14 AV_PIX_FMT_YUV444P14
+#define PIX_FMT_YUV420P16 AV_PIX_FMT_YUV420P16
+#define PIX_FMT_YUV422P16 AV_PIX_FMT_YUV422P16
+#define PIX_FMT_YUV444P16 AV_PIX_FMT_YUV444P16
+
+#define PIX_FMT_RGBA64 AV_PIX_FMT_RGBA64
+#define PIX_FMT_BGRA64 AV_PIX_FMT_BGRA64
+#define PIX_FMT_GBRP9 AV_PIX_FMT_GBRP9
+#define PIX_FMT_GBRP10 AV_PIX_FMT_GBRP10
+#define PIX_FMT_GBRP12 AV_PIX_FMT_GBRP12
+#define PIX_FMT_GBRP14 AV_PIX_FMT_GBRP14
+#define PIX_FMT_GBRP16 AV_PIX_FMT_GBRP16
+// ================================[ include/libavutil/pixfmt.h ]================================
+
+/**
+ * Return x default pointer in case p is NULL.
+ */
+static inline void *av_x_if_null(const void *p, const void *x)
+{
+    return (void *)(intptr_t)(p ? p : x);
+}
+
+/**
+ * Compute the length of an integer list.
+ *
+ * @param elsize  size in bytes of each list element (only 1, 2, 4 or 8)
+ * @param term    list terminator (usually 0 or -1)
+ * @param list    pointer to the list
+ * @return  length of the list, in elements, not counting the terminator
+ */
+unsigned av_int_list_length_for_size(unsigned elsize,
+                                     const void *list, uint64_t term) ;
+
+/**
+ * Compute the length of an integer list.
+ *
+ * @param term  list terminator (usually 0 or -1)
+ * @param list  pointer to the list
+ * @return  length of the list, in elements, not counting the terminator
+ */
+#define av_int_list_length(list,term) av_int_list_length_for_size(sizeof(*(list)), list, term)
+
+/**
+ * @}
+ * @}
+ */
+// ================================[ include/libavutil/common.h ]================================
+// --------------------------------[ include/libavutil/attributes.h ]--------------------------------
+/*
+ * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+/**
+ * @file
+ * Macro definitions for various function/variable attributes
+ */
+// ================================[ include/libavutil/attributes.h ]================================
+
+/**
+ * Audio Sample Formats
+ *
+ * @par
+ * The data described by the sample format is always in native-endian order.
+ * Sample values can be expressed by native C types, hence the lack of a signed
+ * 24-bit sample format even though it is a common raw audio data format.
+ *
+ * @par
+ * The floating-point formats are based on full volume being in the range
+ * [-1.0, 1.0]. Any values outside this range are beyond full volume level.
+ *
+ * @par
+ * The data layout as used in av_samples_fill_arrays() and elsewhere in FFmpeg
+ * (such as AVFrame in libavcodec) is as follows:
+ *
+ * For planar sample formats, each audio channel is in a separate data plane,
+ * and linesize is the buffer size, in bytes, for a single plane. All data
+ * planes must be the same size. For packed sample formats, only the first data
+ * plane is used, and samples for each channel are interleaved. In this case,
+ * linesize is the buffer size, in bytes, for the 1 plane.
+ */
+enum AVSampleFormat {
+    AV_SAMPLE_FMT_NONE = -1,
+    AV_SAMPLE_FMT_U8, ///< unsigned 8 bits
+    AV_SAMPLE_FMT_S16, ///< signed 16 bits
+    AV_SAMPLE_FMT_S32, ///< signed 32 bits
+    AV_SAMPLE_FMT_FLT, ///< float
+    AV_SAMPLE_FMT_DBL, ///< double
+
+    AV_SAMPLE_FMT_U8P, ///< unsigned 8 bits, planar
+    AV_SAMPLE_FMT_S16P, ///< signed 16 bits, planar
+    AV_SAMPLE_FMT_S32P, ///< signed 32 bits, planar
+    AV_SAMPLE_FMT_FLTP, ///< float, planar
+    AV_SAMPLE_FMT_DBLP, ///< double, planar
+
+    AV_SAMPLE_FMT_NB ///< Number of sample formats. DO NOT USE if linking dynamically
+};
+
+/**
+ * Return the name of sample_fmt, or NULL if sample_fmt is not
+ * recognized.
+ */
+const char *av_get_sample_fmt_name(enum AVSampleFormat sample_fmt);
+
+/**
+ * Return a sample format corresponding to name, or AV_SAMPLE_FMT_NONE
+ * on error.
+ */
+enum AVSampleFormat av_get_sample_fmt(const char *name);
+
+/**
+ * Return the planar<->packed alternative form of the given sample format, or
+ * AV_SAMPLE_FMT_NONE on error. If the passed sample_fmt is already in the
+ * requested planar/packed format, the format returned is the same as the
+ * input.
+ */
+enum AVSampleFormat av_get_alt_sample_fmt(enum AVSampleFormat sample_fmt, int planar);
+
+/**
+ * Get the packed alternative form of the given sample format.
+ *
+ * If the passed sample_fmt is already in packed format, the format returned is
+ * the same as the input.
+ *
+ * @return  the packed alternative form of the given sample format or
+            AV_SAMPLE_FMT_NONE on error.
+ */
+enum AVSampleFormat av_get_packed_sample_fmt(enum AVSampleFormat sample_fmt);
+
+/**
+ * Get the planar alternative form of the given sample format.
+ *
+ * If the passed sample_fmt is already in planar format, the format returned is
+ * the same as the input.
+ *
+ * @return  the planar alternative form of the given sample format or
+            AV_SAMPLE_FMT_NONE on error.
+ */
+enum AVSampleFormat av_get_planar_sample_fmt(enum AVSampleFormat sample_fmt);
+
+/**
+ * Generate a string corresponding to the sample format with
+ * sample_fmt, or a header if sample_fmt is negative.
+ *
+ * @param buf the buffer where to write the string
+ * @param buf_size the size of buf
+ * @param sample_fmt the number of the sample format to print the
+ * corresponding info string, or a negative value to print the
+ * corresponding header.
+ * @return the pointer to the filled buffer or NULL if sample_fmt is
+ * unknown or in case of other errors
+ */
+char *av_get_sample_fmt_string(char *buf, int buf_size, enum AVSampleFormat sample_fmt);
+
+/**
+ * @deprecated Use av_get_bytes_per_sample() instead.
+ */
+
+int av_get_bits_per_sample_fmt(enum AVSampleFormat sample_fmt);
+
+/**
+ * Return number of bytes per sample.
+ *
+ * @param sample_fmt the sample format
+ * @return number of bytes per sample or zero if unknown for the given
+ * sample format
+ */
+int av_get_bytes_per_sample(enum AVSampleFormat sample_fmt);
+
+/**
+ * Check if the sample format is planar.
+ *
+ * @param sample_fmt the sample format to inspect
+ * @return 1 if the sample format is planar, 0 if it is interleaved
+ */
+int av_sample_fmt_is_planar(enum AVSampleFormat sample_fmt);
+
+/**
+ * Get the required buffer size for the given audio parameters.
+ *
+ * @param[out] linesize calculated linesize, may be NULL
+ * @param nb_channels   the number of channels
+ * @param nb_samples    the number of samples in a single channel
+ * @param sample_fmt    the sample format
+ * @param align         buffer size alignment (0 = default, 1 = no alignment)
+ * @return              required buffer size, or negative error code on failure
+ */
+int av_samples_get_buffer_size(int *linesize, int nb_channels, int nb_samples,
+                               enum AVSampleFormat sample_fmt, int align);
+
+/**
+ * Fill plane data pointers and linesize for samples with sample
+ * format sample_fmt.
+ *
+ * The audio_data array is filled with the pointers to the samples data planes:
+ * for planar, set the start point of each channel's data within the buffer,
+ * for packed, set the start point of the entire buffer only.
+ *
+ * The value pointed to by linesize is set to the aligned size of each
+ * channel's data buffer for planar layout, or to the aligned size of the
+ * buffer for all channels for packed layout.
+ *
+ * The buffer in buf must be big enough to contain all the samples
+ * (use av_samples_get_buffer_size() to compute its minimum size),
+ * otherwise the audio_data pointers will point to invalid data.
+ *
+ * @see enum AVSampleFormat
+ * The documentation for AVSampleFormat describes the data layout.
+ *
+ * @param[out] audio_data  array to be filled with the pointer for each channel
+ * @param[out] linesize    calculated linesize, may be NULL
+ * @param buf              the pointer to a buffer containing the samples
+ * @param nb_channels      the number of channels
+ * @param nb_samples       the number of samples in a single channel
+ * @param sample_fmt       the sample format
+ * @param align            buffer size alignment (0 = default, 1 = no alignment)
+ * @return                 >=0 on success or a negative error code on failure
+ * @todo return minimum size in bytes required for the buffer in case
+ * of success at the next bump
+ */
+int av_samples_fill_arrays(uint8_t **audio_data, int *linesize,
+                           const uint8_t *buf,
+                           int nb_channels, int nb_samples,
+                           enum AVSampleFormat sample_fmt, int align);
+
+/**
+ * Allocate a samples buffer for nb_samples samples, and fill data pointers and
+ * linesize accordingly.
+ * The allocated samples buffer can be freed by using av_freep(&audio_data[0])
+ * Allocated data will be initialized to silence.
+ *
+ * @see enum AVSampleFormat
+ * The documentation for AVSampleFormat describes the data layout.
+ *
+ * @param[out] audio_data  array to be filled with the pointer for each channel
+ * @param[out] linesize    aligned size for audio buffer(s), may be NULL
+ * @param nb_channels      number of audio channels
+ * @param nb_samples       number of samples per channel
+ * @param align            buffer size alignment (0 = default, 1 = no alignment)
+ * @return                 >=0 on success or a negative error code on failure
+ * @todo return the size of the allocated buffer in case of success at the next bump
+ * @see av_samples_fill_arrays()
+ * @see av_samples_alloc_array_and_samples()
+ */
+int av_samples_alloc(uint8_t **audio_data, int *linesize, int nb_channels,
+                     int nb_samples, enum AVSampleFormat sample_fmt, int align);
+
+/**
+ * Allocate a data pointers array, samples buffer for nb_samples
+ * samples, and fill data pointers and linesize accordingly.
+ *
+ * This is the same as av_samples_alloc(), but also allocates the data
+ * pointers array.
+ *
+ * @see av_samples_alloc()
+ */
+int av_samples_alloc_array_and_samples(uint8_t ***audio_data, int *linesize, int nb_channels,
+                                       int nb_samples, enum AVSampleFormat sample_fmt, int align);
+
+/**
+ * Copy samples from src to dst.
+ *
+ * @param dst destination array of pointers to data planes
+ * @param src source array of pointers to data planes
+ * @param dst_offset offset in samples at which the data will be written to dst
+ * @param src_offset offset in samples at which the data will be read from src
+ * @param nb_samples number of samples to be copied
+ * @param nb_channels number of audio channels
+ * @param sample_fmt audio sample format
+ */
+int av_samples_copy(uint8_t **dst, uint8_t * const *src, int dst_offset,
+                    int src_offset, int nb_samples, int nb_channels,
+                    enum AVSampleFormat sample_fmt);
+
+/**
+ * Fill an audio buffer with silence.
+ *
+ * @param audio_data  array of pointers to data planes
+ * @param offset      offset in samples at which to start filling
+ * @param nb_samples  number of samples to fill
+ * @param nb_channels number of audio channels
+ * @param sample_fmt  audio sample format
+ */
+int av_samples_set_silence(uint8_t **audio_data, int offset, int nb_samples,
+                           int nb_channels, enum AVSampleFormat sample_fmt);
+// ================================[ include/libavutil/avutil.h ]================================
+// --------------------------------[ include/libavutil/avutil.h ]--------------------------------
+/*
+ * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+// ================================[ include/libavutil/avutil.h ]================================
+// --------------------------------[ include/libavutil/buffer.h ]--------------------------------
+/*
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+/**
+ * @file
+ * @ingroup lavu_buffer
+ * refcounted data buffer API
+ */
+
+#define AVUTIL_BUFFER_H 
+
+/**
+ * @defgroup lavu_buffer AVBuffer
+ * @ingroup lavu_data
+ *
+ * @{
+ * AVBuffer is an API for reference-counted data buffers.
+ *
+ * There are two core objects in this API -- AVBuffer and AVBufferRef. AVBuffer
+ * represents the data buffer itself; it is opaque and not meant to be accessed
+ * by the caller directly, but only through AVBufferRef. However, the caller may
+ * e.g. compare two AVBuffer pointers to check whether two different references
+ * are describing the same data buffer. AVBufferRef represents a single
+ * reference to an AVBuffer and it is the object that may be manipulated by the
+ * caller directly.
+ *
+ * There are two functions provided for creating a new AVBuffer with a single
+ * reference -- av_buffer_alloc() to just allocate a new buffer, and
+ * av_buffer_create() to wrap an existing array in an AVBuffer. From an existing
+ * reference, additional references may be created with av_buffer_ref().
+ * Use av_buffer_unref() to free a reference (this will automatically free the
+ * data once all the references are freed).
+ *
+ * The convention throughout this API and the rest of FFmpeg is such that the
+ * buffer is considered writable if there exists only one reference to it (and
+ * it has not been marked as read-only). The av_buffer_is_writable() function is
+ * provided to check whether this is true and av_buffer_make_writable() will
+ * automatically create a new writable buffer when necessary.
+ * Of course nothing prevents the calling code from violating this convention,
+ * however that is safe only when all the existing references are under its
+ * control.
+ *
+ * @note Referencing and unreferencing the buffers is thread-safe and thus
+ * may be done from multiple threads simultaneously without any need for
+ * additional locking.
+ *
+ * @note Two different references to the same buffer can point to different
+ * parts of the buffer (i.e. their AVBufferRef.data will not be equal).
+ */
+
+/**
+ * A reference counted buffer type. It is opaque and is meant to be used through
+ * references (AVBufferRef).
+ */
+typedef struct AVBuffer AVBuffer;
+
+/**
+ * A reference to a data buffer.
+ *
+ * The size of this struct is not a part of the public ABI and it is not meant
+ * to be allocated directly.
+ */
+typedef struct AVBufferRef {
+    AVBuffer *buffer;
+
+    /**
+     * The data buffer. It is considered writable if and only if
+     * this is the only reference to the buffer, in which case
+     * av_buffer_is_writable() returns 1.
+     */
+    uint8_t *data;
+    /**
+     * Size of data in bytes.
+     */
+    int size;
+} AVBufferRef;
+
+/**
+ * Allocate an AVBuffer of the given size using av_malloc().
+ *
+ * @return an AVBufferRef of given size or NULL when out of memory
+ */
+AVBufferRef *av_buffer_alloc(int size);
+
+/**
+ * Same as av_buffer_alloc(), except the returned buffer will be initialized
+ * to zero.
+ */
+AVBufferRef *av_buffer_allocz(int size);
+
+/**
+ * Always treat the buffer as read-only, even when it has only one
+ * reference.
+ */
+#define AV_BUFFER_FLAG_READONLY (1 << 0)
+
+/**
+ * Create an AVBuffer from an existing array.
+ *
+ * If this function is successful, data is owned by the AVBuffer. The caller may
+ * only access data through the returned AVBufferRef and references derived from
+ * it.
+ * If this function fails, data is left untouched.
+ * @param data   data array
+ * @param size   size of data in bytes
+ * @param free   a callback for freeing this buffer's data
+ * @param opaque parameter to be got for processing or passed to free
+ * @param flags  a combination of AV_BUFFER_FLAG_*
+ *
+ * @return an AVBufferRef referring to data on success, NULL on failure.
+ */
+AVBufferRef *av_buffer_create(uint8_t *data, int size,
+                              void (*free)(void *opaque, uint8_t *data),
+                              void *opaque, int flags);
+
+/**
+ * Default free callback, which calls av_free() on the buffer data.
+ * This function is meant to be passed to av_buffer_create(), not called
+ * directly.
+ */
+void av_buffer_default_free(void *opaque, uint8_t *data);
+
+/**
+ * Create a new reference to an AVBuffer.
+ *
+ * @return a new AVBufferRef referring to the same AVBuffer as buf or NULL on
+ * failure.
+ */
+AVBufferRef *av_buffer_ref(AVBufferRef *buf);
+
+/**
+ * Free a given reference and automatically free the buffer if there are no more
+ * references to it.
+ *
+ * @param buf the reference to be freed. The pointer is set to NULL on return.
+ */
+void av_buffer_unref(AVBufferRef **buf);
+
+/**
+ * @return 1 if the caller may write to the data referred to by buf (which is
+ * true if and only if buf is the only reference to the underlying AVBuffer).
+ * Return 0 otherwise.
+ * A positive answer is valid until av_buffer_ref() is called on buf.
+ */
+int av_buffer_is_writable(const AVBufferRef *buf);
+
+/**
+ * @return the opaque parameter set by av_buffer_create.
+ */
+void *av_buffer_get_opaque(const AVBufferRef *buf);
+
+int av_buffer_get_ref_count(const AVBufferRef *buf);
+
+/**
+ * Create a writable reference from a given buffer reference, avoiding data copy
+ * if possible.
+ *
+ * @param buf buffer reference to make writable. On success, buf is either left
+ *            untouched, or it is unreferenced and a new writable AVBufferRef is
+ *            written in its place. On failure, buf is left untouched.
+ * @return 0 on success, a negative AVERROR on failure.
+ */
+int av_buffer_make_writable(AVBufferRef **buf);
+
+/**
+ * Reallocate a given buffer.
+ *
+ * @param buf  a buffer reference to reallocate. On success, buf will be
+ *             unreferenced and a new reference with the required size will be
+ *             written in its place. On failure buf will be left untouched. *buf
+ *             may be NULL, then a new buffer is allocated.
+ * @param size required new buffer size.
+ * @return 0 on success, a negative AVERROR on failure.
+ *
+ * @note the buffer is actually reallocated with av_realloc() only if it was
+ * initially allocated through av_buffer_realloc(NULL) and there is only one
+ * reference to it (i.e. the one passed to this function). In all other cases
+ * a new buffer is allocated and the data is copied.
+ */
+int av_buffer_realloc(AVBufferRef **buf, int size);
+
+/**
+ * @}
+ */
+
+/**
+ * @defgroup lavu_bufferpool AVBufferPool
+ * @ingroup lavu_data
+ *
+ * @{
+ * AVBufferPool is an API for a lock-free thread-safe pool of AVBuffers.
+ *
+ * Frequently allocating and freeing large buffers may be slow. AVBufferPool is
+ * meant to solve this in cases when the caller needs a set of buffers of the
+ * same size (the most obvious use case being buffers for raw video or audio
+ * frames).
+ *
+ * At the beginning, the user must call av_buffer_pool_init() to create the
+ * buffer pool. Then whenever a buffer is needed, call av_buffer_pool_get() to
+ * get a reference to a new buffer, similar to av_buffer_alloc(). This new
+ * reference works in all aspects the same way as the one created by
+ * av_buffer_alloc(). However, when the last reference to this buffer is
+ * unreferenced, it is returned to the pool instead of being freed and will be
+ * reused for subsequent av_buffer_pool_get() calls.
+ *
+ * When the caller is done with the pool and no longer needs to allocate any new
+ * buffers, av_buffer_pool_uninit() must be called to mark the pool as freeable.
+ * Once all the buffers are released, it will automatically be freed.
+ *
+ * Allocating and releasing buffers with this API is thread-safe as long as
+ * either the default alloc callback is used, or the user-supplied one is
+ * thread-safe.
+ */
+
+/**
+ * The buffer pool. This structure is opaque and not meant to be accessed
+ * directly. It is allocated with av_buffer_pool_init() and freed with
+ * av_buffer_pool_uninit().
+ */
+typedef struct AVBufferPool AVBufferPool;
+
+/**
+ * Allocate and initialize a buffer pool.
+ *
+ * @param size size of each buffer in this pool
+ * @param alloc a function that will be used to allocate new buffers when the
+ * pool is empty. May be NULL, then the default allocator will be used
+ * (av_buffer_alloc()).
+ * @return newly created buffer pool on success, NULL on error.
+ */
+AVBufferPool *av_buffer_pool_init(int size, AVBufferRef* (*alloc)(int size));
+
+/**
+ * Mark the pool as being available for freeing. It will actually be freed only
+ * once all the allocated buffers associated with the pool are released. Thus it
+ * is safe to call this function while some of the allocated buffers are still
+ * in use.
+ *
+ * @param pool pointer to the pool to be freed. It will be set to NULL.
+ * @see av_buffer_pool_can_uninit()
+ */
+void av_buffer_pool_uninit(AVBufferPool **pool);
+
+/**
+ * Allocate a new AVBuffer, reusing an old buffer from the pool when available.
+ * This function may be called simultaneously from multiple threads.
+ *
+ * @return a reference to the new buffer on success, NULL on error.
+ */
+AVBufferRef *av_buffer_pool_get(AVBufferPool *pool);
+
+/**
+ * @}
+ */
+// ================================[ include/libavutil/buffer.h ]================================
+// --------------------------------[ include/libavutil/cpu.h ]--------------------------------
+/*
+ * Copyright (c) 2000, 2001, 2002 Fabrice Bellard
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+#define AVUTIL_CPU_H 
+
+// --------------------------------[ include/libavutil/attributes.h ]--------------------------------
+/*
+ * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+/**
+ * @file
+ * Macro definitions for various function/variable attributes
+ */
+// ================================[ include/libavutil/attributes.h ]================================
+
+#define AV_CPU_FLAG_FORCE 0x80000000 /* force usage of selected flags (OR) */
+
+    /* lower 16 bits - CPU features */
+#define AV_CPU_FLAG_MMX 0x0001 /*|< standard MMX*/
+#define AV_CPU_FLAG_MMXEXT 0x0002 /*|< SSE integer functions or AMD MMX ext*/
+#define AV_CPU_FLAG_MMX2 0x0002 /*|< SSE integer functions or AMD MMX ext*/
+#define AV_CPU_FLAG_3DNOW 0x0004 /*|< AMD 3DNOW*/
+#define AV_CPU_FLAG_SSE 0x0008 /*|< SSE functions*/
+#define AV_CPU_FLAG_SSE2 0x0010 /*|< PIV SSE2 functions*/
+#define AV_CPU_FLAG_SSE2SLOW 0x40000000 /*|< SSE2 supported, but usually not faster*/
+#define AV_CPU_FLAG_3DNOWEXT 0x0020 /*|< AMD 3DNowExt*/
+#define AV_CPU_FLAG_SSE3 0x0040 /*|< Prescott SSE3 functions*/
+#define AV_CPU_FLAG_SSE3SLOW 0x20000000 /*|< SSE3 supported, but usually not faster*/
+#define AV_CPU_FLAG_SSSE3 0x0080 /*|< Conroe SSSE3 functions*/
+#define AV_CPU_FLAG_ATOM 0x10000000 /*|< Atom processor, some SSSE3 instructions are slower*/
+#define AV_CPU_FLAG_SSE4 0x0100 /*|< Penryn SSE4.1 functions*/
+#define AV_CPU_FLAG_SSE42 0x0200 /*|< Nehalem SSE4.2 functions*/
+#define AV_CPU_FLAG_AVX 0x4000 /*|< AVX functions: requires OS support even if YMM registers aren't used*/
+#define AV_CPU_FLAG_XOP 0x0400 /*|< Bulldozer XOP functions*/
+#define AV_CPU_FLAG_FMA4 0x0800 /*|< Bulldozer FMA4 functions*/
+// #if LIBAVUTIL_VERSION_MAJOR <52
+#define AV_CPU_FLAG_CMOV 0x1001000 /*|< supports cmov instruction*/
+// #else
+// #define AV_CPU_FLAG_CMOV         0x1000 ///< supports cmov instruction
+// #endif
+
+#define AV_CPU_FLAG_ALTIVEC 0x0001 /*|< standard*/
+
+#define AV_CPU_FLAG_ARMV5TE (1 << 0)
+#define AV_CPU_FLAG_ARMV6 (1 << 1)
+#define AV_CPU_FLAG_ARMV6T2 (1 << 2)
+#define AV_CPU_FLAG_VFP (1 << 3)
+#define AV_CPU_FLAG_VFPV3 (1 << 4)
+#define AV_CPU_FLAG_NEON (1 << 5)
+
+/**
+ * Return the flags which specify extensions supported by the CPU.
+ * The returned value is affected by av_force_cpu_flags() if that was used
+ * before. So av_get_cpu_flags() can easily be used in a application to
+ * detect the enabled cpu flags.
+ */
+int av_get_cpu_flags(void);
+
+/**
+ * Disables cpu detection and forces the specified flags.
+ * -1 is a special case that disables forcing of specific flags.
+ */
+void av_force_cpu_flags(int flags);
+
+/**
+ * Set a mask on flags returned by av_get_cpu_flags().
+ * This function is mainly useful for testing.
+ * Please use av_force_cpu_flags() and av_get_cpu_flags() instead which are more flexible
+ *
+ * @warning this function is not thread safe.
+ */
+ void av_set_cpu_flags_mask(int mask);
+
+/**
+ * Parse CPU flags from a string.
+ *
+ * The returned flags contain the specified flags as well as related unspecified flags.
+ *
+ * This function exists only for compatibility with libav.
+ * Please use av_parse_cpu_caps() when possible.
+ * @return a combination of AV_CPU_* flags, negative on error.
+ */
+
+int av_parse_cpu_flags(const char *s);
+
+/**
+ * Parse CPU caps from a string and update the given AV_CPU_* flags based on that.
+ *
+ * @return negative on error.
+ */
+int av_parse_cpu_caps(unsigned *flags, const char *s);
+
+/**
+ * @return the number of logical CPU cores present.
+ */
+int av_cpu_count(void);
+
+/* The following CPU-specific functions shall not be called directly. */
+int ff_get_cpu_flags_arm(void);
+int ff_get_cpu_flags_ppc(void);
+int ff_get_cpu_flags_x86(void);
+// ================================[ include/libavutil/cpu.h ]================================
+// --------------------------------[ include/libavutil/channel_layout.h ]--------------------------------
+/*
+ * Copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
+ * Copyright (c) 2008 Peter Ross
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+#define AVUTIL_CHANNEL_LAYOUT_H 
+
+/**
+ * @file
+ * audio channel layout utility functions
+ */
+
+/**
+ * @addtogroup lavu_audio
+ * @{
+ */
+
+/**
+ * @defgroup channel_masks Audio channel masks
+ *
+ * A channel layout is a 64-bits integer with a bit set for every channel.
+ * The number of bits set must be equal to the number of channels.
+ * The value 0 means that the channel layout is not known.
+ * @note this data structure is not powerful enough to handle channels
+ * combinations that have the same channel multiple times, such as
+ * dual-mono.
+ *
+ * @{
+ */
+#define AV_CH_FRONT_LEFT 0x00000001
+#define AV_CH_FRONT_RIGHT 0x00000002
+#define AV_CH_FRONT_CENTER 0x00000004
+#define AV_CH_LOW_FREQUENCY 0x00000008
+#define AV_CH_BACK_LEFT 0x00000010
+#define AV_CH_BACK_RIGHT 0x00000020
+#define AV_CH_FRONT_LEFT_OF_CENTER 0x00000040
+#define AV_CH_FRONT_RIGHT_OF_CENTER 0x00000080
+#define AV_CH_BACK_CENTER 0x00000100
+#define AV_CH_SIDE_LEFT 0x00000200
+#define AV_CH_SIDE_RIGHT 0x00000400
+#define AV_CH_TOP_CENTER 0x00000800
+#define AV_CH_TOP_FRONT_LEFT 0x00001000
+#define AV_CH_TOP_FRONT_CENTER 0x00002000
+#define AV_CH_TOP_FRONT_RIGHT 0x00004000
+#define AV_CH_TOP_BACK_LEFT 0x00008000
+#define AV_CH_TOP_BACK_CENTER 0x00010000
+#define AV_CH_TOP_BACK_RIGHT 0x00020000
+#define AV_CH_STEREO_LEFT 0x20000000 /*|< Stereo downmix.*/
+#define AV_CH_STEREO_RIGHT 0x40000000 /*|< See AV_CH_STEREO_LEFT.*/
+#define AV_CH_WIDE_LEFT 0x0000000080000000ULL
+#define AV_CH_WIDE_RIGHT 0x0000000100000000ULL
+#define AV_CH_SURROUND_DIRECT_LEFT 0x0000000200000000ULL
+#define AV_CH_SURROUND_DIRECT_RIGHT 0x0000000400000000ULL
+#define AV_CH_LOW_FREQUENCY_2 0x0000000800000000ULL
+
+/** Channel mask value used for AVCodecContext.request_channel_layout
+    to indicate that the user requests the channel order of the decoder output
+    to be the native codec channel order. */
+#define AV_CH_LAYOUT_NATIVE 0x8000000000000000ULL
+
+/**
+ * @}
+ * @defgroup channel_mask_c Audio channel convenience macros
+ * @{
+ * */
+#define AV_CH_LAYOUT_MONO (AV_CH_FRONT_CENTER)
+#define AV_CH_LAYOUT_STEREO (AV_CH_FRONT_LEFT|AV_CH_FRONT_RIGHT)
+#define AV_CH_LAYOUT_2POINT1 (AV_CH_LAYOUT_STEREO|AV_CH_LOW_FREQUENCY)
+#define AV_CH_LAYOUT_2_1 (AV_CH_LAYOUT_STEREO|AV_CH_BACK_CENTER)
+#define AV_CH_LAYOUT_SURROUND (AV_CH_LAYOUT_STEREO|AV_CH_FRONT_CENTER)
+#define AV_CH_LAYOUT_3POINT1 (AV_CH_LAYOUT_SURROUND|AV_CH_LOW_FREQUENCY)
+#define AV_CH_LAYOUT_4POINT0 (AV_CH_LAYOUT_SURROUND|AV_CH_BACK_CENTER)
+#define AV_CH_LAYOUT_4POINT1 (AV_CH_LAYOUT_4POINT0|AV_CH_LOW_FREQUENCY)
+#define AV_CH_LAYOUT_2_2 (AV_CH_LAYOUT_STEREO|AV_CH_SIDE_LEFT|AV_CH_SIDE_RIGHT)
+#define AV_CH_LAYOUT_QUAD (AV_CH_LAYOUT_STEREO|AV_CH_BACK_LEFT|AV_CH_BACK_RIGHT)
+#define AV_CH_LAYOUT_5POINT0 (AV_CH_LAYOUT_SURROUND|AV_CH_SIDE_LEFT|AV_CH_SIDE_RIGHT)
+#define AV_CH_LAYOUT_5POINT1 (AV_CH_LAYOUT_5POINT0|AV_CH_LOW_FREQUENCY)
+#define AV_CH_LAYOUT_5POINT0_BACK (AV_CH_LAYOUT_SURROUND|AV_CH_BACK_LEFT|AV_CH_BACK_RIGHT)
+#define AV_CH_LAYOUT_5POINT1_BACK (AV_CH_LAYOUT_5POINT0_BACK|AV_CH_LOW_FREQUENCY)
+#define AV_CH_LAYOUT_6POINT0 (AV_CH_LAYOUT_5POINT0|AV_CH_BACK_CENTER)
+#define AV_CH_LAYOUT_6POINT0_FRONT (AV_CH_LAYOUT_2_2|AV_CH_FRONT_LEFT_OF_CENTER|AV_CH_FRONT_RIGHT_OF_CENTER)
+#define AV_CH_LAYOUT_HEXAGONAL (AV_CH_LAYOUT_5POINT0_BACK|AV_CH_BACK_CENTER)
+#define AV_CH_LAYOUT_6POINT1 (AV_CH_LAYOUT_5POINT1|AV_CH_BACK_CENTER)
+#define AV_CH_LAYOUT_6POINT1_BACK (AV_CH_LAYOUT_5POINT1_BACK|AV_CH_BACK_CENTER)
+#define AV_CH_LAYOUT_6POINT1_FRONT (AV_CH_LAYOUT_6POINT0_FRONT|AV_CH_LOW_FREQUENCY)
+#define AV_CH_LAYOUT_7POINT0 (AV_CH_LAYOUT_5POINT0|AV_CH_BACK_LEFT|AV_CH_BACK_RIGHT)
+#define AV_CH_LAYOUT_7POINT0_FRONT (AV_CH_LAYOUT_5POINT0|AV_CH_FRONT_LEFT_OF_CENTER|AV_CH_FRONT_RIGHT_OF_CENTER)
+#define AV_CH_LAYOUT_7POINT1 (AV_CH_LAYOUT_5POINT1|AV_CH_BACK_LEFT|AV_CH_BACK_RIGHT)
+#define AV_CH_LAYOUT_7POINT1_WIDE (AV_CH_LAYOUT_5POINT1|AV_CH_FRONT_LEFT_OF_CENTER|AV_CH_FRONT_RIGHT_OF_CENTER)
+#define AV_CH_LAYOUT_7POINT1_WIDE_BACK (AV_CH_LAYOUT_5POINT1_BACK|AV_CH_FRONT_LEFT_OF_CENTER|AV_CH_FRONT_RIGHT_OF_CENTER)
+#define AV_CH_LAYOUT_OCTAGONAL (AV_CH_LAYOUT_5POINT0|AV_CH_BACK_LEFT|AV_CH_BACK_CENTER|AV_CH_BACK_RIGHT)
+#define AV_CH_LAYOUT_STEREO_DOWNMIX (AV_CH_STEREO_LEFT|AV_CH_STEREO_RIGHT)
+
+enum AVMatrixEncoding {
+    AV_MATRIX_ENCODING_NONE,
+    AV_MATRIX_ENCODING_DOLBY,
+    AV_MATRIX_ENCODING_DPLII,
+    AV_MATRIX_ENCODING_NB
+};
+
+/**
+ * @}
+ */
+
+/**
+ * Return a channel layout id that matches name, or 0 if no match is found.
+ *
+ * name can be one or several of the following notations,
+ * separated by '+' or '|':
+ * - the name of an usual channel layout (mono, stereo, 4.0, quad, 5.0,
+ *   5.0(side), 5.1, 5.1(side), 7.1, 7.1(wide), downmix);
+ * - the name of a single channel (FL, FR, FC, LFE, BL, BR, FLC, FRC, BC,
+ *   SL, SR, TC, TFL, TFC, TFR, TBL, TBC, TBR, DL, DR);
+ * - a number of channels, in decimal, optionally followed by 'c', yielding
+ *   the default channel layout for that number of channels (@see
+ *   av_get_default_channel_layout);
+ * - a channel layout mask, in hexadecimal starting with "0x" (see the
+ *   AV_CH_* macros).
+ *
+ * Example: "stereo+FC" = "2+FC" = "2c+1c" = "0x7"
+ */
+uint64_t av_get_channel_layout(const char *name);
+
+/**
+ * Return a description of a channel layout.
+ * If nb_channels is <= 0, it is guessed from the channel_layout.
+ *
+ * @param buf put here the string containing the channel layout
+ * @param buf_size size in bytes of the buffer
+ */
+void av_get_channel_layout_string(char *buf, int buf_size, int nb_channels, uint64_t channel_layout);
+
+struct AVBPrint;
+/**
+ * Append a description of a channel layout to a bprint buffer.
+ */
+void av_bprint_channel_layout(struct AVBPrint *bp, int nb_channels, uint64_t channel_layout);
+
+/**
+ * Return the number of channels in the channel layout.
+ */
+int av_get_channel_layout_nb_channels(uint64_t channel_layout);
+
+/**
+ * Return default channel layout for a given number of channels.
+ */
+int64_t av_get_default_channel_layout(int nb_channels);
+
+/**
+ * Get the index of a channel in channel_layout.
+ *
+ * @param channel a channel layout describing exactly one channel which must be
+ *                present in channel_layout.
+ *
+ * @return index of channel in channel_layout on success, a negative AVERROR
+ *         on error.
+ */
+int av_get_channel_layout_channel_index(uint64_t channel_layout,
+                                        uint64_t channel);
+
+/**
+ * Get the channel with the given index in channel_layout.
+ */
+uint64_t av_channel_layout_extract_channel(uint64_t channel_layout, int index);
+
+/**
+ * Get the name of a given channel.
+ *
+ * @return channel name on success, NULL on error.
+ */
+const char *av_get_channel_name(uint64_t channel);
+
+/**
+ * Get the description of a given channel.
+ *
+ * @param channel  a channel layout with a single channel
+ * @return  channel description on success, NULL on error
+ */
+const char *av_get_channel_description(uint64_t channel);
+
+/**
+ * Get the value and name of a standard channel layout.
+ *
+ * @param[in]  index   index in an internal list, starting at 0
+ * @param[out] layout  channel layout mask
+ * @param[out] name    name of the layout
+ * @return  0  if the layout exists,
+ *          <0 if index is beyond the limits
+ */
+int av_get_standard_channel_layout(unsigned index, uint64_t *layout,
+                                   const char **name);
+
+/**
+ * @}
+ */
+// ================================[ include/libavutil/channel_layout.h ]================================
+// --------------------------------[ include/libavutil/dict.h ]--------------------------------
+/*
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+/**
+ * @file
+ * Public dictionary API.
+ * @deprecated
+ *  AVDictionary is provided for compatibility with libav. It is both in
+ *  implementation as well as API inefficient. It does not scale and is
+ *  extremely slow with large dictionaries.
+ *  It is recommended that new code uses our tree container from tree.c/h
+ *  where applicable, which uses AVL trees to achieve O(log n) performance.
+ */
+
+#define AVUTIL_DICT_H 
+
+/**
+ * @addtogroup lavu_dict AVDictionary
+ * @ingroup lavu_data
+ *
+ * @brief Simple key:value store
+ *
+ * @{
+ * Dictionaries are used for storing key:value pairs. To create
+ * an AVDictionary, simply pass an address of a NULL pointer to
+ * av_dict_set(). NULL can be used as an empty dictionary wherever
+ * a pointer to an AVDictionary is required.
+ * Use av_dict_get() to retrieve an entry or iterate over all
+ * entries and finally av_dict_free() to free the dictionary
+ * and all its contents.
+ *
+ * @code
+ * AVDictionary *d = NULL;                // "create" an empty dictionary
+ * av_dict_set(&d, "foo", "bar", 0);      // add an entry
+ *
+ * char *k = av_strdup("key");            // if your strings are already allocated,
+ * char *v = av_strdup("value");          // you can avoid copying them like this
+ * av_dict_set(&d, k, v, AV_DICT_DONT_STRDUP_KEY | AV_DICT_DONT_STRDUP_VAL);
+ *
+ * AVDictionaryEntry *t = NULL;
+ * while (t = av_dict_get(d, "", t, AV_DICT_IGNORE_SUFFIX)) {
+ *     <....>                             // iterate over all entries in d
+ * }
+ *
+ * av_dict_free(&d);
+ * @endcode
+ *
+ */
+
+#define AV_DICT_MATCH_CASE 1
+#define AV_DICT_IGNORE_SUFFIX 2
+#define AV_DICT_DONT_STRDUP_KEY 4 /**< Take ownership of a key that's been
+                                         allocated with av_malloc() and children. */
+
+#define AV_DICT_DONT_STRDUP_VAL 8 /**< Take ownership of a value that's been
+                                         allocated with av_malloc() and chilren. */
+
+#define AV_DICT_DONT_OVERWRITE 16 /*|< Don't overwrite existing entries.*/
+#define AV_DICT_APPEND 32 /**< If the entry already exists, append to it.  Note that no
+                                      delimiter is added, the strings are simply concatenated. */
+
+typedef struct AVDictionaryEntry {
+    char *key;
+    char *value;
+} AVDictionaryEntry;
+
+typedef struct AVDictionary AVDictionary;
+
+/**
+ * Get a dictionary entry with matching key.
+ *
+ * @param prev Set to the previous matching element to find the next.
+ *             If set to NULL the first matching element is returned.
+ * @param flags Allows case as well as suffix-insensitive comparisons.
+ * @return Found entry or NULL, changing key or value leads to undefined behavior.
+ */
+AVDictionaryEntry *
+av_dict_get(AVDictionary *m, const char *key, const AVDictionaryEntry *prev, int flags);
+
+/**
+ * Get number of entries in dictionary.
+ *
+ * @param m dictionary
+ * @return  number of entries in dictionary
+ */
+int av_dict_count(const AVDictionary *m);
+
+/**
+ * Set the given entry in *pm, overwriting an existing entry.
+ *
+ * @param pm pointer to a pointer to a dictionary struct. If *pm is NULL
+ * a dictionary struct is allocated and put in *pm.
+ * @param key entry key to add to *pm (will be av_strduped depending on flags)
+ * @param value entry value to add to *pm (will be av_strduped depending on flags).
+ *        Passing a NULL value will cause an existing entry to be deleted.
+ * @return >= 0 on success otherwise an error code <0
+ */
+int av_dict_set(AVDictionary **pm, const char *key, const char *value, int flags);
+
+/**
+ * Parse the key/value pairs list and add to a dictionary.
+ *
+ * @param key_val_sep  a 0-terminated list of characters used to separate
+ *                     key from value
+ * @param pairs_sep    a 0-terminated list of characters used to separate
+ *                     two pairs from each other
+ * @param flags        flags to use when adding to dictionary.
+ *                     AV_DICT_DONT_STRDUP_KEY and AV_DICT_DONT_STRDUP_VAL
+ *                     are ignored since the key/value tokens will always
+ *                     be duplicated.
+ * @return             0 on success, negative AVERROR code on failure
+ */
+int av_dict_parse_string(AVDictionary **pm, const char *str,
+                         const char *key_val_sep, const char *pairs_sep,
+                         int flags);
+
+/**
+ * Copy entries from one AVDictionary struct into another.
+ * @param dst pointer to a pointer to a AVDictionary struct. If *dst is NULL,
+ *            this function will allocate a struct for you and put it in *dst
+ * @param src pointer to source AVDictionary struct
+ * @param flags flags to use when setting entries in *dst
+ * @note metadata is read using the AV_DICT_IGNORE_SUFFIX flag
+ */
+void av_dict_copy(AVDictionary **dst, AVDictionary *src, int flags);
+
+/**
+ * Free all the memory allocated for an AVDictionary struct
+ * and all keys and values.
+ */
+void av_dict_free(AVDictionary **m);
+
+/**
+ * @}
+ */
+// ================================[ include/libavutil/dict.h ]================================
+// --------------------------------[ include/libavutil/frame.h ]--------------------------------
+/*
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+#define AVUTIL_FRAME_H 
+
+// --------------------------------[ include/libavcodec/version.h ]--------------------------------
+/*
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+#define AVCODEC_VERSION_H 
+
+/**
+ * @file
+ * @ingroup libavc
+ * Libavcodec version macros.
+ */
+
+// --------------------------------[ include/libavutil/avutil.h ]--------------------------------
+/*
+ * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+// ================================[ include/libavutil/avutil.h ]================================
+
+#define LIBAVCODEC_VERSION_MAJOR 55
+#define LIBAVCODEC_VERSION_MINOR 18
+#define LIBAVCODEC_VERSION_MICRO 102
+
+#define LIBAVCODEC_VERSION_INT AV_VERSION_INT(LIBAVCODEC_VERSION_MAJOR, LIBAVCODEC_VERSION_MINOR, LIBAVCODEC_VERSION_MICRO)
+
+#define LIBAVCODEC_VERSION AV_VERSION(LIBAVCODEC_VERSION_MAJOR, LIBAVCODEC_VERSION_MINOR, LIBAVCODEC_VERSION_MICRO)
+
+#define LIBAVCODEC_BUILD LIBAVCODEC_VERSION_INT
+
+#define LIBAVCODEC_IDENT "Lavc" AV_STRINGIFY(LIBAVCODEC_VERSION)
+
+/**
+ * FF_API_* defines may be placed below to indicate public API that will be
+ * dropped at a future version bump. The defines themselves are not part of
+ * the public API and may change, break or disappear at any time.
+ */
+
+#define FF_API_REQUEST_CHANNELS (LIBAVCODEC_VERSION_MAJOR < 56)
+
+#define FF_API_ALLOC_CONTEXT (LIBAVCODEC_VERSION_MAJOR < 55)
+
+#define FF_API_AVCODEC_OPEN (LIBAVCODEC_VERSION_MAJOR < 55)
+
+#define FF_API_OLD_DECODE_AUDIO (LIBAVCODEC_VERSION_MAJOR < 56)
+
+#define FF_API_OLD_TIMECODE (LIBAVCODEC_VERSION_MAJOR < 55)
+
+#define FF_API_OLD_ENCODE_AUDIO (LIBAVCODEC_VERSION_MAJOR < 56)
+
+#define FF_API_OLD_ENCODE_VIDEO (LIBAVCODEC_VERSION_MAJOR < 56)
+
+#define FF_API_CODEC_ID (LIBAVCODEC_VERSION_MAJOR < 56)
+
+#define FF_API_AVCODEC_RESAMPLE (LIBAVCODEC_VERSION_MAJOR < 56)
+
+#define FF_API_DEINTERLACE (LIBAVCODEC_VERSION_MAJOR < 56)
+
+#define FF_API_DESTRUCT_PACKET (LIBAVCODEC_VERSION_MAJOR < 56)
+
+#define FF_API_GET_BUFFER (LIBAVCODEC_VERSION_MAJOR < 56)
+
+#define FF_API_MISSING_SAMPLE (LIBAVCODEC_VERSION_MAJOR < 56)
+
+#define FF_API_LOWRES (LIBAVCODEC_VERSION_MAJOR < 56)
+// ================================[ include/libavcodec/version.h ]================================
+
+// --------------------------------[ include/libavutil/avutil.h ]--------------------------------
+/*
+ * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+// ================================[ include/libavutil/avutil.h ]================================
+// --------------------------------[ include/libavutil/buffer.h ]--------------------------------
+/*
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+/**
+ * @file
+ * @ingroup lavu_buffer
+ * refcounted data buffer API
+ */
+// ================================[ include/libavutil/buffer.h ]================================
+// --------------------------------[ include/libavutil/dict.h ]--------------------------------
+/*
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+/**
+ * @file
+ * Public dictionary API.
+ * @deprecated
+ *  AVDictionary is provided for compatibility with libav. It is both in
+ *  implementation as well as API inefficient. It does not scale and is
+ *  extremely slow with large dictionaries.
+ *  It is recommended that new code uses our tree container from tree.c/h
+ *  where applicable, which uses AVL trees to achieve O(log n) performance.
+ */
+// ================================[ include/libavutil/dict.h ]================================
+// --------------------------------[ include/libavutil/rational.h ]--------------------------------
+/*
+ * rational numbers
+ * Copyright (c) 2003 Michael Niedermayer <michaelni@gmx.at>
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+/**
+ * @file
+ * rational numbers
+ * @author Michael Niedermayer <michaelni@gmx.at>
+ */
+// ================================[ include/libavutil/rational.h ]================================
+// --------------------------------[ include/libavutil/samplefmt.h ]--------------------------------
+/*
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+// ================================[ include/libavutil/samplefmt.h ]================================
+
+enum AVFrameSideDataType {
+    /**
+     * The data is the AVPanScan struct defined in libavcodec.
+     */
+    AV_FRAME_DATA_PANSCAN,
+};
+
+typedef struct AVFrameSideData {
+    enum AVFrameSideDataType type;
+    uint8_t *data;
+    int size;
+    AVDictionary *metadata;
+} AVFrameSideData;
+
+/**
+ * This structure describes decoded (raw) audio or video data.
+ *
+ * AVFrame must be allocated using av_frame_alloc(). Note that this only
+ * allocates the AVFrame itself, the buffers for the data must be managed
+ * through other means (see below).
+ * AVFrame must be freed with av_frame_free().
+ *
+ * AVFrame is typically allocated once and then reused multiple times to hold
+ * different data (e.g. a single AVFrame to hold frames received from a
+ * decoder). In such a case, av_frame_unref() will free any references held by
+ * the frame and reset it to its original clean state before it
+ * is reused again.
+ *
+ * The data described by an AVFrame is usually reference counted through the
+ * AVBuffer API. The underlying buffer references are stored in AVFrame.buf /
+ * AVFrame.extended_buf. An AVFrame is considered to be reference counted if at
+ * least one reference is set, i.e. if AVFrame.buf[0] != NULL. In such a case,
+ * every single data plane must be contained in one of the buffers in
+ * AVFrame.buf or AVFrame.extended_buf.
+ * There may be a single buffer for all the data, or one separate buffer for
+ * each plane, or anything in between.
+ *
+ * sizeof(AVFrame) is not a part of the public ABI, so new fields may be added
+ * to the end with a minor bump.
+ * Similarly fields that are marked as to be only accessed by
+ * av_opt_ptr() can be reordered. This allows 2 forks to add fields
+ * without breaking compatibility with each other.
+ */
+typedef struct AVFrame {
+#define AV_NUM_DATA_POINTERS 8
+    /**
+     * pointer to the picture/channel planes.
+     * This might be different from the first allocated byte
+     *
+     * Some decoders access areas outside 0,0 - width,height, please
+     * see avcodec_align_dimensions2(). Some filters and swscale can read
+     * up to 16 bytes beyond the planes, if these filters are to be used,
+     * then 16 extra bytes must be allocated.
+     */
+    uint8_t *data[8];
+
+    /**
+     * For video, size in bytes of each picture line.
+     * For audio, size in bytes of each plane.
+     *
+     * For audio, only linesize[0] may be set. For planar audio, each channel
+     * plane must be the same size.
+     *
+     * For video the linesizes should be multiplies of the CPUs alignment
+     * preference, this is 16 or 32 for modern desktop CPUs.
+     * Some code requires such alignment other code can be slower without
+     * correct alignment, for yet other it makes no difference.
+     */
+    int linesize[8];
+
+    /**
+     * pointers to the data planes/channels.
+     *
+     * For video, this should simply point to data[].
+     *
+     * For planar audio, each channel has a separate data pointer, and
+     * linesize[0] contains the size of each channel buffer.
+     * For packed audio, there is just one data pointer, and linesize[0]
+     * contains the total size of the buffer for all channels.
+     *
+     * Note: Both data and extended_data should always be set in a valid frame,
+     * but for planar audio with more channels that can fit in data,
+     * extended_data must be used in order to access all channels.
+     */
+    uint8_t **extended_data;
+
+    /**
+     * width and height of the video frame
+     */
+    int width, height;
+
+    /**
+     * number of audio samples (per channel) described by this frame
+     */
+    int nb_samples;
+
+    /**
+     * format of the frame, -1 if unknown or unset
+     * Values correspond to enum AVPixelFormat for video frames,
+     * enum AVSampleFormat for audio)
+     */
+    int format;
+
+    /**
+     * 1 -> keyframe, 0-> not
+     */
+    int key_frame;
+
+    /**
+     * Picture type of the frame.
+     */
+    enum AVPictureType pict_type;
+
+   
+    uint8_t *base[8];
+
+    /**
+     * Sample aspect ratio for the video frame, 0/1 if unknown/unspecified.
+     */
+    AVRational sample_aspect_ratio;
+
+    /**
+     * Presentation timestamp in time_base units (time when frame should be shown to user).
+     */
+    int64_t pts;
+
+    /**
+     * PTS copied from the AVPacket that was decoded to produce this frame.
+     */
+    int64_t pkt_pts;
+
+    /**
+     * DTS copied from the AVPacket that triggered returning this frame. (if frame threading isnt used)
+     * This is also the Presentation time of this AVFrame calculated from
+     * only AVPacket.dts values without pts values.
+     */
+    int64_t pkt_dts;
+
+    /**
+     * picture number in bitstream order
+     */
+    int coded_picture_number;
+    /**
+     * picture number in display order
+     */
+    int display_picture_number;
+
+    /**
+     * quality (between 1 (good) and FF_LAMBDA_MAX (bad))
+     */
+    int quality;
+
+   
+    int reference;
+
+    /**
+     * QP table
+     */
+   
+    int8_t *qscale_table;
+    /**
+     * QP store stride
+     */
+   
+    int qstride;
+
+   
+    int qscale_type;
+
+    /**
+     * mbskip_table[mb]>=1 if MB didn't change
+     * stride= mb_width = (width+15)>>4
+     */
+   
+    uint8_t *mbskip_table;
+
+    /**
+     * motion vector table
+     * @code
+     * example:
+     * int mv_sample_log2= 4 - motion_subsample_log2;
+     * int mb_width= (width+15)>>4;
+     * int mv_stride= (mb_width << mv_sample_log2) + 1;
+     * motion_val[direction][x + y*mv_stride][0->mv_x, 1->mv_y];
+     * @endcode
+     */
+   
+    int16_t (*motion_val[2])[2];
+
+    /**
+     * macroblock type table
+     * mb_type_base + mb_width + 2
+     */
+   
+    uint32_t *mb_type;
+
+    /**
+     * DCT coefficients
+     */
+   
+    short *dct_coeff;
+
+    /**
+     * motion reference frame index
+     * the order in which these are stored can depend on the codec.
+     */
+   
+    int8_t *ref_index[2];
+
+    /**
+     * for some private data of the user
+     */
+    void *opaque;
+
+    /**
+     * error
+     */
+    uint64_t error[8];
+
+   
+    int type;
+
+    /**
+     * When decoding, this signals how much the picture must be delayed.
+     * extra_delay = repeat_pict / (2*fps)
+     */
+    int repeat_pict;
+
+    /**
+     * The content of the picture is interlaced.
+     */
+    int interlaced_frame;
+
+    /**
+     * If the content is interlaced, is top field displayed first.
+     */
+    int top_field_first;
+
+    /**
+     * Tell user application that palette has changed from previous frame.
+     */
+    int palette_has_changed;
+
+   
+    int buffer_hints;
+
+    /**
+     * Pan scan.
+     */
+   
+    struct AVPanScan *pan_scan;
+
+    /**
+     * reordered opaque 64bit (generally an integer or a double precision float
+     * PTS but can be anything).
+     * The user sets AVCodecContext.reordered_opaque to represent the input at
+     * that time,
+     * the decoder reorders values as needed and sets AVFrame.reordered_opaque
+     * to exactly one of the values provided by the user through AVCodecContext.reordered_opaque
+     * @deprecated in favor of pkt_pts
+     */
+    int64_t reordered_opaque;
+
+    /**
+     * @deprecated this field is unused
+     */
+    void *hwaccel_picture_private;
+
+   
+    struct AVCodecContext *owner;
+   
+    void *thread_opaque;
+
+    /**
+     * log2 of the size of the block which a single vector in motion_val represents:
+     * (4->16x16, 3->8x8, 2-> 4x4, 1-> 2x2)
+     */
+   
+    uint8_t motion_subsample_log2;
+
+    /**
+     * Sample rate of the audio data.
+     */
+    int sample_rate;
+
+    /**
+     * Channel layout of the audio data.
+     */
+    uint64_t channel_layout;
+
+    /**
+     * AVBuffer references backing the data for this frame. If all elements of
+     * this array are NULL, then this frame is not reference counted.
+     *
+     * There may be at most one AVBuffer per data plane, so for video this array
+     * always contains all the references. For planar audio with more than
+     * AV_NUM_DATA_POINTERS channels, there may be more buffers than can fit in
+     * this array. Then the extra AVBufferRef pointers are stored in the
+     * extended_buf array.
+     */
+    AVBufferRef *buf[8];
+
+    /**
+     * For planar audio which requires more than AV_NUM_DATA_POINTERS
+     * AVBufferRef pointers, this array will hold all the references which
+     * cannot fit into AVFrame.buf.
+     *
+     * Note that this is different from AVFrame.extended_data, which always
+     * contains all the pointers. This array only contains the extra pointers,
+     * which cannot fit into AVFrame.buf.
+     *
+     * This array is always allocated using av_malloc() by whoever constructs
+     * the frame. It is freed in av_frame_unref().
+     */
+    AVBufferRef **extended_buf;
+    /**
+     * Number of elements in extended_buf.
+     */
+    int nb_extended_buf;
+
+    AVFrameSideData **side_data;
+    int nb_side_data;
+
+    /**
+     * frame timestamp estimated using various heuristics, in stream time base
+     * Code outside libavcodec should access this field using:
+     * av_frame_get_best_effort_timestamp(frame)
+     * - encoding: unused
+     * - decoding: set by libavcodec, read by user.
+     */
+    int64_t best_effort_timestamp;
+
+    /**
+     * reordered pos from the last AVPacket that has been input into the decoder
+     * Code outside libavcodec should access this field using:
+     * av_frame_get_pkt_pos(frame)
+     * - encoding: unused
+     * - decoding: Read by user.
+     */
+    int64_t pkt_pos;
+
+    /**
+     * duration of the corresponding packet, expressed in
+     * AVStream->time_base units, 0 if unknown.
+     * Code outside libavcodec should access this field using:
+     * av_frame_get_pkt_duration(frame)
+     * - encoding: unused
+     * - decoding: Read by user.
+     */
+    int64_t pkt_duration;
+
+    /**
+     * metadata.
+     * Code outside libavcodec should access this field using:
+     * av_frame_get_metadata(frame)
+     * - encoding: Set by user.
+     * - decoding: Set by libavcodec.
+     */
+    AVDictionary *metadata;
+
+    /**
+     * decode error flags of the frame, set to a combination of
+     * FF_DECODE_ERROR_xxx flags if the decoder produced a frame, but there
+     * were errors during the decoding.
+     * Code outside libavcodec should access this field using:
+     * av_frame_get_decode_error_flags(frame)
+     * - encoding: unused
+     * - decoding: set by libavcodec, read by user.
+     */
+    int decode_error_flags;
+#define FF_DECODE_ERROR_INVALID_BITSTREAM 1
+#define FF_DECODE_ERROR_MISSING_REFERENCE 2
+
+    /**
+     * number of audio channels, only used for audio.
+     * Code outside libavcodec should access this field using:
+     * av_frame_get_channels(frame)
+     * - encoding: unused
+     * - decoding: Read by user.
+     */
+    int channels;
+
+    /**
+     * size of the corresponding packet containing the compressed
+     * frame. It must be accessed using av_frame_get_pkt_size() and
+     * av_frame_set_pkt_size().
+     * It is set to a negative value if unknown.
+     * - encoding: unused
+     * - decoding: set by libavcodec, read by user.
+     */
+    int pkt_size;
+
+    /**
+     * Not to be accessed directly from outside libavutil
+     */
+    AVBufferRef *qp_table_buf;
+} AVFrame;
+
+/**
+ * Accessors for some AVFrame fields.
+ * The position of these field in the structure is not part of the ABI,
+ * they should not be accessed directly outside libavcodec.
+ */
+int64_t av_frame_get_best_effort_timestamp(const AVFrame *frame);
+void av_frame_set_best_effort_timestamp(AVFrame *frame, int64_t val);
+int64_t av_frame_get_pkt_duration (const AVFrame *frame);
+void av_frame_set_pkt_duration (AVFrame *frame, int64_t val);
+int64_t av_frame_get_pkt_pos (const AVFrame *frame);
+void av_frame_set_pkt_pos (AVFrame *frame, int64_t val);
+int64_t av_frame_get_channel_layout (const AVFrame *frame);
+void av_frame_set_channel_layout (AVFrame *frame, int64_t val);
+int av_frame_get_channels (const AVFrame *frame);
+void av_frame_set_channels (AVFrame *frame, int val);
+int av_frame_get_sample_rate (const AVFrame *frame);
+void av_frame_set_sample_rate (AVFrame *frame, int val);
+AVDictionary *av_frame_get_metadata (const AVFrame *frame);
+void av_frame_set_metadata (AVFrame *frame, AVDictionary *val);
+int av_frame_get_decode_error_flags (const AVFrame *frame);
+void av_frame_set_decode_error_flags (AVFrame *frame, int val);
+int av_frame_get_pkt_size(const AVFrame *frame);
+void av_frame_set_pkt_size(AVFrame *frame, int val);
+AVDictionary **avpriv_frame_get_metadatap(AVFrame *frame);
+int8_t *av_frame_get_qp_table(AVFrame *f, int *stride, int *type);
+int av_frame_set_qp_table(AVFrame *f, AVBufferRef *buf, int stride, int type);
+
+/**
+ * Allocate an AVFrame and set its fields to default values.  The resulting
+ * struct must be freed using av_frame_free().
+ *
+ * @return An AVFrame filled with default values or NULL on failure.
+ *
+ * @note this only allocates the AVFrame itself, not the data buffers. Those
+ * must be allocated through other means, e.g. with av_frame_get_buffer() or
+ * manually.
+ */
+AVFrame *av_frame_alloc(void);
+
+/**
+ * Free the frame and any dynamically allocated objects in it,
+ * e.g. extended_data. If the frame is reference counted, it will be
+ * unreferenced first.
+ *
+ * @param frame frame to be freed. The pointer will be set to NULL.
+ */
+void av_frame_free(AVFrame **frame);
+
+/**
+ * Setup a new reference to the data described by an given frame.
+ *
+ * Copy frame properties from src to dst and create a new reference for each
+ * AVBufferRef from src.
+ *
+ * If src is not reference counted, new buffers are allocated and the data is
+ * copied.
+ *
+ * @return 0 on success, a negative AVERROR on error
+ */
+int av_frame_ref(AVFrame *dst, AVFrame *src);
+
+/**
+ * Create a new frame that references the same data as src.
+ *
+ * This is a shortcut for av_frame_alloc()+av_frame_ref().
+ *
+ * @return newly created AVFrame on success, NULL on error.
+ */
+AVFrame *av_frame_clone(AVFrame *src);
+
+/**
+ * Unreference all the buffers referenced by frame and reset the frame fields.
+ */
+void av_frame_unref(AVFrame *frame);
+
+/**
+ * Move everythnig contained in src to dst and reset src.
+ */
+void av_frame_move_ref(AVFrame *dst, AVFrame *src);
+
+/**
+ * Allocate new buffer(s) for audio or video data.
+ *
+ * The following fields must be set on frame before calling this function:
+ * - format (pixel format for video, sample format for audio)
+ * - width and height for video
+ * - nb_samples and channel_layout for audio
+ *
+ * This function will fill AVFrame.data and AVFrame.buf arrays and, if
+ * necessary, allocate and fill AVFrame.extended_data and AVFrame.extended_buf.
+ * For planar formats, one buffer will be allocated for each plane.
+ *
+ * @param frame frame in which to store the new buffers.
+ * @param align required buffer size alignment
+ *
+ * @return 0 on success, a negative AVERROR on error.
+ */
+int av_frame_get_buffer(AVFrame *frame, int align);
+
+/**
+ * Check if the frame data is writable.
+ *
+ * @return A positive value if the frame data is writable (which is true if and
+ * only if each of the underlying buffers has only one reference, namely the one
+ * stored in this frame). Return 0 otherwise.
+ *
+ * If 1 is returned the answer is valid until av_buffer_ref() is called on any
+ * of the underlying AVBufferRefs (e.g. through av_frame_ref() or directly).
+ *
+ * @see av_frame_make_writable(), av_buffer_is_writable()
+ */
+int av_frame_is_writable(AVFrame *frame);
+
+/**
+ * Ensure that the frame data is writable, avoiding data copy if possible.
+ *
+ * Do nothing if the frame is writable, allocate new buffers and copy the data
+ * if it is not.
+ *
+ * @return 0 on success, a negative AVERROR on error.
+ *
+ * @see av_frame_is_writable(), av_buffer_is_writable(),
+ * av_buffer_make_writable()
+ */
+int av_frame_make_writable(AVFrame *frame);
+
+/**
+ * Copy only "metadata" fields from src to dst.
+ *
+ * Metadata for the purpose of this function are those fields that do not affect
+ * the data layout in the buffers.  E.g. pts, sample rate (for audio) or sample
+ * aspect ratio (for video), but not width/height or channel layout.
+ * Side data is also copied.
+ */
+int av_frame_copy_props(AVFrame *dst, const AVFrame *src);
+
+/**
+ * Get the buffer reference a given data plane is stored in.
+ *
+ * @param plane index of the data plane of interest in frame->extended_data.
+ *
+ * @return the buffer reference that contains the plane or NULL if the input
+ * frame is not valid.
+ */
+AVBufferRef *av_frame_get_plane_buffer(AVFrame *frame, int plane);
+
+/**
+ * Add a new side data to a frame.
+ *
+ * @param frame a frame to which the side data should be added
+ * @param type type of the added side data
+ * @param size size of the side data
+ *
+ * @return newly added side data on success, NULL on error
+ */
+AVFrameSideData *av_frame_new_side_data(AVFrame *frame,
+                                        enum AVFrameSideDataType type,
+                                        int size);
+
+/**
+ * @return a pointer to the side data of a given type on success, NULL if there
+ * is no side data with such type in this frame.
+ */
+AVFrameSideData *av_frame_get_side_data(AVFrame *frame,
+                                        enum AVFrameSideDataType type);
+// ================================[ include/libavutil/frame.h ]================================
+// --------------------------------[ include/libavutil/log.h ]--------------------------------
+/*
+ * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+// ================================[ include/libavutil/log.h ]================================
+// --------------------------------[ include/libavutil/pixfmt.h ]--------------------------------
+/*
+ * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+// ================================[ include/libavutil/pixfmt.h ]================================
+// --------------------------------[ include/libavutil/rational.h ]--------------------------------
+/*
+ * rational numbers
+ * Copyright (c) 2003 Michael Niedermayer <michaelni@gmx.at>
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+/**
+ * @file
+ * rational numbers
+ * @author Michael Niedermayer <michaelni@gmx.at>
+ */
+// ================================[ include/libavutil/rational.h ]================================
+
+// --------------------------------[ include/libavcodec/version.h ]--------------------------------
+/*
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+// ================================[ include/libavcodec/version.h ]================================
 /**
  * @defgroup libavc Encoding/Decoding Library
  * @{
@@ -143,7 +4762,6 @@ enum AVCodecID {
     AV_CODEC_ID_MSZH,
     AV_CODEC_ID_ZLIB,
     AV_CODEC_ID_QTRLE,
-    AV_CODEC_ID_SNOW,
     AV_CODEC_ID_TSCC,
     AV_CODEC_ID_ULTI,
     AV_CODEC_ID_QDRAW,
@@ -257,6 +4875,10 @@ enum AVCodecID {
     AV_CODEC_ID_CLLC,
     AV_CODEC_ID_MSS2,
     AV_CODEC_ID_VP9,
+    AV_CODEC_ID_AIC,
+    AV_CODEC_ID_ESCAPE130_DEPRECATED,
+    AV_CODEC_ID_G2M_DEPRECATED,
+
     AV_CODEC_ID_BRENDER_PIX= (('X') | (('I') << 8) | (('P') << 16) | ((unsigned)('B') << 24)),
     AV_CODEC_ID_Y41P = (('P') | (('1') << 8) | (('4') << 16) | ((unsigned)('Y') << 24)),
     AV_CODEC_ID_ESCAPE130 = (('0') | (('3') << 8) | (('1') << 16) | ((unsigned)('E') << 24)),
@@ -279,6 +4901,9 @@ enum AVCodecID {
     AV_CODEC_ID_SGIRLE = (('R') | (('I') << 8) | (('G') << 16) | ((unsigned)('S') << 24)),
     AV_CODEC_ID_MVC1 = (('1') | (('C') << 8) | (('V') << 16) | ((unsigned)('M') << 24)),
     AV_CODEC_ID_MVC2 = (('2') | (('C') << 8) | (('V') << 16) | ((unsigned)('M') << 24)),
+    AV_CODEC_ID_SNOW = (('W') | (('O') << 8) | (('N') << 16) | ((unsigned)('S') << 24)),
+    AV_CODEC_ID_WEBP = (('P') | (('B') << 8) | (('E') << 16) | ((unsigned)('W') << 24)),
+    AV_CODEC_ID_SMVJPEG = (('J') | (('V') << 8) | (('M') << 16) | ((unsigned)('S') << 24)),
 
     /* various PCM "codecs" */
     AV_CODEC_ID_FIRST_AUDIO = 0x10000, ///< A dummy id pointing at the start of audio codecs
@@ -348,6 +4973,8 @@ enum AVCodecID {
     AV_CODEC_ID_VIMA = (('A') | (('M') << 8) | (('I') << 16) | ((unsigned)('V') << 24)),
     AV_CODEC_ID_ADPCM_AFC = ((' ') | (('C') << 8) | (('F') << 16) | ((unsigned)('A') << 24)),
     AV_CODEC_ID_ADPCM_IMA_OKI = ((' ') | (('I') << 8) | (('K') << 16) | ((unsigned)('O') << 24)),
+    AV_CODEC_ID_ADPCM_DTK = ((' ') | (('K') << 8) | (('T') << 16) | ((unsigned)('D') << 24)),
+    AV_CODEC_ID_ADPCM_IMA_RAD = ((' ') | (('D') << 8) | (('A') << 16) | ((unsigned)('R') << 24)),
 
     /* AMR */
     AV_CODEC_ID_AMR_NB = 0x12000,
@@ -429,9 +5056,6 @@ enum AVCodecID {
     AV_CODEC_ID_COMFORT_NOISE,
     AV_CODEC_ID_TAK_DEPRECATED,
     AV_CODEC_ID_FFWAVESYNTH = (('S') | (('W') << 8) | (('F') << 16) | ((unsigned)('F') << 24)),
-
-    AV_CODEC_ID_8SVX_RAW = (('X') | (('V') << 8) | (('S') << 16) | ((unsigned)('8') << 24)),
-
     AV_CODEC_ID_SONIC = (('C') | (('N') << 8) | (('O') << 16) | ((unsigned)('S') << 24)),
     AV_CODEC_ID_SONIC_LS = (('L') | (('N') << 8) | (('O') << 16) | ((unsigned)('S') << 24)),
     AV_CODEC_ID_PAF_AUDIO = (('A') | (('F') << 8) | (('A') << 16) | ((unsigned)('P') << 24)),
@@ -463,6 +5087,7 @@ enum AVCodecID {
     AV_CODEC_ID_MPL2 = (('2') | (('L') << 8) | (('P') << 16) | ((unsigned)('M') << 24)),
     AV_CODEC_ID_VPLAYER = (('r') | (('l') << 8) | (('P') << 16) | ((unsigned)('V') << 24)),
     AV_CODEC_ID_PJS = (('S') | (('J') << 8) | (('h') << 16) | ((unsigned)('P') << 24)),
+    AV_CODEC_ID_ASS = ((' ') | (('S') << 8) | (('S') << 16) | ((unsigned)('A') << 24)), ///< ASS as defined in Matroska
 
     /* other specific kind of codecs (generally used for attachments) */
     AV_CODEC_ID_FIRST_UNKNOWN = 0x18000, ///< A dummy ID pointing at the start of various fake codecs.
@@ -472,6 +5097,7 @@ enum AVCodecID {
     AV_CODEC_ID_IDF = (('F') | (('D') << 8) | (('I') << 16) | ((unsigned)(0) << 24)),
     AV_CODEC_ID_OTF = (('F') | (('T') << 8) | (('O') << 16) | ((unsigned)(0) << 24)),
     AV_CODEC_ID_SMPTE_KLV = (('A') | (('V') << 8) | (('L') << 16) | ((unsigned)('K') << 24)),
+    AV_CODEC_ID_DVD_NAV = (('V') | (('A') << 8) | (('N') << 16) | ((unsigned)('D') << 24)),
 
     AV_CODEC_ID_PROBE = 0x19000, ///< codec_id is not known (like AV_CODEC_ID_NONE) but lavf should attempt to identify it
 
@@ -501,6 +5127,37 @@ enum AVCodecID {
  */
 
 #define AVCODEC_OLD_CODEC_IDS_H 
+
+// --------------------------------[ include/libavutil/common.h ]--------------------------------
+/*
+ * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
+ *
+ * This file is part of FFmpeg.
+ *
+ * FFmpeg is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * FFmpeg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with FFmpeg; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
+
+/**
+ * @file
+ * common internal and external API header
+ */
+/*
+ * The following definitions are outside the multiple inclusion guard
+ * to ensure they are immediately available in intmath.h.
+ */
+// ================================[ include/libavutil/common.h ]================================
 
 /*
  * This header exists to prevent new codec IDs from being accidentally added to
@@ -569,7 +5226,6 @@ enum AVCodecID {
     CODEC_ID_MSZH,
     CODEC_ID_ZLIB,
     CODEC_ID_QTRLE,
-    CODEC_ID_SNOW,
     CODEC_ID_TSCC,
     CODEC_ID_ULTI,
     CODEC_ID_QDRAW,
@@ -694,6 +5350,7 @@ enum AVCodecID {
     CODEC_ID_YUV4 = (('4') | (('V') << 8) | (('U') << 16) | ((unsigned)('Y') << 24)),
     CODEC_ID_SANM = (('M') | (('N') << 8) | (('A') << 16) | ((unsigned)('S') << 24)),
     CODEC_ID_PAF_VIDEO = (('V') | (('F') << 8) | (('A') << 16) | ((unsigned)('P') << 24)),
+    CODEC_ID_SNOW = AV_CODEC_ID_SNOW,
 
     /* various PCM "codecs" */
     CODEC_ID_FIRST_AUDIO = 0x10000, ///< A dummy id pointing at the start of audio codecs
@@ -836,7 +5493,6 @@ enum AVCodecID {
     CODEC_ID_IAC,
     CODEC_ID_ILBC,
     CODEC_ID_FFWAVESYNTH = (('S') | (('W') << 8) | (('F') << 16) | ((unsigned)('F') << 24)),
-    CODEC_ID_8SVX_RAW = (('X') | (('V') << 8) | (('S') << 16) | ((unsigned)('8') << 24)),
     CODEC_ID_SONIC = (('C') | (('N') << 8) | (('O') << 16) | ((unsigned)('S') << 24)),
     CODEC_ID_SONIC_LS = (('L') | (('N') << 8) | (('O') << 16) | ((unsigned)('S') << 24)),
     CODEC_ID_PAF_AUDIO = (('A') | (('F') << 8) | (('A') << 16) | ((unsigned)('P') << 24)),
@@ -879,8 +5535,6 @@ enum AVCodecID {
 
 };
 
-#define CodecID AVCodecID
-
 /**
  * This struct describes the properties of a single codec described by an
  * AVCodecID.
@@ -922,11 +5576,14 @@ typedef struct AVCodecDescriptor {
 #define AV_CODEC_PROP_LOSSLESS (1 << 2)
 /**
  * Subtitle codec is bitmap based
+ * Decoded AVSubtitle data can be read from the AVSubtitleRect->pict field.
  */
 #define AV_CODEC_PROP_BITMAP_SUB (1 << 16)
-
-/* in bytes */
-#define AVCODEC_MAX_AUDIO_FRAME_SIZE 192000 /* 1 second of 48khz 32bit audio*/
+/**
+ * Subtitle codec is text based.
+ * Decoded AVSubtitle data can be read from the AVSubtitleRect->ass field.
+ */
+#define AV_CODEC_PROP_TEXT_SUB (1 << 17)
 
 /**
  * @ingroup lavc_decoding
@@ -958,8 +5615,8 @@ enum Motion_Est_ID {
     ME_X1, ///< reserved for experiments
     ME_HEX, ///< hexagon based search
     ME_UMH, ///< uneven multi-hexagon search
-    ME_ITER, ///< iterative search
     ME_TESA, ///< transformed exhaustive search algorithm
+    ME_ITER=50, ///< iterative search
 };
 
 /**
@@ -1062,6 +5719,11 @@ typedef struct RcOverride{
    Note: Not everything is supported yet.
 */
 
+/**
+ * Allow decoders to produce frames with data planes that are not aligned
+ * to CPU requirements (e.g. due to cropping).
+ */
+#define CODEC_FLAG_UNALIGNED 0x0001
 #define CODEC_FLAG_QSCALE 0x0002 /*|< Use fixed qscale.*/
 #define CODEC_FLAG_4MV 0x0004 /*|< 4 MV per MB allowed / advanced prediction for H.263.*/
 #define CODEC_FLAG_QPEL 0x0010 /*|< Use qpel MC.*/
@@ -1096,11 +5758,6 @@ typedef struct RcOverride{
 #define CODEC_FLAG2_LOCAL_HEADER 0x00000008 /*|< Place global headers at every keyframe instead of in extradata.*/
 #define CODEC_FLAG2_DROP_FRAME_TIMECODE 0x00002000 /*|< timecode is in drop frame format. DEPRECATED!!!!*/
 #define CODEC_FLAG2_IGNORE_CROP 0x00010000 /*|< Discard cropping information from SPS.*/
-
-#define CODEC_FLAG_CBP_RD 0x04000000 /*|< Use rate distortion optimization for cbp.*/
-#define CODEC_FLAG_QP_RD 0x08000000 /*|< Use rate distortion optimization for qp selectioon.*/
-#define CODEC_FLAG2_STRICT_GOP 0x00000002 /*|< Strictly enforce GOP size.*/
-#define CODEC_FLAG2_SKIP_RD 0x00004000 /*|< RD optimal MB level residual skipping*/
 
 #define CODEC_FLAG2_CHUNKS 0x00008000 /*|< Input bitstream might be truncated at a packet boundaries instead of only at frame boundaries.*/
 #define CODEC_FLAG2_SHOW_ALL 0x00400000 /*|< Show all frames before the first keyframe*/
@@ -1280,6 +5937,11 @@ typedef struct AVPanScan{
 #define FF_BUFFER_HINTS_REUSABLE 0x08 /* Codec will reuse the buffer (update).*/
 
 /**
+ * The decoder will keep a reference to the frame and may reuse it later.
+ */
+#define AV_GET_BUFFER_FLAG_REF (1 << 0)
+
+/**
  * @defgroup lavc_packet AVPacket
  *
  * Types and functions for working with AVPacket.
@@ -1372,6 +6034,17 @@ enum AVPacketSideDataType {
      * by data.
      */
     AV_PKT_DATA_MATROSKA_BLOCKADDITIONAL,
+
+    /**
+     * The optional first identifier line of a WebVTT cue.
+     */
+    AV_PKT_DATA_WEBVTT_IDENTIFIER,
+
+    /**
+     * The optional settings (rendering instructions) that immediately
+     * follow the timestamp specifier of a WebVTT cue.
+     */
+    AV_PKT_DATA_WEBVTT_SETTINGS,
 };
 
 /**
@@ -1386,17 +6059,23 @@ enum AVPacketSideDataType {
  * ABI. Thus it may be allocated on stack and no new fields can be added to it
  * without libavcodec and libavformat major bump.
  *
- * The semantics of data ownership depends on the destruct field.
- * If it is set, the packet data is dynamically allocated and is valid
- * indefinitely until av_free_packet() is called (which in turn calls the
- * destruct callback to free the data). If destruct is not set, the packet data
- * is typically backed by some static buffer somewhere and is only valid for a
- * limited time (e.g. until the next read call when demuxing).
+ * The semantics of data ownership depends on the buf or destruct (deprecated)
+ * fields. If either is set, the packet data is dynamically allocated and is
+ * valid indefinitely until av_free_packet() is called (which in turn calls
+ * av_buffer_unref()/the destruct callback to free the data). If neither is set,
+ * the packet data is typically backed by some static buffer somewhere and is
+ * only valid for a limited time (e.g. until the next read call when demuxing).
  *
  * The side data is always allocated with av_malloc() and is freed in
  * av_free_packet().
  */
 typedef struct AVPacket {
+    /**
+     * A reference to the reference-counted buffer where the packet data is
+     * stored.
+     * May be NULL, then the packet data is not reference-counted.
+     */
+    AVBufferRef *buf;
     /**
      * Presentation timestamp in AVStream->time_base units; the time at which
      * the decompressed packet will be presented to the user.
@@ -1436,8 +6115,12 @@ typedef struct AVPacket {
      * Equals next_pts - this_pts in presentation order.
      */
     int duration;
+
+   
     void (*destruct)(struct AVPacket *);
+   
     void *priv;
+
     int64_t pos; ///< byte position in stream, -1 if unknown
 
     /**
@@ -1471,449 +6154,6 @@ enum AVSideDataParamChangeFlags {
 /**
  * @}
  */
-
-/**
- * This structure describes decoded (raw) audio or video data.
- *
- * AVFrame must be allocated using avcodec_alloc_frame() and freed with
- * avcodec_free_frame(). Note that this allocates only the AVFrame itself. The
- * buffers for the data must be managed through other means.
- *
- * AVFrame is typically allocated once and then reused multiple times to hold
- * different data (e.g. a single AVFrame to hold frames received from a
- * decoder). In such a case, avcodec_get_frame_defaults() should be used to
- * reset the frame to its original clean state before it is reused again.
- *
- * sizeof(AVFrame) is not a part of the public ABI, so new fields may be added
- * to the end with a minor bump.
- * Similarly fields that are marked as to be only accessed by
- * av_opt_ptr() can be reordered. This allows 2 forks to add fields
- * without breaking compatibility with each other.
- */
-typedef struct AVFrame {
-#define AV_NUM_DATA_POINTERS 8
-    /**
-     * pointer to the picture/channel planes.
-     * This might be different from the first allocated byte
-     * - encoding: Set by user
-     * - decoding: set by AVCodecContext.get_buffer()
-     */
-    uint8_t *data[8];
-
-    /**
-     * Size, in bytes, of the data for each picture/channel plane.
-     *
-     * For audio, only linesize[0] may be set. For planar audio, each channel
-     * plane must be the same size.
-     *
-     * - encoding: Set by user
-     * - decoding: set by AVCodecContext.get_buffer()
-     */
-    int linesize[8];
-
-    /**
-     * pointers to the data planes/channels.
-     *
-     * For video, this should simply point to data[].
-     *
-     * For planar audio, each channel has a separate data pointer, and
-     * linesize[0] contains the size of each channel buffer.
-     * For packed audio, there is just one data pointer, and linesize[0]
-     * contains the total size of the buffer for all channels.
-     *
-     * Note: Both data and extended_data will always be set by get_buffer(),
-     * but for planar audio with more channels that can fit in data,
-     * extended_data must be used by the decoder in order to access all
-     * channels.
-     *
-     * encoding: set by user
-     * decoding: set by AVCodecContext.get_buffer()
-     */
-    uint8_t **extended_data;
-
-    /**
-     * width and height of the video frame
-     * - encoding: unused
-     * - decoding: Read by user.
-     */
-    int width, height;
-
-    /**
-     * number of audio samples (per channel) described by this frame
-     * - encoding: Set by user
-     * - decoding: Set by libavcodec
-     */
-    int nb_samples;
-
-    /**
-     * format of the frame, -1 if unknown or unset
-     * Values correspond to enum AVPixelFormat for video frames,
-     * enum AVSampleFormat for audio)
-     * - encoding: unused
-     * - decoding: Read by user.
-     */
-    int format;
-
-    /**
-     * 1 -> keyframe, 0-> not
-     * - encoding: Set by libavcodec.
-     * - decoding: Set by libavcodec.
-     */
-    int key_frame;
-
-    /**
-     * Picture type of the frame, see ?_TYPE below.
-     * - encoding: Set by libavcodec. for coded_picture (and set by user for input).
-     * - decoding: Set by libavcodec.
-     */
-    enum AVPictureType pict_type;
-
-    /**
-     * pointer to the first allocated byte of the picture. Can be used in get_buffer/release_buffer.
-     * This isn't used by libavcodec unless the default get/release_buffer() is used.
-     * - encoding:
-     * - decoding:
-     */
-    uint8_t *base[8];
-
-    /**
-     * sample aspect ratio for the video frame, 0/1 if unknown/unspecified
-     * - encoding: unused
-     * - decoding: Read by user.
-     */
-    AVRational sample_aspect_ratio;
-
-    /**
-     * presentation timestamp in time_base units (time when frame should be shown to user)
-     * If AV_NOPTS_VALUE then frame_rate = 1/time_base will be assumed.
-     * - encoding: MUST be set by user.
-     * - decoding: Set by libavcodec.
-     */
-    int64_t pts;
-
-    /**
-     * pts copied from the AVPacket that was decoded to produce this frame
-     * - encoding: unused
-     * - decoding: Read by user.
-     */
-    int64_t pkt_pts;
-
-    /**
-     * dts copied from the AVPacket that triggered returning this frame
-     * - encoding: unused
-     * - decoding: Read by user.
-     */
-    int64_t pkt_dts;
-
-    /**
-     * picture number in bitstream order
-     * - encoding: set by
-     * - decoding: Set by libavcodec.
-     */
-    int coded_picture_number;
-    /**
-     * picture number in display order
-     * - encoding: set by
-     * - decoding: Set by libavcodec.
-     */
-    int display_picture_number;
-
-    /**
-     * quality (between 1 (good) and FF_LAMBDA_MAX (bad))
-     * - encoding: Set by libavcodec. for coded_picture (and set by user for input).
-     * - decoding: Set by libavcodec.
-     */
-    int quality;
-
-    /**
-     * is this picture used as reference
-     * The values for this are the same as the MpegEncContext.picture_structure
-     * variable, that is 1->top field, 2->bottom field, 3->frame/both fields.
-     * Set to 4 for delayed, non-reference frames.
-     * - encoding: unused
-     * - decoding: Set by libavcodec. (before get_buffer() call)).
-     */
-    int reference;
-
-    /**
-     * QP table
-     * - encoding: unused
-     * - decoding: Set by libavcodec.
-     */
-    int8_t *qscale_table;
-    /**
-     * QP store stride
-     * - encoding: unused
-     * - decoding: Set by libavcodec.
-     */
-    int qstride;
-
-    /**
-     *
-     */
-    int qscale_type;
-
-    /**
-     * mbskip_table[mb]>=1 if MB didn't change
-     * stride= mb_width = (width+15)>>4
-     * - encoding: unused
-     * - decoding: Set by libavcodec.
-     */
-    uint8_t *mbskip_table;
-
-    /**
-     * motion vector table
-     * @code
-     * example:
-     * int mv_sample_log2= 4 - motion_subsample_log2;
-     * int mb_width= (width+15)>>4;
-     * int mv_stride= (mb_width << mv_sample_log2) + 1;
-     * motion_val[direction][x + y*mv_stride][0->mv_x, 1->mv_y];
-     * @endcode
-     * - encoding: Set by user.
-     * - decoding: Set by libavcodec.
-     */
-    int16_t (*motion_val[2])[2];
-
-    /**
-     * macroblock type table
-     * mb_type_base + mb_width + 2
-     * - encoding: Set by user.
-     * - decoding: Set by libavcodec.
-     */
-    uint32_t *mb_type;
-
-    /**
-     * DCT coefficients
-     * - encoding: unused
-     * - decoding: Set by libavcodec.
-     */
-    short *dct_coeff;
-
-    /**
-     * motion reference frame index
-     * the order in which these are stored can depend on the codec.
-     * - encoding: Set by user.
-     * - decoding: Set by libavcodec.
-     */
-    int8_t *ref_index[2];
-
-    /**
-     * for some private data of the user
-     * - encoding: unused
-     * - decoding: Set by user.
-     */
-    void *opaque;
-
-    /**
-     * error
-     * - encoding: Set by libavcodec. if flags&CODEC_FLAG_PSNR.
-     * - decoding: unused
-     */
-    uint64_t error[8];
-
-    /**
-     * type of the buffer (to keep track of who has to deallocate data[*])
-     * - encoding: Set by the one who allocates it.
-     * - decoding: Set by the one who allocates it.
-     * Note: User allocated (direct rendering) & internal buffers cannot coexist currently.
-     */
-    int type;
-
-    /**
-     * When decoding, this signals how much the picture must be delayed.
-     * extra_delay = repeat_pict / (2*fps)
-     * - encoding: unused
-     * - decoding: Set by libavcodec.
-     */
-    int repeat_pict;
-
-    /**
-     * The content of the picture is interlaced.
-     * - encoding: Set by user.
-     * - decoding: Set by libavcodec. (default 0)
-     */
-    int interlaced_frame;
-
-    /**
-     * If the content is interlaced, is top field displayed first.
-     * - encoding: Set by user.
-     * - decoding: Set by libavcodec.
-     */
-    int top_field_first;
-
-    /**
-     * Tell user application that palette has changed from previous frame.
-     * - encoding: ??? (no palette-enabled encoder yet)
-     * - decoding: Set by libavcodec. (default 0).
-     */
-    int palette_has_changed;
-
-    /**
-     * codec suggestion on buffer type if != 0
-     * - encoding: unused
-     * - decoding: Set by libavcodec. (before get_buffer() call)).
-     */
-    int buffer_hints;
-
-    /**
-     * Pan scan.
-     * - encoding: Set by user.
-     * - decoding: Set by libavcodec.
-     */
-    AVPanScan *pan_scan;
-
-    /**
-     * reordered opaque 64bit (generally an integer or a double precision float
-     * PTS but can be anything).
-     * The user sets AVCodecContext.reordered_opaque to represent the input at
-     * that time,
-     * the decoder reorders values as needed and sets AVFrame.reordered_opaque
-     * to exactly one of the values provided by the user through AVCodecContext.reordered_opaque
-     * @deprecated in favor of pkt_pts
-     * - encoding: unused
-     * - decoding: Read by user.
-     */
-    int64_t reordered_opaque;
-
-    /**
-     * hardware accelerator private data (FFmpeg-allocated)
-     * - encoding: unused
-     * - decoding: Set by libavcodec
-     */
-    void *hwaccel_picture_private;
-
-    /**
-     * the AVCodecContext which ff_thread_get_buffer() was last called on
-     * - encoding: Set by libavcodec.
-     * - decoding: Set by libavcodec.
-     */
-    struct AVCodecContext *owner;
-
-    /**
-     * used by multithreading to store frame-specific info
-     * - encoding: Set by libavcodec.
-     * - decoding: Set by libavcodec.
-     */
-    void *thread_opaque;
-
-    /**
-     * log2 of the size of the block which a single vector in motion_val represents:
-     * (4->16x16, 3->8x8, 2-> 4x4, 1-> 2x2)
-     * - encoding: unused
-     * - decoding: Set by libavcodec.
-     */
-    uint8_t motion_subsample_log2;
-
-    /**
-     * Sample rate of the audio data.
-     *
-     * - encoding: unused
-     * - decoding: read by user
-     */
-    int sample_rate;
-
-    /**
-     * Channel layout of the audio data.
-     *
-     * - encoding: unused
-     * - decoding: read by user.
-     */
-    uint64_t channel_layout;
-
-    /**
-     * frame timestamp estimated using various heuristics, in stream time base
-     * Code outside libavcodec should access this field using:
-     * av_frame_get_best_effort_timestamp(frame)
-     * - encoding: unused
-     * - decoding: set by libavcodec, read by user.
-     */
-    int64_t best_effort_timestamp;
-
-    /**
-     * reordered pos from the last AVPacket that has been input into the decoder
-     * Code outside libavcodec should access this field using:
-     * av_frame_get_pkt_pos(frame)
-     * - encoding: unused
-     * - decoding: Read by user.
-     */
-    int64_t pkt_pos;
-
-    /**
-     * duration of the corresponding packet, expressed in
-     * AVStream->time_base units, 0 if unknown.
-     * Code outside libavcodec should access this field using:
-     * av_frame_get_pkt_duration(frame)
-     * - encoding: unused
-     * - decoding: Read by user.
-     */
-    int64_t pkt_duration;
-
-    /**
-     * metadata.
-     * Code outside libavcodec should access this field using:
-     * av_frame_get_metadata(frame)
-     * - encoding: Set by user.
-     * - decoding: Set by libavcodec.
-     */
-    AVDictionary *metadata;
-
-    /**
-     * decode error flags of the frame, set to a combination of
-     * FF_DECODE_ERROR_xxx flags if the decoder produced a frame, but there
-     * were errors during the decoding.
-     * Code outside libavcodec should access this field using:
-     * av_frame_get_decode_error_flags(frame)
-     * - encoding: unused
-     * - decoding: set by libavcodec, read by user.
-     */
-    int decode_error_flags;
-#define FF_DECODE_ERROR_INVALID_BITSTREAM 1
-#define FF_DECODE_ERROR_MISSING_REFERENCE 2
-
-    /**
-     * number of audio channels, only used for audio.
-     * Code outside libavcodec should access this field using:
-     * av_frame_get_channels(frame)
-     * - encoding: unused
-     * - decoding: Read by user.
-     */
-    int channels;
-
-    /**
-     * size of the corresponding packet containing the compressed
-     * frame. It must be accessed using av_frame_get_pkt_size() and
-     * av_frame_set_pkt_size().
-     * It is set to a negative value if unknown.
-     * - encoding: unused
-     * - decoding: set by libavcodec, read by user.
-     */
-    int pkt_size;
-} AVFrame;
-
-/**
- * Accessors for some AVFrame fields.
- * The position of these field in the structure is not part of the ABI,
- * they should not be accessed directly outside libavcodec.
- */
-int64_t av_frame_get_best_effort_timestamp(const AVFrame *frame);
-void av_frame_set_best_effort_timestamp(AVFrame *frame, int64_t val);
-int64_t av_frame_get_pkt_duration (const AVFrame *frame);
-void av_frame_set_pkt_duration (AVFrame *frame, int64_t val);
-int64_t av_frame_get_pkt_pos (const AVFrame *frame);
-void av_frame_set_pkt_pos (AVFrame *frame, int64_t val);
-int64_t av_frame_get_channel_layout (const AVFrame *frame);
-void av_frame_set_channel_layout (AVFrame *frame, int64_t val);
-int av_frame_get_channels (const AVFrame *frame);
-void av_frame_set_channels (AVFrame *frame, int val);
-int av_frame_get_sample_rate (const AVFrame *frame);
-void av_frame_set_sample_rate (AVFrame *frame, int val);
-AVDictionary *av_frame_get_metadata (const AVFrame *frame);
-void av_frame_set_metadata (AVFrame *frame, AVDictionary *val);
-int av_frame_get_decode_error_flags (const AVFrame *frame);
-void av_frame_set_decode_error_flags (AVFrame *frame, int val);
-int av_frame_get_pkt_size(const AVFrame *frame);
-void av_frame_set_pkt_size(AVFrame *frame, int val);
 
 struct AVCodecInternal;
 
@@ -1970,11 +6210,6 @@ typedef struct AVCodecContext {
      * - decoding: Set by user, will be converted to uppercase by libavcodec during init.
      */
     unsigned int stream_codec_tag;
-
-    /**
-     * @deprecated this field is unused
-     */
-    int sub_id;
 
     void *priv_data;
 
@@ -2043,7 +6278,7 @@ typedef struct AVCodecContext {
      * rv10: additional flags
      * mpeg4: global headers (they can be in the bitstream or here)
      * The allocated memory should be FF_INPUT_BUFFER_PADDING_SIZE bytes larger
-     * than extradata_size to avoid prolems if it is read with the bitstream reader.
+     * than extradata_size to avoid problems if it is read with the bitstream reader.
      * The bytewise contents of extradata must not depend on the architecture or CPU endianness.
      * - encoding: Set/allocated/freed by libavcodec.
      * - decoding: Set/allocated/freed by user.
@@ -2102,16 +6337,20 @@ typedef struct AVCodecContext {
     /**
      * picture width / height.
      * - encoding: MUST be set by user.
-     * - decoding: Set by libavcodec.
-     * Note: For compatibility it is possible to set this instead of
-     * coded_width/height before decoding.
+     * - decoding: May be set by the user before opening the decoder if known e.g.
+     *             from the container. Some decoders will require the dimensions
+     *             to be set by the caller. During decoding, the decoder may
+     *             overwrite those values as required.
      */
     int width, height;
 
     /**
-     * Bitstream width / height, may be different from width/height if lowres enabled.
+     * Bitstream width / height, may be different from width/height e.g. when
+     * the decoded frame is cropped before being output or lowres is enabled.
      * - encoding: unused
-     * - decoding: Set by user before init if known. Codec should override / dynamically change if needed.
+     * - decoding: May be set by the user before opening the decoder if known
+     *             e.g. from the container. During decoding, the decoder may
+     *             overwrite those values as required.
      */
     int coded_width, coded_height;
 
@@ -2202,20 +6441,6 @@ typedef struct AVCodecContext {
 #define FF_RC_STRATEGY_XVID 1
 
     int b_frame_strategy;
-
-    /**
-     * luma single coefficient elimination threshold
-     * - encoding: Set by user.
-     * - decoding: unused
-     */
-    int luma_elim_threshold;
-
-    /**
-     * chroma single coeff elimination threshold
-     * - encoding: Set by user.
-     * - decoding: unused
-     */
-    int chroma_elim_threshold;
 
     /**
      * qscale offset between IP and B-frames
@@ -2447,14 +6672,6 @@ typedef struct AVCodecContext {
     int inter_quant_bias;
 
     /**
-     * color table ID
-     * - encoding: unused
-     * - decoding: Which clrtable should be used for 8bit RGB images.
-     *             Tables have to be stored somewhere. FIXME
-     */
-    int color_table_id;
-
-    /**
      * slice flags
      * - encoding: unused
      * - decoding: Set by user.
@@ -2509,16 +6726,6 @@ typedef struct AVCodecContext {
      * - decoding: unused
      */
     int noise_reduction;
-
-    /**
-     * @deprecated this field is unused
-     */
-    int inter_threshold;
-
-    /**
-     * @deprecated use mpegvideo private options instead
-     */
-    int quantizer_noise_shaping;
 
     /**
      * Motion estimation threshold below which no motion estimation is
@@ -2836,7 +7043,10 @@ typedef struct AVCodecContext {
      *
      * - encoding: unused
      * - decoding: Set by libavcodec, user can override.
+     *
+     * @deprecated use get_buffer2()
      */
+   
     int (*get_buffer)(struct AVCodecContext *c, AVFrame *pic);
 
     /**
@@ -2847,7 +7057,10 @@ typedef struct AVCodecContext {
      * but not by more than one thread at once, so does not need to be reentrant.
      * - encoding: unused
      * - decoding: Set by libavcodec, user can override.
+     *
+     * @deprecated custom freeing callbacks should be set from get_buffer2()
      */
+   
     void (*release_buffer)(struct AVCodecContext *c, AVFrame *pic);
 
     /**
@@ -2862,7 +7075,104 @@ typedef struct AVCodecContext {
      * - encoding: unused
      * - decoding: Set by libavcodec, user can override.
      */
+   
     int (*reget_buffer)(struct AVCodecContext *c, AVFrame *pic);
+
+    /**
+     * This callback is called at the beginning of each frame to get data
+     * buffer(s) for it. There may be one contiguous buffer for all the data or
+     * there may be a buffer per each data plane or anything in between. What
+     * this means is, you may set however many entries in buf[] you feel necessary.
+     * Each buffer must be reference-counted using the AVBuffer API (see description
+     * of buf[] below).
+     *
+     * The following fields will be set in the frame before this callback is
+     * called:
+     * - format
+     * - width, height (video only)
+     * - sample_rate, channel_layout, nb_samples (audio only)
+     * Their values may differ from the corresponding values in
+     * AVCodecContext. This callback must use the frame values, not the codec
+     * context values, to calculate the required buffer size.
+     *
+     * This callback must fill the following fields in the frame:
+     * - data[]
+     * - linesize[]
+     * - extended_data:
+     *   * if the data is planar audio with more than 8 channels, then this
+     *     callback must allocate and fill extended_data to contain all pointers
+     *     to all data planes. data[] must hold as many pointers as it can.
+     *     extended_data must be allocated with av_malloc() and will be freed in
+     *     av_frame_unref().
+     *   * otherwise exended_data must point to data
+     * - buf[] must contain one or more pointers to AVBufferRef structures. Each of
+     *   the frame's data and extended_data pointers must be contained in these. That
+     *   is, one AVBufferRef for each allocated chunk of memory, not necessarily one
+     *   AVBufferRef per data[] entry. See: av_buffer_create(), av_buffer_alloc(),
+     *   and av_buffer_ref().
+     * - extended_buf and nb_extended_buf must be allocated with av_malloc() by
+     *   this callback and filled with the extra buffers if there are more
+     *   buffers than buf[] can hold. extended_buf will be freed in
+     *   av_frame_unref().
+     *
+     * If CODEC_CAP_DR1 is not set then get_buffer2() must call
+     * avcodec_default_get_buffer2() instead of providing buffers allocated by
+     * some other means.
+     *
+     * Each data plane must be aligned to the maximum required by the target
+     * CPU.
+     *
+     * @see avcodec_default_get_buffer2()
+     *
+     * Video:
+     *
+     * If AV_GET_BUFFER_FLAG_REF is set in flags then the frame may be reused
+     * (read and/or written to if it is writable) later by libavcodec.
+     *
+     * If CODEC_FLAG_EMU_EDGE is not set in s->flags, the buffer must contain an
+     * edge of the size returned by avcodec_get_edge_width() on all sides.
+     *
+     * avcodec_align_dimensions2() should be used to find the required width and
+     * height, as they normally need to be rounded up to the next multiple of 16.
+     *
+     * If frame multithreading is used and thread_safe_callbacks is set,
+     * this callback may be called from a different thread, but not from more
+     * than one at once. Does not need to be reentrant.
+     *
+     * @see avcodec_align_dimensions2()
+     *
+     * Audio:
+     *
+     * Decoders request a buffer of a particular size by setting
+     * AVFrame.nb_samples prior to calling get_buffer2(). The decoder may,
+     * however, utilize only part of the buffer by setting AVFrame.nb_samples
+     * to a smaller value in the output frame.
+     *
+     * As a convenience, av_samples_get_buffer_size() and
+     * av_samples_fill_arrays() in libavutil may be used by custom get_buffer2()
+     * functions to find the required data size and to fill data pointers and
+     * linesize. In AVFrame.linesize, only linesize[0] may be set for audio
+     * since all planes must be the same size.
+     *
+     * @see av_samples_get_buffer_size(), av_samples_fill_arrays()
+     *
+     * - encoding: unused
+     * - decoding: Set by libavcodec, user can override.
+     */
+    int (*get_buffer2)(struct AVCodecContext *s, AVFrame *frame, int flags);
+
+    /**
+     * If non-zero, the decoded audio and video frames returned from
+     * avcodec_decode_video2() and avcodec_decode_audio4() are reference-counted
+     * and are valid indefinitely. The caller must free them with
+     * av_frame_unref() when they are not needed anymore.
+     * Otherwise, the decoded frames must not be freed by the caller and are
+     * only valid until the next decode call.
+     *
+     * - encoding: unused
+     * - decoding: set by the caller before avcodec_open2().
+     */
+    int refcounted_frames;
 
     /* - encoding parameters */
     float qcompress; ///< amount of qscale change between easy & hard scenes (0.0-1.0)
@@ -3258,10 +7568,6 @@ typedef struct AVCodecContext {
 #define FF_IDCT_INT 1
 #define FF_IDCT_SIMPLE 2
 #define FF_IDCT_SIMPLEMMX 3
-#define FF_IDCT_LIBMPEG2MMX 4
-
-#define FF_IDCT_MMI 5
-
 #define FF_IDCT_ARM 7
 #define FF_IDCT_ALTIVEC 8
 #define FF_IDCT_SH4 9
@@ -3274,11 +7580,6 @@ typedef struct AVCodecContext {
 #define FF_IDCT_FAAN 20
 #define FF_IDCT_SIMPLENEON 22
 #define FF_IDCT_SIMPLEALPHA 23
-    /**
-     * Unused.
-     * @deprecated use av_set_cpu_flags_mask() instead.
-     */
-    unsigned dsp_mask;
 
     /**
      * bits per sample/pixel from the demuxer (needed for huffyuv).
@@ -3298,6 +7599,8 @@ typedef struct AVCodecContext {
      * low resolution decoding, 1-> 1/2 size, 2->1/4 size
      * - encoding: unused
      * - decoding: Set by user.
+     * Code outside libavcodec should access this field using:
+     * av_codec_{get,set}_lowres(avctx)
      */
      int lowres;
 
@@ -3408,6 +7711,8 @@ typedef struct AVCodecContext {
 #define FF_PROFILE_AAC_HE_V2 28
 #define FF_PROFILE_AAC_LD 22
 #define FF_PROFILE_AAC_ELD 38
+#define FF_PROFILE_MPEG2_AAC_LOW 128
+#define FF_PROFILE_MPEG2_AAC_HE 131
 
 #define FF_PROFILE_DTS 20
 #define FF_PROFILE_DTS_ES 30
@@ -3461,6 +7766,12 @@ typedef struct AVCodecContext {
 #define FF_PROFILE_MPEG4_SIMPLE_STUDIO 14
 #define FF_PROFILE_MPEG4_ADVANCED_SIMPLE 15
 
+#define FF_PROFILE_JPEG2000_CSTREAM_RESTRICTION_0 0
+#define FF_PROFILE_JPEG2000_CSTREAM_RESTRICTION_1 1
+#define FF_PROFILE_JPEG2000_CSTREAM_NO_RESTRICTION 2
+#define FF_PROFILE_JPEG2000_DCINEMA_2K 3
+#define FF_PROFILE_JPEG2000_DCINEMA_4K 4
+
     /**
      * level
      * - encoding: Set by user.
@@ -3470,21 +7781,21 @@ typedef struct AVCodecContext {
 #define FF_LEVEL_UNKNOWN -99
 
     /**
-     *
+     * Skip loop filtering for selected frames.
      * - encoding: unused
      * - decoding: Set by user.
      */
     enum AVDiscard skip_loop_filter;
 
     /**
-     *
+     * Skip IDCT/dequantization for selected frames.
      * - encoding: unused
      * - decoding: Set by user.
      */
     enum AVDiscard skip_idct;
 
     /**
-     *
+     * Skip decoding for selected frames.
      * - encoding: unused
      * - decoding: Set by user.
      */
@@ -3530,7 +7841,7 @@ typedef struct AVCodecContext {
      * Code outside libavcodec should access this field using:
      * av_codec_{get,set}_pkt_timebase(avctx)
      * - encoding unused.
-     * - decodimg set by user
+     * - decoding set by user.
      */
     AVRational pkt_timebase;
 
@@ -3542,7 +7853,6 @@ typedef struct AVCodecContext {
      * - decoding: set by libavcodec.
      */
     const AVCodecDescriptor *codec_descriptor;
-
     /**
      * Current statistics for PTS correction.
      * - decoding: maintained and used by libavcodec, not intended to be used by user apps
@@ -3552,13 +7862,6 @@ typedef struct AVCodecContext {
     int64_t pts_correction_num_faulty_dts; /// Number of incorrect DTS values so far
     int64_t pts_correction_last_pts; /// PTS of the last frame
     int64_t pts_correction_last_dts; /// DTS of the last frame
-
-    /**
-     * Current frame metadata.
-     * - decoding: maintained and used by libavcodec, not intended to be used by user apps
-     * - encoding: unused
-     */
-    AVDictionary *metadata;
 
     /**
      * Character encoding of the input subtitles file.
@@ -3577,6 +7880,7 @@ typedef struct AVCodecContext {
 #define FF_SUB_CHARENC_MODE_DO_NOTHING -1 /*|< do nothing (demuxer outputs a stream supposed to be already in UTF-8, or the codec is bitmap for instance)*/
 #define FF_SUB_CHARENC_MODE_AUTOMATIC 0 /*|< libavcodec will select the mode itself*/
 #define FF_SUB_CHARENC_MODE_PRE_DECODER 1 /*|< the AVPacket data needs to be recoded to UTF-8 before being fed to the decoder, requires iconv*/
+
 } AVCodecContext;
 
 AVRational av_codec_get_pkt_timebase (const AVCodecContext *avctx);
@@ -3584,6 +7888,9 @@ void av_codec_set_pkt_timebase (AVCodecContext *avctx, AVRational val);
 
 const AVCodecDescriptor *av_codec_get_codec_descriptor(const AVCodecContext *avctx);
 void av_codec_set_codec_descriptor(AVCodecContext *avctx, const AVCodecDescriptor *desc);
+
+int av_codec_get_lowres(const AVCodecContext *avctx);
+void av_codec_set_lowres(AVCodecContext *avctx, int val);
 
 /**
  * AVProfile.
@@ -3900,38 +8207,6 @@ void avcodec_register(AVCodec *codec);
  * @see av_register_bitstream_filter
  */
 void avcodec_register_all(void);
-
-/**
- * Allocate an AVCodecContext and set its fields to default values.  The
- * resulting struct can be deallocated by simply calling av_free().
- *
- * @return An AVCodecContext filled with default values or NULL on failure.
- * @see avcodec_get_context_defaults
- *
- * @deprecated use avcodec_alloc_context3()
- */
-
-AVCodecContext *avcodec_alloc_context(void);
-
-/** THIS FUNCTION IS NOT YET PART OF THE PUBLIC API!
- *  we WILL change its arguments and name a few times! */
-
-AVCodecContext *avcodec_alloc_context2(enum AVMediaType);
-
-/**
- * Set the fields of the given AVCodecContext to default values.
- *
- * @param s The AVCodecContext of which the fields should be set to default values.
- * @deprecated use avcodec_get_context_defaults3
- */
-
-void avcodec_get_context_defaults(AVCodecContext *s);
-
-/** THIS FUNCTION IS NOT YET PART OF THE PUBLIC API!
- *  we WILL change its arguments and name a few times! */
-
-void avcodec_get_context_defaults2(AVCodecContext *s, enum AVMediaType);
-
 /**
  * Allocate an AVCodecContext and set its fields to default values.  The
  * resulting struct can be deallocated by calling avcodec_close() on it followed
@@ -4024,39 +8299,6 @@ void avcodec_get_frame_defaults(AVFrame *frame);
  *  a custom get_buffer()).
  */
 void avcodec_free_frame(AVFrame **frame);
-
-/**
- * Initialize the AVCodecContext to use the given AVCodec. Prior to using this
- * function the context has to be allocated.
- *
- * The functions avcodec_find_decoder_by_name(), avcodec_find_encoder_by_name(),
- * avcodec_find_decoder() and avcodec_find_encoder() provide an easy way for
- * retrieving a codec.
- *
- * @warning This function is not thread safe!
- *
- * @code
- * avcodec_register_all();
- * codec = avcodec_find_decoder(AV_CODEC_ID_H264);
- * if (!codec)
- *     exit(1);
- *
- * context = avcodec_alloc_context3(codec);
- *
- * if (avcodec_open(context, codec) < 0)
- *     exit(1);
- * @endcode
- *
- * @param avctx The context which will be set up to use the given codec.
- * @param codec The codec to use within the context.
- * @return zero on success, a negative value on error
- * @see avcodec_alloc_context3, avcodec_find_decoder, avcodec_find_encoder, avcodec_close
- *
- * @deprecated use avcodec_open2
- */
-
-int avcodec_open(AVCodecContext *avctx, AVCodec *codec);
-
 /**
  * Initialize the AVCodecContext to use the given AVCodec. Prior to using this
  * function the context has to be allocated with avcodec_alloc_context3().
@@ -4124,7 +8366,9 @@ void avsubtitle_free(AVSubtitle *sub);
 
 /**
  * Default packet destructor.
+ * @deprecated use the AVBuffer API instead
  */
+
 void av_destruct_packet(AVPacket *pkt);
 
 /**
@@ -4164,6 +8408,21 @@ void av_shrink_packet(AVPacket *pkt, int size);
 int av_grow_packet(AVPacket *pkt, int grow_by);
 
 /**
+ * Initialize a reference-counted packet from av_malloc()ed data.
+ *
+ * @param pkt packet to be initialized. This function will set the data, size,
+ *        buf and destruct fields, all others are left untouched.
+ * @param data Data allocated by av_malloc() to be used as packet data. If this
+ *        function returns successfully, the data is owned by the underlying AVBuffer.
+ *        The caller may not access the data through other means.
+ * @param size size of data in bytes, without the padding. I.e. the full buffer
+ *        size is assumed to be size + FF_INPUT_BUFFER_PADDING_SIZE.
+ *
+ * @return 0 on success, a negative AVERROR on error
+ */
+int av_packet_from_data(AVPacket *pkt, uint8_t *data, int size);
+
+/**
  * @warning This is a hack - the packet memory allocation stuff is broken. The
  * packet is allocated if it was not really allocated.
  */
@@ -4175,6 +8434,13 @@ int av_dup_packet(AVPacket *pkt);
  * @return 0 on success, negative AVERROR on fail
  */
 int av_copy_packet(AVPacket *dst, AVPacket *src);
+
+/**
+ * Copy packet side data
+ *
+ * @return 0 on success, negative AVERROR on fail
+ */
+int av_copy_packet_side_data(AVPacket *dst, AVPacket *src);
 
 /**
  * Free a packet.
@@ -4245,9 +8511,16 @@ AVCodec *avcodec_find_decoder(enum AVCodecID id);
  */
 AVCodec *avcodec_find_decoder_by_name(const char *name);
 
-int avcodec_default_get_buffer(AVCodecContext *s, AVFrame *pic);
-void avcodec_default_release_buffer(AVCodecContext *s, AVFrame *pic);
-int avcodec_default_reget_buffer(AVCodecContext *s, AVFrame *pic);
+ int avcodec_default_get_buffer(AVCodecContext *s, AVFrame *pic);
+ void avcodec_default_release_buffer(AVCodecContext *s, AVFrame *pic);
+ int avcodec_default_reget_buffer(AVCodecContext *s, AVFrame *pic);
+
+/**
+ * The default callback for AVCodecContext.get_buffer2(). It is made public so
+ * it can be called by custom get_buffer2() implementations for decoders without
+ * CODEC_CAP_DR1 set.
+ */
+int avcodec_default_get_buffer2(AVCodecContext *s, AVFrame *frame, int flags);
 
 /**
  * Return the amount of padding in pixels which the get_buffer callback must
@@ -4358,11 +8631,17 @@ void avcodec_align_dimensions2(AVCodecContext *s, int *width, int *height,
  *
  * @param      avctx the codec context
  * @param[out] frame The AVFrame in which to store decoded audio samples.
- *                   Decoders request a buffer of a particular size by setting
- *                   AVFrame.nb_samples prior to calling get_buffer(). The
- *                   decoder may, however, only utilize part of the buffer by
- *                   setting AVFrame.nb_samples to a smaller value in the
- *                   output frame.
+ *                   The decoder will allocate a buffer for the decoded frame by
+ *                   calling the AVCodecContext.get_buffer2() callback.
+ *                   When AVCodecContext.refcounted_frames is set to 1, the frame is
+ *                   reference counted and the returned reference belongs to the
+ *                   caller. The caller must release the frame using av_frame_unref()
+ *                   when the frame is no longer needed. The caller may safely write
+ *                   to the frame if av_frame_is_writable() returns 1.
+ *                   When AVCodecContext.refcounted_frames is set to 0, the returned
+ *                   reference belongs to the decoder and is valid only until the
+ *                   next call to this function or until closing the decoder.
+ *                   The caller may not write to it.
  * @param[out] got_frame_ptr Zero if no frame could be decoded, otherwise it is
  *                           non-zero.
  * @param[in]  avpkt The input AVPacket containing the input buffer.
@@ -4400,12 +8679,18 @@ int avcodec_decode_audio4(AVCodecContext *avctx, AVFrame *frame,
  *
  * @param avctx the codec context
  * @param[out] picture The AVFrame in which the decoded video frame will be stored.
- *             Use avcodec_alloc_frame to get an AVFrame, the codec will
- *             allocate memory for the actual bitmap.
- *             with default get/release_buffer(), the decoder frees/reuses the bitmap as it sees fit.
- *             with overridden get/release_buffer() (needs CODEC_CAP_DR1) the user decides into what buffer the decoder
- *                   decodes and the decoder tells the user once it does not need the data anymore,
- *                   the user app can at this point free/reuse/keep the memory as it sees fit.
+ *             Use av_frame_alloc() to get an AVFrame. The codec will
+ *             allocate memory for the actual bitmap by calling the
+ *             AVCodecContext.get_buffer2() callback.
+ *             When AVCodecContext.refcounted_frames is set to 1, the frame is
+ *             reference counted and the returned reference belongs to the
+ *             caller. The caller must release the frame using av_frame_unref()
+ *             when the frame is no longer needed. The caller may safely write
+ *             to the frame if av_frame_is_writable() returns 1.
+ *             When AVCodecContext.refcounted_frames is set to 0, the returned
+ *             reference belongs to the decoder and is valid only until the
+ *             next call to this function or until closing the decoder. The
+ *             caller may not write to it.
  *
  * @param[in] avpkt The input AVpacket containing the input buffer.
  *            You can create such packet with av_init_packet() and by then setting
@@ -4444,6 +8729,13 @@ int avcodec_decode_subtitle2(AVCodecContext *avctx, AVSubtitle *sub,
  * @defgroup lavc_parsing Frame parsing
  * @{
  */
+
+enum AVPictureStructure {
+    AV_PICTURE_STRUCTURE_UNKNOWN, //< unknown
+    AV_PICTURE_STRUCTURE_TOP_FIELD, //< coded as top field
+    AV_PICTURE_STRUCTURE_BOTTOM_FIELD, //< coded as bottom field
+    AV_PICTURE_STRUCTURE_FRAME, //< coded as frame
+};
 
 typedef struct AVCodecParserContext {
     void *priv_data;
@@ -4579,6 +8871,18 @@ typedef struct AVCodecParserContext {
      * For all other types, this is in units of AVCodecContext.time_base.
      */
     int duration;
+
+    enum AVFieldOrder field_order;
+
+    /**
+     * Indicate whether a picture is coded as a frame, top field or bottom field.
+     *
+     * For example, H.264 field_pic_flag equal to 0 corresponds to
+     * AV_PICTURE_STRUCTURE_FRAME. An H.264 picture with field_pic_flag
+     * equal to 1 and bottom_field_flag equal to 0 corresponds to
+     * AV_PICTURE_STRUCTURE_TOP_FIELD.
+     */
+    enum AVPictureStructure picture_structure;
 } AVCodecParserContext;
 
 typedef struct AVCodecParser {
@@ -4636,7 +8940,7 @@ int av_parser_parse2(AVCodecParserContext *s,
 
 /**
  * @return 0 if the output buffer is a subset of the input, 1 if it is allocated and must be freed
- * @deprecated use AVBitstreamFilter
+ * @deprecated use AVBitStreamFilter
  */
 int av_parser_change(AVCodecParserContext *s,
                      AVCodecContext *avctx,
@@ -4948,6 +9252,16 @@ int avpicture_layout(const AVPicture* src, enum AVPixelFormat pix_fmt,
  * @see av_image_get_buffer_size().
  */
 int avpicture_get_size(enum AVPixelFormat pix_fmt, int width, int height);
+
+/**
+ *  deinterlace - if not supported return -1
+ *
+ * @deprecated - use yadif (in libavfilter) instead
+ */
+
+int avpicture_deinterlace(AVPicture *dst, const AVPicture *src,
+                          enum AVPixelFormat pix_fmt, int width, int height);
+
 /**
  * Copy image src to dst. Wraps av_image_copy().
  */
@@ -4995,8 +9309,8 @@ int av_picture_pad(AVPicture *dst, const AVPicture *src, int height, int width, 
  * pix_fmts.
  *
  * @param[in]  pix_fmt the pixel format
- * @param[out] h_shift store log2_chroma_h
- * @param[out] v_shift store log2_chroma_w
+ * @param[out] h_shift store log2_chroma_w
+ * @param[out] v_shift store log2_chroma_h
  *
  * @see av_pix_fmt_get_chroma_sub_sample
  */
@@ -5037,36 +9351,6 @@ unsigned int avcodec_pix_fmt_to_codec_tag(enum AVPixelFormat pix_fmt);
  */
 int avcodec_get_pix_fmt_loss(enum AVPixelFormat dst_pix_fmt, enum AVPixelFormat src_pix_fmt,
                              int has_alpha);
-
-/**
- * @deprecated use avcodec_find_best_pix_fmt_of_2() instead.
- *
- * Find the best pixel format to convert to given a certain source pixel
- * format.  When converting from one pixel format to another, information loss
- * may occur.  For example, when converting from RGB24 to GRAY, the color
- * information will be lost. Similarly, other losses occur when converting from
- * some formats to other formats. avcodec_find_best_pix_fmt() searches which of
- * the given pixel formats should be used to suffer the least amount of loss.
- * The pixel formats from which it chooses one, are determined by the
- * pix_fmt_mask parameter.
- *
- * Note, only the first 64 pixel formats will fit in pix_fmt_mask.
- *
- * @code
- * src_pix_fmt = AV_PIX_FMT_YUV420P;
- * pix_fmt_mask = (1 << AV_PIX_FMT_YUV422P) | (1 << AV_PIX_FMT_RGB24);
- * dst_pix_fmt = avcodec_find_best_pix_fmt(pix_fmt_mask, src_pix_fmt, alpha, &loss);
- * @endcode
- *
- * @param[in] pix_fmt_mask bitmask determining which pixel format to choose from
- * @param[in] src_pix_fmt source pixel format
- * @param[in] has_alpha Whether the source pixel format alpha channel is used.
- * @param[out] loss_ptr Combination of flags informing you what kind of losses will occur.
- * @return The best pixel format to convert to or -1 if none was found.
- */
-
-enum AVPixelFormat avcodec_find_best_pix_fmt(int64_t pix_fmt_mask, enum AVPixelFormat src_pix_fmt,
-                              int has_alpha, int *loss_ptr);
 
 /**
  * Find the best pixel format to convert to given a certain source pixel
@@ -5189,8 +9473,6 @@ int avcodec_fill_audio_frame(AVFrame *frame, int nb_channels,
  */
 void avcodec_flush_buffers(AVCodecContext *avctx);
 
-void avcodec_default_free_buffers(AVCodecContext *s);
-
 /**
  * Return codec bits per sample.
  *
@@ -5245,14 +9527,78 @@ typedef struct AVBitStreamFilter {
     struct AVBitStreamFilter *next;
 } AVBitStreamFilter;
 
+/**
+ * Register a bitstream filter.
+ *
+ * The filter will be accessible to the application code through
+ * av_bitstream_filter_next() or can be directly initialized with
+ * av_bitstream_filter_init().
+ *
+ * @see avcodec_register_all()
+ */
 void av_register_bitstream_filter(AVBitStreamFilter *bsf);
+
+/**
+ * Create and initialize a bitstream filter context given a bitstream
+ * filter name.
+ *
+ * The returned context must be freed with av_bitstream_filter_close().
+ *
+ * @param name    the name of the bitstream filter
+ * @return a bitstream filter context if a matching filter was found
+ * and successfully initialized, NULL otherwise
+ */
 AVBitStreamFilterContext *av_bitstream_filter_init(const char *name);
+
+/**
+ * Filter bitstream.
+ *
+ * This function filters the buffer buf with size buf_size, and places the
+ * filtered buffer in the buffer pointed to by poutbuf.
+ *
+ * The output buffer must be freed by the caller.
+ *
+ * @param bsfc            bitstream filter context created by av_bitstream_filter_init()
+ * @param avctx           AVCodecContext accessed by the filter, may be NULL.
+ *                        If specified, this must point to the encoder context of the
+ *                        output stream the packet is sent to.
+ * @param args            arguments which specify the filter configuration, may be NULL
+ * @param poutbuf         pointer which is updated to point to the filtered buffer
+ * @param poutbuf_size    pointer which is updated to the filtered buffer size in bytes
+ * @param buf             buffer containing the data to filter
+ * @param buf_size        size in bytes of buf
+ * @param keyframe        set to non-zero if the buffer to filter corresponds to a key-frame packet data
+ * @return >= 0 in case of success, or a negative error code in case of failure
+ *
+ * If the return value is positive, an output buffer is allocated and
+ * is availble in *poutbuf, and is distinct from the input buffer.
+ *
+ * If the return value is 0, the output output buffer is not allocated
+ * and the output buffer should be considered identical to the input
+ * buffer, or in case *poutbuf was set it points to the input buffer
+ * (not necessarily to its starting address).
+ */
 int av_bitstream_filter_filter(AVBitStreamFilterContext *bsfc,
                                AVCodecContext *avctx, const char *args,
                                uint8_t **poutbuf, int *poutbuf_size,
                                const uint8_t *buf, int buf_size, int keyframe);
+
+/**
+ * Release bitstream filter context.
+ *
+ * @param bsf the bitstream filter context created with
+ * av_bitstream_filter_init(), can be NULL
+ */
 void av_bitstream_filter_close(AVBitStreamFilterContext *bsf);
 
+/**
+ * If f is NULL, return the first registered bitstream filter,
+ * if f is non-NULL, return the next registered bitstream filter
+ * after f, or NULL if f is the last one.
+ *
+ * This function can be used to iterate over all registered bitstream
+ * filters.
+ */
 AVBitStreamFilter *av_bitstream_filter_next(AVBitStreamFilter *f);
 
 /* memory */
@@ -5313,7 +9659,9 @@ unsigned int av_xiphlacing(unsigned char *s, unsigned int v);
  * If want_sample is non-zero, additional verbage will be added to the log
  * message which tells the user how to report samples to the development
  * mailing list.
+ * @deprecated Use avpriv_report_missing_feature() instead.
  */
+
 void av_log_missing_feature(void *avc, const char *feature, int want_sample);
 
 /**
@@ -5323,7 +9671,9 @@ void av_log_missing_feature(void *avc, const char *feature, int want_sample);
  * @param[in] avc a pointer to an arbitrary struct of which the first field is
  * a pointer to an AVClass struct
  * @param[in] msg string containing an optional message, or NULL if no message
+ * @deprecated Use avpriv_request_sample() instead.
  */
+
 void av_log_ask_for_sample(void *avc, const char *msg, ...) ;
 
 /**

@@ -125,11 +125,26 @@ public class AVCodecParserContext extends Structure {
 	 * For all other types, this is in units of AVCodecContext.time_base.
 	 */
 	public int duration;
+	/**
+	 * @see AVFieldOrder<br>
+	 * C type : AVFieldOrder
+	 */
+	public int field_order;
+	/**
+	 * Indicate whether a picture is coded as a frame, top field or bottom field.<br>
+	 * * For example, H.264 field_pic_flag equal to 0 corresponds to<br>
+	 * AV_PICTURE_STRUCTURE_FRAME. An H.264 picture with field_pic_flag<br>
+	 * equal to 1 and bottom_field_flag equal to 0 corresponds to<br>
+	 * AV_PICTURE_STRUCTURE_TOP_FIELD.<br>
+	 * @see AVPictureStructure<br>
+	 * C type : AVPictureStructure
+	 */
+	public int picture_structure;
 	public AVCodecParserContext() {
 		super();
 	}
 	protected List<? > getFieldOrder() {
-		return Arrays.asList("priv_data", "parser", "frame_offset", "cur_offset", "next_frame_offset", "pict_type", "repeat_pict", "pts", "dts", "last_pts", "last_dts", "fetch_timestamp", "cur_frame_start_index", "cur_frame_offset", "cur_frame_pts", "cur_frame_dts", "flags", "offset", "cur_frame_end", "key_frame", "convergence_duration", "dts_sync_point", "dts_ref_dts_delta", "pts_dts_delta", "cur_frame_pos", "pos", "last_pos", "duration");
+		return Arrays.asList("priv_data", "parser", "frame_offset", "cur_offset", "next_frame_offset", "pict_type", "repeat_pict", "pts", "dts", "last_pts", "last_dts", "fetch_timestamp", "cur_frame_start_index", "cur_frame_offset", "cur_frame_pts", "cur_frame_dts", "flags", "offset", "cur_frame_end", "key_frame", "convergence_duration", "dts_sync_point", "dts_ref_dts_delta", "pts_dts_delta", "cur_frame_pos", "pos", "last_pos", "duration", "field_order", "picture_structure");
 	}
 	public static class ByReference extends AVCodecParserContext implements Structure.ByReference {
 		

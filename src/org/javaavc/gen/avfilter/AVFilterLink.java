@@ -4,9 +4,7 @@ import com.sun.jna.ptr.PointerByReference;
 import java.util.Arrays;
 import java.util.List;
 import org.javaavc.gen.avfilter.LibavfilterLibrary.AVFilterChannelLayouts;
-import org.javaavc.gen.avfilter.LibavfilterLibrary.AVFilterGraph;
 import org.javaavc.gen.avfilter.LibavfilterLibrary.AVFilterPool;
-import org.javaavc.gen.avfilter.LibavfilterLibrary.AVRational;
 /**
  * A link between two filters. This contains pointers to the source and<br>
  * destination filters between which this link exists, and the indexes of<br>
@@ -116,7 +114,7 @@ public class AVFilterLink extends Structure {
 	 * Graph the filter belongs to.<br>
 	 * C type : AVFilterGraph*
 	 */
-	public AVFilterGraph graph;
+	public org.javaavc.gen.avfilter.AVFilterGraph.ByReference graph;
 	/**
 	 * Current timestamp of the link, as defined by the most recent<br>
 	 * frame(s), in AV_TIME_BASE units.
@@ -137,9 +135,9 @@ public class AVFilterLink extends Structure {
 	public AVRational frame_rate;
 	/**
 	 * Buffer partially filled with samples to achieve a fixed/minimum size.<br>
-	 * C type : AVFilterBufferRef*
+	 * C type : AVFrame*
 	 */
-	public org.javaavc.gen.avfilter.AVFilterBufferRef.ByReference partial_buf;
+	public org.javaavc.gen.avfilter.AVFrame.ByReference partial_buf;
 	/**
 	 * Size of the partial buffer to allocate.<br>
 	 * Must be between min_samples and max_samples.
@@ -180,6 +178,15 @@ public class AVFilterLink extends Structure {
 	public int closed;
 	/** Number of channels. */
 	public int channels;
+	/**
+	 * True if a frame is being requested on the link.<br>
+	 * Used internally by the framework.
+	 */
+	public int frame_requested;
+	/** Link processing flags. */
+	public int flags;
+	/** Number of past frames sent through the link. */
+	public long frame_count;
 	/** enum values */
 	public static interface init_state_enum {
 		/** < not started */
@@ -193,7 +200,7 @@ public class AVFilterLink extends Structure {
 		super();
 	}
 	protected List<? > getFieldOrder() {
-		return Arrays.asList("src", "srcpad", "dst", "dstpad", "type", "w", "h", "sample_aspect_ratio", "channel_layout", "sample_rate", "format", "time_base", "in_formats", "out_formats", "in_samplerates", "out_samplerates", "in_channel_layouts", "out_channel_layouts", "request_samples", "init_state", "pool", "graph", "current_pts", "age_index", "frame_rate", "partial_buf", "partial_buf_size", "min_samples", "max_samples", "cur_buf_copy", "closed", "channels");
+		return Arrays.asList("src", "srcpad", "dst", "dstpad", "type", "w", "h", "sample_aspect_ratio", "channel_layout", "sample_rate", "format", "time_base", "in_formats", "out_formats", "in_samplerates", "out_samplerates", "in_channel_layouts", "out_channel_layouts", "request_samples", "init_state", "pool", "graph", "current_pts", "age_index", "frame_rate", "partial_buf", "partial_buf_size", "min_samples", "max_samples", "cur_buf_copy", "closed", "channels", "frame_requested", "flags", "frame_count");
 	}
 	public static class ByReference extends AVFilterLink implements Structure.ByReference {
 		

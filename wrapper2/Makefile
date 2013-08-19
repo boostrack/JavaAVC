@@ -7,11 +7,9 @@ PACK_PREF=org.javaavc.gen
 # ============
 # Header path.
 # Ver. 1: User original headers.
-#HEADER1=include/lib$@/$@.h
-#HEADER2=include/libavutil/$@.h
+#HEADER=include/lib$@/$@.h
 # Ver. 2: Use preprocessed headers.
-HEADER1=../wrapper1/$@.h
-HEADER2=$(HEADER1)
+HEADER=../wrapper1/$@.h
 
 
 # ========
@@ -108,14 +106,10 @@ wrapper=\
 # Bad (replace NativeSize to NativeLong):
 #  * avcodec
 #  * avutil
-all: avcodec avdevice avfilter avformat swresample swscale avutil channel_layout
+all: avcodec avdevice avfilter avformat avutil swresample swscale
 
 
 avcodec avdevice avfilter avformat avutil swresample swscale:
-	$(call wrapper,Lib$@,$(PACK_PREF).$@,$(HEADER1))
-
-
-channel_layout:
-	$(call wrapper,Lib$@,$(PACK_PREF).avutil,$(HEADER2))
+	$(call wrapper,Lib$@,$(PACK_PREF).$@,$(HEADER))
 
 

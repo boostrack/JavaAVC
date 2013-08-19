@@ -6,6 +6,7 @@ import com.sun.jna.Pointer;
 import com.sun.jna.PointerType;
 import com.sun.jna.ptr.IntByReference;
 import com.sun.jna.ptr.LongByReference;
+import com.sun.jna.ptr.PointerByReference;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.nio.LongBuffer;
@@ -334,6 +335,10 @@ public interface LibavutilLibrary extends Library {
 		public static final int AV_PIX_FMT_YUVA444P16LE = 108;
 		/** < HW acceleration through VDPAU, Picture.data[3] contains a VdpVideoSurface */
 		public static final int AV_PIX_FMT_VDPAU = 109;
+		/** < packed XYZ 4:4:4, 36 bpp, (msb) 12X, 12Y, 12Z (lsb), the 2-byte value for each X/Y/Z is stored as little-endian, the 4 lower bits are set to 0 */
+		public static final int AV_PIX_FMT_XYZ12LE = 110;
+		/** < packed XYZ 4:4:4, 36 bpp, (msb) 12X, 12Y, 12Z (lsb), the 2-byte value for each X/Y/Z is stored as big-endian, the 4 lower bits are set to 0 */
+		public static final int AV_PIX_FMT_XYZ12BE = 111;
 		/** < packed RGBA 16:16:16:16, 64bpp, 16R, 16G, 16B, 16A, the 2-byte value for each R/G/B/A component is stored as big-endian */
 		public static final int AV_PIX_FMT_RGBA64BE = 0x123;
 		/** < packed RGBA 16:16:16:16, 64bpp, 16R, 16G, 16B, 16A, the 2-byte value for each R/G/B/A component is stored as little-endian */
@@ -386,8 +391,16 @@ public interface LibavutilLibrary extends Library {
 		public static final int AV_PIX_FMT_GBRP14BE = (0x123 + 4 + 20);
 		/** < planar GBR 4:4:4 42bpp, little-endian */
 		public static final int AV_PIX_FMT_GBRP14LE = (0x123 + 4 + 21);
+		/** < planar GBRA 4:4:4:4 32bpp */
+		public static final int AV_PIX_FMT_GBRAP = (0x123 + 4 + 22);
+		/** < planar GBRA 4:4:4:4 64bpp, big-endian */
+		public static final int AV_PIX_FMT_GBRAP16BE = (0x123 + 4 + 23);
+		/** < planar GBRA 4:4:4:4 64bpp, little-endian */
+		public static final int AV_PIX_FMT_GBRAP16LE = (0x123 + 4 + 24);
+		/** < planar YUV 4:1:1, 12bpp, (1 Cr & Cb sample per 4x1 Y samples) full scale (JPEG), deprecated in favor of PIX_FMT_YUV411P and setting color_range */
+		public static final int AV_PIX_FMT_YUVJ411P = (0x123 + 4 + 25);
 		/** < number of pixel formats, DO NOT USE THIS if you want to link with shared libav* because the number of formats might differ between versions */
-		public static final int AV_PIX_FMT_NB = (0x123 + 4 + 22);
+		public static final int AV_PIX_FMT_NB = (0x123 + 4 + 26);
 		/**
 		 * This header exists to prevent new pixel formats from being accidentally added<br>
 		 * to the deprecated list.<br>
@@ -633,15 +646,17 @@ public interface LibavutilLibrary extends Library {
 	public static final int AVERROR_MUXER_NOT_FOUND = (-((0xF8) | (('M') << 8) | (('U') << 16) | (('X') << 24)));
 	public static final int AVERROR_FILTER_NOT_FOUND = (-((0xF8) | (('F') << 8) | (('I') << 16) | (('L') << 24)));
 	public static final int AVERROR_EXTERNAL = (-(('E') | (('X') << 8) | (('T') << 16) | ((' ') << 24)));
+	public static final int AV_HAVE_INCOMPATIBLE_FORK_ABI = 0;
 	public static final int AVERROR_UNKNOWN = (-(('U') | (('N') << 8) | (('K') << 16) | (('N') << 24)));
 	public static final boolean FF_API_CONTEXT_SIZE = (52 < 53);
-	public static final int LIBAVUTIL_VERSION_INT = (52 << 16 | 18 << 8 | 100);
+	public static final int LIBAVUTIL_VERSION_INT = (52 << 16 | 38 << 8 | 100);
 	public static final int AVERROR_DEMUXER_NOT_FOUND = (-((0xF8) | (('D') << 8) | (('E') << 16) | (('M') << 24)));
 	public static final boolean FF_API_OLD_AVOPTIONS = (52 < 53);
 	public static final boolean FF_API_SAMPLES_UTILS_RETURN_ZERO = (52 < 53);
 	public static final boolean FF_API_PIX_FMT_DESC = (52 < 53);
 	public static final int AVERROR_OPTION_NOT_FOUND = (-((0xF8) | (('O') << 8) | (('P') << 16) | (('T') << 24)));
 	public static final int FF_LAMBDA_SCALE = (1 << 7);
+	public static final int AV_HAVE_BIGENDIAN = 0;
 	public static final int AVERROR_BUG2 = (-(('B') | (('U') << 8) | (('G') << 16) | ((' ') << 24)));
 	public static final boolean FF_API_PIX_FMT = (52 < 53);
 	public static final int AV_LOG_DEBUG = 48;
@@ -652,13 +667,15 @@ public interface LibavutilLibrary extends Library {
 	public static final int AV_LOG_WARNING = 24;
 	public static final int FF_QP2LAMBDA = 118;
 	public static final int AVERROR_PROTOCOL_NOT_FOUND = (-((0xF8) | (('P') << 8) | (('R') << 16) | (('O') << 24)));
+	public static final int AV_HAVE_INCOMPATIBLE_LIBAV_ABI = 0;
 	public static final int FF_LAMBDA_MAX = (256 * 128 - 1);
 	public static final int AV_ERROR_MAX_STRING_SIZE = 64;
 	public static final int AVERROR_EXIT = (-(('E') | (('X') << 8) | (('I') << 16) | (('T') << 24)));
 	public static final int AV_LOG_VERBOSE = 40;
 	public static final int AVERROR_EXPERIMENTAL = (0x2bb2afa8);
+	public static final boolean FF_API_AVFRAME_LAVC = (52 < 53);
 	public static final int AV_LOG_ERROR = 16;
-	public static final int LIBAVUTIL_BUILD = (52 << 16 | 18 << 8 | 100);
+	public static final int LIBAVUTIL_BUILD = (52 << 16 | 38 << 8 | 100);
 	public static final int FF_QUALITY_SCALE = (1 << 7);
 	public static final int AV_LOG_INFO = 32;
 	public static final int AV_TIME_BASE = 1000000;
@@ -672,7 +689,7 @@ public interface LibavutilLibrary extends Library {
 	public static final int AV_LOG_SKIP_REPEATED = 1;
 	public static final int AVERROR_STREAM_NOT_FOUND = (-((0xF8) | (('S') << 8) | (('T') << 16) | (('R') << 24)));
 	public static final int AV_LOG_QUIET = -8;
-	public static final int LIBAVUTIL_VERSION_MINOR = 18;
+	public static final int LIBAVUTIL_VERSION_MINOR = 38;
 	public static final int AVERROR_BUG = (-(('B') | (('U') << 8) | (('G') << 16) | (('!') << 24)));
 	public static final boolean FF_API_AUDIOCONVERT = (52 < 53);
 	public static final String LIBAVUTIL_IDENT = "Lavu";
@@ -680,6 +697,7 @@ public interface LibavutilLibrary extends Library {
 	public static final int AVERROR_ENCODER_NOT_FOUND = (-((0xF8) | (('E') << 8) | (('N') << 16) | (('C') << 24)));
 	public static final int AVERROR_BUFFER_TOO_SMALL = (-(('B') | (('U') << 8) | (('F') << 16) | (('S') << 24)));
 	public static final int FF_LAMBDA_SHIFT = 7;
+	public static final int AV_HAVE_FAST_UNALIGNED = 1;
 	public static final boolean FF_API_FIND_OPT = (52 < 53);
 	public static final int AVERROR_EOF = (-(('E') | (('O') << 8) | (('F') << 16) | ((' ') << 24)));
 	public static final int AVERROR_INVALIDDATA = (-(('I') | (('N') << 8) | (('D') << 16) | (('A') << 24)));
@@ -787,6 +805,32 @@ public interface LibavutilLibrary extends Library {
 	 */
 	Pointer av_realloc_f(Pointer ptr, NativeSize nelem, NativeSize elsize);
 	/**
+	 * Allocate or reallocate an array.<br>
+	 * If ptr is NULL and nmemb > 0, allocate a new block. If<br>
+	 * nmemb is zero, free the memory block pointed to by ptr.<br>
+	 * @param ptr Pointer to a memory block already allocated with<br>
+	 * av_malloc(z)() or av_realloc() or NULL.<br>
+	 * @param nmemb Number of elements<br>
+	 * @param size Size of the single element<br>
+	 * @return Pointer to a newly reallocated block or NULL if the block<br>
+	 * cannot be reallocated or the function is used to free the memory block.<br>
+	 * Original signature : <code>void* av_realloc_array(void*, size_t, size_t)</code>
+	 */
+	Pointer av_realloc_array(Pointer ptr, NativeSize nmemb, NativeSize size);
+	/**
+	 * Allocate or reallocate an array.<br>
+	 * If *ptr is NULL and nmemb > 0, allocate a new block. If<br>
+	 * nmemb is zero, free the memory block pointed to by ptr.<br>
+	 * @param ptr Pointer to a pointer to a memory block already allocated<br>
+	 * with av_malloc(z)() or av_realloc(), or pointer to a pointer to NULL.<br>
+	 * The pointer is updated on success, or freed on failure.<br>
+	 * @param nmemb Number of elements<br>
+	 * @param size Size of the single element<br>
+	 * @return Zero on success, an AVERROR error code on failure.<br>
+	 * Original signature : <code>int av_reallocp_array(void*, size_t, size_t)</code>
+	 */
+	int av_reallocp_array(Pointer ptr, NativeSize nmemb, NativeSize size);
+	/**
 	 * Free a memory block which has been allocated with av_malloc(z)() or<br>
 	 * av_realloc().<br>
 	 * @param ptr Pointer to the memory block which should be freed.<br>
@@ -837,6 +881,14 @@ public interface LibavutilLibrary extends Library {
 	 */
 	Pointer av_strdup(String s);
 	/**
+	 * Duplicate the buffer p.<br>
+	 * @param p buffer to be duplicated<br>
+	 * @return Pointer to a newly allocated buffer containing a<br>
+	 * copy of p or NULL if the buffer cannot be allocated.<br>
+	 * Original signature : <code>void* av_memdup(const void*, size_t)</code>
+	 */
+	Pointer av_memdup(Pointer p, NativeSize size);
+	/**
 	 * Free a memory block which has been allocated with av_malloc(z)() or<br>
 	 * av_realloc() and set the pointer pointing to it to NULL.<br>
 	 * @param ptr Pointer to the pointer to the memory block which should<br>
@@ -847,9 +899,20 @@ public interface LibavutilLibrary extends Library {
 	void av_freep(Pointer ptr);
 	/**
 	 * Add an element to a dynamic array.<br>
-	 * * @param tab_ptr Pointer to the array.<br>
-	 * @param nb_ptr  Pointer to the number of elements in the array.<br>
-	 * @param elem    Element to be added.<br>
+	 * * The array to grow is supposed to be an array of pointers to<br>
+	 * structures, and the element to add must be a pointer to an already<br>
+	 * allocated structure.<br>
+	 * * The array is reallocated when its size reaches powers of 2.<br>
+	 * Therefore, the amortized cost of adding an element is constant.<br>
+	 * * In case of success, the pointer to the array is updated in order to<br>
+	 * point to the new grown array, and the number pointed to by nb_ptr<br>
+	 * is incremented.<br>
+	 * In case of failure, the array is freed, *tab_ptr is set to NULL and<br>
+	 * *nb_ptr is set to 0.<br>
+	 * * @param tab_ptr pointer to the array to grow<br>
+	 * @param nb_ptr  pointer to the number of elements in the array<br>
+	 * @param elem    element to add<br>
+	 * @see av_dynarray2_add()<br>
 	 * Original signature : <code>void av_dynarray_add(void*, int*, void*)</code><br>
 	 * @deprecated use the safer methods {@link #av_dynarray_add(com.sun.jna.Pointer, java.nio.IntBuffer, com.sun.jna.Pointer)} and {@link #av_dynarray_add(com.sun.jna.Pointer, com.sun.jna.ptr.IntByReference, com.sun.jna.Pointer)} instead
 	 */
@@ -857,12 +920,65 @@ public interface LibavutilLibrary extends Library {
 	void av_dynarray_add(Pointer tab_ptr, IntByReference nb_ptr, Pointer elem);
 	/**
 	 * Add an element to a dynamic array.<br>
-	 * * @param tab_ptr Pointer to the array.<br>
-	 * @param nb_ptr  Pointer to the number of elements in the array.<br>
-	 * @param elem    Element to be added.<br>
+	 * * The array to grow is supposed to be an array of pointers to<br>
+	 * structures, and the element to add must be a pointer to an already<br>
+	 * allocated structure.<br>
+	 * * The array is reallocated when its size reaches powers of 2.<br>
+	 * Therefore, the amortized cost of adding an element is constant.<br>
+	 * * In case of success, the pointer to the array is updated in order to<br>
+	 * point to the new grown array, and the number pointed to by nb_ptr<br>
+	 * is incremented.<br>
+	 * In case of failure, the array is freed, *tab_ptr is set to NULL and<br>
+	 * *nb_ptr is set to 0.<br>
+	 * * @param tab_ptr pointer to the array to grow<br>
+	 * @param nb_ptr  pointer to the number of elements in the array<br>
+	 * @param elem    element to add<br>
+	 * @see av_dynarray2_add()<br>
 	 * Original signature : <code>void av_dynarray_add(void*, int*, void*)</code>
 	 */
 	void av_dynarray_add(Pointer tab_ptr, IntBuffer nb_ptr, Pointer elem);
+	/**
+	 * Add an element of size elem_size to a dynamic array.<br>
+	 * * The array is reallocated when its number of elements reaches powers of 2.<br>
+	 * Therefore, the amortized cost of adding an element is constant.<br>
+	 * * In case of success, the pointer to the array is updated in order to<br>
+	 * point to the new grown array, and the number pointed to by nb_ptr<br>
+	 * is incremented.<br>
+	 * In case of failure, the array is freed, *tab_ptr is set to NULL and<br>
+	 * *nb_ptr is set to 0.<br>
+	 * * @param tab_ptr   pointer to the array to grow<br>
+	 * @param nb_ptr    pointer to the number of elements in the array<br>
+	 * @param elem_size size in bytes of the elements in the array<br>
+	 * @param elem_data pointer to the data of the element to add. If NULL, the space of<br>
+	 *                  the new added element is not filled.<br>
+	 * @return          pointer to the data of the element to copy in the new allocated space.<br>
+	 *                  If NULL, the new allocated space is left uninitialized."<br>
+	 * @see av_dynarray_add()<br>
+	 * Original signature : <code>void* av_dynarray2_add(void**, int*, size_t, const uint8_t*)</code><br>
+	 * @deprecated use the safer methods {@link #av_dynarray2_add(com.sun.jna.ptr.PointerByReference, java.nio.IntBuffer, com.ochafik.lang.jnaerator.runtime.NativeSize, java.nio.ByteBuffer)} and {@link #av_dynarray2_add(com.sun.jna.ptr.PointerByReference, com.sun.jna.ptr.IntByReference, com.ochafik.lang.jnaerator.runtime.NativeSize, com.sun.jna.Pointer)} instead
+	 */
+	@Deprecated 
+	Pointer av_dynarray2_add(PointerByReference tab_ptr, IntByReference nb_ptr, NativeSize elem_size, Pointer elem_data);
+	/**
+	 * Add an element of size elem_size to a dynamic array.<br>
+	 * * The array is reallocated when its number of elements reaches powers of 2.<br>
+	 * Therefore, the amortized cost of adding an element is constant.<br>
+	 * * In case of success, the pointer to the array is updated in order to<br>
+	 * point to the new grown array, and the number pointed to by nb_ptr<br>
+	 * is incremented.<br>
+	 * In case of failure, the array is freed, *tab_ptr is set to NULL and<br>
+	 * *nb_ptr is set to 0.<br>
+	 * * @param tab_ptr   pointer to the array to grow<br>
+	 * @param nb_ptr    pointer to the number of elements in the array<br>
+	 * @param elem_size size in bytes of the elements in the array<br>
+	 * @param elem_data pointer to the data of the element to add. If NULL, the space of<br>
+	 *                  the new added element is not filled.<br>
+	 * @return          pointer to the data of the element to copy in the new allocated space.<br>
+	 *                  If NULL, the new allocated space is left uninitialized."<br>
+	 * @see av_dynarray_add()<br>
+	 * Original signature : <code>void* av_dynarray2_add(void**, int*, size_t, const uint8_t*)</code>
+	 */
+	Pointer av_dynarray2_add(PointerByReference tab_ptr, IntBuffer nb_ptr, NativeSize elem_size, ByteBuffer elem_data);
 	/**
 	 * Set the maximum size that may me allocated in one block.<br>
 	 * Original signature : <code>void av_max_alloc(size_t)</code>
@@ -1136,6 +1252,15 @@ public interface LibavutilLibrary extends Library {
 	void av_log_format_line(Pointer ptr, int level, String fmt, LibavutilLibrary.va_list vl, ByteBuffer line, int line_size, IntBuffer print_prefix);
 	/** Original signature : <code>void av_log_set_flags(int)</code> */
 	void av_log_set_flags(int arg);
+	/**
+	 * Compute the length of an integer list.<br>
+	 * * @param elsize  size in bytes of each list element (only 1, 2, 4 or 8)<br>
+	 * @param term    list terminator (usually 0 or -1)<br>
+	 * @param list    pointer to the list<br>
+	 * @return  length of the list, in elements, not counting the terminator<br>
+	 * Original signature : <code>int av_int_list_length_for_size(unsigned, const void*, uint64_t)</code>
+	 */
+	int av_int_list_length_for_size(int elsize, Pointer list, long term);
 	public static class va_list extends PointerType {
 		public va_list(Pointer address) {
 			super(address);

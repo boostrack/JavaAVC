@@ -11,6 +11,13 @@ import java.util.List;
  */
 public class AVPacket extends Structure {
 	/**
+	 * A reference to the reference-counted buffer where the packet data is<br>
+	 * stored.<br>
+	 * May be NULL, then the packet data is not reference-counted.<br>
+	 * C type : AVBufferRef*
+	 */
+	public org.javaavc.gen.avcodec.AVBufferRef.ByReference buf;
+	/**
 	 * Presentation timestamp in AVStream->time_base units; the time at which<br>
 	 * the decompressed packet will be presented to the user.<br>
 	 * Can be AV_NOPTS_VALUE if it is not stored in the file.<br>
@@ -107,7 +114,7 @@ public class AVPacket extends Structure {
 		super();
 	}
 	protected List<? > getFieldOrder() {
-		return Arrays.asList("pts", "dts", "data", "size", "stream_index", "flags", "side_data", "side_data_elems", "duration", "destruct", "priv", "pos", "convergence_duration");
+		return Arrays.asList("buf", "pts", "dts", "data", "size", "stream_index", "flags", "side_data", "side_data_elems", "duration", "destruct", "priv", "pos", "convergence_duration");
 	}
 	public static class ByReference extends AVPacket implements Structure.ByReference {
 		

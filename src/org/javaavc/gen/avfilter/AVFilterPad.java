@@ -131,14 +131,15 @@ public class AVFilterPad extends Structure {
 	 * * input pads only.
 	 */
 	public int needs_fifo;
+	public int needs_writable;
 	public interface start_frame_callback extends Callback {
 		int apply(AVFilterLink link, AVFilterBufferRef picref);
 	};
 	public interface get_video_buffer_callback extends Callback {
-		AVFilterBufferRef apply(AVFilterLink link, int perms, int w, int h);
+		AVFrame apply(AVFilterLink link, int w, int h);
 	};
 	public interface get_audio_buffer_callback extends Callback {
-		AVFilterBufferRef apply(AVFilterLink link, int perms, int nb_samples);
+		AVFrame apply(AVFilterLink link, int nb_samples);
 	};
 	public interface end_frame_callback extends Callback {
 		int apply(AVFilterLink link);
@@ -147,7 +148,7 @@ public class AVFilterPad extends Structure {
 		int apply(AVFilterLink link, int y, int height, int slice_dir);
 	};
 	public interface filter_frame_callback extends Callback {
-		int apply(AVFilterLink link, AVFilterBufferRef frame);
+		int apply(AVFilterLink link, AVFrame frame);
 	};
 	public interface poll_frame_callback extends Callback {
 		int apply(AVFilterLink link);
@@ -162,7 +163,7 @@ public class AVFilterPad extends Structure {
 		super();
 	}
 	protected List<? > getFieldOrder() {
-		return Arrays.asList("name", "type", "min_perms", "rej_perms", "start_frame", "get_video_buffer", "get_audio_buffer", "end_frame", "draw_slice", "filter_frame", "poll_frame", "request_frame", "config_props", "needs_fifo");
+		return Arrays.asList("name", "type", "min_perms", "rej_perms", "start_frame", "get_video_buffer", "get_audio_buffer", "end_frame", "draw_slice", "filter_frame", "poll_frame", "request_frame", "config_props", "needs_fifo", "needs_writable");
 	}
 	public static class ByReference extends AVFilterPad implements Structure.ByReference {
 		
