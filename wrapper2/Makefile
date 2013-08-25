@@ -1,7 +1,7 @@
 ROOT_DIR=../src
 # See new version on: http://code.google.com/p/jnaerator/
 JNR=jnaerator-0.12-SNAPSHOT-20130727.jar
-PACK_PREF=org.javaavc.gen
+PACK_PREF=org.javaavc.ffmpeg
 
 
 # ============
