@@ -8,7 +8,7 @@ JavaAVC (Java Audio/Video Codec) is FFmpeg wrapper for Java programming language
 
 
 ### Download
-New version is coming soon!
+ * [JavaAVC 1.7.1](https://googledrive.com/host/0B1-mMGcBjR50RGd3eHoyYXhrSGc/JavaAVC-1.7.1.zip).
 
 
 ### Documentation
