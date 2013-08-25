@@ -56,18 +56,33 @@ public class JavaAvcTest {
 
             // AVFilter.
             assertNotNull(avc.avfilter);
+            assertNotNull(avc.avfilter.avfilter_version());
+            assertNotNull(avc.avfilter.avfilter_license());
+            assertNotNull(avc.avfilter.avfilter_configuration());
 
             // AVFormat.
             assertNotNull(avc.avformat);
+            assertNotNull(avc.avformat.avformat_version());
+            assertNotNull(avc.avformat.avformat_license());
+            assertNotNull(avc.avformat.avformat_configuration());
 
             // AVUtil.
             assertNotNull(avc.avutil);
+            assertNotNull(avc.avutil.avutil_version());
+            assertNotNull(avc.avutil.avutil_license());
+            assertNotNull(avc.avutil.avutil_configuration());
 
             // SWResample.
             assertNotNull(avc.swresample);
+            assertNotNull(avc.swresample.swresample_version());
+            assertNotNull(avc.swresample.swresample_license());
+            assertNotNull(avc.swresample.swresample_configuration());
 
             // SWScale.
             assertNotNull(avc.swscale);
+            assertNotNull(avc.swscale.swscale_version());
+            assertNotNull(avc.swscale.swscale_license());
+            assertNotNull(avc.swscale.swscale_configuration());
         } catch (IOException e) {
             fail(e.getMessage());
         }
