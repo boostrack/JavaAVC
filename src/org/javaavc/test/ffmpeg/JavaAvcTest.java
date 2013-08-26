@@ -27,7 +27,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import org.javaavc.ffmpeg.JavaAVC;
+import org.javaavc.JavaAVC;
 import org.junit.Test;
 
 /**
