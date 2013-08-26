@@ -18,7 +18,7 @@
  */
 package org.javaavc.example;
 
-import org.javaavc.JavaAVC;
+import org.javaavc.ffmpeg.JavaAVC;
 
 /**
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.javaavc;
+package org.javaavc.ffmpeg;
 
 import com.sun.jna.IntegerType;
 import com.sun.jna.Native;
