@@ -42,7 +42,7 @@
 # http://gcc.gnu.org/onlinedocs/cpp/Preprocessor-Output.html
 # 
 # Author:   Zavodnikov Dmitriy (d.zavodnikov@gmail.com)
-# Version:  3.006
+# Version:  3.3.1
 # ==============================================================================
 
 import sys
@@ -61,7 +61,13 @@ ONLY_ROOT = False
 linenum = "(\d+)"
 filename = "\"(.+)\""
 flags = "(( \d{1})*)"
-lm = re.compile("# {0} {1}{2}".format(linenum, filename, flags))
+lm = re.compile("^\s*# {0} {1}{2}\s*$".format(linenum, filename, flags))
+
+
+# Format of markers.
+# "#define [name]"
+markername = "\w+"
+mk = re.compile("^\s*#define {0}\s*$".format(markername))
 
 
 # Begin header format.
@@ -107,7 +113,7 @@ def cut(fileName, targetName):
         res = parse(line)
         # If current line is linemarker.
         if res != None:
-            # Select way to gemerate output.
+            # Select way to generate output.
             if ONLY_ROOT:
                 out = res[1] == targetName
             else:
@@ -125,12 +131,17 @@ def cut(fileName, targetName):
                             print endMark.format(pHead.pop())
         # If current line is NOT linemarkers
         elif out:
-            # Just output, but remove many empty lines.
+            # Remove markers.
+            if mk.match(line) != None:
+                line = "\n" # Empty line.
+            # Remove many empty lines.
             if line != "\n" or pLine != "\n":
                 print line,
+            # Save current line.
             pLine = line
         
         line = f.readline()
+    
     f.close()
 
 
