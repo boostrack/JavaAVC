@@ -21,7168 +21,7168 @@ import org.javaavc.ffmpeg.NativeSize;
  * For help, please visit <a href="http://nativelibs4java.googlecode.com/">NativeLibs4Java</a> , <a href="http://rococoa.dev.java.net/">Rococoa</a>, or <a href="http://jna.dev.java.net/">JNA</a>.
  */
 public interface LibavformatLibrary extends Library {
-	/** enum values */
-	public static interface AVMediaType {
-		/** < Usually treated as AVMEDIA_TYPE_DATA */
-		public static final int AVMEDIA_TYPE_UNKNOWN = -1;
-		public static final int AVMEDIA_TYPE_VIDEO = 0;
-		public static final int AVMEDIA_TYPE_AUDIO = 1;
-		/** < Opaque data information usually continuous */
-		public static final int AVMEDIA_TYPE_DATA = 2;
-		public static final int AVMEDIA_TYPE_SUBTITLE = 3;
-		/** < Opaque data information usually sparse */
-		public static final int AVMEDIA_TYPE_ATTACHMENT = 4;
-		public static final int AVMEDIA_TYPE_NB = 5;
-	};
-	/** enum values */
-	public static interface AVPictureType {
-		/** < Undefined */
-		public static final int AV_PICTURE_TYPE_NONE = 0;
-		/** < Intra */
-		public static final int AV_PICTURE_TYPE_I = 1;
-		/** < Predicted */
-		public static final int AV_PICTURE_TYPE_P = 2;
-		/** < Bi-dir predicted */
-		public static final int AV_PICTURE_TYPE_B = 3;
-		/** < S(GMC)-VOP MPEG4 */
-		public static final int AV_PICTURE_TYPE_S = 4;
-		/** < Switching Intra */
-		public static final int AV_PICTURE_TYPE_SI = 5;
-		/** < Switching Predicted */
-		public static final int AV_PICTURE_TYPE_SP = 6;
-		/** < BI type */
-		public static final int AV_PICTURE_TYPE_BI = 7;
-	};
-	/** enum values */
-	public static interface AVRounding {
-		/** < Round toward zero. */
-		public static final int AV_ROUND_ZERO = 0;
-		/** < Round away from zero. */
-		public static final int AV_ROUND_INF = 1;
-		/** < Round toward -infinity. */
-		public static final int AV_ROUND_DOWN = 2;
-		/** < Round toward +infinity. */
-		public static final int AV_ROUND_UP = 3;
-		/** < Round to nearest and halfway cases away from zero. */
-		public static final int AV_ROUND_NEAR_INF = 5;
-		/** < Flag to pass INT64_MIN/MAX through instead of rescaling, this avoids special cases for AV_NOPTS_VALUE */
-		public static final int AV_ROUND_PASS_MINMAX = 8192;
-	};
-	/** enum values */
-	public static interface AVClassCategory {
-		public static final int AV_CLASS_CATEGORY_NA = 0;
-		public static final int AV_CLASS_CATEGORY_INPUT = 1;
-		public static final int AV_CLASS_CATEGORY_OUTPUT = 2;
-		public static final int AV_CLASS_CATEGORY_MUXER = 3;
-		public static final int AV_CLASS_CATEGORY_DEMUXER = 4;
-		public static final int AV_CLASS_CATEGORY_ENCODER = 5;
-		public static final int AV_CLASS_CATEGORY_DECODER = 6;
-		public static final int AV_CLASS_CATEGORY_FILTER = 7;
-		public static final int AV_CLASS_CATEGORY_BITSTREAM_FILTER = 8;
-		public static final int AV_CLASS_CATEGORY_SWSCALER = 9;
-		public static final int AV_CLASS_CATEGORY_SWRESAMPLER = 10;
-		public static final int AV_CLASS_CATEGORY_NB = 11;
-	};
-	/**
-	 * Pixel format.<br>
-	 * * @note<br>
-	 * PIX_FMT_RGB32 is handled in an endian-specific manner. An RGBA<br>
-	 * color is put together as:<br>
-	 *  (A << 24) | (R << 16) | (G << 8) | B<br>
-	 * This is stored as BGRA on little-endian CPU architectures and ARGB on<br>
-	 * big-endian CPUs.<br>
-	 * * @par<br>
-	 * When the pixel format is palettized RGB (PIX_FMT_PAL8), the palettized<br>
-	 * image data is stored in AVFrame.data[0]. The palette is transported in<br>
-	 * AVFrame.data[1], is 1024 bytes long (256 4-byte entries) and is<br>
-	 * formatted the same as in PIX_FMT_RGB32 described above (i.e., it is<br>
-	 * also endian-specific). Note also that the individual RGB palette<br>
-	 * components stored in AVFrame.data[1] should be in the range 0..255.<br>
-	 * This is important as many custom PAL8 video codecs that were designed<br>
-	 * to run on the IBM VGA graphics adapter use 6-bit palette components.<br>
-	 * * @par<br>
-	 * For all the 8bit per pixel formats, an RGB32 palette is in data[1] like<br>
-	 * for pal8. This palette is filled in automatically by the function<br>
-	 * allocating the picture.<br>
-	 * * @note<br>
-	 * Make sure that all newly added big-endian formats have pix_fmt & 1 == 1<br>
-	 * and that all newly added little-endian formats have pix_fmt & 1 == 0.<br>
-	 * This allows simpler detection of big vs little-endian.<br>
-	 * enum values
-	 */
-	public static interface AVPixelFormat {
-		public static final int AV_PIX_FMT_NONE = -1;
-		/** < planar YUV 4:2:0, 12bpp, (1 Cr & Cb sample per 2x2 Y samples) */
-		public static final int AV_PIX_FMT_YUV420P = 0;
-		/** < packed YUV 4:2:2, 16bpp, Y0 Cb Y1 Cr */
-		public static final int AV_PIX_FMT_YUYV422 = 1;
-		/** < packed RGB 8:8:8, 24bpp, RGBRGB... */
-		public static final int AV_PIX_FMT_RGB24 = 2;
-		/** < packed RGB 8:8:8, 24bpp, BGRBGR... */
-		public static final int AV_PIX_FMT_BGR24 = 3;
-		/** < planar YUV 4:2:2, 16bpp, (1 Cr & Cb sample per 2x1 Y samples) */
-		public static final int AV_PIX_FMT_YUV422P = 4;
-		/** < planar YUV 4:4:4, 24bpp, (1 Cr & Cb sample per 1x1 Y samples) */
-		public static final int AV_PIX_FMT_YUV444P = 5;
-		/** < planar YUV 4:1:0,  9bpp, (1 Cr & Cb sample per 4x4 Y samples) */
-		public static final int AV_PIX_FMT_YUV410P = 6;
-		/** < planar YUV 4:1:1, 12bpp, (1 Cr & Cb sample per 4x1 Y samples) */
-		public static final int AV_PIX_FMT_YUV411P = 7;
-		/** <        Y        ,  8bpp */
-		public static final int AV_PIX_FMT_GRAY8 = 8;
-		/** <        Y        ,  1bpp, 0 is white, 1 is black, in each byte pixels are ordered from the msb to the lsb */
-		public static final int AV_PIX_FMT_MONOWHITE = 9;
-		/** <        Y        ,  1bpp, 0 is black, 1 is white, in each byte pixels are ordered from the msb to the lsb */
-		public static final int AV_PIX_FMT_MONOBLACK = 10;
-		/** < 8 bit with PIX_FMT_RGB32 palette */
-		public static final int AV_PIX_FMT_PAL8 = 11;
-		/** < planar YUV 4:2:0, 12bpp, full scale (JPEG), deprecated in favor of PIX_FMT_YUV420P and setting color_range */
-		public static final int AV_PIX_FMT_YUVJ420P = 12;
-		/** < planar YUV 4:2:2, 16bpp, full scale (JPEG), deprecated in favor of PIX_FMT_YUV422P and setting color_range */
-		public static final int AV_PIX_FMT_YUVJ422P = 13;
-		/** < planar YUV 4:4:4, 24bpp, full scale (JPEG), deprecated in favor of PIX_FMT_YUV444P and setting color_range */
-		public static final int AV_PIX_FMT_YUVJ444P = 14;
-		/** < XVideo Motion Acceleration via common packet passing */
-		public static final int AV_PIX_FMT_XVMC_MPEG2_MC = 15;
-		public static final int AV_PIX_FMT_XVMC_MPEG2_IDCT = 16;
-		/** < packed YUV 4:2:2, 16bpp, Cb Y0 Cr Y1 */
-		public static final int AV_PIX_FMT_UYVY422 = 17;
-		/** < packed YUV 4:1:1, 12bpp, Cb Y0 Y1 Cr Y2 Y3 */
-		public static final int AV_PIX_FMT_UYYVYY411 = 18;
-		/** < packed RGB 3:3:2,  8bpp, (msb)2B 3G 3R(lsb) */
-		public static final int AV_PIX_FMT_BGR8 = 19;
-		/** < packed RGB 1:2:1 bitstream,  4bpp, (msb)1B 2G 1R(lsb), a byte contains two pixels, the first pixel in the byte is the one composed by the 4 msb bits */
-		public static final int AV_PIX_FMT_BGR4 = 20;
-		/** < packed RGB 1:2:1,  8bpp, (msb)1B 2G 1R(lsb) */
-		public static final int AV_PIX_FMT_BGR4_BYTE = 21;
-		/** < packed RGB 3:3:2,  8bpp, (msb)2R 3G 3B(lsb) */
-		public static final int AV_PIX_FMT_RGB8 = 22;
-		/** < packed RGB 1:2:1 bitstream,  4bpp, (msb)1R 2G 1B(lsb), a byte contains two pixels, the first pixel in the byte is the one composed by the 4 msb bits */
-		public static final int AV_PIX_FMT_RGB4 = 23;
-		/** < packed RGB 1:2:1,  8bpp, (msb)1R 2G 1B(lsb) */
-		public static final int AV_PIX_FMT_RGB4_BYTE = 24;
-		/** < planar YUV 4:2:0, 12bpp, 1 plane for Y and 1 plane for the UV components, which are interleaved (first byte U and the following byte V) */
-		public static final int AV_PIX_FMT_NV12 = 25;
-		/** < as above, but U and V bytes are swapped */
-		public static final int AV_PIX_FMT_NV21 = 26;
-		/** < packed ARGB 8:8:8:8, 32bpp, ARGBARGB... */
-		public static final int AV_PIX_FMT_ARGB = 27;
-		/** < packed RGBA 8:8:8:8, 32bpp, RGBARGBA... */
-		public static final int AV_PIX_FMT_RGBA = 28;
-		/** < packed ABGR 8:8:8:8, 32bpp, ABGRABGR... */
-		public static final int AV_PIX_FMT_ABGR = 29;
-		/** < packed BGRA 8:8:8:8, 32bpp, BGRABGRA... */
-		public static final int AV_PIX_FMT_BGRA = 30;
-		/** <        Y        , 16bpp, big-endian */
-		public static final int AV_PIX_FMT_GRAY16BE = 31;
-		/** <        Y        , 16bpp, little-endian */
-		public static final int AV_PIX_FMT_GRAY16LE = 32;
-		/** < planar YUV 4:4:0 (1 Cr & Cb sample per 1x2 Y samples) */
-		public static final int AV_PIX_FMT_YUV440P = 33;
-		/** < planar YUV 4:4:0 full scale (JPEG), deprecated in favor of PIX_FMT_YUV440P and setting color_range */
-		public static final int AV_PIX_FMT_YUVJ440P = 34;
-		/** < planar YUV 4:2:0, 20bpp, (1 Cr & Cb sample per 2x2 Y & A samples) */
-		public static final int AV_PIX_FMT_YUVA420P = 35;
-		/** < H.264 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers */
-		public static final int AV_PIX_FMT_VDPAU_H264 = 36;
-		/** < MPEG-1 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers */
-		public static final int AV_PIX_FMT_VDPAU_MPEG1 = 37;
-		/** < MPEG-2 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers */
-		public static final int AV_PIX_FMT_VDPAU_MPEG2 = 38;
-		/** < WMV3 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers */
-		public static final int AV_PIX_FMT_VDPAU_WMV3 = 39;
-		/** < VC-1 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers */
-		public static final int AV_PIX_FMT_VDPAU_VC1 = 40;
-		/** < packed RGB 16:16:16, 48bpp, 16R, 16G, 16B, the 2-byte value for each R/G/B component is stored as big-endian */
-		public static final int AV_PIX_FMT_RGB48BE = 41;
-		/** < packed RGB 16:16:16, 48bpp, 16R, 16G, 16B, the 2-byte value for each R/G/B component is stored as little-endian */
-		public static final int AV_PIX_FMT_RGB48LE = 42;
-		/** < packed RGB 5:6:5, 16bpp, (msb)   5R 6G 5B(lsb), big-endian */
-		public static final int AV_PIX_FMT_RGB565BE = 43;
-		/** < packed RGB 5:6:5, 16bpp, (msb)   5R 6G 5B(lsb), little-endian */
-		public static final int AV_PIX_FMT_RGB565LE = 44;
-		/** < packed RGB 5:5:5, 16bpp, (msb)1A 5R 5G 5B(lsb), big-endian, most significant bit to 0 */
-		public static final int AV_PIX_FMT_RGB555BE = 45;
-		/** < packed RGB 5:5:5, 16bpp, (msb)1A 5R 5G 5B(lsb), little-endian, most significant bit to 0 */
-		public static final int AV_PIX_FMT_RGB555LE = 46;
-		/** < packed BGR 5:6:5, 16bpp, (msb)   5B 6G 5R(lsb), big-endian */
-		public static final int AV_PIX_FMT_BGR565BE = 47;
-		/** < packed BGR 5:6:5, 16bpp, (msb)   5B 6G 5R(lsb), little-endian */
-		public static final int AV_PIX_FMT_BGR565LE = 48;
-		/** < packed BGR 5:5:5, 16bpp, (msb)1A 5B 5G 5R(lsb), big-endian, most significant bit to 1 */
-		public static final int AV_PIX_FMT_BGR555BE = 49;
-		/** < packed BGR 5:5:5, 16bpp, (msb)1A 5B 5G 5R(lsb), little-endian, most significant bit to 1 */
-		public static final int AV_PIX_FMT_BGR555LE = 50;
-		/** < HW acceleration through VA API at motion compensation entry-point, Picture.data[3] contains a vaapi_render_state struct which contains macroblocks as well as various fields extracted from headers */
-		public static final int AV_PIX_FMT_VAAPI_MOCO = 51;
-		/** < HW acceleration through VA API at IDCT entry-point, Picture.data[3] contains a vaapi_render_state struct which contains fields extracted from headers */
-		public static final int AV_PIX_FMT_VAAPI_IDCT = 52;
-		/** < HW decoding through VA API, Picture.data[3] contains a vaapi_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers */
-		public static final int AV_PIX_FMT_VAAPI_VLD = 53;
-		/** < planar YUV 4:2:0, 24bpp, (1 Cr & Cb sample per 2x2 Y samples), little-endian */
-		public static final int AV_PIX_FMT_YUV420P16LE = 54;
-		/** < planar YUV 4:2:0, 24bpp, (1 Cr & Cb sample per 2x2 Y samples), big-endian */
-		public static final int AV_PIX_FMT_YUV420P16BE = 55;
-		/** < planar YUV 4:2:2, 32bpp, (1 Cr & Cb sample per 2x1 Y samples), little-endian */
-		public static final int AV_PIX_FMT_YUV422P16LE = 56;
-		/** < planar YUV 4:2:2, 32bpp, (1 Cr & Cb sample per 2x1 Y samples), big-endian */
-		public static final int AV_PIX_FMT_YUV422P16BE = 57;
-		/** < planar YUV 4:4:4, 48bpp, (1 Cr & Cb sample per 1x1 Y samples), little-endian */
-		public static final int AV_PIX_FMT_YUV444P16LE = 58;
-		/** < planar YUV 4:4:4, 48bpp, (1 Cr & Cb sample per 1x1 Y samples), big-endian */
-		public static final int AV_PIX_FMT_YUV444P16BE = 59;
-		/** < MPEG4 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers */
-		public static final int AV_PIX_FMT_VDPAU_MPEG4 = 60;
-		/** < HW decoding through DXVA2, Picture.data[3] contains a LPDIRECT3DSURFACE9 pointer */
-		public static final int AV_PIX_FMT_DXVA2_VLD = 61;
-		/** < packed RGB 4:4:4, 16bpp, (msb)4A 4R 4G 4B(lsb), little-endian, most significant bits to 0 */
-		public static final int AV_PIX_FMT_RGB444LE = 62;
-		/** < packed RGB 4:4:4, 16bpp, (msb)4A 4R 4G 4B(lsb), big-endian, most significant bits to 0 */
-		public static final int AV_PIX_FMT_RGB444BE = 63;
-		/** < packed BGR 4:4:4, 16bpp, (msb)4A 4B 4G 4R(lsb), little-endian, most significant bits to 1 */
-		public static final int AV_PIX_FMT_BGR444LE = 64;
-		/** < packed BGR 4:4:4, 16bpp, (msb)4A 4B 4G 4R(lsb), big-endian, most significant bits to 1 */
-		public static final int AV_PIX_FMT_BGR444BE = 65;
-		/** < 8bit gray, 8bit alpha */
-		public static final int AV_PIX_FMT_GRAY8A = 66;
-		/** < packed RGB 16:16:16, 48bpp, 16B, 16G, 16R, the 2-byte value for each R/G/B component is stored as big-endian */
-		public static final int AV_PIX_FMT_BGR48BE = 67;
-		/** < packed RGB 16:16:16, 48bpp, 16B, 16G, 16R, the 2-byte value for each R/G/B component is stored as little-endian */
-		public static final int AV_PIX_FMT_BGR48LE = 68;
-		/**
-		 * is better<br>
-		 * < planar YUV 4:2:0, 13.5bpp, (1 Cr & Cb sample per 2x2 Y samples), big-endian
-		 */
-		public static final int AV_PIX_FMT_YUV420P9BE = 69;
-		/** < planar YUV 4:2:0, 13.5bpp, (1 Cr & Cb sample per 2x2 Y samples), little-endian */
-		public static final int AV_PIX_FMT_YUV420P9LE = 70;
-		/** < planar YUV 4:2:0, 15bpp, (1 Cr & Cb sample per 2x2 Y samples), big-endian */
-		public static final int AV_PIX_FMT_YUV420P10BE = 71;
-		/** < planar YUV 4:2:0, 15bpp, (1 Cr & Cb sample per 2x2 Y samples), little-endian */
-		public static final int AV_PIX_FMT_YUV420P10LE = 72;
-		/** < planar YUV 4:2:2, 20bpp, (1 Cr & Cb sample per 2x1 Y samples), big-endian */
-		public static final int AV_PIX_FMT_YUV422P10BE = 73;
-		/** < planar YUV 4:2:2, 20bpp, (1 Cr & Cb sample per 2x1 Y samples), little-endian */
-		public static final int AV_PIX_FMT_YUV422P10LE = 74;
-		/** < planar YUV 4:4:4, 27bpp, (1 Cr & Cb sample per 1x1 Y samples), big-endian */
-		public static final int AV_PIX_FMT_YUV444P9BE = 75;
-		/** < planar YUV 4:4:4, 27bpp, (1 Cr & Cb sample per 1x1 Y samples), little-endian */
-		public static final int AV_PIX_FMT_YUV444P9LE = 76;
-		/** < planar YUV 4:4:4, 30bpp, (1 Cr & Cb sample per 1x1 Y samples), big-endian */
-		public static final int AV_PIX_FMT_YUV444P10BE = 77;
-		/** < planar YUV 4:4:4, 30bpp, (1 Cr & Cb sample per 1x1 Y samples), little-endian */
-		public static final int AV_PIX_FMT_YUV444P10LE = 78;
-		/** < planar YUV 4:2:2, 18bpp, (1 Cr & Cb sample per 2x1 Y samples), big-endian */
-		public static final int AV_PIX_FMT_YUV422P9BE = 79;
-		/** < planar YUV 4:2:2, 18bpp, (1 Cr & Cb sample per 2x1 Y samples), little-endian */
-		public static final int AV_PIX_FMT_YUV422P9LE = 80;
-		/** < hardware decoding through VDA */
-		public static final int AV_PIX_FMT_VDA_VLD = 81;
-		/** < planar GBR 4:4:4 24bpp */
-		public static final int AV_PIX_FMT_GBRP = 82;
-		/** < planar GBR 4:4:4 27bpp, big-endian */
-		public static final int AV_PIX_FMT_GBRP9BE = 83;
-		/** < planar GBR 4:4:4 27bpp, little-endian */
-		public static final int AV_PIX_FMT_GBRP9LE = 84;
-		/** < planar GBR 4:4:4 30bpp, big-endian */
-		public static final int AV_PIX_FMT_GBRP10BE = 85;
-		/** < planar GBR 4:4:4 30bpp, little-endian */
-		public static final int AV_PIX_FMT_GBRP10LE = 86;
-		/** < planar GBR 4:4:4 48bpp, big-endian */
-		public static final int AV_PIX_FMT_GBRP16BE = 87;
-		/** < planar GBR 4:4:4 48bpp, little-endian */
-		public static final int AV_PIX_FMT_GBRP16LE = 88;
-		/**
-		 * duplicated pixel formats for compatibility with libav.<br>
-		 * FFmpeg supports these formats since May 8 2012 and Jan 28 2012 (commits f9ca1ac7 and 143a5c55)<br>
-		 * Libav added them Oct 12 2012 with incompatible values (commit 6d5600e85)<br>
-		 * < planar YUV 4:2:2 24bpp, (1 Cr & Cb sample per 2x1 Y & A samples)
-		 */
-		public static final int AV_PIX_FMT_YUVA422P_LIBAV = 89;
-		/** < planar YUV 4:4:4 32bpp, (1 Cr & Cb sample per 1x1 Y & A samples) */
-		public static final int AV_PIX_FMT_YUVA444P_LIBAV = 90;
-		/** < planar YUV 4:2:0 22.5bpp, (1 Cr & Cb sample per 2x2 Y & A samples), big-endian */
-		public static final int AV_PIX_FMT_YUVA420P9BE = 91;
-		/** < planar YUV 4:2:0 22.5bpp, (1 Cr & Cb sample per 2x2 Y & A samples), little-endian */
-		public static final int AV_PIX_FMT_YUVA420P9LE = 92;
-		/** < planar YUV 4:2:2 27bpp, (1 Cr & Cb sample per 2x1 Y & A samples), big-endian */
-		public static final int AV_PIX_FMT_YUVA422P9BE = 93;
-		/** < planar YUV 4:2:2 27bpp, (1 Cr & Cb sample per 2x1 Y & A samples), little-endian */
-		public static final int AV_PIX_FMT_YUVA422P9LE = 94;
-		/** < planar YUV 4:4:4 36bpp, (1 Cr & Cb sample per 1x1 Y & A samples), big-endian */
-		public static final int AV_PIX_FMT_YUVA444P9BE = 95;
-		/** < planar YUV 4:4:4 36bpp, (1 Cr & Cb sample per 1x1 Y & A samples), little-endian */
-		public static final int AV_PIX_FMT_YUVA444P9LE = 96;
-		/** < planar YUV 4:2:0 25bpp, (1 Cr & Cb sample per 2x2 Y & A samples, big-endian) */
-		public static final int AV_PIX_FMT_YUVA420P10BE = 97;
-		/** < planar YUV 4:2:0 25bpp, (1 Cr & Cb sample per 2x2 Y & A samples, little-endian) */
-		public static final int AV_PIX_FMT_YUVA420P10LE = 98;
-		/** < planar YUV 4:2:2 30bpp, (1 Cr & Cb sample per 2x1 Y & A samples, big-endian) */
-		public static final int AV_PIX_FMT_YUVA422P10BE = 99;
-		/** < planar YUV 4:2:2 30bpp, (1 Cr & Cb sample per 2x1 Y & A samples, little-endian) */
-		public static final int AV_PIX_FMT_YUVA422P10LE = 100;
-		/** < planar YUV 4:4:4 40bpp, (1 Cr & Cb sample per 1x1 Y & A samples, big-endian) */
-		public static final int AV_PIX_FMT_YUVA444P10BE = 101;
-		/** < planar YUV 4:4:4 40bpp, (1 Cr & Cb sample per 1x1 Y & A samples, little-endian) */
-		public static final int AV_PIX_FMT_YUVA444P10LE = 102;
-		/** < planar YUV 4:2:0 40bpp, (1 Cr & Cb sample per 2x2 Y & A samples, big-endian) */
-		public static final int AV_PIX_FMT_YUVA420P16BE = 103;
-		/** < planar YUV 4:2:0 40bpp, (1 Cr & Cb sample per 2x2 Y & A samples, little-endian) */
-		public static final int AV_PIX_FMT_YUVA420P16LE = 104;
-		/** < planar YUV 4:2:2 48bpp, (1 Cr & Cb sample per 2x1 Y & A samples, big-endian) */
-		public static final int AV_PIX_FMT_YUVA422P16BE = 105;
-		/** < planar YUV 4:2:2 48bpp, (1 Cr & Cb sample per 2x1 Y & A samples, little-endian) */
-		public static final int AV_PIX_FMT_YUVA422P16LE = 106;
-		/** < planar YUV 4:4:4 64bpp, (1 Cr & Cb sample per 1x1 Y & A samples, big-endian) */
-		public static final int AV_PIX_FMT_YUVA444P16BE = 107;
-		/** < planar YUV 4:4:4 64bpp, (1 Cr & Cb sample per 1x1 Y & A samples, little-endian) */
-		public static final int AV_PIX_FMT_YUVA444P16LE = 108;
-		/** < HW acceleration through VDPAU, Picture.data[3] contains a VdpVideoSurface */
-		public static final int AV_PIX_FMT_VDPAU = 109;
-		/** < packed XYZ 4:4:4, 36 bpp, (msb) 12X, 12Y, 12Z (lsb), the 2-byte value for each X/Y/Z is stored as little-endian, the 4 lower bits are set to 0 */
-		public static final int AV_PIX_FMT_XYZ12LE = 110;
-		/** < packed XYZ 4:4:4, 36 bpp, (msb) 12X, 12Y, 12Z (lsb), the 2-byte value for each X/Y/Z is stored as big-endian, the 4 lower bits are set to 0 */
-		public static final int AV_PIX_FMT_XYZ12BE = 111;
-		/** < packed RGBA 16:16:16:16, 64bpp, 16R, 16G, 16B, 16A, the 2-byte value for each R/G/B/A component is stored as big-endian */
-		public static final int AV_PIX_FMT_RGBA64BE = 0x123;
-		/** < packed RGBA 16:16:16:16, 64bpp, 16R, 16G, 16B, 16A, the 2-byte value for each R/G/B/A component is stored as little-endian */
-		public static final int AV_PIX_FMT_RGBA64LE = (0x123 + 1);
-		/** < packed RGBA 16:16:16:16, 64bpp, 16B, 16G, 16R, 16A, the 2-byte value for each R/G/B/A component is stored as big-endian */
-		public static final int AV_PIX_FMT_BGRA64BE = (0x123 + 2);
-		/** < packed RGBA 16:16:16:16, 64bpp, 16B, 16G, 16R, 16A, the 2-byte value for each R/G/B/A component is stored as little-endian */
-		public static final int AV_PIX_FMT_BGRA64LE = (0x123 + 3);
-		/** < packed RGB 8:8:8, 32bpp, 0RGB0RGB... */
-		public static final int AV_PIX_FMT_0RGB = 0x123 + 4;
-		/** < packed RGB 8:8:8, 32bpp, RGB0RGB0... */
-		public static final int AV_PIX_FMT_RGB0 = (0x123 + 4 + 1);
-		/** < packed BGR 8:8:8, 32bpp, 0BGR0BGR... */
-		public static final int AV_PIX_FMT_0BGR = (0x123 + 4 + 2);
-		/** < packed BGR 8:8:8, 32bpp, BGR0BGR0... */
-		public static final int AV_PIX_FMT_BGR0 = (0x123 + 4 + 3);
-		/** < planar YUV 4:4:4 32bpp, (1 Cr & Cb sample per 1x1 Y & A samples) */
-		public static final int AV_PIX_FMT_YUVA444P = (0x123 + 4 + 4);
-		/** < planar YUV 4:2:2 24bpp, (1 Cr & Cb sample per 2x1 Y & A samples) */
-		public static final int AV_PIX_FMT_YUVA422P = (0x123 + 4 + 5);
-		/** < planar YUV 4:2:0,18bpp, (1 Cr & Cb sample per 2x2 Y samples), big-endian */
-		public static final int AV_PIX_FMT_YUV420P12BE = (0x123 + 4 + 6);
-		/** < planar YUV 4:2:0,18bpp, (1 Cr & Cb sample per 2x2 Y samples), little-endian */
-		public static final int AV_PIX_FMT_YUV420P12LE = (0x123 + 4 + 7);
-		/** < planar YUV 4:2:0,21bpp, (1 Cr & Cb sample per 2x2 Y samples), big-endian */
-		public static final int AV_PIX_FMT_YUV420P14BE = (0x123 + 4 + 8);
-		/** < planar YUV 4:2:0,21bpp, (1 Cr & Cb sample per 2x2 Y samples), little-endian */
-		public static final int AV_PIX_FMT_YUV420P14LE = (0x123 + 4 + 9);
-		/** < planar YUV 4:2:2,24bpp, (1 Cr & Cb sample per 2x1 Y samples), big-endian */
-		public static final int AV_PIX_FMT_YUV422P12BE = (0x123 + 4 + 10);
-		/** < planar YUV 4:2:2,24bpp, (1 Cr & Cb sample per 2x1 Y samples), little-endian */
-		public static final int AV_PIX_FMT_YUV422P12LE = (0x123 + 4 + 11);
-		/** < planar YUV 4:2:2,28bpp, (1 Cr & Cb sample per 2x1 Y samples), big-endian */
-		public static final int AV_PIX_FMT_YUV422P14BE = (0x123 + 4 + 12);
-		/** < planar YUV 4:2:2,28bpp, (1 Cr & Cb sample per 2x1 Y samples), little-endian */
-		public static final int AV_PIX_FMT_YUV422P14LE = (0x123 + 4 + 13);
-		/** < planar YUV 4:4:4,36bpp, (1 Cr & Cb sample per 1x1 Y samples), big-endian */
-		public static final int AV_PIX_FMT_YUV444P12BE = (0x123 + 4 + 14);
-		/** < planar YUV 4:4:4,36bpp, (1 Cr & Cb sample per 1x1 Y samples), little-endian */
-		public static final int AV_PIX_FMT_YUV444P12LE = (0x123 + 4 + 15);
-		/** < planar YUV 4:4:4,42bpp, (1 Cr & Cb sample per 1x1 Y samples), big-endian */
-		public static final int AV_PIX_FMT_YUV444P14BE = (0x123 + 4 + 16);
-		/** < planar YUV 4:4:4,42bpp, (1 Cr & Cb sample per 1x1 Y samples), little-endian */
-		public static final int AV_PIX_FMT_YUV444P14LE = (0x123 + 4 + 17);
-		/** < planar GBR 4:4:4 36bpp, big-endian */
-		public static final int AV_PIX_FMT_GBRP12BE = (0x123 + 4 + 18);
-		/** < planar GBR 4:4:4 36bpp, little-endian */
-		public static final int AV_PIX_FMT_GBRP12LE = (0x123 + 4 + 19);
-		/** < planar GBR 4:4:4 42bpp, big-endian */
-		public static final int AV_PIX_FMT_GBRP14BE = (0x123 + 4 + 20);
-		/** < planar GBR 4:4:4 42bpp, little-endian */
-		public static final int AV_PIX_FMT_GBRP14LE = (0x123 + 4 + 21);
-		/** < planar GBRA 4:4:4:4 32bpp */
-		public static final int AV_PIX_FMT_GBRAP = (0x123 + 4 + 22);
-		/** < planar GBRA 4:4:4:4 64bpp, big-endian */
-		public static final int AV_PIX_FMT_GBRAP16BE = (0x123 + 4 + 23);
-		/** < planar GBRA 4:4:4:4 64bpp, little-endian */
-		public static final int AV_PIX_FMT_GBRAP16LE = (0x123 + 4 + 24);
-		/** < planar YUV 4:1:1, 12bpp, (1 Cr & Cb sample per 4x1 Y samples) full scale (JPEG), deprecated in favor of PIX_FMT_YUV411P and setting color_range */
-		public static final int AV_PIX_FMT_YUVJ411P = (0x123 + 4 + 25);
-		/** < number of pixel formats, DO NOT USE THIS if you want to link with shared libav* because the number of formats might differ between versions */
-		public static final int AV_PIX_FMT_NB = (0x123 + 4 + 26);
-		/**
-		 * This header exists to prevent new pixel formats from being accidentally added<br>
-		 * to the deprecated list.<br>
-		 * Do not include it directly. It will be removed on next major bump<br>
-		 * * Do not add new items to this list. Use the AVPixelFormat enum instead.
-		 */
-		public static final int PIX_FMT_NONE = (int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE;
-		/** < planar YUV 4:2:0, 12bpp, (1 Cr & Cb sample per 2x2 Y samples) */
-		public static final int PIX_FMT_YUV420P = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 1);
-		/** < packed YUV 4:2:2, 16bpp, Y0 Cb Y1 Cr */
-		public static final int PIX_FMT_YUYV422 = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 2);
-		/** < packed RGB 8:8:8, 24bpp, RGBRGB... */
-		public static final int PIX_FMT_RGB24 = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 3);
-		/** < packed RGB 8:8:8, 24bpp, BGRBGR... */
-		public static final int PIX_FMT_BGR24 = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 4);
-		/** < planar YUV 4:2:2, 16bpp, (1 Cr & Cb sample per 2x1 Y samples) */
-		public static final int PIX_FMT_YUV422P = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 5);
-		/** < planar YUV 4:4:4, 24bpp, (1 Cr & Cb sample per 1x1 Y samples) */
-		public static final int PIX_FMT_YUV444P = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 6);
-		/** < planar YUV 4:1:0,  9bpp, (1 Cr & Cb sample per 4x4 Y samples) */
-		public static final int PIX_FMT_YUV410P = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 7);
-		/** < planar YUV 4:1:1, 12bpp, (1 Cr & Cb sample per 4x1 Y samples) */
-		public static final int PIX_FMT_YUV411P = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 8);
-		/** <        Y        ,  8bpp */
-		public static final int PIX_FMT_GRAY8 = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 9);
-		/** <        Y        ,  1bpp, 0 is white, 1 is black, in each byte pixels are ordered from the msb to the lsb */
-		public static final int PIX_FMT_MONOWHITE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 10);
-		/** <        Y        ,  1bpp, 0 is black, 1 is white, in each byte pixels are ordered from the msb to the lsb */
-		public static final int PIX_FMT_MONOBLACK = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 11);
-		/** < 8 bit with PIX_FMT_RGB32 palette */
-		public static final int PIX_FMT_PAL8 = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 12);
-		/** < planar YUV 4:2:0, 12bpp, full scale (JPEG), deprecated in favor of PIX_FMT_YUV420P and setting color_range */
-		public static final int PIX_FMT_YUVJ420P = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 13);
-		/** < planar YUV 4:2:2, 16bpp, full scale (JPEG), deprecated in favor of PIX_FMT_YUV422P and setting color_range */
-		public static final int PIX_FMT_YUVJ422P = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 14);
-		/** < planar YUV 4:4:4, 24bpp, full scale (JPEG), deprecated in favor of PIX_FMT_YUV444P and setting color_range */
-		public static final int PIX_FMT_YUVJ444P = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 15);
-		/** < XVideo Motion Acceleration via common packet passing */
-		public static final int PIX_FMT_XVMC_MPEG2_MC = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 16);
-		public static final int PIX_FMT_XVMC_MPEG2_IDCT = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 17);
-		/** < packed YUV 4:2:2, 16bpp, Cb Y0 Cr Y1 */
-		public static final int PIX_FMT_UYVY422 = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 18);
-		/** < packed YUV 4:1:1, 12bpp, Cb Y0 Y1 Cr Y2 Y3 */
-		public static final int PIX_FMT_UYYVYY411 = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 19);
-		/** < packed RGB 3:3:2,  8bpp, (msb)2B 3G 3R(lsb) */
-		public static final int PIX_FMT_BGR8 = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 20);
-		/** < packed RGB 1:2:1 bitstream,  4bpp, (msb)1B 2G 1R(lsb), a byte contains two pixels, the first pixel in the byte is the one composed by the 4 msb bits */
-		public static final int PIX_FMT_BGR4 = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 21);
-		/** < packed RGB 1:2:1,  8bpp, (msb)1B 2G 1R(lsb) */
-		public static final int PIX_FMT_BGR4_BYTE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 22);
-		/** < packed RGB 3:3:2,  8bpp, (msb)2R 3G 3B(lsb) */
-		public static final int PIX_FMT_RGB8 = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 23);
-		/** < packed RGB 1:2:1 bitstream,  4bpp, (msb)1R 2G 1B(lsb), a byte contains two pixels, the first pixel in the byte is the one composed by the 4 msb bits */
-		public static final int PIX_FMT_RGB4 = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 24);
-		/** < packed RGB 1:2:1,  8bpp, (msb)1R 2G 1B(lsb) */
-		public static final int PIX_FMT_RGB4_BYTE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 25);
-		/** < planar YUV 4:2:0, 12bpp, 1 plane for Y and 1 plane for the UV components, which are interleaved (first byte U and the following byte V) */
-		public static final int PIX_FMT_NV12 = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 26);
-		/** < as above, but U and V bytes are swapped */
-		public static final int PIX_FMT_NV21 = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 27);
-		/** < packed ARGB 8:8:8:8, 32bpp, ARGBARGB... */
-		public static final int PIX_FMT_ARGB = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 28);
-		/** < packed RGBA 8:8:8:8, 32bpp, RGBARGBA... */
-		public static final int PIX_FMT_RGBA = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 29);
-		/** < packed ABGR 8:8:8:8, 32bpp, ABGRABGR... */
-		public static final int PIX_FMT_ABGR = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 30);
-		/** < packed BGRA 8:8:8:8, 32bpp, BGRABGRA... */
-		public static final int PIX_FMT_BGRA = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 31);
-		/** <        Y        , 16bpp, big-endian */
-		public static final int PIX_FMT_GRAY16BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 32);
-		/** <        Y        , 16bpp, little-endian */
-		public static final int PIX_FMT_GRAY16LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 33);
-		/** < planar YUV 4:4:0 (1 Cr & Cb sample per 1x2 Y samples) */
-		public static final int PIX_FMT_YUV440P = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 34);
-		/** < planar YUV 4:4:0 full scale (JPEG), deprecated in favor of PIX_FMT_YUV440P and setting color_range */
-		public static final int PIX_FMT_YUVJ440P = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 35);
-		/** < planar YUV 4:2:0, 20bpp, (1 Cr & Cb sample per 2x2 Y & A samples) */
-		public static final int PIX_FMT_YUVA420P = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 36);
-		/** < H.264 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers */
-		public static final int PIX_FMT_VDPAU_H264 = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 37);
-		/** < MPEG-1 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers */
-		public static final int PIX_FMT_VDPAU_MPEG1 = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 38);
-		/** < MPEG-2 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers */
-		public static final int PIX_FMT_VDPAU_MPEG2 = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 39);
-		/** < WMV3 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers */
-		public static final int PIX_FMT_VDPAU_WMV3 = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 40);
-		/** < VC-1 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers */
-		public static final int PIX_FMT_VDPAU_VC1 = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 41);
-		/** < packed RGB 16:16:16, 48bpp, 16R, 16G, 16B, the 2-byte value for each R/G/B component is stored as big-endian */
-		public static final int PIX_FMT_RGB48BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 42);
-		/** < packed RGB 16:16:16, 48bpp, 16R, 16G, 16B, the 2-byte value for each R/G/B component is stored as little-endian */
-		public static final int PIX_FMT_RGB48LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 43);
-		/** < packed RGB 5:6:5, 16bpp, (msb)   5R 6G 5B(lsb), big-endian */
-		public static final int PIX_FMT_RGB565BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 44);
-		/** < packed RGB 5:6:5, 16bpp, (msb)   5R 6G 5B(lsb), little-endian */
-		public static final int PIX_FMT_RGB565LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 45);
-		/** < packed RGB 5:5:5, 16bpp, (msb)1A 5R 5G 5B(lsb), big-endian, most significant bit to 0 */
-		public static final int PIX_FMT_RGB555BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 46);
-		/** < packed RGB 5:5:5, 16bpp, (msb)1A 5R 5G 5B(lsb), little-endian, most significant bit to 0 */
-		public static final int PIX_FMT_RGB555LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 47);
-		/** < packed BGR 5:6:5, 16bpp, (msb)   5B 6G 5R(lsb), big-endian */
-		public static final int PIX_FMT_BGR565BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 48);
-		/** < packed BGR 5:6:5, 16bpp, (msb)   5B 6G 5R(lsb), little-endian */
-		public static final int PIX_FMT_BGR565LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 49);
-		/** < packed BGR 5:5:5, 16bpp, (msb)1A 5B 5G 5R(lsb), big-endian, most significant bit to 1 */
-		public static final int PIX_FMT_BGR555BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 50);
-		/** < packed BGR 5:5:5, 16bpp, (msb)1A 5B 5G 5R(lsb), little-endian, most significant bit to 1 */
-		public static final int PIX_FMT_BGR555LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 51);
-		/** < HW acceleration through VA API at motion compensation entry-point, Picture.data[3] contains a vaapi_render_state struct which contains macroblocks as well as various fields extracted from headers */
-		public static final int PIX_FMT_VAAPI_MOCO = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 52);
-		/** < HW acceleration through VA API at IDCT entry-point, Picture.data[3] contains a vaapi_render_state struct which contains fields extracted from headers */
-		public static final int PIX_FMT_VAAPI_IDCT = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 53);
-		/** < HW decoding through VA API, Picture.data[3] contains a vaapi_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers */
-		public static final int PIX_FMT_VAAPI_VLD = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 54);
-		/** < planar YUV 4:2:0, 24bpp, (1 Cr & Cb sample per 2x2 Y samples), little-endian */
-		public static final int PIX_FMT_YUV420P16LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 55);
-		/** < planar YUV 4:2:0, 24bpp, (1 Cr & Cb sample per 2x2 Y samples), big-endian */
-		public static final int PIX_FMT_YUV420P16BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 56);
-		/** < planar YUV 4:2:2, 32bpp, (1 Cr & Cb sample per 2x1 Y samples), little-endian */
-		public static final int PIX_FMT_YUV422P16LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 57);
-		/** < planar YUV 4:2:2, 32bpp, (1 Cr & Cb sample per 2x1 Y samples), big-endian */
-		public static final int PIX_FMT_YUV422P16BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 58);
-		/** < planar YUV 4:4:4, 48bpp, (1 Cr & Cb sample per 1x1 Y samples), little-endian */
-		public static final int PIX_FMT_YUV444P16LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 59);
-		/** < planar YUV 4:4:4, 48bpp, (1 Cr & Cb sample per 1x1 Y samples), big-endian */
-		public static final int PIX_FMT_YUV444P16BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 60);
-		/** < MPEG4 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers */
-		public static final int PIX_FMT_VDPAU_MPEG4 = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 61);
-		/** < HW decoding through DXVA2, Picture.data[3] contains a LPDIRECT3DSURFACE9 pointer */
-		public static final int PIX_FMT_DXVA2_VLD = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 62);
-		/** < packed RGB 4:4:4, 16bpp, (msb)4A 4R 4G 4B(lsb), little-endian, most significant bits to 0 */
-		public static final int PIX_FMT_RGB444LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 63);
-		/** < packed RGB 4:4:4, 16bpp, (msb)4A 4R 4G 4B(lsb), big-endian, most significant bits to 0 */
-		public static final int PIX_FMT_RGB444BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 64);
-		/** < packed BGR 4:4:4, 16bpp, (msb)4A 4B 4G 4R(lsb), little-endian, most significant bits to 1 */
-		public static final int PIX_FMT_BGR444LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 65);
-		/** < packed BGR 4:4:4, 16bpp, (msb)4A 4B 4G 4R(lsb), big-endian, most significant bits to 1 */
-		public static final int PIX_FMT_BGR444BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 66);
-		/** < 8bit gray, 8bit alpha */
-		public static final int PIX_FMT_GRAY8A = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 67);
-		/** < packed RGB 16:16:16, 48bpp, 16B, 16G, 16R, the 2-byte value for each R/G/B component is stored as big-endian */
-		public static final int PIX_FMT_BGR48BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 68);
-		/** < packed RGB 16:16:16, 48bpp, 16B, 16G, 16R, the 2-byte value for each R/G/B component is stored as little-endian */
-		public static final int PIX_FMT_BGR48LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 69);
-		/**
-		 * is better<br>
-		 * < planar YUV 4:2:0, 13.5bpp, (1 Cr & Cb sample per 2x2 Y samples), big-endian
-		 */
-		public static final int PIX_FMT_YUV420P9BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 70);
-		/** < planar YUV 4:2:0, 13.5bpp, (1 Cr & Cb sample per 2x2 Y samples), little-endian */
-		public static final int PIX_FMT_YUV420P9LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 71);
-		/** < planar YUV 4:2:0, 15bpp, (1 Cr & Cb sample per 2x2 Y samples), big-endian */
-		public static final int PIX_FMT_YUV420P10BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 72);
-		/** < planar YUV 4:2:0, 15bpp, (1 Cr & Cb sample per 2x2 Y samples), little-endian */
-		public static final int PIX_FMT_YUV420P10LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 73);
-		/** < planar YUV 4:2:2, 20bpp, (1 Cr & Cb sample per 2x1 Y samples), big-endian */
-		public static final int PIX_FMT_YUV422P10BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 74);
-		/** < planar YUV 4:2:2, 20bpp, (1 Cr & Cb sample per 2x1 Y samples), little-endian */
-		public static final int PIX_FMT_YUV422P10LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 75);
-		/** < planar YUV 4:4:4, 27bpp, (1 Cr & Cb sample per 1x1 Y samples), big-endian */
-		public static final int PIX_FMT_YUV444P9BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 76);
-		/** < planar YUV 4:4:4, 27bpp, (1 Cr & Cb sample per 1x1 Y samples), little-endian */
-		public static final int PIX_FMT_YUV444P9LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 77);
-		/** < planar YUV 4:4:4, 30bpp, (1 Cr & Cb sample per 1x1 Y samples), big-endian */
-		public static final int PIX_FMT_YUV444P10BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 78);
-		/** < planar YUV 4:4:4, 30bpp, (1 Cr & Cb sample per 1x1 Y samples), little-endian */
-		public static final int PIX_FMT_YUV444P10LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 79);
-		/** < planar YUV 4:2:2, 18bpp, (1 Cr & Cb sample per 2x1 Y samples), big-endian */
-		public static final int PIX_FMT_YUV422P9BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 80);
-		/** < planar YUV 4:2:2, 18bpp, (1 Cr & Cb sample per 2x1 Y samples), little-endian */
-		public static final int PIX_FMT_YUV422P9LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 81);
-		/** < hardware decoding through VDA */
-		public static final int PIX_FMT_VDA_VLD = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 82);
-		/** < planar GBR 4:4:4 24bpp */
-		public static final int PIX_FMT_GBRP = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 83);
-		/** < planar GBR 4:4:4 27bpp, big endian */
-		public static final int PIX_FMT_GBRP9BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 84);
-		/** < planar GBR 4:4:4 27bpp, little endian */
-		public static final int PIX_FMT_GBRP9LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 85);
-		/** < planar GBR 4:4:4 30bpp, big endian */
-		public static final int PIX_FMT_GBRP10BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 86);
-		/** < planar GBR 4:4:4 30bpp, little endian */
-		public static final int PIX_FMT_GBRP10LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 87);
-		/** < planar GBR 4:4:4 48bpp, big endian */
-		public static final int PIX_FMT_GBRP16BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 88);
-		/** < planar GBR 4:4:4 48bpp, little endian */
-		public static final int PIX_FMT_GBRP16LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 89);
-		/** < packed RGBA 16:16:16:16, 64bpp, 16R, 16G, 16B, 16A, the 2-byte value for each R/G/B/A component is stored as big-endian */
-		public static final int PIX_FMT_RGBA64BE = 0x123;
-		/** < packed RGBA 16:16:16:16, 64bpp, 16R, 16G, 16B, 16A, the 2-byte value for each R/G/B/A component is stored as little-endian */
-		public static final int PIX_FMT_RGBA64LE = (0x123 + 1);
-		/** < packed RGBA 16:16:16:16, 64bpp, 16B, 16G, 16R, 16A, the 2-byte value for each R/G/B/A component is stored as big-endian */
-		public static final int PIX_FMT_BGRA64BE = (0x123 + 2);
-		/** < packed RGBA 16:16:16:16, 64bpp, 16B, 16G, 16R, 16A, the 2-byte value for each R/G/B/A component is stored as little-endian */
-		public static final int PIX_FMT_BGRA64LE = (0x123 + 3);
-		/** < packed RGB 8:8:8, 32bpp, 0RGB0RGB... */
-		public static final int PIX_FMT_0RGB = 0x123 + 4;
-		/** < packed RGB 8:8:8, 32bpp, RGB0RGB0... */
-		public static final int PIX_FMT_RGB0 = (0x123 + 4 + 1);
-		/** < packed BGR 8:8:8, 32bpp, 0BGR0BGR... */
-		public static final int PIX_FMT_0BGR = (0x123 + 4 + 2);
-		/** < packed BGR 8:8:8, 32bpp, BGR0BGR0... */
-		public static final int PIX_FMT_BGR0 = (0x123 + 4 + 3);
-		/** < planar YUV 4:4:4 32bpp, (1 Cr & Cb sample per 1x1 Y & A samples) */
-		public static final int PIX_FMT_YUVA444P = (0x123 + 4 + 4);
-		/** < planar YUV 4:2:2 24bpp, (1 Cr & Cb sample per 2x1 Y & A samples) */
-		public static final int PIX_FMT_YUVA422P = (0x123 + 4 + 5);
-		/** < planar YUV 4:2:0,18bpp, (1 Cr & Cb sample per 2x2 Y samples), big-endian */
-		public static final int PIX_FMT_YUV420P12BE = (0x123 + 4 + 6);
-		/** < planar YUV 4:2:0,18bpp, (1 Cr & Cb sample per 2x2 Y samples), little-endian */
-		public static final int PIX_FMT_YUV420P12LE = (0x123 + 4 + 7);
-		/** < planar YUV 4:2:0,21bpp, (1 Cr & Cb sample per 2x2 Y samples), big-endian */
-		public static final int PIX_FMT_YUV420P14BE = (0x123 + 4 + 8);
-		/** < planar YUV 4:2:0,21bpp, (1 Cr & Cb sample per 2x2 Y samples), little-endian */
-		public static final int PIX_FMT_YUV420P14LE = (0x123 + 4 + 9);
-		/** < planar YUV 4:2:2,24bpp, (1 Cr & Cb sample per 2x1 Y samples), big-endian */
-		public static final int PIX_FMT_YUV422P12BE = (0x123 + 4 + 10);
-		/** < planar YUV 4:2:2,24bpp, (1 Cr & Cb sample per 2x1 Y samples), little-endian */
-		public static final int PIX_FMT_YUV422P12LE = (0x123 + 4 + 11);
-		/** < planar YUV 4:2:2,28bpp, (1 Cr & Cb sample per 2x1 Y samples), big-endian */
-		public static final int PIX_FMT_YUV422P14BE = (0x123 + 4 + 12);
-		/** < planar YUV 4:2:2,28bpp, (1 Cr & Cb sample per 2x1 Y samples), little-endian */
-		public static final int PIX_FMT_YUV422P14LE = (0x123 + 4 + 13);
-		/** < planar YUV 4:4:4,36bpp, (1 Cr & Cb sample per 1x1 Y samples), big-endian */
-		public static final int PIX_FMT_YUV444P12BE = (0x123 + 4 + 14);
-		/** < planar YUV 4:4:4,36bpp, (1 Cr & Cb sample per 1x1 Y samples), little-endian */
-		public static final int PIX_FMT_YUV444P12LE = (0x123 + 4 + 15);
-		/** < planar YUV 4:4:4,42bpp, (1 Cr & Cb sample per 1x1 Y samples), big-endian */
-		public static final int PIX_FMT_YUV444P14BE = (0x123 + 4 + 16);
-		/** < planar YUV 4:4:4,42bpp, (1 Cr & Cb sample per 1x1 Y samples), little-endian */
-		public static final int PIX_FMT_YUV444P14LE = (0x123 + 4 + 17);
-		/** < planar GBR 4:4:4 36bpp, big endian */
-		public static final int PIX_FMT_GBRP12BE = (0x123 + 4 + 18);
-		/** < planar GBR 4:4:4 36bpp, little endian */
-		public static final int PIX_FMT_GBRP12LE = (0x123 + 4 + 19);
-		/** < planar GBR 4:4:4 42bpp, big endian */
-		public static final int PIX_FMT_GBRP14BE = (0x123 + 4 + 20);
-		/** < planar GBR 4:4:4 42bpp, little endian */
-		public static final int PIX_FMT_GBRP14LE = (0x123 + 4 + 21);
-		/** < number of pixel formats, DO NOT USE THIS if you want to link with shared libav* because the number of formats might differ between versions */
-		public static final int PIX_FMT_NB = (0x123 + 4 + 22);
-	};
-	/**
-	 * Audio Sample Formats<br>
-	 * * @par<br>
-	 * The data described by the sample format is always in native-endian order.<br>
-	 * Sample values can be expressed by native C types, hence the lack of a signed<br>
-	 * 24-bit sample format even though it is a common raw audio data format.<br>
-	 * * @par<br>
-	 * The floating-point formats are based on full volume being in the range<br>
-	 * [-1.0, 1.0]. Any values outside this range are beyond full volume level.<br>
-	 * * @par<br>
-	 * The data layout as used in av_samples_fill_arrays() and elsewhere in FFmpeg<br>
-	 * (such as AVFrame in libavcodec) is as follows:<br>
-	 * * For planar sample formats, each audio channel is in a separate data plane,<br>
-	 * and linesize is the buffer size, in bytes, for a single plane. All data<br>
-	 * planes must be the same size. For packed sample formats, only the first data<br>
-	 * plane is used, and samples for each channel are interleaved. In this case,<br>
-	 * linesize is the buffer size, in bytes, for the 1 plane.<br>
-	 * enum values
-	 */
-	public static interface AVSampleFormat {
-		public static final int AV_SAMPLE_FMT_NONE = -1;
-		/** < unsigned 8 bits */
-		public static final int AV_SAMPLE_FMT_U8 = 0;
-		/** < signed 16 bits */
-		public static final int AV_SAMPLE_FMT_S16 = 1;
-		/** < signed 32 bits */
-		public static final int AV_SAMPLE_FMT_S32 = 2;
-		/** < float */
-		public static final int AV_SAMPLE_FMT_FLT = 3;
-		/** < double */
-		public static final int AV_SAMPLE_FMT_DBL = 4;
-		/** < unsigned 8 bits, planar */
-		public static final int AV_SAMPLE_FMT_U8P = 5;
-		/** < signed 16 bits, planar */
-		public static final int AV_SAMPLE_FMT_S16P = 6;
-		/** < signed 32 bits, planar */
-		public static final int AV_SAMPLE_FMT_S32P = 7;
-		/** < float, planar */
-		public static final int AV_SAMPLE_FMT_FLTP = 8;
-		/** < double, planar */
-		public static final int AV_SAMPLE_FMT_DBLP = 9;
-		/** < Number of sample formats. DO NOT USE if linking dynamically */
-		public static final int AV_SAMPLE_FMT_NB = 10;
-	};
-	/** enum values */
-	public static interface AVMatrixEncoding {
-		public static final int AV_MATRIX_ENCODING_NONE = 0;
-		public static final int AV_MATRIX_ENCODING_DOLBY = 1;
-		public static final int AV_MATRIX_ENCODING_DPLII = 2;
-		public static final int AV_MATRIX_ENCODING_NB = 3;
-	};
-	/** enum values */
-	public static interface AVFrameSideDataType {
-		/** The data is the AVPanScan struct defined in libavcodec. */
-		public static final int AV_FRAME_DATA_PANSCAN = 0;
-	};
-	/**
-	 * Identify the syntax and semantics of the bitstream.<br>
-	 * The principle is roughly:<br>
-	 * Two decoders with the same ID can decode the same streams.<br>
-	 * Two encoders with the same ID can encode compatible streams.<br>
-	 * There may be slight deviations from the principle due to implementation<br>
-	 * details.<br>
-	 * * If you add a codec ID to this list, add it so that<br>
-	 * 1. no value of a existing codec ID changes (that would break ABI),<br>
-	 * 2. Give it a value which when taken as ASCII is recognized uniquely by a human as this specific codec.<br>
-	 *    This ensures that 2 forks can independently add AVCodecIDs without producing conflicts.<br>
-	 * * After adding new codec IDs, do not forget to add an entry to the codec<br>
-	 * descriptor list and bump libavcodec minor version.<br>
-	 * enum values
-	 */
-	public static interface AVCodecID {
-		public static final int AV_CODEC_ID_NONE = 0;
-		/** video codecs */
-		public static final int AV_CODEC_ID_MPEG1VIDEO = 1;
-		/** < preferred ID for MPEG-1/2 video decoding */
-		public static final int AV_CODEC_ID_MPEG2VIDEO = 2;
-		public static final int AV_CODEC_ID_MPEG2VIDEO_XVMC = 3;
-		public static final int AV_CODEC_ID_H261 = 4;
-		public static final int AV_CODEC_ID_H263 = 5;
-		public static final int AV_CODEC_ID_RV10 = 6;
-		public static final int AV_CODEC_ID_RV20 = 7;
-		public static final int AV_CODEC_ID_MJPEG = 8;
-		public static final int AV_CODEC_ID_MJPEGB = 9;
-		public static final int AV_CODEC_ID_LJPEG = 10;
-		public static final int AV_CODEC_ID_SP5X = 11;
-		public static final int AV_CODEC_ID_JPEGLS = 12;
-		public static final int AV_CODEC_ID_MPEG4 = 13;
-		public static final int AV_CODEC_ID_RAWVIDEO = 14;
-		public static final int AV_CODEC_ID_MSMPEG4V1 = 15;
-		public static final int AV_CODEC_ID_MSMPEG4V2 = 16;
-		public static final int AV_CODEC_ID_MSMPEG4V3 = 17;
-		public static final int AV_CODEC_ID_WMV1 = 18;
-		public static final int AV_CODEC_ID_WMV2 = 19;
-		public static final int AV_CODEC_ID_H263P = 20;
-		public static final int AV_CODEC_ID_H263I = 21;
-		public static final int AV_CODEC_ID_FLV1 = 22;
-		public static final int AV_CODEC_ID_SVQ1 = 23;
-		public static final int AV_CODEC_ID_SVQ3 = 24;
-		public static final int AV_CODEC_ID_DVVIDEO = 25;
-		public static final int AV_CODEC_ID_HUFFYUV = 26;
-		public static final int AV_CODEC_ID_CYUV = 27;
-		public static final int AV_CODEC_ID_H264 = 28;
-		public static final int AV_CODEC_ID_INDEO3 = 29;
-		public static final int AV_CODEC_ID_VP3 = 30;
-		public static final int AV_CODEC_ID_THEORA = 31;
-		public static final int AV_CODEC_ID_ASV1 = 32;
-		public static final int AV_CODEC_ID_ASV2 = 33;
-		public static final int AV_CODEC_ID_FFV1 = 34;
-		public static final int AV_CODEC_ID_4XM = 35;
-		public static final int AV_CODEC_ID_VCR1 = 36;
-		public static final int AV_CODEC_ID_CLJR = 37;
-		public static final int AV_CODEC_ID_MDEC = 38;
-		public static final int AV_CODEC_ID_ROQ = 39;
-		public static final int AV_CODEC_ID_INTERPLAY_VIDEO = 40;
-		public static final int AV_CODEC_ID_XAN_WC3 = 41;
-		public static final int AV_CODEC_ID_XAN_WC4 = 42;
-		public static final int AV_CODEC_ID_RPZA = 43;
-		public static final int AV_CODEC_ID_CINEPAK = 44;
-		public static final int AV_CODEC_ID_WS_VQA = 45;
-		public static final int AV_CODEC_ID_MSRLE = 46;
-		public static final int AV_CODEC_ID_MSVIDEO1 = 47;
-		public static final int AV_CODEC_ID_IDCIN = 48;
-		public static final int AV_CODEC_ID_8BPS = 49;
-		public static final int AV_CODEC_ID_SMC = 50;
-		public static final int AV_CODEC_ID_FLIC = 51;
-		public static final int AV_CODEC_ID_TRUEMOTION1 = 52;
-		public static final int AV_CODEC_ID_VMDVIDEO = 53;
-		public static final int AV_CODEC_ID_MSZH = 54;
-		public static final int AV_CODEC_ID_ZLIB = 55;
-		public static final int AV_CODEC_ID_QTRLE = 56;
-		public static final int AV_CODEC_ID_TSCC = 57;
-		public static final int AV_CODEC_ID_ULTI = 58;
-		public static final int AV_CODEC_ID_QDRAW = 59;
-		public static final int AV_CODEC_ID_VIXL = 60;
-		public static final int AV_CODEC_ID_QPEG = 61;
-		public static final int AV_CODEC_ID_PNG = 62;
-		public static final int AV_CODEC_ID_PPM = 63;
-		public static final int AV_CODEC_ID_PBM = 64;
-		public static final int AV_CODEC_ID_PGM = 65;
-		public static final int AV_CODEC_ID_PGMYUV = 66;
-		public static final int AV_CODEC_ID_PAM = 67;
-		public static final int AV_CODEC_ID_FFVHUFF = 68;
-		public static final int AV_CODEC_ID_RV30 = 69;
-		public static final int AV_CODEC_ID_RV40 = 70;
-		public static final int AV_CODEC_ID_VC1 = 71;
-		public static final int AV_CODEC_ID_WMV3 = 72;
-		public static final int AV_CODEC_ID_LOCO = 73;
-		public static final int AV_CODEC_ID_WNV1 = 74;
-		public static final int AV_CODEC_ID_AASC = 75;
-		public static final int AV_CODEC_ID_INDEO2 = 76;
-		public static final int AV_CODEC_ID_FRAPS = 77;
-		public static final int AV_CODEC_ID_TRUEMOTION2 = 78;
-		public static final int AV_CODEC_ID_BMP = 79;
-		public static final int AV_CODEC_ID_CSCD = 80;
-		public static final int AV_CODEC_ID_MMVIDEO = 81;
-		public static final int AV_CODEC_ID_ZMBV = 82;
-		public static final int AV_CODEC_ID_AVS = 83;
-		public static final int AV_CODEC_ID_SMACKVIDEO = 84;
-		public static final int AV_CODEC_ID_NUV = 85;
-		public static final int AV_CODEC_ID_KMVC = 86;
-		public static final int AV_CODEC_ID_FLASHSV = 87;
-		public static final int AV_CODEC_ID_CAVS = 88;
-		public static final int AV_CODEC_ID_JPEG2000 = 89;
-		public static final int AV_CODEC_ID_VMNC = 90;
-		public static final int AV_CODEC_ID_VP5 = 91;
-		public static final int AV_CODEC_ID_VP6 = 92;
-		public static final int AV_CODEC_ID_VP6F = 93;
-		public static final int AV_CODEC_ID_TARGA = 94;
-		public static final int AV_CODEC_ID_DSICINVIDEO = 95;
-		public static final int AV_CODEC_ID_TIERTEXSEQVIDEO = 96;
-		public static final int AV_CODEC_ID_TIFF = 97;
-		public static final int AV_CODEC_ID_GIF = 98;
-		public static final int AV_CODEC_ID_DXA = 99;
-		public static final int AV_CODEC_ID_DNXHD = 100;
-		public static final int AV_CODEC_ID_THP = 101;
-		public static final int AV_CODEC_ID_SGI = 102;
-		public static final int AV_CODEC_ID_C93 = 103;
-		public static final int AV_CODEC_ID_BETHSOFTVID = 104;
-		public static final int AV_CODEC_ID_PTX = 105;
-		public static final int AV_CODEC_ID_TXD = 106;
-		public static final int AV_CODEC_ID_VP6A = 107;
-		public static final int AV_CODEC_ID_AMV = 108;
-		public static final int AV_CODEC_ID_VB = 109;
-		public static final int AV_CODEC_ID_PCX = 110;
-		public static final int AV_CODEC_ID_SUNRAST = 111;
-		public static final int AV_CODEC_ID_INDEO4 = 112;
-		public static final int AV_CODEC_ID_INDEO5 = 113;
-		public static final int AV_CODEC_ID_MIMIC = 114;
-		public static final int AV_CODEC_ID_RL2 = 115;
-		public static final int AV_CODEC_ID_ESCAPE124 = 116;
-		public static final int AV_CODEC_ID_DIRAC = 117;
-		public static final int AV_CODEC_ID_BFI = 118;
-		public static final int AV_CODEC_ID_CMV = 119;
-		public static final int AV_CODEC_ID_MOTIONPIXELS = 120;
-		public static final int AV_CODEC_ID_TGV = 121;
-		public static final int AV_CODEC_ID_TGQ = 122;
-		public static final int AV_CODEC_ID_TQI = 123;
-		public static final int AV_CODEC_ID_AURA = 124;
-		public static final int AV_CODEC_ID_AURA2 = 125;
-		public static final int AV_CODEC_ID_V210X = 126;
-		public static final int AV_CODEC_ID_TMV = 127;
-		public static final int AV_CODEC_ID_V210 = 128;
-		public static final int AV_CODEC_ID_DPX = 129;
-		public static final int AV_CODEC_ID_MAD = 130;
-		public static final int AV_CODEC_ID_FRWU = 131;
-		public static final int AV_CODEC_ID_FLASHSV2 = 132;
-		public static final int AV_CODEC_ID_CDGRAPHICS = 133;
-		public static final int AV_CODEC_ID_R210 = 134;
-		public static final int AV_CODEC_ID_ANM = 135;
-		public static final int AV_CODEC_ID_BINKVIDEO = 136;
-		public static final int AV_CODEC_ID_IFF_ILBM = 137;
-		public static final int AV_CODEC_ID_IFF_BYTERUN1 = 138;
-		public static final int AV_CODEC_ID_KGV1 = 139;
-		public static final int AV_CODEC_ID_YOP = 140;
-		public static final int AV_CODEC_ID_VP8 = 141;
-		public static final int AV_CODEC_ID_PICTOR = 142;
-		public static final int AV_CODEC_ID_ANSI = 143;
-		public static final int AV_CODEC_ID_A64_MULTI = 144;
-		public static final int AV_CODEC_ID_A64_MULTI5 = 145;
-		public static final int AV_CODEC_ID_R10K = 146;
-		public static final int AV_CODEC_ID_MXPEG = 147;
-		public static final int AV_CODEC_ID_LAGARITH = 148;
-		public static final int AV_CODEC_ID_PRORES = 149;
-		public static final int AV_CODEC_ID_JV = 150;
-		public static final int AV_CODEC_ID_DFA = 151;
-		public static final int AV_CODEC_ID_WMV3IMAGE = 152;
-		public static final int AV_CODEC_ID_VC1IMAGE = 153;
-		public static final int AV_CODEC_ID_UTVIDEO = 154;
-		public static final int AV_CODEC_ID_BMV_VIDEO = 155;
-		public static final int AV_CODEC_ID_VBLE = 156;
-		public static final int AV_CODEC_ID_DXTORY = 157;
-		public static final int AV_CODEC_ID_V410 = 158;
-		public static final int AV_CODEC_ID_XWD = 159;
-		public static final int AV_CODEC_ID_CDXL = 160;
-		public static final int AV_CODEC_ID_XBM = 161;
-		public static final int AV_CODEC_ID_ZEROCODEC = 162;
-		public static final int AV_CODEC_ID_MSS1 = 163;
-		public static final int AV_CODEC_ID_MSA1 = 164;
-		public static final int AV_CODEC_ID_TSCC2 = 165;
-		public static final int AV_CODEC_ID_MTS2 = 166;
-		public static final int AV_CODEC_ID_CLLC = 167;
-		public static final int AV_CODEC_ID_MSS2 = 168;
-		public static final int AV_CODEC_ID_VP9 = 169;
-		public static final int AV_CODEC_ID_AIC = 170;
-		public static final int AV_CODEC_ID_ESCAPE130_DEPRECATED = 171;
-		public static final int AV_CODEC_ID_G2M_DEPRECATED = 172;
-		public static final int AV_CODEC_ID_BRENDER_PIX = (('X') | (('I') << 8) | (('P') << 16) | (('B') << 24));
-		public static final int AV_CODEC_ID_Y41P = (('P') | (('1') << 8) | (('4') << 16) | (('Y') << 24));
-		public static final int AV_CODEC_ID_ESCAPE130 = (('0') | (('3') << 8) | (('1') << 16) | (('E') << 24));
-		public static final int AV_CODEC_ID_EXR = (('R') | (('X') << 8) | (('E') << 16) | (('0') << 24));
-		public static final int AV_CODEC_ID_AVRP = (('P') | (('R') << 8) | (('V') << 16) | (('A') << 24));
-		public static final int AV_CODEC_ID_012V = (('V') | (('2') << 8) | (('1') << 16) | (('0') << 24));
-		public static final int AV_CODEC_ID_G2M = (('M') | (('2') << 8) | (('G') << 16) | ((0) << 24));
-		public static final int AV_CODEC_ID_AVUI = (('I') | (('U') << 8) | (('V') << 16) | (('A') << 24));
-		public static final int AV_CODEC_ID_AYUV = (('V') | (('U') << 8) | (('Y') << 16) | (('A') << 24));
-		public static final int AV_CODEC_ID_TARGA_Y216 = (('6') | (('1') << 8) | (('2') << 16) | (('T') << 24));
-		public static final int AV_CODEC_ID_V308 = (('8') | (('0') << 8) | (('3') << 16) | (('V') << 24));
-		public static final int AV_CODEC_ID_V408 = (('8') | (('0') << 8) | (('4') << 16) | (('V') << 24));
-		public static final int AV_CODEC_ID_YUV4 = (('4') | (('V') << 8) | (('U') << 16) | (('Y') << 24));
-		public static final int AV_CODEC_ID_SANM = (('M') | (('N') << 8) | (('A') << 16) | (('S') << 24));
-		public static final int AV_CODEC_ID_PAF_VIDEO = (('V') | (('F') << 8) | (('A') << 16) | (('P') << 24));
-		public static final int AV_CODEC_ID_AVRN = (('n') | (('R') << 8) | (('V') << 16) | (('A') << 24));
-		public static final int AV_CODEC_ID_CPIA = (('A') | (('I') << 8) | (('P') << 16) | (('C') << 24));
-		public static final int AV_CODEC_ID_XFACE = (('C') | (('A') << 8) | (('F') << 16) | (('X') << 24));
-		public static final int AV_CODEC_ID_SGIRLE = (('R') | (('I') << 8) | (('G') << 16) | (('S') << 24));
-		public static final int AV_CODEC_ID_MVC1 = (('1') | (('C') << 8) | (('V') << 16) | (('M') << 24));
-		public static final int AV_CODEC_ID_MVC2 = (('2') | (('C') << 8) | (('V') << 16) | (('M') << 24));
-		public static final int AV_CODEC_ID_SNOW = (('W') | (('O') << 8) | (('N') << 16) | (('S') << 24));
-		public static final int AV_CODEC_ID_WEBP = (('P') | (('B') << 8) | (('E') << 16) | (('W') << 24));
-		public static final int AV_CODEC_ID_SMVJPEG = (('J') | (('V') << 8) | (('M') << 16) | (('S') << 24));
-		/**
-		 * various PCM "codecs"<br>
-		 * < A dummy id pointing at the start of audio codecs
-		 */
-		public static final int AV_CODEC_ID_FIRST_AUDIO = 0x10000;
-		public static final int AV_CODEC_ID_PCM_S16LE = 0x10000;
-		public static final int AV_CODEC_ID_PCM_S16BE = (0x10000 + 1);
-		public static final int AV_CODEC_ID_PCM_U16LE = (0x10000 + 2);
-		public static final int AV_CODEC_ID_PCM_U16BE = (0x10000 + 3);
-		public static final int AV_CODEC_ID_PCM_S8 = (0x10000 + 4);
-		public static final int AV_CODEC_ID_PCM_U8 = (0x10000 + 5);
-		public static final int AV_CODEC_ID_PCM_MULAW = (0x10000 + 6);
-		public static final int AV_CODEC_ID_PCM_ALAW = (0x10000 + 7);
-		public static final int AV_CODEC_ID_PCM_S32LE = (0x10000 + 8);
-		public static final int AV_CODEC_ID_PCM_S32BE = (0x10000 + 9);
-		public static final int AV_CODEC_ID_PCM_U32LE = (0x10000 + 10);
-		public static final int AV_CODEC_ID_PCM_U32BE = (0x10000 + 11);
-		public static final int AV_CODEC_ID_PCM_S24LE = (0x10000 + 12);
-		public static final int AV_CODEC_ID_PCM_S24BE = (0x10000 + 13);
-		public static final int AV_CODEC_ID_PCM_U24LE = (0x10000 + 14);
-		public static final int AV_CODEC_ID_PCM_U24BE = (0x10000 + 15);
-		public static final int AV_CODEC_ID_PCM_S24DAUD = (0x10000 + 16);
-		public static final int AV_CODEC_ID_PCM_ZORK = (0x10000 + 17);
-		public static final int AV_CODEC_ID_PCM_S16LE_PLANAR = (0x10000 + 18);
-		public static final int AV_CODEC_ID_PCM_DVD = (0x10000 + 19);
-		public static final int AV_CODEC_ID_PCM_F32BE = (0x10000 + 20);
-		public static final int AV_CODEC_ID_PCM_F32LE = (0x10000 + 21);
-		public static final int AV_CODEC_ID_PCM_F64BE = (0x10000 + 22);
-		public static final int AV_CODEC_ID_PCM_F64LE = (0x10000 + 23);
-		public static final int AV_CODEC_ID_PCM_BLURAY = (0x10000 + 24);
-		public static final int AV_CODEC_ID_PCM_LXF = (0x10000 + 25);
-		public static final int AV_CODEC_ID_S302M = (0x10000 + 26);
-		public static final int AV_CODEC_ID_PCM_S8_PLANAR = (0x10000 + 27);
-		public static final int AV_CODEC_ID_PCM_S24LE_PLANAR = (('P') | (('S') << 8) | (('P') << 16) | ((24) << 24));
-		public static final int AV_CODEC_ID_PCM_S32LE_PLANAR = (('P') | (('S') << 8) | (('P') << 16) | ((32) << 24));
-		public static final int AV_CODEC_ID_PCM_S16BE_PLANAR = ((16) | (('P') << 8) | (('S') << 16) | (('P') << 24));
-		/** various ADPCM codecs */
-		public static final int AV_CODEC_ID_ADPCM_IMA_QT = 0x11000;
-		public static final int AV_CODEC_ID_ADPCM_IMA_WAV = (0x11000 + 1);
-		public static final int AV_CODEC_ID_ADPCM_IMA_DK3 = (0x11000 + 2);
-		public static final int AV_CODEC_ID_ADPCM_IMA_DK4 = (0x11000 + 3);
-		public static final int AV_CODEC_ID_ADPCM_IMA_WS = (0x11000 + 4);
-		public static final int AV_CODEC_ID_ADPCM_IMA_SMJPEG = (0x11000 + 5);
-		public static final int AV_CODEC_ID_ADPCM_MS = (0x11000 + 6);
-		public static final int AV_CODEC_ID_ADPCM_4XM = (0x11000 + 7);
-		public static final int AV_CODEC_ID_ADPCM_XA = (0x11000 + 8);
-		public static final int AV_CODEC_ID_ADPCM_ADX = (0x11000 + 9);
-		public static final int AV_CODEC_ID_ADPCM_EA = (0x11000 + 10);
-		public static final int AV_CODEC_ID_ADPCM_G726 = (0x11000 + 11);
-		public static final int AV_CODEC_ID_ADPCM_CT = (0x11000 + 12);
-		public static final int AV_CODEC_ID_ADPCM_SWF = (0x11000 + 13);
-		public static final int AV_CODEC_ID_ADPCM_YAMAHA = (0x11000 + 14);
-		public static final int AV_CODEC_ID_ADPCM_SBPRO_4 = (0x11000 + 15);
-		public static final int AV_CODEC_ID_ADPCM_SBPRO_3 = (0x11000 + 16);
-		public static final int AV_CODEC_ID_ADPCM_SBPRO_2 = (0x11000 + 17);
-		public static final int AV_CODEC_ID_ADPCM_THP = (0x11000 + 18);
-		public static final int AV_CODEC_ID_ADPCM_IMA_AMV = (0x11000 + 19);
-		public static final int AV_CODEC_ID_ADPCM_EA_R1 = (0x11000 + 20);
-		public static final int AV_CODEC_ID_ADPCM_EA_R3 = (0x11000 + 21);
-		public static final int AV_CODEC_ID_ADPCM_EA_R2 = (0x11000 + 22);
-		public static final int AV_CODEC_ID_ADPCM_IMA_EA_SEAD = (0x11000 + 23);
-		public static final int AV_CODEC_ID_ADPCM_IMA_EA_EACS = (0x11000 + 24);
-		public static final int AV_CODEC_ID_ADPCM_EA_XAS = (0x11000 + 25);
-		public static final int AV_CODEC_ID_ADPCM_EA_MAXIS_XA = (0x11000 + 26);
-		public static final int AV_CODEC_ID_ADPCM_IMA_ISS = (0x11000 + 27);
-		public static final int AV_CODEC_ID_ADPCM_G722 = (0x11000 + 28);
-		public static final int AV_CODEC_ID_ADPCM_IMA_APC = (0x11000 + 29);
-		public static final int AV_CODEC_ID_VIMA = (('A') | (('M') << 8) | (('I') << 16) | (('V') << 24));
-		public static final int AV_CODEC_ID_ADPCM_AFC = ((' ') | (('C') << 8) | (('F') << 16) | (('A') << 24));
-		public static final int AV_CODEC_ID_ADPCM_IMA_OKI = ((' ') | (('I') << 8) | (('K') << 16) | (('O') << 24));
-		public static final int AV_CODEC_ID_ADPCM_DTK = ((' ') | (('K') << 8) | (('T') << 16) | (('D') << 24));
-		public static final int AV_CODEC_ID_ADPCM_IMA_RAD = ((' ') | (('D') << 8) | (('A') << 16) | (('R') << 24));
-		/** AMR */
-		public static final int AV_CODEC_ID_AMR_NB = 0x12000;
-		public static final int AV_CODEC_ID_AMR_WB = (0x12000 + 1);
-		/** RealAudio codecs */
-		public static final int AV_CODEC_ID_RA_144 = 0x13000;
-		public static final int AV_CODEC_ID_RA_288 = (0x13000 + 1);
-		/** various DPCM codecs */
-		public static final int AV_CODEC_ID_ROQ_DPCM = 0x14000;
-		public static final int AV_CODEC_ID_INTERPLAY_DPCM = (0x14000 + 1);
-		public static final int AV_CODEC_ID_XAN_DPCM = (0x14000 + 2);
-		public static final int AV_CODEC_ID_SOL_DPCM = (0x14000 + 3);
-		/** audio codecs */
-		public static final int AV_CODEC_ID_MP2 = 0x15000;
-		/** < preferred ID for decoding MPEG audio layer 1, 2 or 3 */
-		public static final int AV_CODEC_ID_MP3 = (0x15000 + 1);
-		public static final int AV_CODEC_ID_AAC = (0x15000 + 2);
-		public static final int AV_CODEC_ID_AC3 = (0x15000 + 3);
-		public static final int AV_CODEC_ID_DTS = (0x15000 + 4);
-		public static final int AV_CODEC_ID_VORBIS = (0x15000 + 5);
-		public static final int AV_CODEC_ID_DVAUDIO = (0x15000 + 6);
-		public static final int AV_CODEC_ID_WMAV1 = (0x15000 + 7);
-		public static final int AV_CODEC_ID_WMAV2 = (0x15000 + 8);
-		public static final int AV_CODEC_ID_MACE3 = (0x15000 + 9);
-		public static final int AV_CODEC_ID_MACE6 = (0x15000 + 10);
-		public static final int AV_CODEC_ID_VMDAUDIO = (0x15000 + 11);
-		public static final int AV_CODEC_ID_FLAC = (0x15000 + 12);
-		public static final int AV_CODEC_ID_MP3ADU = (0x15000 + 13);
-		public static final int AV_CODEC_ID_MP3ON4 = (0x15000 + 14);
-		public static final int AV_CODEC_ID_SHORTEN = (0x15000 + 15);
-		public static final int AV_CODEC_ID_ALAC = (0x15000 + 16);
-		public static final int AV_CODEC_ID_WESTWOOD_SND1 = (0x15000 + 17);
-		/** < as in Berlin toast format */
-		public static final int AV_CODEC_ID_GSM = (0x15000 + 18);
-		public static final int AV_CODEC_ID_QDM2 = (0x15000 + 19);
-		public static final int AV_CODEC_ID_COOK = (0x15000 + 20);
-		public static final int AV_CODEC_ID_TRUESPEECH = (0x15000 + 21);
-		public static final int AV_CODEC_ID_TTA = (0x15000 + 22);
-		public static final int AV_CODEC_ID_SMACKAUDIO = (0x15000 + 23);
-		public static final int AV_CODEC_ID_QCELP = (0x15000 + 24);
-		public static final int AV_CODEC_ID_WAVPACK = (0x15000 + 25);
-		public static final int AV_CODEC_ID_DSICINAUDIO = (0x15000 + 26);
-		public static final int AV_CODEC_ID_IMC = (0x15000 + 27);
-		public static final int AV_CODEC_ID_MUSEPACK7 = (0x15000 + 28);
-		public static final int AV_CODEC_ID_MLP = (0x15000 + 29);
-		/** as found in WAV */
-		public static final int AV_CODEC_ID_GSM_MS = (0x15000 + 30);
-		public static final int AV_CODEC_ID_ATRAC3 = (0x15000 + 31);
-		public static final int AV_CODEC_ID_VOXWARE = (0x15000 + 32);
-		public static final int AV_CODEC_ID_APE = (0x15000 + 33);
-		public static final int AV_CODEC_ID_NELLYMOSER = (0x15000 + 34);
-		public static final int AV_CODEC_ID_MUSEPACK8 = (0x15000 + 35);
-		public static final int AV_CODEC_ID_SPEEX = (0x15000 + 36);
-		public static final int AV_CODEC_ID_WMAVOICE = (0x15000 + 37);
-		public static final int AV_CODEC_ID_WMAPRO = (0x15000 + 38);
-		public static final int AV_CODEC_ID_WMALOSSLESS = (0x15000 + 39);
-		public static final int AV_CODEC_ID_ATRAC3P = (0x15000 + 40);
-		public static final int AV_CODEC_ID_EAC3 = (0x15000 + 41);
-		public static final int AV_CODEC_ID_SIPR = (0x15000 + 42);
-		public static final int AV_CODEC_ID_MP1 = (0x15000 + 43);
-		public static final int AV_CODEC_ID_TWINVQ = (0x15000 + 44);
-		public static final int AV_CODEC_ID_TRUEHD = (0x15000 + 45);
-		public static final int AV_CODEC_ID_MP4ALS = (0x15000 + 46);
-		public static final int AV_CODEC_ID_ATRAC1 = (0x15000 + 47);
-		public static final int AV_CODEC_ID_BINKAUDIO_RDFT = (0x15000 + 48);
-		public static final int AV_CODEC_ID_BINKAUDIO_DCT = (0x15000 + 49);
-		public static final int AV_CODEC_ID_AAC_LATM = (0x15000 + 50);
-		public static final int AV_CODEC_ID_QDMC = (0x15000 + 51);
-		public static final int AV_CODEC_ID_CELT = (0x15000 + 52);
-		public static final int AV_CODEC_ID_G723_1 = (0x15000 + 53);
-		public static final int AV_CODEC_ID_G729 = (0x15000 + 54);
-		public static final int AV_CODEC_ID_8SVX_EXP = (0x15000 + 55);
-		public static final int AV_CODEC_ID_8SVX_FIB = (0x15000 + 56);
-		public static final int AV_CODEC_ID_BMV_AUDIO = (0x15000 + 57);
-		public static final int AV_CODEC_ID_RALF = (0x15000 + 58);
-		public static final int AV_CODEC_ID_IAC = (0x15000 + 59);
-		public static final int AV_CODEC_ID_ILBC = (0x15000 + 60);
-		public static final int AV_CODEC_ID_OPUS_DEPRECATED = (0x15000 + 61);
-		public static final int AV_CODEC_ID_COMFORT_NOISE = (0x15000 + 62);
-		public static final int AV_CODEC_ID_TAK_DEPRECATED = (0x15000 + 63);
-		public static final int AV_CODEC_ID_FFWAVESYNTH = (('S') | (('W') << 8) | (('F') << 16) | (('F') << 24));
-		public static final int AV_CODEC_ID_SONIC = (('C') | (('N') << 8) | (('O') << 16) | (('S') << 24));
-		public static final int AV_CODEC_ID_SONIC_LS = (('L') | (('N') << 8) | (('O') << 16) | (('S') << 24));
-		public static final int AV_CODEC_ID_PAF_AUDIO = (('A') | (('F') << 8) | (('A') << 16) | (('P') << 24));
-		public static final int AV_CODEC_ID_OPUS = (('S') | (('U') << 8) | (('P') << 16) | (('O') << 24));
-		public static final int AV_CODEC_ID_TAK = (('K') | (('a') << 8) | (('B') << 16) | (('t') << 24));
-		public static final int AV_CODEC_ID_EVRC = (('c') | (('v') << 8) | (('e') << 16) | (('s') << 24));
-		public static final int AV_CODEC_ID_SMV = (('v') | (('m') << 8) | (('s') << 16) | (('s') << 24));
-		/**
-		 * subtitle codecs<br>
-		 * < A dummy ID pointing at the start of subtitle codecs.
-		 */
-		public static final int AV_CODEC_ID_FIRST_SUBTITLE = 0x17000;
-		public static final int AV_CODEC_ID_DVD_SUBTITLE = 0x17000;
-		public static final int AV_CODEC_ID_DVB_SUBTITLE = (0x17000 + 1);
-		/** < raw UTF-8 text */
-		public static final int AV_CODEC_ID_TEXT = (0x17000 + 2);
-		public static final int AV_CODEC_ID_XSUB = (0x17000 + 3);
-		public static final int AV_CODEC_ID_SSA = (0x17000 + 4);
-		public static final int AV_CODEC_ID_MOV_TEXT = (0x17000 + 5);
-		public static final int AV_CODEC_ID_HDMV_PGS_SUBTITLE = (0x17000 + 6);
-		public static final int AV_CODEC_ID_DVB_TELETEXT = (0x17000 + 7);
-		public static final int AV_CODEC_ID_SRT = (0x17000 + 8);
-		public static final int AV_CODEC_ID_MICRODVD = (('D') | (('V') << 8) | (('D') << 16) | (('m') << 24));
-		public static final int AV_CODEC_ID_EIA_608 = (('8') | (('0') << 8) | (('6') << 16) | (('c') << 24));
-		public static final int AV_CODEC_ID_JACOSUB = (('B') | (('U') << 8) | (('S') << 16) | (('J') << 24));
-		public static final int AV_CODEC_ID_SAMI = (('I') | (('M') << 8) | (('A') << 16) | (('S') << 24));
-		public static final int AV_CODEC_ID_REALTEXT = (('T') | (('X') << 8) | (('T') << 16) | (('R') << 24));
-		public static final int AV_CODEC_ID_SUBVIEWER1 = (('1') | (('V') << 8) | (('b') << 16) | (('S') << 24));
-		public static final int AV_CODEC_ID_SUBVIEWER = (('V') | (('b') << 8) | (('u') << 16) | (('S') << 24));
-		public static final int AV_CODEC_ID_SUBRIP = (('p') | (('i') << 8) | (('R') << 16) | (('S') << 24));
-		public static final int AV_CODEC_ID_WEBVTT = (('T') | (('T') << 8) | (('V') << 16) | (('W') << 24));
-		public static final int AV_CODEC_ID_MPL2 = (('2') | (('L') << 8) | (('P') << 16) | (('M') << 24));
-		public static final int AV_CODEC_ID_VPLAYER = (('r') | (('l') << 8) | (('P') << 16) | (('V') << 24));
-		public static final int AV_CODEC_ID_PJS = (('S') | (('J') << 8) | (('h') << 16) | (('P') << 24));
-		/** < ASS as defined in Matroska */
-		public static final int AV_CODEC_ID_ASS = ((' ') | (('S') << 8) | (('S') << 16) | (('A') << 24));
-		/**
-		 * other specific kind of codecs (generally used for attachments)<br>
-		 * < A dummy ID pointing at the start of various fake codecs.
-		 */
-		public static final int AV_CODEC_ID_FIRST_UNKNOWN = 0x18000;
-		public static final int AV_CODEC_ID_TTF = 0x18000;
-		public static final int AV_CODEC_ID_BINTEXT = (('T') | (('X') << 8) | (('T') << 16) | (('B') << 24));
-		public static final int AV_CODEC_ID_XBIN = (('N') | (('I') << 8) | (('B') << 16) | (('X') << 24));
-		public static final int AV_CODEC_ID_IDF = (('F') | (('D') << 8) | (('I') << 16) | ((0) << 24));
-		public static final int AV_CODEC_ID_OTF = (('F') | (('T') << 8) | (('O') << 16) | ((0) << 24));
-		public static final int AV_CODEC_ID_SMPTE_KLV = (('A') | (('V') << 8) | (('L') << 16) | (('K') << 24));
-		public static final int AV_CODEC_ID_DVD_NAV = (('V') | (('A') << 8) | (('N') << 16) | (('D') << 24));
-		/** < codec_id is not known (like AV_CODEC_ID_NONE) but lavf should attempt to identify it */
-		public static final int AV_CODEC_ID_PROBE = 0x19000;
-		/**
-		 * < _FAKE_ codec to indicate a raw MPEG-2 TS<br>
-		 * stream (only used by libavformat)
-		 */
-		public static final int AV_CODEC_ID_MPEG2TS = 0x20000;
-		/**
-		 * < _FAKE_ codec to indicate a MPEG-4 Systems<br>
-		 * stream (only used by libavformat)
-		 */
-		public static final int AV_CODEC_ID_MPEG4SYSTEMS = 0x20001;
-		/** < Dummy codec for streams containing only metadata information. */
-		public static final int AV_CODEC_ID_FFMETADATA = 0x21000;
-		public static final int CODEC_ID_NONE = (int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE;
-		/** video codecs */
-		public static final int CODEC_ID_MPEG1VIDEO = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 1);
-		/** < preferred ID for MPEG-1/2 video decoding */
-		public static final int CODEC_ID_MPEG2VIDEO = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 2);
-		public static final int CODEC_ID_MPEG2VIDEO_XVMC = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 3);
-		public static final int CODEC_ID_H261 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 4);
-		public static final int CODEC_ID_H263 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 5);
-		public static final int CODEC_ID_RV10 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 6);
-		public static final int CODEC_ID_RV20 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 7);
-		public static final int CODEC_ID_MJPEG = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 8);
-		public static final int CODEC_ID_MJPEGB = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 9);
-		public static final int CODEC_ID_LJPEG = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 10);
-		public static final int CODEC_ID_SP5X = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 11);
-		public static final int CODEC_ID_JPEGLS = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 12);
-		public static final int CODEC_ID_MPEG4 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 13);
-		public static final int CODEC_ID_RAWVIDEO = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 14);
-		public static final int CODEC_ID_MSMPEG4V1 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 15);
-		public static final int CODEC_ID_MSMPEG4V2 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 16);
-		public static final int CODEC_ID_MSMPEG4V3 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 17);
-		public static final int CODEC_ID_WMV1 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 18);
-		public static final int CODEC_ID_WMV2 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 19);
-		public static final int CODEC_ID_H263P = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 20);
-		public static final int CODEC_ID_H263I = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 21);
-		public static final int CODEC_ID_FLV1 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 22);
-		public static final int CODEC_ID_SVQ1 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 23);
-		public static final int CODEC_ID_SVQ3 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 24);
-		public static final int CODEC_ID_DVVIDEO = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 25);
-		public static final int CODEC_ID_HUFFYUV = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 26);
-		public static final int CODEC_ID_CYUV = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 27);
-		public static final int CODEC_ID_H264 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 28);
-		public static final int CODEC_ID_INDEO3 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 29);
-		public static final int CODEC_ID_VP3 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 30);
-		public static final int CODEC_ID_THEORA = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 31);
-		public static final int CODEC_ID_ASV1 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 32);
-		public static final int CODEC_ID_ASV2 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 33);
-		public static final int CODEC_ID_FFV1 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 34);
-		public static final int CODEC_ID_4XM = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 35);
-		public static final int CODEC_ID_VCR1 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 36);
-		public static final int CODEC_ID_CLJR = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 37);
-		public static final int CODEC_ID_MDEC = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 38);
-		public static final int CODEC_ID_ROQ = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 39);
-		public static final int CODEC_ID_INTERPLAY_VIDEO = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 40);
-		public static final int CODEC_ID_XAN_WC3 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 41);
-		public static final int CODEC_ID_XAN_WC4 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 42);
-		public static final int CODEC_ID_RPZA = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 43);
-		public static final int CODEC_ID_CINEPAK = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 44);
-		public static final int CODEC_ID_WS_VQA = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 45);
-		public static final int CODEC_ID_MSRLE = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 46);
-		public static final int CODEC_ID_MSVIDEO1 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 47);
-		public static final int CODEC_ID_IDCIN = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 48);
-		public static final int CODEC_ID_8BPS = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 49);
-		public static final int CODEC_ID_SMC = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 50);
-		public static final int CODEC_ID_FLIC = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 51);
-		public static final int CODEC_ID_TRUEMOTION1 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 52);
-		public static final int CODEC_ID_VMDVIDEO = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 53);
-		public static final int CODEC_ID_MSZH = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 54);
-		public static final int CODEC_ID_ZLIB = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 55);
-		public static final int CODEC_ID_QTRLE = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 56);
-		public static final int CODEC_ID_TSCC = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 57);
-		public static final int CODEC_ID_ULTI = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 58);
-		public static final int CODEC_ID_QDRAW = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 59);
-		public static final int CODEC_ID_VIXL = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 60);
-		public static final int CODEC_ID_QPEG = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 61);
-		public static final int CODEC_ID_PNG = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 62);
-		public static final int CODEC_ID_PPM = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 63);
-		public static final int CODEC_ID_PBM = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 64);
-		public static final int CODEC_ID_PGM = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 65);
-		public static final int CODEC_ID_PGMYUV = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 66);
-		public static final int CODEC_ID_PAM = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 67);
-		public static final int CODEC_ID_FFVHUFF = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 68);
-		public static final int CODEC_ID_RV30 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 69);
-		public static final int CODEC_ID_RV40 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 70);
-		public static final int CODEC_ID_VC1 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 71);
-		public static final int CODEC_ID_WMV3 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 72);
-		public static final int CODEC_ID_LOCO = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 73);
-		public static final int CODEC_ID_WNV1 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 74);
-		public static final int CODEC_ID_AASC = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 75);
-		public static final int CODEC_ID_INDEO2 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 76);
-		public static final int CODEC_ID_FRAPS = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 77);
-		public static final int CODEC_ID_TRUEMOTION2 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 78);
-		public static final int CODEC_ID_BMP = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 79);
-		public static final int CODEC_ID_CSCD = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 80);
-		public static final int CODEC_ID_MMVIDEO = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 81);
-		public static final int CODEC_ID_ZMBV = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 82);
-		public static final int CODEC_ID_AVS = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 83);
-		public static final int CODEC_ID_SMACKVIDEO = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 84);
-		public static final int CODEC_ID_NUV = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 85);
-		public static final int CODEC_ID_KMVC = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 86);
-		public static final int CODEC_ID_FLASHSV = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 87);
-		public static final int CODEC_ID_CAVS = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 88);
-		public static final int CODEC_ID_JPEG2000 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 89);
-		public static final int CODEC_ID_VMNC = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 90);
-		public static final int CODEC_ID_VP5 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 91);
-		public static final int CODEC_ID_VP6 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 92);
-		public static final int CODEC_ID_VP6F = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 93);
-		public static final int CODEC_ID_TARGA = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 94);
-		public static final int CODEC_ID_DSICINVIDEO = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 95);
-		public static final int CODEC_ID_TIERTEXSEQVIDEO = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 96);
-		public static final int CODEC_ID_TIFF = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 97);
-		public static final int CODEC_ID_GIF = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 98);
-		public static final int CODEC_ID_DXA = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 99);
-		public static final int CODEC_ID_DNXHD = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 100);
-		public static final int CODEC_ID_THP = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 101);
-		public static final int CODEC_ID_SGI = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 102);
-		public static final int CODEC_ID_C93 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 103);
-		public static final int CODEC_ID_BETHSOFTVID = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 104);
-		public static final int CODEC_ID_PTX = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 105);
-		public static final int CODEC_ID_TXD = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 106);
-		public static final int CODEC_ID_VP6A = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 107);
-		public static final int CODEC_ID_AMV = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 108);
-		public static final int CODEC_ID_VB = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 109);
-		public static final int CODEC_ID_PCX = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 110);
-		public static final int CODEC_ID_SUNRAST = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 111);
-		public static final int CODEC_ID_INDEO4 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 112);
-		public static final int CODEC_ID_INDEO5 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 113);
-		public static final int CODEC_ID_MIMIC = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 114);
-		public static final int CODEC_ID_RL2 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 115);
-		public static final int CODEC_ID_ESCAPE124 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 116);
-		public static final int CODEC_ID_DIRAC = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 117);
-		public static final int CODEC_ID_BFI = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 118);
-		public static final int CODEC_ID_CMV = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 119);
-		public static final int CODEC_ID_MOTIONPIXELS = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 120);
-		public static final int CODEC_ID_TGV = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 121);
-		public static final int CODEC_ID_TGQ = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 122);
-		public static final int CODEC_ID_TQI = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 123);
-		public static final int CODEC_ID_AURA = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 124);
-		public static final int CODEC_ID_AURA2 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 125);
-		public static final int CODEC_ID_V210X = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 126);
-		public static final int CODEC_ID_TMV = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 127);
-		public static final int CODEC_ID_V210 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 128);
-		public static final int CODEC_ID_DPX = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 129);
-		public static final int CODEC_ID_MAD = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 130);
-		public static final int CODEC_ID_FRWU = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 131);
-		public static final int CODEC_ID_FLASHSV2 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 132);
-		public static final int CODEC_ID_CDGRAPHICS = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 133);
-		public static final int CODEC_ID_R210 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 134);
-		public static final int CODEC_ID_ANM = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 135);
-		public static final int CODEC_ID_BINKVIDEO = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 136);
-		public static final int CODEC_ID_IFF_ILBM = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 137);
-		public static final int CODEC_ID_IFF_BYTERUN1 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 138);
-		public static final int CODEC_ID_KGV1 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 139);
-		public static final int CODEC_ID_YOP = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 140);
-		public static final int CODEC_ID_VP8 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 141);
-		public static final int CODEC_ID_PICTOR = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 142);
-		public static final int CODEC_ID_ANSI = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 143);
-		public static final int CODEC_ID_A64_MULTI = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 144);
-		public static final int CODEC_ID_A64_MULTI5 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 145);
-		public static final int CODEC_ID_R10K = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 146);
-		public static final int CODEC_ID_MXPEG = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 147);
-		public static final int CODEC_ID_LAGARITH = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 148);
-		public static final int CODEC_ID_PRORES = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 149);
-		public static final int CODEC_ID_JV = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 150);
-		public static final int CODEC_ID_DFA = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 151);
-		public static final int CODEC_ID_WMV3IMAGE = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 152);
-		public static final int CODEC_ID_VC1IMAGE = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 153);
-		public static final int CODEC_ID_UTVIDEO = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 154);
-		public static final int CODEC_ID_BMV_VIDEO = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 155);
-		public static final int CODEC_ID_VBLE = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 156);
-		public static final int CODEC_ID_DXTORY = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 157);
-		public static final int CODEC_ID_V410 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 158);
-		public static final int CODEC_ID_XWD = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 159);
-		public static final int CODEC_ID_CDXL = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 160);
-		public static final int CODEC_ID_XBM = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 161);
-		public static final int CODEC_ID_ZEROCODEC = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 162);
-		public static final int CODEC_ID_MSS1 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 163);
-		public static final int CODEC_ID_MSA1 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 164);
-		public static final int CODEC_ID_TSCC2 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 165);
-		public static final int CODEC_ID_MTS2 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 166);
-		public static final int CODEC_ID_CLLC = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 167);
-		public static final int CODEC_ID_Y41P = (('P') | (('1') << 8) | (('4') << 16) | (('Y') << 24));
-		public static final int CODEC_ID_ESCAPE130 = (('0') | (('3') << 8) | (('1') << 16) | (('E') << 24));
-		public static final int CODEC_ID_EXR = (('R') | (('X') << 8) | (('E') << 16) | (('0') << 24));
-		public static final int CODEC_ID_AVRP = (('P') | (('R') << 8) | (('V') << 16) | (('A') << 24));
-		public static final int CODEC_ID_G2M = (('M') | (('2') << 8) | (('G') << 16) | ((0) << 24));
-		public static final int CODEC_ID_AVUI = (('I') | (('U') << 8) | (('V') << 16) | (('A') << 24));
-		public static final int CODEC_ID_AYUV = (('V') | (('U') << 8) | (('Y') << 16) | (('A') << 24));
-		public static final int CODEC_ID_V308 = (('8') | (('0') << 8) | (('3') << 16) | (('V') << 24));
-		public static final int CODEC_ID_V408 = (('8') | (('0') << 8) | (('4') << 16) | (('V') << 24));
-		public static final int CODEC_ID_YUV4 = (('4') | (('V') << 8) | (('U') << 16) | (('Y') << 24));
-		public static final int CODEC_ID_SANM = (('M') | (('N') << 8) | (('A') << 16) | (('S') << 24));
-		public static final int CODEC_ID_PAF_VIDEO = (('V') | (('F') << 8) | (('A') << 16) | (('P') << 24));
-		public static final int CODEC_ID_SNOW = (int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_SNOW;
-		/**
-		 * various PCM "codecs"<br>
-		 * < A dummy id pointing at the start of audio codecs
-		 */
-		public static final int CODEC_ID_FIRST_AUDIO = 0x10000;
-		public static final int CODEC_ID_PCM_S16LE = 0x10000;
-		public static final int CODEC_ID_PCM_S16BE = (0x10000 + 1);
-		public static final int CODEC_ID_PCM_U16LE = (0x10000 + 2);
-		public static final int CODEC_ID_PCM_U16BE = (0x10000 + 3);
-		public static final int CODEC_ID_PCM_S8 = (0x10000 + 4);
-		public static final int CODEC_ID_PCM_U8 = (0x10000 + 5);
-		public static final int CODEC_ID_PCM_MULAW = (0x10000 + 6);
-		public static final int CODEC_ID_PCM_ALAW = (0x10000 + 7);
-		public static final int CODEC_ID_PCM_S32LE = (0x10000 + 8);
-		public static final int CODEC_ID_PCM_S32BE = (0x10000 + 9);
-		public static final int CODEC_ID_PCM_U32LE = (0x10000 + 10);
-		public static final int CODEC_ID_PCM_U32BE = (0x10000 + 11);
-		public static final int CODEC_ID_PCM_S24LE = (0x10000 + 12);
-		public static final int CODEC_ID_PCM_S24BE = (0x10000 + 13);
-		public static final int CODEC_ID_PCM_U24LE = (0x10000 + 14);
-		public static final int CODEC_ID_PCM_U24BE = (0x10000 + 15);
-		public static final int CODEC_ID_PCM_S24DAUD = (0x10000 + 16);
-		public static final int CODEC_ID_PCM_ZORK = (0x10000 + 17);
-		public static final int CODEC_ID_PCM_S16LE_PLANAR = (0x10000 + 18);
-		public static final int CODEC_ID_PCM_DVD = (0x10000 + 19);
-		public static final int CODEC_ID_PCM_F32BE = (0x10000 + 20);
-		public static final int CODEC_ID_PCM_F32LE = (0x10000 + 21);
-		public static final int CODEC_ID_PCM_F64BE = (0x10000 + 22);
-		public static final int CODEC_ID_PCM_F64LE = (0x10000 + 23);
-		public static final int CODEC_ID_PCM_BLURAY = (0x10000 + 24);
-		public static final int CODEC_ID_PCM_LXF = (0x10000 + 25);
-		public static final int CODEC_ID_S302M = (0x10000 + 26);
-		public static final int CODEC_ID_PCM_S8_PLANAR = (0x10000 + 27);
-		/** various ADPCM codecs */
-		public static final int CODEC_ID_ADPCM_IMA_QT = 0x11000;
-		public static final int CODEC_ID_ADPCM_IMA_WAV = (0x11000 + 1);
-		public static final int CODEC_ID_ADPCM_IMA_DK3 = (0x11000 + 2);
-		public static final int CODEC_ID_ADPCM_IMA_DK4 = (0x11000 + 3);
-		public static final int CODEC_ID_ADPCM_IMA_WS = (0x11000 + 4);
-		public static final int CODEC_ID_ADPCM_IMA_SMJPEG = (0x11000 + 5);
-		public static final int CODEC_ID_ADPCM_MS = (0x11000 + 6);
-		public static final int CODEC_ID_ADPCM_4XM = (0x11000 + 7);
-		public static final int CODEC_ID_ADPCM_XA = (0x11000 + 8);
-		public static final int CODEC_ID_ADPCM_ADX = (0x11000 + 9);
-		public static final int CODEC_ID_ADPCM_EA = (0x11000 + 10);
-		public static final int CODEC_ID_ADPCM_G726 = (0x11000 + 11);
-		public static final int CODEC_ID_ADPCM_CT = (0x11000 + 12);
-		public static final int CODEC_ID_ADPCM_SWF = (0x11000 + 13);
-		public static final int CODEC_ID_ADPCM_YAMAHA = (0x11000 + 14);
-		public static final int CODEC_ID_ADPCM_SBPRO_4 = (0x11000 + 15);
-		public static final int CODEC_ID_ADPCM_SBPRO_3 = (0x11000 + 16);
-		public static final int CODEC_ID_ADPCM_SBPRO_2 = (0x11000 + 17);
-		public static final int CODEC_ID_ADPCM_THP = (0x11000 + 18);
-		public static final int CODEC_ID_ADPCM_IMA_AMV = (0x11000 + 19);
-		public static final int CODEC_ID_ADPCM_EA_R1 = (0x11000 + 20);
-		public static final int CODEC_ID_ADPCM_EA_R3 = (0x11000 + 21);
-		public static final int CODEC_ID_ADPCM_EA_R2 = (0x11000 + 22);
-		public static final int CODEC_ID_ADPCM_IMA_EA_SEAD = (0x11000 + 23);
-		public static final int CODEC_ID_ADPCM_IMA_EA_EACS = (0x11000 + 24);
-		public static final int CODEC_ID_ADPCM_EA_XAS = (0x11000 + 25);
-		public static final int CODEC_ID_ADPCM_EA_MAXIS_XA = (0x11000 + 26);
-		public static final int CODEC_ID_ADPCM_IMA_ISS = (0x11000 + 27);
-		public static final int CODEC_ID_ADPCM_G722 = (0x11000 + 28);
-		public static final int CODEC_ID_ADPCM_IMA_APC = (0x11000 + 29);
-		public static final int CODEC_ID_VIMA = (('A') | (('M') << 8) | (('I') << 16) | (('V') << 24));
-		/** AMR */
-		public static final int CODEC_ID_AMR_NB = 0x12000;
-		public static final int CODEC_ID_AMR_WB = (0x12000 + 1);
-		/** RealAudio codecs */
-		public static final int CODEC_ID_RA_144 = 0x13000;
-		public static final int CODEC_ID_RA_288 = (0x13000 + 1);
-		/** various DPCM codecs */
-		public static final int CODEC_ID_ROQ_DPCM = 0x14000;
-		public static final int CODEC_ID_INTERPLAY_DPCM = (0x14000 + 1);
-		public static final int CODEC_ID_XAN_DPCM = (0x14000 + 2);
-		public static final int CODEC_ID_SOL_DPCM = (0x14000 + 3);
-		/** audio codecs */
-		public static final int CODEC_ID_MP2 = 0x15000;
-		/** < preferred ID for decoding MPEG audio layer 1, 2 or 3 */
-		public static final int CODEC_ID_MP3 = (0x15000 + 1);
-		public static final int CODEC_ID_AAC = (0x15000 + 2);
-		public static final int CODEC_ID_AC3 = (0x15000 + 3);
-		public static final int CODEC_ID_DTS = (0x15000 + 4);
-		public static final int CODEC_ID_VORBIS = (0x15000 + 5);
-		public static final int CODEC_ID_DVAUDIO = (0x15000 + 6);
-		public static final int CODEC_ID_WMAV1 = (0x15000 + 7);
-		public static final int CODEC_ID_WMAV2 = (0x15000 + 8);
-		public static final int CODEC_ID_MACE3 = (0x15000 + 9);
-		public static final int CODEC_ID_MACE6 = (0x15000 + 10);
-		public static final int CODEC_ID_VMDAUDIO = (0x15000 + 11);
-		public static final int CODEC_ID_FLAC = (0x15000 + 12);
-		public static final int CODEC_ID_MP3ADU = (0x15000 + 13);
-		public static final int CODEC_ID_MP3ON4 = (0x15000 + 14);
-		public static final int CODEC_ID_SHORTEN = (0x15000 + 15);
-		public static final int CODEC_ID_ALAC = (0x15000 + 16);
-		public static final int CODEC_ID_WESTWOOD_SND1 = (0x15000 + 17);
-		/** < as in Berlin toast format */
-		public static final int CODEC_ID_GSM = (0x15000 + 18);
-		public static final int CODEC_ID_QDM2 = (0x15000 + 19);
-		public static final int CODEC_ID_COOK = (0x15000 + 20);
-		public static final int CODEC_ID_TRUESPEECH = (0x15000 + 21);
-		public static final int CODEC_ID_TTA = (0x15000 + 22);
-		public static final int CODEC_ID_SMACKAUDIO = (0x15000 + 23);
-		public static final int CODEC_ID_QCELP = (0x15000 + 24);
-		public static final int CODEC_ID_WAVPACK = (0x15000 + 25);
-		public static final int CODEC_ID_DSICINAUDIO = (0x15000 + 26);
-		public static final int CODEC_ID_IMC = (0x15000 + 27);
-		public static final int CODEC_ID_MUSEPACK7 = (0x15000 + 28);
-		public static final int CODEC_ID_MLP = (0x15000 + 29);
-		/** as found in WAV */
-		public static final int CODEC_ID_GSM_MS = (0x15000 + 30);
-		public static final int CODEC_ID_ATRAC3 = (0x15000 + 31);
-		public static final int CODEC_ID_VOXWARE = (0x15000 + 32);
-		public static final int CODEC_ID_APE = (0x15000 + 33);
-		public static final int CODEC_ID_NELLYMOSER = (0x15000 + 34);
-		public static final int CODEC_ID_MUSEPACK8 = (0x15000 + 35);
-		public static final int CODEC_ID_SPEEX = (0x15000 + 36);
-		public static final int CODEC_ID_WMAVOICE = (0x15000 + 37);
-		public static final int CODEC_ID_WMAPRO = (0x15000 + 38);
-		public static final int CODEC_ID_WMALOSSLESS = (0x15000 + 39);
-		public static final int CODEC_ID_ATRAC3P = (0x15000 + 40);
-		public static final int CODEC_ID_EAC3 = (0x15000 + 41);
-		public static final int CODEC_ID_SIPR = (0x15000 + 42);
-		public static final int CODEC_ID_MP1 = (0x15000 + 43);
-		public static final int CODEC_ID_TWINVQ = (0x15000 + 44);
-		public static final int CODEC_ID_TRUEHD = (0x15000 + 45);
-		public static final int CODEC_ID_MP4ALS = (0x15000 + 46);
-		public static final int CODEC_ID_ATRAC1 = (0x15000 + 47);
-		public static final int CODEC_ID_BINKAUDIO_RDFT = (0x15000 + 48);
-		public static final int CODEC_ID_BINKAUDIO_DCT = (0x15000 + 49);
-		public static final int CODEC_ID_AAC_LATM = (0x15000 + 50);
-		public static final int CODEC_ID_QDMC = (0x15000 + 51);
-		public static final int CODEC_ID_CELT = (0x15000 + 52);
-		public static final int CODEC_ID_G723_1 = (0x15000 + 53);
-		public static final int CODEC_ID_G729 = (0x15000 + 54);
-		public static final int CODEC_ID_8SVX_EXP = (0x15000 + 55);
-		public static final int CODEC_ID_8SVX_FIB = (0x15000 + 56);
-		public static final int CODEC_ID_BMV_AUDIO = (0x15000 + 57);
-		public static final int CODEC_ID_RALF = (0x15000 + 58);
-		public static final int CODEC_ID_IAC = (0x15000 + 59);
-		public static final int CODEC_ID_ILBC = (0x15000 + 60);
-		public static final int CODEC_ID_FFWAVESYNTH = (('S') | (('W') << 8) | (('F') << 16) | (('F') << 24));
-		public static final int CODEC_ID_SONIC = (('C') | (('N') << 8) | (('O') << 16) | (('S') << 24));
-		public static final int CODEC_ID_SONIC_LS = (('L') | (('N') << 8) | (('O') << 16) | (('S') << 24));
-		public static final int CODEC_ID_PAF_AUDIO = (('A') | (('F') << 8) | (('A') << 16) | (('P') << 24));
-		public static final int CODEC_ID_OPUS = (('S') | (('U') << 8) | (('P') << 16) | (('O') << 24));
-		/**
-		 * subtitle codecs<br>
-		 * < A dummy ID pointing at the start of subtitle codecs.
-		 */
-		public static final int CODEC_ID_FIRST_SUBTITLE = 0x17000;
-		public static final int CODEC_ID_DVD_SUBTITLE = 0x17000;
-		public static final int CODEC_ID_DVB_SUBTITLE = (0x17000 + 1);
-		/** < raw UTF-8 text */
-		public static final int CODEC_ID_TEXT = (0x17000 + 2);
-		public static final int CODEC_ID_XSUB = (0x17000 + 3);
-		public static final int CODEC_ID_SSA = (0x17000 + 4);
-		public static final int CODEC_ID_MOV_TEXT = (0x17000 + 5);
-		public static final int CODEC_ID_HDMV_PGS_SUBTITLE = (0x17000 + 6);
-		public static final int CODEC_ID_DVB_TELETEXT = (0x17000 + 7);
-		public static final int CODEC_ID_SRT = (0x17000 + 8);
-		public static final int CODEC_ID_MICRODVD = (('D') | (('V') << 8) | (('D') << 16) | (('m') << 24));
-		public static final int CODEC_ID_EIA_608 = (('8') | (('0') << 8) | (('6') << 16) | (('c') << 24));
-		public static final int CODEC_ID_JACOSUB = (('B') | (('U') << 8) | (('S') << 16) | (('J') << 24));
-		public static final int CODEC_ID_SAMI = (('I') | (('M') << 8) | (('A') << 16) | (('S') << 24));
-		public static final int CODEC_ID_REALTEXT = (('T') | (('X') << 8) | (('T') << 16) | (('R') << 24));
-		public static final int CODEC_ID_SUBVIEWER = (('V') | (('b') << 8) | (('u') << 16) | (('S') << 24));
-		/**
-		 * other specific kind of codecs (generally used for attachments)<br>
-		 * < A dummy ID pointing at the start of various fake codecs.
-		 */
-		public static final int CODEC_ID_FIRST_UNKNOWN = 0x18000;
-		public static final int CODEC_ID_TTF = 0x18000;
-		public static final int CODEC_ID_BINTEXT = (('T') | (('X') << 8) | (('T') << 16) | (('B') << 24));
-		public static final int CODEC_ID_XBIN = (('N') | (('I') << 8) | (('B') << 16) | (('X') << 24));
-		public static final int CODEC_ID_IDF = (('F') | (('D') << 8) | (('I') << 16) | ((0) << 24));
-		public static final int CODEC_ID_OTF = (('F') | (('T') << 8) | (('O') << 16) | ((0) << 24));
-		/** < codec_id is not known (like CODEC_ID_NONE) but lavf should attempt to identify it */
-		public static final int CODEC_ID_PROBE = 0x19000;
-		/**
-		 * < _FAKE_ codec to indicate a raw MPEG-2 TS<br>
-		 * stream (only used by libavformat)
-		 */
-		public static final int CODEC_ID_MPEG2TS = 0x20000;
-		/**
-		 * < _FAKE_ codec to indicate a MPEG-4 Systems<br>
-		 * stream (only used by libavformat)
-		 */
-		public static final int CODEC_ID_MPEG4SYSTEMS = 0x20001;
-		/** < Dummy codec for streams containing only metadata information. */
-		public static final int CODEC_ID_FFMETADATA = 0x21000;
-	};
-	/**
-	 * @ingroup lavc_encoding<br>
-	 * motion estimation type.<br>
-	 * enum values
-	 */
-	public static interface Motion_Est_ID {
-		/** < no search, that is use 0,0 vector whenever one is needed */
-		public static final int ME_ZERO = 1;
-		public static final int ME_FULL = 2;
-		public static final int ME_LOG = 3;
-		public static final int ME_PHODS = 4;
-		/** < enhanced predictive zonal search */
-		public static final int ME_EPZS = 5;
-		/** < reserved for experiments */
-		public static final int ME_X1 = 6;
-		/** < hexagon based search */
-		public static final int ME_HEX = 7;
-		/** < uneven multi-hexagon search */
-		public static final int ME_UMH = 8;
-		/** < transformed exhaustive search algorithm */
-		public static final int ME_TESA = 9;
-		/** < iterative search */
-		public static final int ME_ITER = 50;
-	};
-	/**
-	 * @ingroup lavc_decoding<br>
-	 * enum values
-	 */
-	public static interface AVDiscard {
-		/**
-		 * We leave some space between them for extensions (drop some<br>
-		 * keyframes for intra-only or drop just some bidir frames).<br>
-		 * < discard nothing
-		 */
-		public static final int AVDISCARD_NONE = -16;
-		/** < discard useless packets like 0 size packets in avi */
-		public static final int AVDISCARD_DEFAULT = 0;
-		/** < discard all non reference */
-		public static final int AVDISCARD_NONREF = 8;
-		/** < discard all bidirectional frames */
-		public static final int AVDISCARD_BIDIR = 16;
-		/** < discard all frames except keyframes */
-		public static final int AVDISCARD_NONKEY = 32;
-		/** < discard all */
-		public static final int AVDISCARD_ALL = 48;
-	};
-	/** enum values */
-	public static interface AVColorPrimaries {
-		/** < also ITU-R BT1361 / IEC 61966-2-4 / SMPTE RP177 Annex B */
-		public static final int AVCOL_PRI_BT709 = 1;
-		public static final int AVCOL_PRI_UNSPECIFIED = 2;
-		public static final int AVCOL_PRI_BT470M = 4;
-		/** < also ITU-R BT601-6 625 / ITU-R BT1358 625 / ITU-R BT1700 625 PAL & SECAM */
-		public static final int AVCOL_PRI_BT470BG = 5;
-		/** < also ITU-R BT601-6 525 / ITU-R BT1358 525 / ITU-R BT1700 NTSC */
-		public static final int AVCOL_PRI_SMPTE170M = 6;
-		/** < functionally identical to above */
-		public static final int AVCOL_PRI_SMPTE240M = 7;
-		public static final int AVCOL_PRI_FILM = 8;
-		/** < Not part of ABI */
-		public static final int AVCOL_PRI_NB = 9;
-	};
-	/** enum values */
-	public static interface AVColorTransferCharacteristic {
-		/** < also ITU-R BT1361 */
-		public static final int AVCOL_TRC_BT709 = 1;
-		public static final int AVCOL_TRC_UNSPECIFIED = 2;
-		/** < also ITU-R BT470M / ITU-R BT1700 625 PAL & SECAM */
-		public static final int AVCOL_TRC_GAMMA22 = 4;
-		/** < also ITU-R BT470BG */
-		public static final int AVCOL_TRC_GAMMA28 = 5;
-		public static final int AVCOL_TRC_SMPTE240M = 7;
-		/** < Not part of ABI */
-		public static final int AVCOL_TRC_NB = 8;
-	};
-	/** enum values */
-	public static interface AVColorSpace {
-		public static final int AVCOL_SPC_RGB = 0;
-		/** < also ITU-R BT1361 / IEC 61966-2-4 xvYCC709 / SMPTE RP177 Annex B */
-		public static final int AVCOL_SPC_BT709 = 1;
-		public static final int AVCOL_SPC_UNSPECIFIED = 2;
-		public static final int AVCOL_SPC_FCC = 4;
-		/** < also ITU-R BT601-6 625 / ITU-R BT1358 625 / ITU-R BT1700 625 PAL & SECAM / IEC 61966-2-4 xvYCC601 */
-		public static final int AVCOL_SPC_BT470BG = 5;
-		/** < also ITU-R BT601-6 525 / ITU-R BT1358 525 / ITU-R BT1700 NTSC / functionally identical to above */
-		public static final int AVCOL_SPC_SMPTE170M = 6;
-		public static final int AVCOL_SPC_SMPTE240M = 7;
-		/** < Used by Dirac / VC-2 and H.264 FRext, see ITU-T SG16 */
-		public static final int AVCOL_SPC_YCOCG = 8;
-		/** < Not part of ABI */
-		public static final int AVCOL_SPC_NB = 9;
-	};
-	/** enum values */
-	public static interface AVColorRange {
-		public static final int AVCOL_RANGE_UNSPECIFIED = 0;
-		/** < the normal 219*2^(n-8) "MPEG" YUV ranges */
-		public static final int AVCOL_RANGE_MPEG = 1;
-		/** < the normal     2^n-1   "JPEG" YUV ranges */
-		public static final int AVCOL_RANGE_JPEG = 2;
-		/** < Not part of ABI */
-		public static final int AVCOL_RANGE_NB = 3;
-	};
-	/**
-	 * X   X      3 4 X      X are luma samples,<br>
-	 *             1 2        1-6 are possible chroma positions<br>
-	 *  X   X      5 6 X      0 is undefined/unknown position<br>
-	 * enum values
-	 */
-	public static interface AVChromaLocation {
-		public static final int AVCHROMA_LOC_UNSPECIFIED = 0;
-		/** < mpeg2/4, h264 default */
-		public static final int AVCHROMA_LOC_LEFT = 1;
-		/** < mpeg1, jpeg, h263 */
-		public static final int AVCHROMA_LOC_CENTER = 2;
-		/** < DV */
-		public static final int AVCHROMA_LOC_TOPLEFT = 3;
-		public static final int AVCHROMA_LOC_TOP = 4;
-		public static final int AVCHROMA_LOC_BOTTOMLEFT = 5;
-		public static final int AVCHROMA_LOC_BOTTOM = 6;
-		/** < Not part of ABI */
-		public static final int AVCHROMA_LOC_NB = 7;
-	};
-	/** enum values */
-	public static interface AVAudioServiceType {
-		public static final int AV_AUDIO_SERVICE_TYPE_MAIN = 0;
-		public static final int AV_AUDIO_SERVICE_TYPE_EFFECTS = 1;
-		public static final int AV_AUDIO_SERVICE_TYPE_VISUALLY_IMPAIRED = 2;
-		public static final int AV_AUDIO_SERVICE_TYPE_HEARING_IMPAIRED = 3;
-		public static final int AV_AUDIO_SERVICE_TYPE_DIALOGUE = 4;
-		public static final int AV_AUDIO_SERVICE_TYPE_COMMENTARY = 5;
-		public static final int AV_AUDIO_SERVICE_TYPE_EMERGENCY = 6;
-		public static final int AV_AUDIO_SERVICE_TYPE_VOICE_OVER = 7;
-		public static final int AV_AUDIO_SERVICE_TYPE_KARAOKE = 8;
-		/** < Not part of ABI */
-		public static final int AV_AUDIO_SERVICE_TYPE_NB = 9;
-	};
-	/**
-	 * @defgroup lavc_packet AVPacket<br>
-	 * * Types and functions for working with AVPacket.<br>
-	 * @{<br>
-	 * enum values
-	 */
-	public static interface AVPacketSideDataType {
-		public static final int AV_PKT_DATA_PALETTE = 0;
-		public static final int AV_PKT_DATA_NEW_EXTRADATA = 1;
-		/**
-		 * An AV_PKT_DATA_PARAM_CHANGE side data packet is laid out as follows:<br>
-		 * @code<br>
-		 * u32le param_flags<br>
-		 * if (param_flags & AV_SIDE_DATA_PARAM_CHANGE_CHANNEL_COUNT)<br>
-		 *     s32le channel_count<br>
-		 * if (param_flags & AV_SIDE_DATA_PARAM_CHANGE_CHANNEL_LAYOUT)<br>
-		 *     u64le channel_layout<br>
-		 * if (param_flags & AV_SIDE_DATA_PARAM_CHANGE_SAMPLE_RATE)<br>
-		 *     s32le sample_rate<br>
-		 * if (param_flags & AV_SIDE_DATA_PARAM_CHANGE_DIMENSIONS)<br>
-		 *     s32le width<br>
-		 *     s32le height<br>
-		 * @endcode
-		 */
-		public static final int AV_PKT_DATA_PARAM_CHANGE = 2;
-		/**
-		 * An AV_PKT_DATA_H263_MB_INFO side data packet contains a number of<br>
-		 * structures with info about macroblocks relevant to splitting the<br>
-		 * packet into smaller packets on macroblock edges (e.g. as for RFC 2190).<br>
-		 * That is, it does not necessarily contain info about all macroblocks,<br>
-		 * as long as the distance between macroblocks in the info is smaller<br>
-		 * than the target payload size.<br>
-		 * Each MB info structure is 12 bytes, and is laid out as follows:<br>
-		 * @code<br>
-		 * u32le bit offset from the start of the packet<br>
-		 * u8    current quantizer at the start of the macroblock<br>
-		 * u8    GOB number<br>
-		 * u16le macroblock address within the GOB<br>
-		 * u8    horizontal MV predictor<br>
-		 * u8    vertical MV predictor<br>
-		 * u8    horizontal MV predictor for block number 3<br>
-		 * u8    vertical MV predictor for block number 3<br>
-		 * @endcode
-		 */
-		public static final int AV_PKT_DATA_H263_MB_INFO = 3;
-		/**
-		 * Recommmends skipping the specified number of samples<br>
-		 * @code<br>
-		 * u32le number of samples to skip from start of this packet<br>
-		 * u32le number of samples to skip from end of this packet<br>
-		 * u8    reason for start skip<br>
-		 * u8    reason for end   skip (0=padding silence, 1=convergence)<br>
-		 * @endcode
-		 */
-		public static final int AV_PKT_DATA_SKIP_SAMPLES = 70;
-		/**
-		 * An AV_PKT_DATA_JP_DUALMONO side data packet indicates that<br>
-		 * the packet may contain "dual mono" audio specific to Japanese DTV<br>
-		 * and if it is true, recommends only the selected channel to be used.<br>
-		 * @code<br>
-		 * u8    selected channels (0=mail/left, 1=sub/right, 2=both)<br>
-		 * @endcode
-		 */
-		public static final int AV_PKT_DATA_JP_DUALMONO = 71;
-		/**
-		 * A list of zero terminated key/value strings. There is no end marker for<br>
-		 * the list, so it is required to rely on the side data size to stop.
-		 */
-		public static final int AV_PKT_DATA_STRINGS_METADATA = 72;
-		/**
-		 * Subtitle event position<br>
-		 * @code<br>
-		 * u32le x1<br>
-		 * u32le y1<br>
-		 * u32le x2<br>
-		 * u32le y2<br>
-		 * @endcode
-		 */
-		public static final int AV_PKT_DATA_SUBTITLE_POSITION = 73;
-		/**
-		 * Data found in BlockAdditional element of matroska container. There is<br>
-		 * no end marker for the data, so it is required to rely on the side data<br>
-		 * size to recognize the end. 8 byte id (as found in BlockAddId) followed<br>
-		 * by data.
-		 */
-		public static final int AV_PKT_DATA_MATROSKA_BLOCKADDITIONAL = 74;
-		/** The optional first identifier line of a WebVTT cue. */
-		public static final int AV_PKT_DATA_WEBVTT_IDENTIFIER = 75;
-		/**
-		 * The optional settings (rendering instructions) that immediately<br>
-		 * follow the timestamp specifier of a WebVTT cue.
-		 */
-		public static final int AV_PKT_DATA_WEBVTT_SETTINGS = 76;
-	};
-	/** enum values */
-	public static interface AVSideDataParamChangeFlags {
-		public static final int AV_SIDE_DATA_PARAM_CHANGE_CHANNEL_COUNT = 0x0001;
-		public static final int AV_SIDE_DATA_PARAM_CHANGE_CHANNEL_LAYOUT = 0x0002;
-		public static final int AV_SIDE_DATA_PARAM_CHANGE_SAMPLE_RATE = 0x0004;
-		public static final int AV_SIDE_DATA_PARAM_CHANGE_DIMENSIONS = 0x0008;
-	};
-	/** enum values */
-	public static interface AVFieldOrder {
-		public static final int AV_FIELD_UNKNOWN = 0;
-		public static final int AV_FIELD_PROGRESSIVE = 1;
-		/** < Top coded_first, top displayed first */
-		public static final int AV_FIELD_TT = 2;
-		/** < Bottom coded first, bottom displayed first */
-		public static final int AV_FIELD_BB = 3;
-		/** < Top coded first, bottom displayed first */
-		public static final int AV_FIELD_TB = 4;
-		/** < Bottom coded first, top displayed first */
-		public static final int AV_FIELD_BT = 5;
-	};
-	/** enum values */
-	public static interface AVSubtitleType {
-		public static final int SUBTITLE_NONE = 0;
-		/** < A bitmap, pict will be set */
-		public static final int SUBTITLE_BITMAP = 1;
-		/**
-		 * Plain text, the text field must be set by the decoder and is<br>
-		 * authoritative. ass and pict fields may contain approximations.
-		 */
-		public static final int SUBTITLE_TEXT = 2;
-		/**
-		 * Formatted text, the ass field must be set by the decoder and is<br>
-		 * authoritative. pict and text fields may contain approximations.
-		 */
-		public static final int SUBTITLE_ASS = 3;
-	};
-	/** enum values */
-	public static interface AVPictureStructure {
-		/** < unknown */
-		public static final int AV_PICTURE_STRUCTURE_UNKNOWN = 0;
-		/** < coded as top field */
-		public static final int AV_PICTURE_STRUCTURE_TOP_FIELD = 1;
-		/** < coded as bottom field */
-		public static final int AV_PICTURE_STRUCTURE_BOTTOM_FIELD = 2;
-		/** < coded as frame */
-		public static final int AV_PICTURE_STRUCTURE_FRAME = 3;
-	};
-	/**
-	 * Lock operation used by lockmgr<br>
-	 * enum values
-	 */
-	public static interface AVLockOp {
-		/** < Create a mutex */
-		public static final int AV_LOCK_CREATE = 0;
-		/** < Lock the mutex */
-		public static final int AV_LOCK_OBTAIN = 1;
-		/** < Unlock the mutex */
-		public static final int AV_LOCK_RELEASE = 2;
-		/** < Free mutex resources */
-		public static final int AV_LOCK_DESTROY = 3;
-	};
-	/** enum values */
-	public static interface AVStreamParseType {
-		public static final int AVSTREAM_PARSE_NONE = 0;
-		/** < full parsing and repack */
-		public static final int AVSTREAM_PARSE_FULL = 1;
-		/** < Only parse headers, do not repack. */
-		public static final int AVSTREAM_PARSE_HEADERS = 2;
-		/** < full parsing and interpolation of timestamps for frames not starting on a packet boundary */
-		public static final int AVSTREAM_PARSE_TIMESTAMPS = 3;
-		/** < full parsing and repack of the first frame only, only implemented for H.264 currently */
-		public static final int AVSTREAM_PARSE_FULL_ONCE = 4;
-		/**
-		 * < full parsing and repack with timestamp and position generation by parser for raw<br>
-		 * this assumes that each packet in the file contains no demuxer level headers and<br>
-		 * just codec level data, otherwise position generation would fail
-		 */
-		public static final int AVSTREAM_PARSE_FULL_RAW = ((0) | (('R') << 8) | (('A') << 16) | (('W') << 24));
-	};
-	/**
-	 * The duration of a video can be estimated through various ways, and this enum can be used<br>
-	 * to know how the duration was estimated.<br>
-	 * enum values
-	 */
-	public static interface AVDurationEstimationMethod {
-		/** < Duration accurately estimated from PTSes */
-		public static final int AVFMT_DURATION_FROM_PTS = 0;
-		/** < Duration estimated from a stream with a known duration */
-		public static final int AVFMT_DURATION_FROM_STREAM = 1;
-		/** < Duration estimated from bitrate (less accurate) */
-		public static final int AVFMT_DURATION_FROM_BITRATE = 2;
-	};
-	public static final int FF_IDCT_SIMPLENEON = 22;
-	public static final int FF_DEBUG_VIS_MV_B_BACK = 0x00000004;
-	public static final int CODEC_FLAG_CLOSED_GOP = 0x80000000;
-	public static final int AVERROR_FILTER_NOT_FOUND = (-((0xF8) | (('F') << 8) | (('I') << 16) | (('L') << 24)));
-	public static final int AVFMT_FLAG_NOBUFFER = 0x0040;
-	public static final int AVIO_FLAG_DIRECT = 0x8000;
-	public static final int AV_HAVE_INCOMPATIBLE_FORK_ABI = 0;
-	public static final int AVFMTCTX_NOHEADER = 0x0001;
-	public static final int AVFMT_FLAG_MP4A_LATM = 0x8000;
-	public static final int CODEC_FLAG_NORMALIZE_AQP = 0x00020000;
-	public static final int FF_PROFILE_MPEG2_SIMPLE = 5;
-	public static final int FF_IDCT_ALTIVEC = 8;
-	public static final int AVERROR_UNKNOWN = (-(('U') | (('N') << 8) | (('K') << 16) | (('N') << 24)));
-	public static final int FF_CMP_CHROMA = 256;
-	public static final boolean FF_API_CONTEXT_SIZE = (52 < 53);
-	public static final int FF_PROFILE_VC1_MAIN = 1;
-	public static final int LIBAVUTIL_VERSION_INT = (52 << 16 | 38 << 8 | 100);
-	public static final int FF_PROFILE_MPEG2_SS = 2;
-	public static final int FF_PROFILE_MPEG4_ADVANCED_REAL_TIME = 9;
-	public static final int FF_DEBUG_BUFFERS = 0x00008000;
-	public static final int FF_ASPECT_EXTENDED = 15;
-	public static final boolean FF_API_OLD_AVOPTIONS = (52 < 53);
-	public static final int FF_MAX_B_FRAMES = 16;
-	public static final int FF_PROFILE_MPEG4_SIMPLE_FACE_ANIMATION = 6;
-	public static final int FF_DEBUG_BUGS = 0x00001000;
-	public static final boolean FF_API_SAMPLES_UTILS_RETURN_ZERO = (52 < 53);
-	public static final int AVERROR_OPTION_NOT_FOUND = (-((0xF8) | (('O') << 8) | (('P') << 16) | (('T') << 24)));
-	public static final int FF_LAMBDA_SCALE = (1 << 7);
-	public static final int LIBAVCODEC_VERSION_MINOR = 18;
-	public static final int FF_BUG_AMV = 32;
-	public static final int AV_HAVE_BIGENDIAN = 0;
-	public static final int FF_MIN_BUFFER_SIZE = 16384;
-	public static final int AV_EF_EXPLODE = (1 << 3);
-	public static final boolean FF_API_SET_PTS_INFO = (55 < 56);
-	public static final int FF_DEBUG_ER = 0x00000400;
-	public static final int FF_SUB_CHARENC_MODE_PRE_DECODER = 1;
-	public static final int AVSEEK_FORCE = 0x20000;
-	public static final int AV_DICT_IGNORE_SUFFIX = 2;
-	public static final int CODEC_FLAG_GRAY = 0x2000;
-	public static final int AV_CH_LAYOUT_6POINT0_FRONT = (((0x00000001 | 0x00000002) | 0x00000200 | 0x00000400) | 0x00000040 | 0x00000080);
-	public static final int MB_TYPE_16x8 = 0x0010;
-	public static final int AV_CH_LAYOUT_STEREO = (0x00000001 | 0x00000002);
-	public static final int FF_CODER_TYPE_RLE = 3;
-	public static final int AVSEEK_FLAG_FRAME = 8;
-	public static final int AVERROR_BUG2 = (-(('B') | (('U') << 8) | (('G') << 16) | ((' ') << 24)));
-	public static final long AV_CH_SURROUND_DIRECT_RIGHT = 0x0000000400000000L;
-	public static final int FF_MB_DECISION_BITS = 1;
-	public static final boolean FF_API_PIX_FMT = (52 < 53);
-	public static final int AV_DISPOSITION_VISUAL_IMPAIRED = 0x0100;
-	public static final int FF_CODER_TYPE_VLC = 0;
-	public static final int FF_MB_DECISION_RD = 2;
-	public static final int FF_BUG_DC_CLIP = 4096;
-	public static final int AVPROBE_SCORE_RETRY = (100 / 4);
-	public static final int AVIO_FLAG_WRITE = 2;
-	public static final int AVPALETTE_SIZE = 1024;
-	public static final int FF_BUG_QPEL_CHROMA2 = 256;
-	public static final int CODEC_FLAG_EMU_EDGE = 0x4000;
-	public static final int FF_CMP_W97 = 12;
-	public static final int FF_PROFILE_AAC_LD = 22;
-	public static final int FF_IDCT_SIMPLEARMV6 = 17;
-	public static final int AVFMT_SEEK_TO_PTS = 0x4000000;
-	public static final int MB_TYPE_8x8 = 0x0040;
-	public static final int AV_CH_FRONT_CENTER = 0x00000004;
-	public static final int AVFMT_NOFILE = 0x0001;
-	public static final double M_LOG2_10 = 3.32192809488736234787;
-	public static final int RAW_PACKET_BUFFER_SIZE = 2500000;
-	public static final int FF_DECODE_ERROR_INVALID_BITSTREAM = 1;
-	public static final int AV_CH_BACK_LEFT = 0x00000010;
-	public static final int AV_CH_SIDE_LEFT = 0x00000200;
-	public static final boolean FF_API_READ_PACKET = (55 < 56);
-	public static final int FF_MB_DECISION_SIMPLE = 0;
-	public static final int AV_DISPOSITION_DUB = 0x0002;
-	public static final int AV_CH_SIDE_RIGHT = 0x00000400;
-	public static final int FF_QP2LAMBDA = 118;
-	public static final int FF_PROFILE_MPEG4_CORE_SCALABLE = 10;
-	public static final int FF_CODER_TYPE_AC = 1;
-	public static final long AV_CH_LAYOUT_NATIVE = 0x8000000000000000L;
-	public static final int AV_DICT_APPEND = 32;
-	public static final int FF_PROFILE_H264_CAVLC_444 = 44;
-	public static final int FF_PROFILE_MPEG4_CORE = 2;
-	public static final int SLICE_FLAG_CODED_ORDER = 0x0001;
-	public static final int AV_HAVE_INCOMPATIBLE_LIBAV_ABI = 0;
-	public static final int AV_CPU_FLAG_AVX = 0x4000;
-	public static final int MB_TYPE_P1L1 = 0x8000;
-	public static final int CODEC_FLAG_UNALIGNED = 0x0001;
-	public static final int AVFMT_GENERIC_INDEX = 0x0100;
-	public static final int AV_EF_COMPLIANT = (1 << 17);
-	public static final int MB_TYPE_P1L0 = 0x2000;
-	public static final int CODEC_FLAG2_IGNORE_CROP = 0x00010000;
-	public static final int FF_PROFILE_VC1_SIMPLE = 0;
-	public static final int LIBAVCODEC_VERSION_INT = (55 << 16 | 18 << 8 | 102);
-	public static final int AV_CODEC_PROP_TEXT_SUB = (1 << 17);
-	public static final boolean FF_API_LOWRES = (55 < 56);
-	public static final int FF_PROFILE_VC1_ADVANCED = 3;
-	public static final int FF_COMPLIANCE_VERY_STRICT = 2;
-	public static final int CODEC_CAP_DR1 = 0x0002;
-	public static final int AV_ERROR_MAX_STRING_SIZE = 64;
-	public static final int FF_LAMBDA_MAX = (256 * 128 - 1);
-	public static final int AV_NUM_DATA_POINTERS = 8;
-	public static final int AVFMT_ALLOW_FLUSH = 0x10000;
-	public static final int FF_PROFILE_H264_HIGH_10 = 110;
-	public static final int FF_DTG_AFD_16_9_SP_14_9 = 14;
-	public static final int FF_BUFFER_TYPE_INTERNAL = 1;
-	public static final int AV_CH_LOW_FREQUENCY = 0x00000008;
-	public static final String LIBAVCODEC_IDENT = "Lavc";
-	public static final int MB_TYPE_P0L1 = 0x4000;
-	public static final long AV_CH_WIDE_LEFT = 0x0000000080000000L;
-	public static final int MB_TYPE_8x16 = 0x0020;
-	public static final int CODEC_FLAG_MV0 = 0x0040;
-	public static final int MB_TYPE_INTERLACED = 0x0080;
-	public static final int FF_PROFILE_H264_HIGH_444 = 144;
-	public static final int FF_PROFILE_H264_HIGH = 100;
-	public static final int AVSEEK_FLAG_BACKWARD = 1;
-	public static final int FF_PROFILE_MPEG4_ADVANCED_CODING = 11;
-	public static final int FF_BUG_QPEL_CHROMA = 64;
-	public static final int AVERROR_EXIT = (-(('E') | (('X') << 8) | (('I') << 16) | (('T') << 24)));
-	public static final boolean FF_API_ASS_SSA = (55 < 56);
-	public static final int FF_COMPLIANCE_UNOFFICIAL = -1;
-	public static final int AVFMT_FLAG_NONBLOCK = 0x0004;
-	public static final int CODEC_FLAG2_SHOW_ALL = 0x00400000;
-	public static final int SLICE_FLAG_ALLOW_PLANE = 0x0004;
-	public static final int FF_PROFILE_DTS_HD_HRA = 50;
-	public static final int FF_LOSS_RESOLUTION = 0x0001;
-	public static final int FF_DEBUG_VIS_MV_B_FOR = 0x00000002;
-	public static final int PARSER_FLAG_FETCHED_OFFSET = 0x0004;
-	public static final int AV_CH_FRONT_LEFT = 0x00000001;
-	public static final int FF_CMP_W53 = 11;
-	public static final int FF_PROFILE_AAC_HE = 4;
-	public static final int FF_CMP_SSE = 1;
-	public static final int CODEC_FLAG_TRUNCATED = 0x00010000;
-	public static final int FF_DEBUG_STARTCODE = 0x00000100;
-	public static final int FF_CMP_PSNR = 4;
-	public static final int FF_BUFFER_HINTS_PRESERVE = 0x04;
-	public static final int FF_SUB_CHARENC_MODE_AUTOMATIC = 0;
-	public static final int FF_PROFILE_DTS = 20;
-	public static final int FF_PROFILE_H264_HIGH_422_INTRA = (122 | (1 << 11));
-	public static final int FF_PROFILE_H264_HIGH_444_INTRA = (244 | (1 << 11));
-	public static final int AV_CPU_FLAG_MMXEXT = 0x0002;
-	public static final int AV_CODEC_PROP_LOSSY = (1 << 1);
-	public static final int FF_PROFILE_H264_HIGH_422 = 122;
-	public static final int LIBAVUTIL_BUILD = (52 << 16 | 38 << 8 | 100);
-	public static final long AV_CH_WIDE_RIGHT = 0x0000000100000000L;
-	public static final int FF_PROFILE_MPEG4_SIMPLE_STUDIO = 14;
-	public static final int CODEC_CAP_INTRA_ONLY = 0x40000000;
-	public static final int FF_LEVEL_UNKNOWN = -99;
-	public static final int FF_DTG_AFD_14_9 = 11;
-	public static final int AV_PKT_FLAG_KEY = 0x0001;
-	public static final int CODEC_CAP_FRAME_THREADS = 0x1000;
-	public static final int CODEC_FLAG2_NO_OUTPUT = 0x00000004;
-	public static final int CODEC_FLAG_BITEXACT = 0x00800000;
-	public static final int FF_PROFILE_MPEG2_AAC_LOW = 128;
-	public static final int FF_IDCT_SH4 = 9;
-	public static final int AVFMT_SHOW_IDS = 0x0008;
-	public static final boolean FF_API_CPU_FLAG_MMX2 = (52 < 53);
-	public static final int FF_BUG_STD_QPEL = 128;
-	public static final int FF_LOSS_CHROMA = 0x0020;
-	public static final int FF_PROFILE_DTS_ES = 30;
-	public static final int AV_DISPOSITION_METADATA = 0x40000;
-	public static final int AVSEEK_SIZE = 0x10000;
-	public static final int FF_IDCT_INT = 1;
-	public static final int FF_INPUT_BUFFER_PADDING_SIZE = 16;
-	public static final int FF_THREAD_FRAME = 1;
-	public static final int FF_DTG_AFD_SP_4_3 = 15;
-	public static final int FF_DTG_AFD_16_9 = 10;
-	public static final int AV_CH_LAYOUT_2POINT1 = ((0x00000001 | 0x00000002) | 0x00000008);
-	public static final int AVFMT_FLAG_DISCARD_CORRUPT = 0x0100;
-	public static final int AVFMT_TS_DISCONT = 0x0200;
-	public static final int CODEC_CAP_VARIABLE_FRAME_SIZE = 0x10000;
-	public static final int FF_DEBUG_MMCO = 0x00000800;
-	public static final int FF_IDCT_AUTO = 0;
-	public static final int LIBAVFORMAT_VERSION_MICRO = 100;
-	public static final int FF_PROFILE_MPEG4_BASIC_ANIMATED_TEXTURE = 7;
-	public static final boolean FF_API_FORMAT_PARAMETERS = (55 < 56);
-	public static final int CODEC_FLAG_INTERLACED_DCT = 0x00040000;
-	public static final int AV_CH_TOP_FRONT_LEFT = 0x00001000;
-	public static final int AV_DISPOSITION_COMMENT = 0x0008;
-	public static final int FF_DECODE_ERROR_MISSING_REFERENCE = 2;
-	public static final int AVFMT_FLAG_NOPARSE = 0x0020;
-	public static final int AVERROR_PATCHWELCOME = (-(('P') | (('A') << 8) | (('W') << 16) | (('E') << 24)));
-	public static final int CODEC_CAP_CHANNEL_CONF = 0x0400;
-	public static final int AVFMT_FLAG_PRIV_OPT = 0x20000;
-	public static final int AVPROBE_SCORE_MAX = 100;
-	public static final int AV_CPU_FLAG_SSSE3 = 0x0080;
-	public static final int FF_FDEBUG_TS = 0x0001;
-	public static final int AV_CODEC_PROP_INTRA_ONLY = (1 << 0);
-	public static final int FF_COMPLIANCE_STRICT = 1;
-	public static final int AV_CH_TOP_BACK_LEFT = 0x00008000;
-	public static final int CODEC_FLAG_LOW_DELAY = 0x00080000;
-	public static final int AVIO_FLAG_READ_WRITE = (1 | 2);
-	public static final int AV_DICT_MATCH_CASE = 1;
-	public static final int AV_CPU_FLAG_ATOM = 0x10000000;
-	public static final int MB_TYPE_L0L1 = ((0x1000 | 0x2000) | (0x4000 | 0x8000));
-	public static final int FF_BUG_HPEL_CHROMA = 2048;
-	public static final int MB_TYPE_INTRA16x16 = 0x0002;
-	public static final int AVFMT_NOSTREAMS = 0x1000;
-	public static final int FF_DEBUG_MV = 32;
-	public static final boolean FF_API_OLD_TIMECODE = (55 < 55);
-	public static final int AV_PTS_WRAP_ADD_OFFSET = 1;
-	public static final int AV_EF_AGGRESSIVE = (1 << 18);
-	public static final int FF_DEBUG_VIS_QP = 0x00002000;
-	public static final int MB_TYPE_P0L0 = 0x1000;
-	public static final int FF_DEBUG_BITSTREAM = 4;
-	public static final int FF_PROFILE_DTS_96_24 = 40;
-	public static final int FF_CMP_DCT264 = 14;
-	public static final int AV_CPU_FLAG_MMX = 0x0001;
-	public static final int FF_EC_DEBLOCK = 2;
-	public static final int AV_DISPOSITION_KARAOKE = 0x0020;
-	public static final long AV_CH_SURROUND_DIRECT_LEFT = 0x0000000200000000L;
-	public static final int LIBAVUTIL_VERSION_MICRO = 100;
-	public static final int AV_CPU_FLAG_NEON = (1 << 5);
-	public static final int LIBAVFORMAT_VERSION_MINOR = 12;
-	public static final int AV_LOG_SKIP_REPEATED = 1;
-	public static final int CODEC_FLAG_INTERLACED_ME = 0x20000000;
-	public static final int FF_PROFILE_RESERVED = -100;
-	public static final int AVSEEK_FLAG_ANY = 4;
-	public static final int AV_DISPOSITION_LYRICS = 0x0010;
-	public static final boolean FF_API_OLD_DECODE_AUDIO = (55 < 56);
-	public static final int CODEC_FLAG_PASS2 = 0x0400;
-	public static final int CODEC_FLAG_PASS1 = 0x0200;
-	public static final int MAX_STD_TIMEBASES = (60 * 12 + 6);
-	public static final int MB_TYPE_16x16 = 0x0008;
-	public static final int AV_EF_CAREFUL = (1 << 16);
-	public static final int FF_PROFILE_DTS_HD_MA = 60;
-	public static final int FF_THREAD_SLICE = 2;
-	public static final int FF_LOSS_DEPTH = 0x0002;
-	public static final int AV_DICT_DONT_OVERWRITE = 16;
-	public static final int FF_PROFILE_AAC_MAIN = 0;
-	public static final int AVERROR_BUG = (-(('B') | (('U') << 8) | (('G') << 16) | (('!') << 24)));
-	public static final int FF_BUG_EDGE = 1024;
-	public static final int AV_PROGRAM_RUNNING = 1;
-	public static final int FF_IDCT_SIMPLEMMX = 3;
-	public static final int FF_PROFILE_MPEG4_ADVANCED_SCALABLE_TEXTURE = 13;
-	public static final int AV_CH_STEREO_LEFT = 0x20000000;
-	public static final int FF_PRED_PLANE = 1;
-	public static final int CODEC_CAP_HWACCEL_VDPAU = 0x0080;
-	public static final int FF_DTG_AFD_SAME = 8;
-	public static final int CODEC_FLAG2_FAST = 0x00000001;
-	public static final int FF_BUFFER_TYPE_USER = 2;
-	public static final boolean FF_API_AUDIOCONVERT = (52 < 53);
-	public static final int CODEC_FLAG2_CHUNKS = 0x00008000;
-	public static final int AV_PKT_FLAG_CORRUPT = 0x0002;
-	public static final int FF_IDCT_SIMPLEALPHA = 23;
-	public static final int AV_CPU_FLAG_SSE42 = 0x0200;
-	public static final int AV_CH_FRONT_RIGHT_OF_CENTER = 0x00000080;
-	public static final int FF_DEBUG_VIS_MB_TYPE = 0x00004000;
-	public static final int FF_BUG_MS = 8192;
-	public static final boolean FF_API_OLD_AVIO = (55 < 55);
-	public static final int AVSEEK_FLAG_BYTE = 2;
-	public static final int FF_PROFILE_AAC_HE_V2 = 28;
-	public static final int CODEC_FLAG_QSCALE = 0x0002;
-	public static final int AV_DISPOSITION_ORIGINAL = 0x0004;
-	public static final int FF_PROFILE_MPEG4_SIMPLE_SCALABLE = 1;
-	public static final int MB_TYPE_ACPRED = 0x0200;
-	public static final int AV_CH_LAYOUT_6POINT0 = ((((0x00000001 | 0x00000002) | 0x00000004) | 0x00000200 | 0x00000400) | 0x00000100);
-	public static final int AV_CH_LAYOUT_6POINT1 = (((((0x00000001 | 0x00000002) | 0x00000004) | 0x00000200 | 0x00000400) | 0x00000008) | 0x00000100);
-	public static final int AVFMT_FLAG_CUSTOM_IO = 0x0080;
-	public static final int FF_CMP_VSSE = 9;
-	public static final int FF_IDCT_SIMPLEARMV5TE = 16;
-	public static final int FF_IDCT_FAAN = 20;
-	public static final int AVFMT_NOGENSEARCH = 0x4000;
-	public static final int AV_CH_LAYOUT_6POINT1_BACK = (((((0x00000001 | 0x00000002) | 0x00000004) | 0x00000010 | 0x00000020) | 0x00000008) | 0x00000100);
-	public static final int FF_CMP_NSSE = 10;
-	public static final int FF_PROFILE_H264_INTRA = (1 << 11);
-	public static final int FF_BUFFER_TYPE_COPY = 8;
-	public static final int FF_DEBUG_QP = 16;
-	public static final int AV_HAVE_FAST_UNALIGNED = 1;
-	public static final int AVFMT_FLAG_IGNDTS = 0x0008;
-	public static final int FF_BUFFER_HINTS_VALID = 0x01;
-	public static final int MB_TYPE_DIRECT2 = 0x0100;
-	public static final int FF_QSCALE_TYPE_MPEG1 = 0;
-	public static final int FF_QSCALE_TYPE_MPEG2 = 1;
-	public static final int FF_IDCT_ARM = 7;
-	public static final boolean FF_API_AVCODEC_OPEN = (55 < 55);
-	public static final int FF_DEBUG_RC = 2;
-	public static final int FF_PRED_LEFT = 0;
-	public static final int FF_IDCT_IPP = 13;
-	public static final int CODEC_FLAG_INPUT_PRESERVED = 0x0100;
-	public static final int AVERROR_INVALIDDATA = (-(('I') | (('N') << 8) | (('D') << 16) | (('A') << 24)));
-	public static final int AVERROR_EOF = (-(('E') | (('O') << 8) | (('F') << 16) | ((' ') << 24)));
-	public static final double M_PHI = 1.61803398874989484820;
-	public static final int FF_DCT_MMX = 3;
-	public static final int AVPALETTE_COUNT = 256;
-	public static final int AV_LOG_PANIC = 0;
-	public static final int __STDC_HOSTED__ = 1;
-	public static final int AVFMT_VARIABLE_FPS = 0x0400;
-	public static final int FF_COMPRESSION_DEFAULT = -1;
-	public static final boolean FF_API_LLS_PRIVATE = (52 < 53);
-	public static final int AVFMT_FLAG_KEEP_SIDE_DATA = 0x40000;
-	public static final int PARSER_FLAG_COMPLETE_FRAMES = 0x0001;
-	public static final int FF_PROFILE_MPEG2_HIGH = 1;
-	public static final int FF_BUFFER_HINTS_READABLE = 0x02;
-	public static final int AVPROBE_PADDING_SIZE = 32;
-	public static final int FF_PROFILE_JPEG2000_CSTREAM_NO_RESTRICTION = 2;
-	public static final int AV_CPU_FLAG_SSE2 = 0x0010;
-	public static final int AV_CH_TOP_BACK_RIGHT = 0x00020000;
-	public static final int FF_PROFILE_MPEG2_422 = 0;
-	public static final int AVERROR_MUXER_NOT_FOUND = (-((0xF8) | (('M') << 8) | (('U') << 16) | (('X') << 24)));
-	public static final boolean FF_API_OLD_ENCODE_AUDIO = (55 < 56);
-	public static final int AVERROR_EXTERNAL = (-(('E') | (('X') << 8) | (('T') << 16) | ((' ') << 24)));
-	public static final int FF_PROFILE_H264_EXTENDED = 88;
-	public static final int CODEC_FLAG_QPEL = 0x0010;
-	public static final int AV_CH_LAYOUT_QUAD = ((0x00000001 | 0x00000002) | 0x00000010 | 0x00000020);
-	public static final int AV_CH_LAYOUT_HEXAGONAL = ((((0x00000001 | 0x00000002) | 0x00000004) | 0x00000010 | 0x00000020) | 0x00000100);
-	public static final int AVFMT_NOTIMESTAMPS = 0x0080;
-	public static final boolean FF_API_NEW_STREAM = (55 < 56);
-	public static final int FF_COMPLIANCE_NORMAL = 0;
-	public static final int AV_DISPOSITION_DEFAULT = 0x0001;
-	public static final int FF_IDCT_XVIDMMX = 14;
-	public static final int MB_TYPE_L0 = (0x1000 | 0x2000);
-	public static final int CODEC_CAP_HWACCEL = 0x0010;
-	public static final int MB_TYPE_QUANT = 0x00010000;
-	public static final int LIBAVFORMAT_VERSION_INT = (55 << 16 | 12 << 8 | 100);
-	public static final int AVERROR_DEMUXER_NOT_FOUND = (-((0xF8) | (('D') << 8) | (('E') << 16) | (('M') << 24)));
-	public static final int AVFMT_NOBINSEARCH = 0x2000;
-	public static final int FF_PROFILE_MPEG2_AAC_HE = 131;
-	public static final int MB_TYPE_L1 = (0x4000 | 0x8000);
-	public static final int AV_EF_BITSTREAM = (1 << 1);
-	public static final int AV_CPU_FLAG_XOP = 0x0400;
-	public static final boolean FF_API_ALLOC_OUTPUT_CONTEXT = (55 < 56);
-	public static final int FF_PROFILE_H264_MAIN = 77;
-	public static final int AV_DISPOSITION_DESCRIPTIONS = 0x20000;
-	public static final int FF_CMP_SATD = 2;
-	public static final int FF_BUFFER_TYPE_SHARED = 4;
-	public static final int CODEC_CAP_DELAY = 0x0020;
-	public static final int AV_CH_LAYOUT_STEREO_DOWNMIX = (0x20000000 | 0x40000000);
-	public static final boolean FF_API_OLD_ENCODE_VIDEO = (55 < 56);
-	public static final int AV_CPU_FLAG_FMA4 = 0x0800;
-	public static final int FF_PROFILE_MPEG4_SCALABLE_TEXTURE = 5;
-	public static final boolean FF_API_PIX_FMT_DESC = (52 < 53);
-	public static final int AV_CPU_FLAG_SSE3 = 0x0040;
-	public static final boolean FF_API_MISSING_SAMPLE = (55 < 56);
-	public static final int AV_CPU_FLAG_SSE4 = 0x0100;
-	public static final int AV_DICT_DONT_STRDUP_KEY = 4;
-	public static final int FF_BUG_AUTODETECT = 1;
-	public static final int FF_CMP_RD = 6;
-	public static final int AV_CPU_FLAG_ARMV5TE = (1 << 0);
-	public static final int AVFMT_FLAG_NOFILLIN = 0x0010;
-	public static final int FF_PROFILE_MPEG2_SNR_SCALABLE = 3;
-	public static final int AV_CH_LAYOUT_5POINT1_BACK = ((((0x00000001 | 0x00000002) | 0x00000004) | 0x00000010 | 0x00000020) | 0x00000008);
-	public static final int AV_CPU_FLAG_3DNOW = 0x0004;
-	public static final int FF_PROFILE_VC1_COMPLEX = 2;
-	public static final int AV_LOG_DEBUG = 48;
-	public static final int AV_CH_LAYOUT_7POINT1_WIDE = (((((0x00000001 | 0x00000002) | 0x00000004) | 0x00000200 | 0x00000400) | 0x00000008) | 0x00000040 | 0x00000080);
-	public static final int AV_CH_LAYOUT_MONO = (0x00000004);
-	public static final int LIBAVFORMAT_BUILD = (55 << 16 | 12 << 8 | 100);
-	public static final boolean FF_API_AV_REVERSE = (52 < 53);
-	public static final String LIBAVFORMAT_IDENT = "Lavf";
-	public static final int CODEC_CAP_DRAW_HORIZ_BAND = 0x0001;
-	public static final int FF_DEBUG_DCT_COEFF = 0x00000040;
-	public static final int AV_DISPOSITION_HEARING_IMPAIRED = 0x0080;
-	public static final int AV_CH_TOP_BACK_CENTER = 0x00010000;
-	public static final int FF_COMPLIANCE_EXPERIMENTAL = -2;
-	public static final int FF_DEBUG_VIS_MV_P_FOR = 0x00000001;
-	public static final int AV_LOG_MAX_OFFSET = (48 - -8);
-	public static final int AVFMT_FLAG_IGNIDX = 0x0002;
-	public static final int FF_CMP_DCT = 3;
-	public static final int AV_CH_LAYOUT_SURROUND = ((0x00000001 | 0x00000002) | 0x00000004);
-	public static final boolean FF_API_DEINTERLACE = (55 < 56);
-	public static final int FF_IDCT_SIMPLEARM = 10;
-	public static final int FF_PROFILE_MPEG4_SIMPLE = 0;
-	public static final int AV_LOG_WARNING = 24;
-	public static final int AV_CH_LAYOUT_6POINT1_FRONT = ((((0x00000001 | 0x00000002) | 0x00000200 | 0x00000400) | 0x00000040 | 0x00000080) | 0x00000008);
-	public static final int AVFMT_NODIMENSIONS = 0x0800;
-	public static final int AV_CPU_FLAG_SSE2SLOW = 0x40000000;
-	public static final int LIBAVCODEC_BUILD = (55 << 16 | 18 << 8 | 102);
-	public static final int FF_SUB_CHARENC_MODE_DO_NOTHING = -1;
-	public static final int AVERROR_PROTOCOL_NOT_FOUND = (-((0xF8) | (('P') << 8) | (('R') << 16) | (('O') << 24)));
-	public static final int AV_CH_FRONT_RIGHT = 0x00000002;
-	public static final int AVPROBE_SCORE_EXTENSION = 50;
-	public static final int FF_CMP_SAD = 0;
-	public static final int AV_CH_TOP_FRONT_CENTER = 0x00002000;
-	public static final int FF_BUG_TRUNCATED = 16384;
-	public static final int FF_PROFILE_MPEG4_MAIN = 3;
-	public static final int FF_PROFILE_AAC_SSR = 2;
-	public static final int AV_DISPOSITION_ATTACHED_PIC = 0x0400;
-	public static final int FF_PROFILE_JPEG2000_DCINEMA_4K = 4;
-	public static final int CODEC_FLAG_GLOBAL_HEADER = 0x00400000;
-	public static final boolean FF_API_DESTRUCT_PACKET = (55 < 56);
-	public static final int LIBAVCODEC_VERSION_MAJOR = 55;
-	public static final int LIBAVFORMAT_VERSION_MAJOR = 55;
-	public static final int CODEC_FLAG_PSNR = 0x8000;
-	public static final int FF_BUG_XVID_ILACE = 4;
-	public static final int FF_LOSS_COLORQUANT = 0x0010;
-	public static final int CODEC_CAP_SMALL_LAST_FRAME = 0x0040;
-	public static final int AV_SUBTITLE_FLAG_FORCED = 0x00000001;
-	public static final int AV_CH_LAYOUT_7POINT0_FRONT = ((((0x00000001 | 0x00000002) | 0x00000004) | 0x00000200 | 0x00000400) | 0x00000040 | 0x00000080);
-	public static final int MB_TYPE_SKIP = 0x0800;
-	public static final int FF_PROFILE_H264_HIGH_10_INTRA = (110 | (1 << 11));
-	public static final int FF_CODER_TYPE_RAW = 2;
-	public static final int SLICE_FLAG_ALLOW_FIELD = 0x0002;
-	public static final int FF_DEBUG_THREADS = 0x00010000;
-	public static final int AV_CPU_FLAG_ARMV6T2 = (1 << 2);
-	public static final int AV_LOG_VERBOSE = 40;
-	public static final int AV_CPU_FLAG_ARMV6 = (1 << 1);
-	public static final int AV_CH_TOP_CENTER = 0x00000800;
-	public static final int AVERROR_EXPERIMENTAL = (0x2bb2afa8);
-	public static final int MAX_PROBE_PACKETS = 2500;
-	public static final boolean FF_API_AVFRAME_LAVC = (52 < 53);
-	public static final int FF_BUFFER_HINTS_REUSABLE = 0x08;
-	public static final int FF_PROFILE_JPEG2000_DCINEMA_2K = 3;
-	public static final int FF_LOSS_COLORSPACE = 0x0004;
-	public static final int AV_EF_CRCCHECK = (1 << 0);
-	public static final int AV_CH_STEREO_RIGHT = 0x40000000;
-	public static final int AV_LOG_ERROR = 16;
-	public static final int FF_PROFILE_H264_HIGH_444_PREDICTIVE = 244;
-	public static final int FF_DEBUG_MB_TYPE = 8;
-	public static final int FF_DCT_FAAN = 6;
-	public static final int FF_DCT_AUTO = 0;
-	public static final int FF_PROFILE_MPEG4_HYBRID = 8;
-	public static final int FF_RC_STRATEGY_XVID = 1;
-	public static final int AV_CH_LAYOUT_5POINT0_BACK = (((0x00000001 | 0x00000002) | 0x00000004) | 0x00000010 | 0x00000020);
-	public static final int MB_TYPE_INTRA4x4 = 0x0001;
-	public static final int AV_CPU_FLAG_FORCE = 0x80000000;
-	public static final int MAX_REORDER_DELAY = 16;
-	public static final int FF_CODER_TYPE_DEFLATE = 4;
-	public static final int FF_PROFILE_AAC_LTP = 3;
-	public static final int AV_CPU_FLAG_SSE3SLOW = 0x20000000;
-	public static final int FF_QUALITY_SCALE = (1 << 7);
-	public static final int MB_TYPE_CBP = 0x00020000;
-	public static final int AV_LOG_INFO = 32;
-	public static final int FF_IDCT_SIMPLEVIS = 18;
-	public static final int AV_CPU_FLAG_SSE = 0x0008;
-	public static final int AV_TIME_BASE = 1000000;
-	public static final int CODEC_CAP_LOSSLESS = 0x80000000;
-	public static final int AV_CPU_FLAG_MMX2 = 0x0002;
-	public static final boolean FF_API_CODEC_ID = (55 < 56);
-	public static final int CODEC_CAP_NEG_LINESIZES = 0x0800;
-	public static final int AV_PTS_WRAP_SUB_OFFSET = -1;
-	public static final int AV_EF_BUFFER = (1 << 2);
-	public static final int AV_CH_LAYOUT_7POINT1 = (((((0x00000001 | 0x00000002) | 0x00000004) | 0x00000200 | 0x00000400) | 0x00000008) | 0x00000010 | 0x00000020);
-	public static final int FF_QSCALE_TYPE_H264 = 2;
-	public static final int AV_CH_LAYOUT_7POINT0 = ((((0x00000001 | 0x00000002) | 0x00000004) | 0x00000200 | 0x00000400) | 0x00000010 | 0x00000020);
-	public static final int AVFMT_NO_BYTE_SEEK = 0x8000;
-	public static final int FF_DEBUG_SKIP = 0x00000080;
-	public static final int FF_PROFILE_H264_CONSTRAINED_BASELINE = (66 | (1 << 9));
-	public static final int CODEC_CAP_TRUNCATED = 0x0008;
-	public static final int AVERROR_BSF_NOT_FOUND = (-((0xF8) | (('B') << 8) | (('S') << 16) | (('F') << 24)));
-	public static final int AVFMT_NEEDNUMBER = 0x0002;
-	public static final int AV_CH_BACK_RIGHT = 0x00000020;
-	public static final int AV_DISPOSITION_CAPTIONS = 0x10000;
-	public static final boolean FF_API_GET_BUFFER = (55 < 56);
-	public static final int AV_CH_TOP_FRONT_RIGHT = 0x00004000;
-	public static final int AV_DISPOSITION_FORCED = 0x0040;
-	public static final int AVIO_FLAG_READ = 1;
-	public static final int FF_PROFILE_MPEG4_ADVANCED_SIMPLE = 15;
-	public static final int FF_DTG_AFD_4_3_SP_14_9 = 13;
-	public static final int FF_DCT_ALTIVEC = 5;
-	public static final int AV_CH_LAYOUT_5POINT0 = (((0x00000001 | 0x00000002) | 0x00000004) | 0x00000200 | 0x00000400);
-	public static final int AV_CH_LAYOUT_5POINT1 = ((((0x00000001 | 0x00000002) | 0x00000004) | 0x00000200 | 0x00000400) | 0x00000008);
-	public static final boolean FF_API_AVCODEC_RESAMPLE = (55 < 56);
-	public static final int FF_CMP_BIT = 5;
-	public static final int FF_BUG_AC_VLC = 0;
-	public static final int AV_PARSER_PTS_NB = 4;
-	public static final int FF_DEBUG_PTS = 0x00000200;
-	public static final int AVFMT_FLAG_GENPTS = 0x0001;
-	public static final int AV_CODEC_PROP_BITMAP_SUB = (1 << 16);
-	public static final int AVFMT_RAWPICTURE = 0x0020;
-	public static final boolean FF_API_GET_BITS_PER_SAMPLE_FMT = (52 < 53);
-	public static final int AVERROR_DECODER_NOT_FOUND = (-((0xF8) | (('D') << 8) | (('E') << 16) | (('C') << 24)));
-	public static final int FF_QSCALE_TYPE_VP56 = 3;
-	public static final int FF_LOSS_ALPHA = 0x0008;
-	public static final int FF_PROFILE_MPEG4_N_BIT = 4;
-	public static final int FF_DTG_AFD_4_3 = 9;
-	public static final int AV_LOG_FATAL = 8;
-	public static final int AV_CPU_FLAG_CMOV = 0x1001000;
-	public static final int FF_BUG_NO_PADDING = 16;
-	public static final int FF_DEFAULT_QUANT_BIAS = 999999;
-	public static final int AV_DICT_DONT_STRDUP_VAL = 8;
-	public static final int AV_CPU_FLAG_3DNOWEXT = 0x0020;
-	public static final int CODEC_FLAG_LOOP_FILTER = 0x00000800;
-	public static final int FF_PROFILE_MPEG2_MAIN = 4;
-	public static final int FF_API_R_FRAME_RATE = 1;
-	public static final int FF_CMP_DCTMAX = 13;
-	public static final int AV_CODEC_PROP_LOSSLESS = (1 << 2);
-	public static final boolean FF_API_CLOSE_INPUT_FILE = (55 < 56);
-	public static final int FF_PROFILE_JPEG2000_CSTREAM_RESTRICTION_0 = 0;
-	public static final int AVERROR_STREAM_NOT_FOUND = (-((0xF8) | (('S') << 8) | (('T') << 16) | (('R') << 24)));
-	public static final int FF_PROFILE_JPEG2000_CSTREAM_RESTRICTION_1 = 1;
-	public static final int FF_PROFILE_AAC_LOW = 1;
-	public static final int AV_LOG_QUIET = -8;
-	public static final int AV_CH_LAYOUT_OCTAGONAL = ((((0x00000001 | 0x00000002) | 0x00000004) | 0x00000200 | 0x00000400) | 0x00000010 | 0x00000100 | 0x00000020);
-	public static final boolean FF_API_PKT_DUMP = (55 < 54);
-	public static final int LIBAVUTIL_VERSION_MINOR = 38;
-	public static final int FF_IDCT_SIMPLE = 2;
-	public static final int FF_PROFILE_UNKNOWN = -99;
-	public static final int AVFMT_TS_NEGATIVE = 0x40000;
-	public static final int FF_CMP_VSAD = 8;
-	public static final int CODEC_CAP_PARAM_CHANGE = 0x4000;
-	public static final int CODEC_CAP_SLICE_THREADS = 0x2000;
-	public static final int FF_PROFILE_H264_BASELINE = 66;
-	public static final boolean FF_API_ALLOC_CONTEXT = (55 < 55);
-	public static final int AV_GET_BUFFER_FLAG_REF = (1 << 0);
-	public static final int MB_TYPE_GMC = 0x0400;
-	public static final int CODEC_CAP_AUTO_THREADS = 0x8000;
-	public static final int CODEC_CAP_SUBFRAMES = 0x0100;
-	public static final int FF_PROFILE_MPEG4_ADVANCED_CORE = 12;
-	public static final int MB_TYPE_INTRA_PCM = 0x0004;
-	public static final int AVIO_FLAG_NONBLOCK = 8;
-	public static final int AVFMT_FLAG_SORT_DTS = 0x10000;
-	public static final int AV_CH_BACK_CENTER = 0x00000100;
-	public static final int CODEC_FLAG2_DROP_FRAME_TIMECODE = 0x00002000;
-	public static final String LIBAVUTIL_IDENT = "Lavu";
-	public static final int FF_DCT_FASTINT = 1;
-	public static final int AV_CPU_FLAG_VFPV3 = (1 << 4);
-	public static final int AV_CH_LAYOUT_4POINT0 = (((0x00000001 | 0x00000002) | 0x00000004) | 0x00000100);
-	public static final int PARSER_FLAG_ONCE = 0x0002;
-	public static final int AV_CH_LAYOUT_7POINT1_WIDE_BACK = (((((0x00000001 | 0x00000002) | 0x00000004) | 0x00000010 | 0x00000020) | 0x00000008) | 0x00000040 | 0x00000080);
-	public static final int AV_PTS_WRAP_IGNORE = 0;
-	public static final int CODEC_FLAG_AC_PRED = 0x01000000;
-	public static final int CODEC_FLAG_4MV = 0x0004;
-	public static final int LIBAVUTIL_VERSION_MAJOR = 52;
-	public static final int FF_BUG_UMP4 = 8;
-	public static final int AVFMT_TS_NONSTRICT = 0x20000;
-	public static final int FF_CMP_ZERO = 7;
-	public static final int AVERROR_ENCODER_NOT_FOUND = (-((0xF8) | (('E') << 8) | (('N') << 16) | (('C') << 24)));
-	public static final int AVERROR_BUFFER_TOO_SMALL = (-(('B') | (('U') << 8) | (('F') << 16) | (('S') << 24)));
-	public static final long AV_CH_LOW_FREQUENCY_2 = 0x0000000800000000L;
-	public static final int AV_CH_LAYOUT_4POINT1 = ((((0x00000001 | 0x00000002) | 0x00000004) | 0x00000100) | 0x00000008);
-	public static final int FF_PRED_MEDIAN = 2;
-	public static final int AV_CH_FRONT_LEFT_OF_CENTER = 0x00000040;
-	public static final int FF_PROFILE_H264_CONSTRAINED = (1 << 9);
-	public static final int CODEC_FLAG2_LOCAL_HEADER = 0x00000008;
-	public static final int AV_CPU_FLAG_VFP = (1 << 3);
-	public static final int AV_CPU_FLAG_ALTIVEC = 0x0001;
-	public static final int CODEC_CAP_EXPERIMENTAL = 0x0200;
-	public static final int FF_LAMBDA_SHIFT = 7;
-	public static final int CODEC_FLAG_GMC = 0x0020;
-	public static final int AV_BUFFER_FLAG_READONLY = (1 << 0);
-	public static final int AV_CH_LAYOUT_2_1 = ((0x00000001 | 0x00000002) | 0x00000100);
-	public static final int FF_BUG_DIRECT_BLOCKSIZE = 512;
-	public static final int PARSER_FLAG_USE_CODEC_TS = 0x1000;
-	public static final int AV_DISPOSITION_CLEAN_EFFECTS = 0x0200;
-	public static final boolean FF_API_FIND_OPT = (52 < 53);
-	public static final int AVFMT_GLOBALHEADER = 0x0040;
-	public static final int FF_EC_GUESS_MVS = 1;
-	public static final int FF_BUG_OLD_MSMPEG4 = 2;
-	public static final int AV_CH_LAYOUT_2_2 = ((0x00000001 | 0x00000002) | 0x00000200 | 0x00000400);
-	public static final int FF_PROFILE_AAC_ELD = 38;
-	public static final boolean FF_API_REQUEST_CHANNELS = (55 < 56);
-	public static final int FF_DEBUG_PICT_INFO = 1;
-	public static final int LIBAVCODEC_VERSION_MICRO = 102;
-	public static final int AVIO_SEEKABLE_NORMAL = 0x0001;
-	public static final int AVINDEX_KEYFRAME = 0x0001;
-	public static final int AV_CH_LAYOUT_3POINT1 = (((0x00000001 | 0x00000002) | 0x00000004) | 0x00000008);
-	public static final int FF_DCT_INT = 2;
-	public interface av_log_set_callback_arg1_callback extends Callback {
-		void apply(Pointer voidPtr1, int int1, Pointer charPtr1, LibavformatLibrary.va_list va_list1);
-	};
-	public interface av_buffer_create_free_callback extends Callback {
-		void apply(Pointer opaque, Pointer data);
-	};
-	public interface av_buffer_pool_init_alloc_callback extends Callback {
-		AVBufferRef apply(int size);
-	};
-	public interface avcodec_default_execute_func_callback extends Callback {
-		int apply(AVCodecContext c2, Pointer arg2);
-	};
-	public interface avcodec_default_execute2_func_callback extends Callback {
-		int apply(AVCodecContext c2, Pointer arg2, int int1, int int2);
-	};
-	public interface av_lockmgr_register_cb_callback extends Callback {
-		int apply(PointerByReference mutex, int op);
-	};
-	public interface avio_alloc_context_read_packet_callback extends Callback {
-		int apply(Pointer opaque, Pointer buf, int buf_size);
-	};
-	public interface avio_alloc_context_write_packet_callback extends Callback {
-		int apply(Pointer opaque, Pointer buf, int buf_size);
-	};
-	public interface avio_alloc_context_seek_callback extends Callback {
-		long apply(Pointer opaque, long offset, int whence);
-	};
-	/**
-	 * Return the LIBAVUTIL_VERSION_INT constant.<br>
-	 * Original signature : <code>int avutil_version()</code>
-	 */
-	int avutil_version();
-	/**
-	 * Return the libavutil build-time configuration.<br>
-	 * Original signature : <code>char* avutil_configuration()</code>
-	 */
-	String avutil_configuration();
-	/**
-	 * Return the libavutil license.<br>
-	 * Original signature : <code>char* avutil_license()</code>
-	 */
-	String avutil_license();
-	/**
-	 * Return a string describing the media_type enum, NULL if media_type<br>
-	 * is unknown.<br>
-	 * Original signature : <code>char* av_get_media_type_string(AVMediaType)</code>
-	 */
-	String av_get_media_type_string(int media_type);
-	/**
-	 * Return a single letter to describe the given picture type<br>
-	 * pict_type.<br>
-	 * * @param[in] pict_type the picture type @return a single character<br>
-	 * representing the picture type, '?' if pict_type is unknown<br>
-	 * Original signature : <code>char av_get_picture_type_char(AVPictureType)</code>
-	 */
-	byte av_get_picture_type_char(int pict_type);
-	/** Original signature : <code>int av_log2(unsigned)</code> */
-	int av_log2(int v);
-	/** Original signature : <code>int av_log2_16bit(unsigned)</code> */
-	int av_log2_16bit(int v);
-	/**
-	 * Put a description of the AVERROR code errnum in errbuf.<br>
-	 * In case of failure the global variable errno is set to indicate the<br>
-	 * error. Even in case of failure av_strerror() will print a generic<br>
-	 * error message indicating the errnum provided to errbuf.<br>
-	 * * @param errnum      error code to describe<br>
-	 * @param errbuf      buffer to which description is written<br>
-	 * @param errbuf_size the size in bytes of errbuf<br>
-	 * @return 0 on success, a negative value if a description for errnum<br>
-	 * cannot be found<br>
-	 * Original signature : <code>int av_strerror(int, char*, size_t)</code><br>
-	 * @deprecated use the safer methods {@link #av_strerror(int, java.nio.ByteBuffer, org.javaavc.ffmpeg.NativeSize)} and {@link #av_strerror(int, com.sun.jna.Pointer, org.javaavc.ffmpeg.NativeSize)} instead
-	 */
-	@Deprecated 
-	int av_strerror(int errnum, Pointer errbuf, NativeSize errbuf_size);
-	/**
-	 * Put a description of the AVERROR code errnum in errbuf.<br>
-	 * In case of failure the global variable errno is set to indicate the<br>
-	 * error. Even in case of failure av_strerror() will print a generic<br>
-	 * error message indicating the errnum provided to errbuf.<br>
-	 * * @param errnum      error code to describe<br>
-	 * @param errbuf      buffer to which description is written<br>
-	 * @param errbuf_size the size in bytes of errbuf<br>
-	 * @return 0 on success, a negative value if a description for errnum<br>
-	 * cannot be found<br>
-	 * Original signature : <code>int av_strerror(int, char*, size_t)</code>
-	 */
-	int av_strerror(int errnum, ByteBuffer errbuf, NativeSize errbuf_size);
-	/**
-	 * Allocate a block of size bytes with alignment suitable for all<br>
-	 * memory accesses (including vectors if available on the CPU).<br>
-	 * @param size Size in bytes for the memory block to be allocated.<br>
-	 * @return Pointer to the allocated block, NULL if the block cannot<br>
-	 * be allocated.<br>
-	 * @see av_mallocz()<br>
-	 * Original signature : <code>void* av_malloc(size_t)</code>
-	 */
-	Pointer av_malloc(NativeSize size);
-	/**
-	 * Allocate or reallocate a block of memory.<br>
-	 * If ptr is NULL and size > 0, allocate a new block. If<br>
-	 * size is zero, free the memory block pointed to by ptr.<br>
-	 * @param ptr Pointer to a memory block already allocated with<br>
-	 * av_malloc(z)() or av_realloc() or NULL.<br>
-	 * @param size Size in bytes for the memory block to be allocated or<br>
-	 * reallocated.<br>
-	 * @return Pointer to a newly reallocated block or NULL if the block<br>
-	 * cannot be reallocated or the function is used to free the memory block.<br>
-	 * @see av_fast_realloc()<br>
-	 * Original signature : <code>void* av_realloc(void*, size_t)</code>
-	 */
-	Pointer av_realloc(Pointer ptr, NativeSize size);
-	/**
-	 * Allocate or reallocate a block of memory.<br>
-	 * This function does the same thing as av_realloc, except:<br>
-	 * - It takes two arguments and checks the result of the multiplication for<br>
-	 *   integer overflow.<br>
-	 * - It frees the input block in case of failure, thus avoiding the memory<br>
-	 *   leak with the classic "buf = realloc(buf); if (!buf) return -1;".<br>
-	 * Original signature : <code>void* av_realloc_f(void*, size_t, size_t)</code>
-	 */
-	Pointer av_realloc_f(Pointer ptr, NativeSize nelem, NativeSize elsize);
-	/**
-	 * Allocate or reallocate an array.<br>
-	 * If ptr is NULL and nmemb > 0, allocate a new block. If<br>
-	 * nmemb is zero, free the memory block pointed to by ptr.<br>
-	 * @param ptr Pointer to a memory block already allocated with<br>
-	 * av_malloc(z)() or av_realloc() or NULL.<br>
-	 * @param nmemb Number of elements<br>
-	 * @param size Size of the single element<br>
-	 * @return Pointer to a newly reallocated block or NULL if the block<br>
-	 * cannot be reallocated or the function is used to free the memory block.<br>
-	 * Original signature : <code>void* av_realloc_array(void*, size_t, size_t)</code>
-	 */
-	Pointer av_realloc_array(Pointer ptr, NativeSize nmemb, NativeSize size);
-	/**
-	 * Allocate or reallocate an array.<br>
-	 * If *ptr is NULL and nmemb > 0, allocate a new block. If<br>
-	 * nmemb is zero, free the memory block pointed to by ptr.<br>
-	 * @param ptr Pointer to a pointer to a memory block already allocated<br>
-	 * with av_malloc(z)() or av_realloc(), or pointer to a pointer to NULL.<br>
-	 * The pointer is updated on success, or freed on failure.<br>
-	 * @param nmemb Number of elements<br>
-	 * @param size Size of the single element<br>
-	 * @return Zero on success, an AVERROR error code on failure.<br>
-	 * Original signature : <code>int av_reallocp_array(void*, size_t, size_t)</code>
-	 */
-	int av_reallocp_array(Pointer ptr, NativeSize nmemb, NativeSize size);
-	/**
-	 * Free a memory block which has been allocated with av_malloc(z)() or<br>
-	 * av_realloc().<br>
-	 * @param ptr Pointer to the memory block which should be freed.<br>
-	 * @note ptr = NULL is explicitly allowed.<br>
-	 * @note It is recommended that you use av_freep() instead.<br>
-	 * @see av_freep()<br>
-	 * Original signature : <code>void av_free(void*)</code>
-	 */
-	void av_free(Pointer ptr);
-	/**
-	 * Allocate a block of size bytes with alignment suitable for all<br>
-	 * memory accesses (including vectors if available on the CPU) and<br>
-	 * zero all the bytes of the block.<br>
-	 * @param size Size in bytes for the memory block to be allocated.<br>
-	 * @return Pointer to the allocated block, NULL if it cannot be allocated.<br>
-	 * @see av_malloc()<br>
-	 * Original signature : <code>void* av_mallocz(size_t)</code>
-	 */
-	Pointer av_mallocz(NativeSize size);
-	/**
-	 * Allocate a block of nmemb * size bytes with alignment suitable for all<br>
-	 * memory accesses (including vectors if available on the CPU) and<br>
-	 * zero all the bytes of the block.<br>
-	 * The allocation will fail if nmemb * size is greater than or equal<br>
-	 * to INT_MAX.<br>
-	 * @param nmemb<br>
-	 * @param size<br>
-	 * @return Pointer to the allocated block, NULL if it cannot be allocated.<br>
-	 * Original signature : <code>void* av_calloc(size_t, size_t)</code>
-	 */
-	Pointer av_calloc(NativeSize nmemb, NativeSize size);
-	/**
-	 * Duplicate the string s.<br>
-	 * @param s string to be duplicated<br>
-	 * @return Pointer to a newly allocated string containing a<br>
-	 * copy of s or NULL if the string cannot be allocated.<br>
-	 * Original signature : <code>char* av_strdup(const char*)</code><br>
-	 * @deprecated use the safer methods {@link #av_strdup(java.lang.String)} and {@link #av_strdup(com.sun.jna.Pointer)} instead
-	 */
-	@Deprecated 
-	Pointer av_strdup(Pointer s);
-	/**
-	 * Duplicate the string s.<br>
-	 * @param s string to be duplicated<br>
-	 * @return Pointer to a newly allocated string containing a<br>
-	 * copy of s or NULL if the string cannot be allocated.<br>
-	 * Original signature : <code>char* av_strdup(const char*)</code>
-	 */
-	Pointer av_strdup(String s);
-	/**
-	 * Duplicate the buffer p.<br>
-	 * @param p buffer to be duplicated<br>
-	 * @return Pointer to a newly allocated buffer containing a<br>
-	 * copy of p or NULL if the buffer cannot be allocated.<br>
-	 * Original signature : <code>void* av_memdup(const void*, size_t)</code>
-	 */
-	Pointer av_memdup(Pointer p, NativeSize size);
-	/**
-	 * Free a memory block which has been allocated with av_malloc(z)() or<br>
-	 * av_realloc() and set the pointer pointing to it to NULL.<br>
-	 * @param ptr Pointer to the pointer to the memory block which should<br>
-	 * be freed.<br>
-	 * @see av_free()<br>
-	 * Original signature : <code>void av_freep(void*)</code>
-	 */
-	void av_freep(Pointer ptr);
-	/**
-	 * Add an element to a dynamic array.<br>
-	 * * The array to grow is supposed to be an array of pointers to<br>
-	 * structures, and the element to add must be a pointer to an already<br>
-	 * allocated structure.<br>
-	 * * The array is reallocated when its size reaches powers of 2.<br>
-	 * Therefore, the amortized cost of adding an element is constant.<br>
-	 * * In case of success, the pointer to the array is updated in order to<br>
-	 * point to the new grown array, and the number pointed to by nb_ptr<br>
-	 * is incremented.<br>
-	 * In case of failure, the array is freed, *tab_ptr is set to NULL and<br>
-	 * *nb_ptr is set to 0.<br>
-	 * * @param tab_ptr pointer to the array to grow<br>
-	 * @param nb_ptr  pointer to the number of elements in the array<br>
-	 * @param elem    element to add<br>
-	 * @see av_dynarray2_add()<br>
-	 * Original signature : <code>void av_dynarray_add(void*, int*, void*)</code><br>
-	 * @deprecated use the safer methods {@link #av_dynarray_add(com.sun.jna.Pointer, java.nio.IntBuffer, com.sun.jna.Pointer)} and {@link #av_dynarray_add(com.sun.jna.Pointer, com.sun.jna.ptr.IntByReference, com.sun.jna.Pointer)} instead
-	 */
-	@Deprecated 
-	void av_dynarray_add(Pointer tab_ptr, IntByReference nb_ptr, Pointer elem);
-	/**
-	 * Add an element to a dynamic array.<br>
-	 * * The array to grow is supposed to be an array of pointers to<br>
-	 * structures, and the element to add must be a pointer to an already<br>
-	 * allocated structure.<br>
-	 * * The array is reallocated when its size reaches powers of 2.<br>
-	 * Therefore, the amortized cost of adding an element is constant.<br>
-	 * * In case of success, the pointer to the array is updated in order to<br>
-	 * point to the new grown array, and the number pointed to by nb_ptr<br>
-	 * is incremented.<br>
-	 * In case of failure, the array is freed, *tab_ptr is set to NULL and<br>
-	 * *nb_ptr is set to 0.<br>
-	 * * @param tab_ptr pointer to the array to grow<br>
-	 * @param nb_ptr  pointer to the number of elements in the array<br>
-	 * @param elem    element to add<br>
-	 * @see av_dynarray2_add()<br>
-	 * Original signature : <code>void av_dynarray_add(void*, int*, void*)</code>
-	 */
-	void av_dynarray_add(Pointer tab_ptr, IntBuffer nb_ptr, Pointer elem);
-	/**
-	 * Add an element of size elem_size to a dynamic array.<br>
-	 * * The array is reallocated when its number of elements reaches powers of 2.<br>
-	 * Therefore, the amortized cost of adding an element is constant.<br>
-	 * * In case of success, the pointer to the array is updated in order to<br>
-	 * point to the new grown array, and the number pointed to by nb_ptr<br>
-	 * is incremented.<br>
-	 * In case of failure, the array is freed, *tab_ptr is set to NULL and<br>
-	 * *nb_ptr is set to 0.<br>
-	 * * @param tab_ptr   pointer to the array to grow<br>
-	 * @param nb_ptr    pointer to the number of elements in the array<br>
-	 * @param elem_size size in bytes of the elements in the array<br>
-	 * @param elem_data pointer to the data of the element to add. If NULL, the space of<br>
-	 *                  the new added element is not filled.<br>
-	 * @return          pointer to the data of the element to copy in the new allocated space.<br>
-	 *                  If NULL, the new allocated space is left uninitialized."<br>
-	 * @see av_dynarray_add()<br>
-	 * Original signature : <code>void* av_dynarray2_add(void**, int*, size_t, const uint8_t*)</code><br>
-	 * @deprecated use the safer methods {@link #av_dynarray2_add(com.sun.jna.ptr.PointerByReference, java.nio.IntBuffer, org.javaavc.ffmpeg.NativeSize, java.nio.ByteBuffer)} and {@link #av_dynarray2_add(com.sun.jna.ptr.PointerByReference, com.sun.jna.ptr.IntByReference, org.javaavc.ffmpeg.NativeSize, com.sun.jna.Pointer)} instead
-	 */
-	@Deprecated 
-	Pointer av_dynarray2_add(PointerByReference tab_ptr, IntByReference nb_ptr, NativeSize elem_size, Pointer elem_data);
-	/**
-	 * Add an element of size elem_size to a dynamic array.<br>
-	 * * The array is reallocated when its number of elements reaches powers of 2.<br>
-	 * Therefore, the amortized cost of adding an element is constant.<br>
-	 * * In case of success, the pointer to the array is updated in order to<br>
-	 * point to the new grown array, and the number pointed to by nb_ptr<br>
-	 * is incremented.<br>
-	 * In case of failure, the array is freed, *tab_ptr is set to NULL and<br>
-	 * *nb_ptr is set to 0.<br>
-	 * * @param tab_ptr   pointer to the array to grow<br>
-	 * @param nb_ptr    pointer to the number of elements in the array<br>
-	 * @param elem_size size in bytes of the elements in the array<br>
-	 * @param elem_data pointer to the data of the element to add. If NULL, the space of<br>
-	 *                  the new added element is not filled.<br>
-	 * @return          pointer to the data of the element to copy in the new allocated space.<br>
-	 *                  If NULL, the new allocated space is left uninitialized."<br>
-	 * @see av_dynarray_add()<br>
-	 * Original signature : <code>void* av_dynarray2_add(void**, int*, size_t, const uint8_t*)</code>
-	 */
-	Pointer av_dynarray2_add(PointerByReference tab_ptr, IntBuffer nb_ptr, NativeSize elem_size, ByteBuffer elem_data);
-	/**
-	 * Set the maximum size that may me allocated in one block.<br>
-	 * Original signature : <code>void av_max_alloc(size_t)</code>
-	 */
-	void av_max_alloc(NativeSize max);
-	/**
-	 * @brief deliberately overlapping memcpy implementation<br>
-	 * @param dst destination buffer<br>
-	 * @param back how many bytes back we start (the initial size of the overlapping window), must be > 0<br>
-	 * @param cnt number of bytes to copy, must be >= 0<br>
-	 * * cnt > back is valid, this will copy the bytes we just copied,<br>
-	 * thus creating a repeating pattern with a period length of back.<br>
-	 * Original signature : <code>void av_memcpy_backptr(uint8_t*, int, int)</code><br>
-	 * @deprecated use the safer methods {@link #av_memcpy_backptr(java.nio.ByteBuffer, int, int)} and {@link #av_memcpy_backptr(com.sun.jna.Pointer, int, int)} instead
-	 */
-	@Deprecated 
-	void av_memcpy_backptr(Pointer dst, int back, int cnt);
-	/**
-	 * @brief deliberately overlapping memcpy implementation<br>
-	 * @param dst destination buffer<br>
-	 * @param back how many bytes back we start (the initial size of the overlapping window), must be > 0<br>
-	 * @param cnt number of bytes to copy, must be >= 0<br>
-	 * * cnt > back is valid, this will copy the bytes we just copied,<br>
-	 * thus creating a repeating pattern with a period length of back.<br>
-	 * Original signature : <code>void av_memcpy_backptr(uint8_t*, int, int)</code>
-	 */
-	void av_memcpy_backptr(ByteBuffer dst, int back, int cnt);
-	/**
-	 * Reduce a fraction.<br>
-	 * This is useful for framerate calculations.<br>
-	 * @param dst_num destination numerator<br>
-	 * @param dst_den destination denominator<br>
-	 * @param num source numerator<br>
-	 * @param den source denominator<br>
-	 * @param max the maximum allowed for dst_num & dst_den<br>
-	 * @return 1 if exact, 0 otherwise<br>
-	 * Original signature : <code>int av_reduce(int*, int*, int64_t, int64_t, int64_t)</code><br>
-	 * @deprecated use the safer methods {@link #av_reduce(java.nio.IntBuffer, java.nio.IntBuffer, long, long, long)} and {@link #av_reduce(com.sun.jna.ptr.IntByReference, com.sun.jna.ptr.IntByReference, long, long, long)} instead
-	 */
-	@Deprecated 
-	int av_reduce(IntByReference dst_num, IntByReference dst_den, long num, long den, long max);
-	/**
-	 * Reduce a fraction.<br>
-	 * This is useful for framerate calculations.<br>
-	 * @param dst_num destination numerator<br>
-	 * @param dst_den destination denominator<br>
-	 * @param num source numerator<br>
-	 * @param den source denominator<br>
-	 * @param max the maximum allowed for dst_num & dst_den<br>
-	 * @return 1 if exact, 0 otherwise<br>
-	 * Original signature : <code>int av_reduce(int*, int*, int64_t, int64_t, int64_t)</code>
-	 */
-	int av_reduce(IntBuffer dst_num, IntBuffer dst_den, long num, long den, long max);
-	/**
-	 * Multiply two rationals.<br>
-	 * @param b first rational<br>
-	 * @param c second rational<br>
-	 * @return b*c<br>
-	 * Original signature : <code>AVRational av_mul_q(AVRational, AVRational)</code>
-	 */
-	AVRational.ByValue av_mul_q(AVRational.ByValue b, AVRational.ByValue c);
-	/**
-	 * Divide one rational by another.<br>
-	 * @param b first rational<br>
-	 * @param c second rational<br>
-	 * @return b/c<br>
-	 * Original signature : <code>AVRational av_div_q(AVRational, AVRational)</code>
-	 */
-	AVRational.ByValue av_div_q(AVRational.ByValue b, AVRational.ByValue c);
-	/**
-	 * Add two rationals.<br>
-	 * @param b first rational<br>
-	 * @param c second rational<br>
-	 * @return b+c<br>
-	 * Original signature : <code>AVRational av_add_q(AVRational, AVRational)</code>
-	 */
-	AVRational.ByValue av_add_q(AVRational.ByValue b, AVRational.ByValue c);
-	/**
-	 * Subtract one rational from another.<br>
-	 * @param b first rational<br>
-	 * @param c second rational<br>
-	 * @return b-c<br>
-	 * Original signature : <code>AVRational av_sub_q(AVRational, AVRational)</code>
-	 */
-	AVRational.ByValue av_sub_q(AVRational.ByValue b, AVRational.ByValue c);
-	/**
-	 * Convert a double precision floating point number to a rational.<br>
-	 * inf is expressed as {1,0} or {-1,0} depending on the sign.<br>
-	 * * @param d double to convert<br>
-	 * @param max the maximum allowed numerator and denominator<br>
-	 * @return (AVRational) d<br>
-	 * Original signature : <code>AVRational av_d2q(double, int)</code>
-	 */
-	AVRational.ByValue av_d2q(double d, int max);
-	/**
-	 * @return 1 if q1 is nearer to q than q2, -1 if q2 is nearer<br>
-	 * than q1, 0 if they have the same distance.<br>
-	 * Original signature : <code>int av_nearer_q(AVRational, AVRational, AVRational)</code>
-	 */
-	int av_nearer_q(AVRational.ByValue q, AVRational.ByValue q1, AVRational.ByValue q2);
-	/**
-	 * Find the nearest value in q_list to q.<br>
-	 * @param q_list an array of rationals terminated by {0, 0}<br>
-	 * @return the index of the nearest value found in the array<br>
-	 * Original signature : <code>int av_find_nearest_q_idx(AVRational, const AVRational*)</code>
-	 */
-	int av_find_nearest_q_idx(AVRational.ByValue q, AVRational q_list);
-	/**
-	 * Return the greatest common divisor of a and b.<br>
-	 * If both a and b are 0 or either or both are <0 then behavior is<br>
-	 * undefined.<br>
-	 * Original signature : <code>int64_t av_gcd(int64_t, int64_t)</code>
-	 */
-	long av_gcd(long a, long b);
-	/**
-	 * Rescale a 64-bit integer with rounding to nearest.<br>
-	 * A simple a*b/c isn't possible as it can overflow.<br>
-	 * Original signature : <code>int64_t av_rescale(int64_t, int64_t, int64_t)</code>
-	 */
-	long av_rescale(long a, long b, long c);
-	/**
-	 * Rescale a 64-bit integer with specified rounding.<br>
-	 * A simple a*b/c isn't possible as it can overflow.<br>
-	 * * @return rescaled value a, or if AV_ROUND_PASS_MINMAX is set and a is<br>
-	 *         INT64_MIN or INT64_MAX then a is passed through unchanged.<br>
-	 * Original signature : <code>int64_t av_rescale_rnd(int64_t, int64_t, int64_t, AVRounding)</code>
-	 */
-	long av_rescale_rnd(long a, long b, long c, int arg1);
-	/**
-	 * Rescale a 64-bit integer by 2 rational numbers.<br>
-	 * Original signature : <code>int64_t av_rescale_q(int64_t, AVRational, AVRational)</code>
-	 */
-	long av_rescale_q(long a, AVRational.ByValue bq, AVRational.ByValue cq);
-	/**
-	 * Rescale a 64-bit integer by 2 rational numbers with specified rounding.<br>
-	 * * @return rescaled value a, or if AV_ROUND_PASS_MINMAX is set and a is<br>
-	 *         INT64_MIN or INT64_MAX then a is passed through unchanged.<br>
-	 * Original signature : <code>int64_t av_rescale_q_rnd(int64_t, AVRational, AVRational, AVRounding)</code>
-	 */
-	long av_rescale_q_rnd(long a, AVRational.ByValue bq, AVRational.ByValue cq, int arg1);
-	/**
-	 * Compare 2 timestamps each in its own timebases.<br>
-	 * The result of the function is undefined if one of the timestamps<br>
-	 * is outside the int64_t range when represented in the others timebase.<br>
-	 * @return -1 if ts_a is before ts_b, 1 if ts_a is after ts_b or 0 if they represent the same position<br>
-	 * Original signature : <code>int av_compare_ts(int64_t, AVRational, int64_t, AVRational)</code>
-	 */
-	int av_compare_ts(long ts_a, AVRational.ByValue tb_a, long ts_b, AVRational.ByValue tb_b);
-	/**
-	 * Compare 2 integers modulo mod.<br>
-	 * That is we compare integers a and b for which only the least<br>
-	 * significant log2(mod) bits are known.<br>
-	 * * @param mod must be a power of 2<br>
-	 * @return a negative value if a is smaller than b<br>
-	 *         a positive value if a is greater than b<br>
-	 *         0                if a equals          b<br>
-	 * Original signature : <code>int64_t av_compare_mod(uint64_t, uint64_t, uint64_t)</code>
-	 */
-	long av_compare_mod(long a, long b, long mod);
-	/**
-	 * Rescale a timestamp while preserving known durations.<br>
-	 * * @param in_ts Input timestamp<br>
-	 * @param in_tb Input timesbase<br>
-	 * @param fs_tb Duration and *last timebase<br>
-	 * @param duration duration till the next call<br>
-	 * @param out_tb Output timesbase<br>
-	 * Original signature : <code>int64_t av_rescale_delta(AVRational, int64_t, AVRational, int, int64_t*, AVRational)</code><br>
-	 * @deprecated use the safer methods {@link #av_rescale_delta(org.javaavc.ffmpeg.avformat.AVRational.ByValue, long, org.javaavc.ffmpeg.avformat.AVRational.ByValue, int, java.nio.LongBuffer, org.javaavc.ffmpeg.avformat.AVRational.ByValue)} and {@link #av_rescale_delta(org.javaavc.ffmpeg.avformat.AVRational.ByValue, long, org.javaavc.ffmpeg.avformat.AVRational.ByValue, int, com.sun.jna.ptr.LongByReference, org.javaavc.ffmpeg.avformat.AVRational.ByValue)} instead
-	 */
-	@Deprecated 
-	long av_rescale_delta(AVRational.ByValue in_tb, long in_ts, AVRational.ByValue fs_tb, int duration, LongByReference last, AVRational.ByValue out_tb);
-	/**
-	 * Rescale a timestamp while preserving known durations.<br>
-	 * * @param in_ts Input timestamp<br>
-	 * @param in_tb Input timesbase<br>
-	 * @param fs_tb Duration and *last timebase<br>
-	 * @param duration duration till the next call<br>
-	 * @param out_tb Output timesbase<br>
-	 * Original signature : <code>int64_t av_rescale_delta(AVRational, int64_t, AVRational, int, int64_t*, AVRational)</code>
-	 */
-	long av_rescale_delta(AVRational.ByValue in_tb, long in_ts, AVRational.ByValue fs_tb, int duration, LongBuffer last, AVRational.ByValue out_tb);
-	/** Original signature : <code>double av_int2dbl(int64_t)</code> */
-	double av_int2dbl(long v);
-	/** Original signature : <code>float av_int2flt(int32_t)</code> */
-	float av_int2flt(int v);
-	/** Original signature : <code>double av_ext2dbl(const AVExtFloat)</code> */
-	double av_ext2dbl(org.javaavc.ffmpeg.avformat.AVExtFloat.ByValue ext);
-	/** Original signature : <code>int64_t av_dbl2int(double)</code> */
-	long av_dbl2int(double d);
-	/** Original signature : <code>int32_t av_flt2int(float)</code> */
-	int av_flt2int(float d);
-	/** Original signature : <code>AVExtFloat av_dbl2ext(double)</code> */
-	org.javaavc.ffmpeg.avformat.AVExtFloat.ByValue av_dbl2ext(double d);
-	/**
-	 * Send the specified message to the log if the level is less than or equal<br>
-	 * to the current av_log_level. By default, all logging messages are sent to<br>
-	 * stderr. This behavior can be altered by setting a different av_vlog callback<br>
-	 * function.<br>
-	 * * @param avcl A pointer to an arbitrary struct of which the first field is a<br>
-	 * pointer to an AVClass struct.<br>
-	 * @param level The importance level of the message, lower values signifying<br>
-	 * higher importance.<br>
-	 * @param fmt The format string (printf-compatible) that specifies how<br>
-	 * subsequent arguments are converted to output.<br>
-	 * @see av_vlog<br>
-	 * Original signature : <code>void av_log(void*, int, const char*, null)</code><br>
-	 * @deprecated use the safer methods {@link #av_log(com.sun.jna.Pointer, int, java.lang.String, java.lang.Object)} and {@link #av_log(com.sun.jna.Pointer, int, com.sun.jna.Pointer, java.lang.Object)} instead
-	 */
-	@Deprecated 
-	void av_log(Pointer avcl, int level, Pointer fmt, Object... varargs);
-	/**
-	 * Send the specified message to the log if the level is less than or equal<br>
-	 * to the current av_log_level. By default, all logging messages are sent to<br>
-	 * stderr. This behavior can be altered by setting a different av_vlog callback<br>
-	 * function.<br>
-	 * * @param avcl A pointer to an arbitrary struct of which the first field is a<br>
-	 * pointer to an AVClass struct.<br>
-	 * @param level The importance level of the message, lower values signifying<br>
-	 * higher importance.<br>
-	 * @param fmt The format string (printf-compatible) that specifies how<br>
-	 * subsequent arguments are converted to output.<br>
-	 * @see av_vlog<br>
-	 * Original signature : <code>void av_log(void*, int, const char*, null)</code>
-	 */
-	void av_log(Pointer avcl, int level, String fmt, Object... varargs);
-	/**
-	 * Original signature : <code>void av_vlog(void*, int, const char*, va_list)</code><br>
-	 * @deprecated use the safer methods {@link #av_vlog(com.sun.jna.Pointer, int, java.lang.String, org.javaavc.ffmpeg.avformat.LibavformatLibrary.va_list)} and {@link #av_vlog(com.sun.jna.Pointer, int, com.sun.jna.Pointer, org.javaavc.ffmpeg.avformat.LibavformatLibrary.va_list)} instead
-	 */
-	@Deprecated 
-	void av_vlog(Pointer avcl, int level, Pointer fmt, LibavformatLibrary.va_list va_list1);
-	/** Original signature : <code>void av_vlog(void*, int, const char*, va_list)</code> */
-	void av_vlog(Pointer avcl, int level, String fmt, LibavformatLibrary.va_list va_list1);
-	/** Original signature : <code>int av_log_get_level()</code> */
-	int av_log_get_level();
-	/** Original signature : <code>void av_log_set_level(int)</code> */
-	void av_log_set_level(int int1);
-	/** Original signature : <code>void av_log_set_callback(av_log_set_callback_arg1_callback*)</code> */
-	void av_log_set_callback(LibavformatLibrary.av_log_set_callback_arg1_callback arg1);
-	/**
-	 * Original signature : <code>void av_log_default_callback(void*, int, const char*, va_list)</code><br>
-	 * @deprecated use the safer methods {@link #av_log_default_callback(com.sun.jna.Pointer, int, java.lang.String, org.javaavc.ffmpeg.avformat.LibavformatLibrary.va_list)} and {@link #av_log_default_callback(com.sun.jna.Pointer, int, com.sun.jna.Pointer, org.javaavc.ffmpeg.avformat.LibavformatLibrary.va_list)} instead
-	 */
-	@Deprecated 
-	void av_log_default_callback(Pointer ptr, int level, Pointer fmt, LibavformatLibrary.va_list vl);
-	/** Original signature : <code>void av_log_default_callback(void*, int, const char*, va_list)</code> */
-	void av_log_default_callback(Pointer ptr, int level, String fmt, LibavformatLibrary.va_list vl);
-	/** Original signature : <code>char* av_default_item_name(void*)</code> */
-	String av_default_item_name(Pointer ctx);
-	/** Original signature : <code>AVClassCategory av_default_get_category(void*)</code> */
-	int av_default_get_category(Pointer ptr);
-	/**
-	 * Format a line of log the same way as the default callback.<br>
-	 * @param line          buffer to receive the formated line<br>
-	 * @param line_size     size of the buffer<br>
-	 * @param print_prefix  used to store whether the prefix must be printed;<br>
-	 *                      must point to a persistent integer initially set to 1<br>
-	 * Original signature : <code>void av_log_format_line(void*, int, const char*, va_list, char*, int, int*)</code><br>
-	 * @deprecated use the safer methods {@link #av_log_format_line(com.sun.jna.Pointer, int, java.lang.String, org.javaavc.ffmpeg.avformat.LibavformatLibrary.va_list, java.nio.ByteBuffer, int, java.nio.IntBuffer)} and {@link #av_log_format_line(com.sun.jna.Pointer, int, com.sun.jna.Pointer, org.javaavc.ffmpeg.avformat.LibavformatLibrary.va_list, com.sun.jna.Pointer, int, com.sun.jna.ptr.IntByReference)} instead
-	 */
-	@Deprecated 
-	void av_log_format_line(Pointer ptr, int level, Pointer fmt, LibavformatLibrary.va_list vl, Pointer line, int line_size, IntByReference print_prefix);
-	/**
-	 * Format a line of log the same way as the default callback.<br>
-	 * @param line          buffer to receive the formated line<br>
-	 * @param line_size     size of the buffer<br>
-	 * @param print_prefix  used to store whether the prefix must be printed;<br>
-	 *                      must point to a persistent integer initially set to 1<br>
-	 * Original signature : <code>void av_log_format_line(void*, int, const char*, va_list, char*, int, int*)</code>
-	 */
-	void av_log_format_line(Pointer ptr, int level, String fmt, LibavformatLibrary.va_list vl, ByteBuffer line, int line_size, IntBuffer print_prefix);
-	/** Original signature : <code>void av_log_set_flags(int)</code> */
-	void av_log_set_flags(int arg);
-	/**
-	 * Compute the length of an integer list.<br>
-	 * * @param elsize  size in bytes of each list element (only 1, 2, 4 or 8)<br>
-	 * @param term    list terminator (usually 0 or -1)<br>
-	 * @param list    pointer to the list<br>
-	 * @return  length of the list, in elements, not counting the terminator<br>
-	 * Original signature : <code>int av_int_list_length_for_size(unsigned, const void*, uint64_t)</code>
-	 */
-	int av_int_list_length_for_size(int elsize, Pointer list, long term);
-	/**
-	 * Return the name of sample_fmt, or NULL if sample_fmt is not<br>
-	 * recognized.<br>
-	 * Original signature : <code>char* av_get_sample_fmt_name(AVSampleFormat)</code>
-	 */
-	String av_get_sample_fmt_name(int sample_fmt);
-	/**
-	 * Return a sample format corresponding to name, or AV_SAMPLE_FMT_NONE<br>
-	 * on error.<br>
-	 * Original signature : <code>AVSampleFormat av_get_sample_fmt(const char*)</code><br>
-	 * @deprecated use the safer methods {@link #av_get_sample_fmt(java.lang.String)} and {@link #av_get_sample_fmt(com.sun.jna.Pointer)} instead
-	 */
-	@Deprecated 
-	int av_get_sample_fmt(Pointer name);
-	/**
-	 * Return a sample format corresponding to name, or AV_SAMPLE_FMT_NONE<br>
-	 * on error.<br>
-	 * Original signature : <code>AVSampleFormat av_get_sample_fmt(const char*)</code>
-	 */
-	int av_get_sample_fmt(String name);
-	/**
-	 * Return the planar<->packed alternative form of the given sample format, or<br>
-	 * AV_SAMPLE_FMT_NONE on error. If the passed sample_fmt is already in the<br>
-	 * requested planar/packed format, the format returned is the same as the<br>
-	 * input.<br>
-	 * Original signature : <code>AVSampleFormat av_get_alt_sample_fmt(AVSampleFormat, int)</code>
-	 */
-	int av_get_alt_sample_fmt(int sample_fmt, int planar);
-	/**
-	 * Get the packed alternative form of the given sample format.<br>
-	 * * If the passed sample_fmt is already in packed format, the format returned is<br>
-	 * the same as the input.<br>
-	 * * @return  the packed alternative form of the given sample format or<br>
-	 * AV_SAMPLE_FMT_NONE on error.<br>
-	 * Original signature : <code>AVSampleFormat av_get_packed_sample_fmt(AVSampleFormat)</code>
-	 */
-	int av_get_packed_sample_fmt(int sample_fmt);
-	/**
-	 * Get the planar alternative form of the given sample format.<br>
-	 * * If the passed sample_fmt is already in planar format, the format returned is<br>
-	 * the same as the input.<br>
-	 * * @return  the planar alternative form of the given sample format or<br>
-	 * AV_SAMPLE_FMT_NONE on error.<br>
-	 * Original signature : <code>AVSampleFormat av_get_planar_sample_fmt(AVSampleFormat)</code>
-	 */
-	int av_get_planar_sample_fmt(int sample_fmt);
-	/**
-	 * Generate a string corresponding to the sample format with<br>
-	 * sample_fmt, or a header if sample_fmt is negative.<br>
-	 * * @param buf the buffer where to write the string<br>
-	 * @param buf_size the size of buf<br>
-	 * @param sample_fmt the number of the sample format to print the<br>
-	 * corresponding info string, or a negative value to print the<br>
-	 * corresponding header.<br>
-	 * @return the pointer to the filled buffer or NULL if sample_fmt is<br>
-	 * unknown or in case of other errors<br>
-	 * Original signature : <code>char* av_get_sample_fmt_string(char*, int, AVSampleFormat)</code><br>
-	 * @deprecated use the safer methods {@link #av_get_sample_fmt_string(java.nio.ByteBuffer, int, int)} and {@link #av_get_sample_fmt_string(com.sun.jna.Pointer, int, int)} instead
-	 */
-	@Deprecated 
-	Pointer av_get_sample_fmt_string(Pointer buf, int buf_size, int sample_fmt);
-	/**
-	 * Generate a string corresponding to the sample format with<br>
-	 * sample_fmt, or a header if sample_fmt is negative.<br>
-	 * * @param buf the buffer where to write the string<br>
-	 * @param buf_size the size of buf<br>
-	 * @param sample_fmt the number of the sample format to print the<br>
-	 * corresponding info string, or a negative value to print the<br>
-	 * corresponding header.<br>
-	 * @return the pointer to the filled buffer or NULL if sample_fmt is<br>
-	 * unknown or in case of other errors<br>
-	 * Original signature : <code>char* av_get_sample_fmt_string(char*, int, AVSampleFormat)</code>
-	 */
-	Pointer av_get_sample_fmt_string(ByteBuffer buf, int buf_size, int sample_fmt);
-	/** Original signature : <code>int av_get_bits_per_sample_fmt(AVSampleFormat)</code> */
-	int av_get_bits_per_sample_fmt(int sample_fmt);
-	/**
-	 * Return number of bytes per sample.<br>
-	 * * @param sample_fmt the sample format<br>
-	 * @return number of bytes per sample or zero if unknown for the given<br>
-	 * sample format<br>
-	 * Original signature : <code>int av_get_bytes_per_sample(AVSampleFormat)</code>
-	 */
-	int av_get_bytes_per_sample(int sample_fmt);
-	/**
-	 * Check if the sample format is planar.<br>
-	 * * @param sample_fmt the sample format to inspect<br>
-	 * @return 1 if the sample format is planar, 0 if it is interleaved<br>
-	 * Original signature : <code>int av_sample_fmt_is_planar(AVSampleFormat)</code>
-	 */
-	int av_sample_fmt_is_planar(int sample_fmt);
-	/**
-	 * Get the required buffer size for the given audio parameters.<br>
-	 * * @param[out] linesize calculated linesize, may be NULL<br>
-	 * @param nb_channels   the number of channels<br>
-	 * @param nb_samples    the number of samples in a single channel<br>
-	 * @param sample_fmt    the sample format<br>
-	 * @param align         buffer size alignment (0 = default, 1 = no alignment)<br>
-	 * @return              required buffer size, or negative error code on failure<br>
-	 * Original signature : <code>int av_samples_get_buffer_size(int*, int, int, AVSampleFormat, int)</code><br>
-	 * @deprecated use the safer methods {@link #av_samples_get_buffer_size(java.nio.IntBuffer, int, int, int, int)} and {@link #av_samples_get_buffer_size(com.sun.jna.ptr.IntByReference, int, int, int, int)} instead
-	 */
-	@Deprecated 
-	int av_samples_get_buffer_size(IntByReference linesize, int nb_channels, int nb_samples, int sample_fmt, int align);
-	/**
-	 * Get the required buffer size for the given audio parameters.<br>
-	 * * @param[out] linesize calculated linesize, may be NULL<br>
-	 * @param nb_channels   the number of channels<br>
-	 * @param nb_samples    the number of samples in a single channel<br>
-	 * @param sample_fmt    the sample format<br>
-	 * @param align         buffer size alignment (0 = default, 1 = no alignment)<br>
-	 * @return              required buffer size, or negative error code on failure<br>
-	 * Original signature : <code>int av_samples_get_buffer_size(int*, int, int, AVSampleFormat, int)</code>
-	 */
-	int av_samples_get_buffer_size(IntBuffer linesize, int nb_channels, int nb_samples, int sample_fmt, int align);
-	/**
-	 * Fill plane data pointers and linesize for samples with sample<br>
-	 * format sample_fmt.<br>
-	 * * The audio_data array is filled with the pointers to the samples data planes:<br>
-	 * for planar, set the start point of each channel's data within the buffer,<br>
-	 * for packed, set the start point of the entire buffer only.<br>
-	 * * The value pointed to by linesize is set to the aligned size of each<br>
-	 * channel's data buffer for planar layout, or to the aligned size of the<br>
-	 * buffer for all channels for packed layout.<br>
-	 * * The buffer in buf must be big enough to contain all the samples<br>
-	 * (use av_samples_get_buffer_size() to compute its minimum size),<br>
-	 * otherwise the audio_data pointers will point to invalid data.<br>
-	 * * @see enum AVSampleFormat<br>
-	 * The documentation for AVSampleFormat describes the data layout.<br>
-	 * * @param[out] audio_data  array to be filled with the pointer for each channel<br>
-	 * @param[out] linesize    calculated linesize, may be NULL<br>
-	 * @param buf              the pointer to a buffer containing the samples<br>
-	 * @param nb_channels      the number of channels<br>
-	 * @param nb_samples       the number of samples in a single channel<br>
-	 * @param sample_fmt       the sample format<br>
-	 * @param align            buffer size alignment (0 = default, 1 = no alignment)<br>
-	 * @return                 >=0 on success or a negative error code on failure<br>
-	 * @todo return minimum size in bytes required for the buffer in case<br>
-	 * of success at the next bump<br>
-	 * Original signature : <code>int av_samples_fill_arrays(uint8_t**, int*, const uint8_t*, int, int, AVSampleFormat, int)</code><br>
-	 * @deprecated use the safer methods {@link #av_samples_fill_arrays(com.sun.jna.ptr.PointerByReference, java.nio.IntBuffer, java.nio.ByteBuffer, int, int, int, int)} and {@link #av_samples_fill_arrays(com.sun.jna.ptr.PointerByReference, com.sun.jna.ptr.IntByReference, com.sun.jna.Pointer, int, int, int, int)} instead
-	 */
-	@Deprecated 
-	int av_samples_fill_arrays(PointerByReference audio_data, IntByReference linesize, Pointer buf, int nb_channels, int nb_samples, int sample_fmt, int align);
-	/**
-	 * Fill plane data pointers and linesize for samples with sample<br>
-	 * format sample_fmt.<br>
-	 * * The audio_data array is filled with the pointers to the samples data planes:<br>
-	 * for planar, set the start point of each channel's data within the buffer,<br>
-	 * for packed, set the start point of the entire buffer only.<br>
-	 * * The value pointed to by linesize is set to the aligned size of each<br>
-	 * channel's data buffer for planar layout, or to the aligned size of the<br>
-	 * buffer for all channels for packed layout.<br>
-	 * * The buffer in buf must be big enough to contain all the samples<br>
-	 * (use av_samples_get_buffer_size() to compute its minimum size),<br>
-	 * otherwise the audio_data pointers will point to invalid data.<br>
-	 * * @see enum AVSampleFormat<br>
-	 * The documentation for AVSampleFormat describes the data layout.<br>
-	 * * @param[out] audio_data  array to be filled with the pointer for each channel<br>
-	 * @param[out] linesize    calculated linesize, may be NULL<br>
-	 * @param buf              the pointer to a buffer containing the samples<br>
-	 * @param nb_channels      the number of channels<br>
-	 * @param nb_samples       the number of samples in a single channel<br>
-	 * @param sample_fmt       the sample format<br>
-	 * @param align            buffer size alignment (0 = default, 1 = no alignment)<br>
-	 * @return                 >=0 on success or a negative error code on failure<br>
-	 * @todo return minimum size in bytes required for the buffer in case<br>
-	 * of success at the next bump<br>
-	 * Original signature : <code>int av_samples_fill_arrays(uint8_t**, int*, const uint8_t*, int, int, AVSampleFormat, int)</code>
-	 */
-	int av_samples_fill_arrays(PointerByReference audio_data, IntBuffer linesize, ByteBuffer buf, int nb_channels, int nb_samples, int sample_fmt, int align);
-	/**
-	 * Allocate a samples buffer for nb_samples samples, and fill data pointers and<br>
-	 * linesize accordingly.<br>
-	 * The allocated samples buffer can be freed by using av_freep(&audio_data[0])<br>
-	 * Allocated data will be initialized to silence.<br>
-	 * * @see enum AVSampleFormat<br>
-	 * The documentation for AVSampleFormat describes the data layout.<br>
-	 * * @param[out] audio_data  array to be filled with the pointer for each channel<br>
-	 * @param[out] linesize    aligned size for audio buffer(s), may be NULL<br>
-	 * @param nb_channels      number of audio channels<br>
-	 * @param nb_samples       number of samples per channel<br>
-	 * @param align            buffer size alignment (0 = default, 1 = no alignment)<br>
-	 * @return                 >=0 on success or a negative error code on failure<br>
-	 * @todo return the size of the allocated buffer in case of success at the next bump<br>
-	 * @see av_samples_fill_arrays()<br>
-	 * @see av_samples_alloc_array_and_samples()<br>
-	 * Original signature : <code>int av_samples_alloc(uint8_t**, int*, int, int, AVSampleFormat, int)</code><br>
-	 * @deprecated use the safer methods {@link #av_samples_alloc(com.sun.jna.ptr.PointerByReference, java.nio.IntBuffer, int, int, int, int)} and {@link #av_samples_alloc(com.sun.jna.ptr.PointerByReference, com.sun.jna.ptr.IntByReference, int, int, int, int)} instead
-	 */
-	@Deprecated 
-	int av_samples_alloc(PointerByReference audio_data, IntByReference linesize, int nb_channels, int nb_samples, int sample_fmt, int align);
-	/**
-	 * Allocate a samples buffer for nb_samples samples, and fill data pointers and<br>
-	 * linesize accordingly.<br>
-	 * The allocated samples buffer can be freed by using av_freep(&audio_data[0])<br>
-	 * Allocated data will be initialized to silence.<br>
-	 * * @see enum AVSampleFormat<br>
-	 * The documentation for AVSampleFormat describes the data layout.<br>
-	 * * @param[out] audio_data  array to be filled with the pointer for each channel<br>
-	 * @param[out] linesize    aligned size for audio buffer(s), may be NULL<br>
-	 * @param nb_channels      number of audio channels<br>
-	 * @param nb_samples       number of samples per channel<br>
-	 * @param align            buffer size alignment (0 = default, 1 = no alignment)<br>
-	 * @return                 >=0 on success or a negative error code on failure<br>
-	 * @todo return the size of the allocated buffer in case of success at the next bump<br>
-	 * @see av_samples_fill_arrays()<br>
-	 * @see av_samples_alloc_array_and_samples()<br>
-	 * Original signature : <code>int av_samples_alloc(uint8_t**, int*, int, int, AVSampleFormat, int)</code>
-	 */
-	int av_samples_alloc(PointerByReference audio_data, IntBuffer linesize, int nb_channels, int nb_samples, int sample_fmt, int align);
-	/**
-	 * Allocate a data pointers array, samples buffer for nb_samples<br>
-	 * samples, and fill data pointers and linesize accordingly.<br>
-	 * * This is the same as av_samples_alloc(), but also allocates the data<br>
-	 * pointers array.<br>
-	 * * @see av_samples_alloc()<br>
-	 * Original signature : <code>int av_samples_alloc_array_and_samples(uint8_t***, int*, int, int, AVSampleFormat, int)</code><br>
-	 * @deprecated use the safer methods {@link #av_samples_alloc_array_and_samples(com.sun.jna.ptr.PointerByReference, java.nio.IntBuffer, int, int, int, int)} and {@link #av_samples_alloc_array_and_samples(com.sun.jna.ptr.PointerByReference, com.sun.jna.ptr.IntByReference, int, int, int, int)} instead
-	 */
-	@Deprecated 
-	int av_samples_alloc_array_and_samples(PointerByReference audio_data, IntByReference linesize, int nb_channels, int nb_samples, int sample_fmt, int align);
-	/**
-	 * Allocate a data pointers array, samples buffer for nb_samples<br>
-	 * samples, and fill data pointers and linesize accordingly.<br>
-	 * * This is the same as av_samples_alloc(), but also allocates the data<br>
-	 * pointers array.<br>
-	 * * @see av_samples_alloc()<br>
-	 * Original signature : <code>int av_samples_alloc_array_and_samples(uint8_t***, int*, int, int, AVSampleFormat, int)</code>
-	 */
-	int av_samples_alloc_array_and_samples(PointerByReference audio_data, IntBuffer linesize, int nb_channels, int nb_samples, int sample_fmt, int align);
-	/**
-	 * Copy samples from src to dst.<br>
-	 * * @param dst destination array of pointers to data planes<br>
-	 * @param src source array of pointers to data planes<br>
-	 * @param dst_offset offset in samples at which the data will be written to dst<br>
-	 * @param src_offset offset in samples at which the data will be read from src<br>
-	 * @param nb_samples number of samples to be copied<br>
-	 * @param nb_channels number of audio channels<br>
-	 * @param sample_fmt audio sample format<br>
-	 * Original signature : <code>int av_samples_copy(uint8_t**, const uint8_t**, int, int, int, int, AVSampleFormat)</code>
-	 */
-	int av_samples_copy(PointerByReference dst, PointerByReference src, int dst_offset, int src_offset, int nb_samples, int nb_channels, int sample_fmt);
-	/**
-	 * Fill an audio buffer with silence.<br>
-	 * * @param audio_data  array of pointers to data planes<br>
-	 * @param offset      offset in samples at which to start filling<br>
-	 * @param nb_samples  number of samples to fill<br>
-	 * @param nb_channels number of audio channels<br>
-	 * @param sample_fmt  audio sample format<br>
-	 * Original signature : <code>int av_samples_set_silence(uint8_t**, int, int, int, AVSampleFormat)</code>
-	 */
-	int av_samples_set_silence(PointerByReference audio_data, int offset, int nb_samples, int nb_channels, int sample_fmt);
-	/**
-	 * Allocate an AVBuffer of the given size using av_malloc().<br>
-	 * * @return an AVBufferRef of given size or NULL when out of memory<br>
-	 * Original signature : <code>AVBufferRef* av_buffer_alloc(int)</code>
-	 */
-	AVBufferRef av_buffer_alloc(int size);
-	/**
-	 * Same as av_buffer_alloc(), except the returned buffer will be initialized<br>
-	 * to zero.<br>
-	 * Original signature : <code>AVBufferRef* av_buffer_allocz(int)</code>
-	 */
-	AVBufferRef av_buffer_allocz(int size);
-	/**
-	 * Create an AVBuffer from an existing array.<br>
-	 * * If this function is successful, data is owned by the AVBuffer. The caller may<br>
-	 * only access data through the returned AVBufferRef and references derived from<br>
-	 * it.<br>
-	 * If this function fails, data is left untouched.<br>
-	 * @param data   data array<br>
-	 * @param size   size of data in bytes<br>
-	 * @param free   a callback for freeing this buffer's data<br>
-	 * @param opaque parameter to be got for processing or passed to free<br>
-	 * @param flags  a combination of AV_BUFFER_FLAG_*<br>
-	 * * @return an AVBufferRef referring to data on success, NULL on failure.<br>
-	 * Original signature : <code>AVBufferRef* av_buffer_create(uint8_t*, int, av_buffer_create_free_callback*, void*, int)</code><br>
-	 * @deprecated use the safer methods {@link #av_buffer_create(java.nio.ByteBuffer, int, org.javaavc.ffmpeg.avformat.LibavformatLibrary.av_buffer_create_free_callback, com.sun.jna.Pointer, int)} and {@link #av_buffer_create(com.sun.jna.Pointer, int, org.javaavc.ffmpeg.avformat.LibavformatLibrary.av_buffer_create_free_callback, com.sun.jna.Pointer, int)} instead
-	 */
-	@Deprecated 
-	AVBufferRef av_buffer_create(Pointer data, int size, LibavformatLibrary.av_buffer_create_free_callback free, Pointer opaque, int flags);
-	/**
-	 * Create an AVBuffer from an existing array.<br>
-	 * * If this function is successful, data is owned by the AVBuffer. The caller may<br>
-	 * only access data through the returned AVBufferRef and references derived from<br>
-	 * it.<br>
-	 * If this function fails, data is left untouched.<br>
-	 * @param data   data array<br>
-	 * @param size   size of data in bytes<br>
-	 * @param free   a callback for freeing this buffer's data<br>
-	 * @param opaque parameter to be got for processing or passed to free<br>
-	 * @param flags  a combination of AV_BUFFER_FLAG_*<br>
-	 * * @return an AVBufferRef referring to data on success, NULL on failure.<br>
-	 * Original signature : <code>AVBufferRef* av_buffer_create(uint8_t*, int, av_buffer_create_free_callback*, void*, int)</code>
-	 */
-	AVBufferRef av_buffer_create(ByteBuffer data, int size, LibavformatLibrary.av_buffer_create_free_callback free, Pointer opaque, int flags);
-	/**
-	 * Default free callback, which calls av_free() on the buffer data.<br>
-	 * This function is meant to be passed to av_buffer_create(), not called<br>
-	 * directly.<br>
-	 * Original signature : <code>void av_buffer_default_free(void*, uint8_t*)</code><br>
-	 * @deprecated use the safer methods {@link #av_buffer_default_free(com.sun.jna.Pointer, java.nio.ByteBuffer)} and {@link #av_buffer_default_free(com.sun.jna.Pointer, com.sun.jna.Pointer)} instead
-	 */
-	@Deprecated 
-	void av_buffer_default_free(Pointer opaque, Pointer data);
-	/**
-	 * Default free callback, which calls av_free() on the buffer data.<br>
-	 * This function is meant to be passed to av_buffer_create(), not called<br>
-	 * directly.<br>
-	 * Original signature : <code>void av_buffer_default_free(void*, uint8_t*)</code>
-	 */
-	void av_buffer_default_free(Pointer opaque, ByteBuffer data);
-	/**
-	 * Create a new reference to an AVBuffer.<br>
-	 * * @return a new AVBufferRef referring to the same AVBuffer as buf or NULL on<br>
-	 * failure.<br>
-	 * Original signature : <code>AVBufferRef* av_buffer_ref(AVBufferRef*)</code>
-	 */
-	AVBufferRef av_buffer_ref(AVBufferRef buf);
-	/**
-	 * Free a given reference and automatically free the buffer if there are no more<br>
-	 * references to it.<br>
-	 * * @param buf the reference to be freed. The pointer is set to NULL on return.<br>
-	 * Original signature : <code>void av_buffer_unref(AVBufferRef**)</code><br>
-	 * @deprecated use the safer method {@link #av_buffer_unref(org.javaavc.ffmpeg.avformat.AVBufferRef.ByReference[])} instead
-	 */
-	@Deprecated 
-	void av_buffer_unref(PointerByReference buf);
-	/**
-	 * Free a given reference and automatically free the buffer if there are no more<br>
-	 * references to it.<br>
-	 * * @param buf the reference to be freed. The pointer is set to NULL on return.<br>
-	 * Original signature : <code>void av_buffer_unref(AVBufferRef**)</code>
-	 */
-	void av_buffer_unref(AVBufferRef.ByReference buf[]);
-	/**
-	 * @return 1 if the caller may write to the data referred to by buf (which is<br>
-	 * true if and only if buf is the only reference to the underlying AVBuffer).<br>
-	 * Return 0 otherwise.<br>
-	 * A positive answer is valid until av_buffer_ref() is called on buf.<br>
-	 * Original signature : <code>int av_buffer_is_writable(const AVBufferRef*)</code>
-	 */
-	int av_buffer_is_writable(AVBufferRef buf);
-	/**
-	 * @return the opaque parameter set by av_buffer_create.<br>
-	 * Original signature : <code>void* av_buffer_get_opaque(const AVBufferRef*)</code>
-	 */
-	Pointer av_buffer_get_opaque(AVBufferRef buf);
-	/** Original signature : <code>int av_buffer_get_ref_count(const AVBufferRef*)</code> */
-	int av_buffer_get_ref_count(AVBufferRef buf);
-	/**
-	 * Create a writable reference from a given buffer reference, avoiding data copy<br>
-	 * if possible.<br>
-	 * * @param buf buffer reference to make writable. On success, buf is either left<br>
-	 *            untouched, or it is unreferenced and a new writable AVBufferRef is<br>
-	 *            written in its place. On failure, buf is left untouched.<br>
-	 * @return 0 on success, a negative AVERROR on failure.<br>
-	 * Original signature : <code>int av_buffer_make_writable(AVBufferRef**)</code><br>
-	 * @deprecated use the safer method {@link #av_buffer_make_writable(org.javaavc.ffmpeg.avformat.AVBufferRef.ByReference[])} instead
-	 */
-	@Deprecated 
-	int av_buffer_make_writable(PointerByReference buf);
-	/**
-	 * Create a writable reference from a given buffer reference, avoiding data copy<br>
-	 * if possible.<br>
-	 * * @param buf buffer reference to make writable. On success, buf is either left<br>
-	 *            untouched, or it is unreferenced and a new writable AVBufferRef is<br>
-	 *            written in its place. On failure, buf is left untouched.<br>
-	 * @return 0 on success, a negative AVERROR on failure.<br>
-	 * Original signature : <code>int av_buffer_make_writable(AVBufferRef**)</code>
-	 */
-	int av_buffer_make_writable(AVBufferRef.ByReference buf[]);
-	/**
-	 * Reallocate a given buffer.<br>
-	 * * @param buf  a buffer reference to reallocate. On success, buf will be<br>
-	 *             unreferenced and a new reference with the required size will be<br>
-	 *             written in its place. On failure buf will be left untouched. *buf<br>
-	 *             may be NULL, then a new buffer is allocated.<br>
-	 * @param size required new buffer size.<br>
-	 * @return 0 on success, a negative AVERROR on failure.<br>
-	 * * @note the buffer is actually reallocated with av_realloc() only if it was<br>
-	 * initially allocated through av_buffer_realloc(NULL) and there is only one<br>
-	 * reference to it (i.e. the one passed to this function). In all other cases<br>
-	 * a new buffer is allocated and the data is copied.<br>
-	 * Original signature : <code>int av_buffer_realloc(AVBufferRef**, int)</code><br>
-	 * @deprecated use the safer method {@link #av_buffer_realloc(org.javaavc.ffmpeg.avformat.AVBufferRef.ByReference[], int)} instead
-	 */
-	@Deprecated 
-	int av_buffer_realloc(PointerByReference buf, int size);
-	/**
-	 * Reallocate a given buffer.<br>
-	 * * @param buf  a buffer reference to reallocate. On success, buf will be<br>
-	 *             unreferenced and a new reference with the required size will be<br>
-	 *             written in its place. On failure buf will be left untouched. *buf<br>
-	 *             may be NULL, then a new buffer is allocated.<br>
-	 * @param size required new buffer size.<br>
-	 * @return 0 on success, a negative AVERROR on failure.<br>
-	 * * @note the buffer is actually reallocated with av_realloc() only if it was<br>
-	 * initially allocated through av_buffer_realloc(NULL) and there is only one<br>
-	 * reference to it (i.e. the one passed to this function). In all other cases<br>
-	 * a new buffer is allocated and the data is copied.<br>
-	 * Original signature : <code>int av_buffer_realloc(AVBufferRef**, int)</code>
-	 */
-	int av_buffer_realloc(AVBufferRef.ByReference buf[], int size);
-	/**
-	 * Allocate and initialize a buffer pool.<br>
-	 * * @param size size of each buffer in this pool<br>
-	 * @param alloc a function that will be used to allocate new buffers when the<br>
-	 * pool is empty. May be NULL, then the default allocator will be used<br>
-	 * (av_buffer_alloc()).<br>
-	 * @return newly created buffer pool on success, NULL on error.<br>
-	 * Original signature : <code>AVBufferPool* av_buffer_pool_init(int, av_buffer_pool_init_alloc_callback*)</code>
-	 */
-	PointerByReference av_buffer_pool_init(int size, LibavformatLibrary.av_buffer_pool_init_alloc_callback alloc);
-	/**
-	 * Mark the pool as being available for freeing. It will actually be freed only<br>
-	 * once all the allocated buffers associated with the pool are released. Thus it<br>
-	 * is safe to call this function while some of the allocated buffers are still<br>
-	 * in use.<br>
-	 * * @param pool pointer to the pool to be freed. It will be set to NULL.<br>
-	 * @see av_buffer_pool_can_uninit()<br>
-	 * Original signature : <code>void av_buffer_pool_uninit(AVBufferPool**)</code>
-	 */
-	void av_buffer_pool_uninit(PointerByReference pool);
-	/**
-	 * Allocate a new AVBuffer, reusing an old buffer from the pool when available.<br>
-	 * This function may be called simultaneously from multiple threads.<br>
-	 * * @return a reference to the new buffer on success, NULL on error.<br>
-	 * Original signature : <code>AVBufferRef* av_buffer_pool_get(AVBufferPool*)</code><br>
-	 * @deprecated use the safer method {@link #av_buffer_pool_get(com.sun.jna.ptr.PointerByReference)} instead
-	 */
-	@Deprecated 
-	AVBufferRef av_buffer_pool_get(Pointer pool);
-	/**
-	 * Allocate a new AVBuffer, reusing an old buffer from the pool when available.<br>
-	 * This function may be called simultaneously from multiple threads.<br>
-	 * * @return a reference to the new buffer on success, NULL on error.<br>
-	 * Original signature : <code>AVBufferRef* av_buffer_pool_get(AVBufferPool*)</code>
-	 */
-	AVBufferRef av_buffer_pool_get(PointerByReference pool);
-	/**
-	 * Return the flags which specify extensions supported by the CPU.<br>
-	 * The returned value is affected by av_force_cpu_flags() if that was used<br>
-	 * before. So av_get_cpu_flags() can easily be used in a application to<br>
-	 * detect the enabled cpu flags.<br>
-	 * Original signature : <code>int av_get_cpu_flags()</code>
-	 */
-	int av_get_cpu_flags();
-	/**
-	 * Disables cpu detection and forces the specified flags.<br>
-	 * -1 is a special case that disables forcing of specific flags.<br>
-	 * Original signature : <code>void av_force_cpu_flags(int)</code>
-	 */
-	void av_force_cpu_flags(int flags);
-	/**
-	 * Set a mask on flags returned by av_get_cpu_flags().<br>
-	 * This function is mainly useful for testing.<br>
-	 * Please use av_force_cpu_flags() and av_get_cpu_flags() instead which are more flexible<br>
-	 * * @warning this function is not thread safe.<br>
-	 * Original signature : <code>void av_set_cpu_flags_mask(int)</code>
-	 */
-	void av_set_cpu_flags_mask(int mask);
-	/**
-	 * Original signature : <code>int av_parse_cpu_flags(const char*)</code><br>
-	 * @deprecated use the safer methods {@link #av_parse_cpu_flags(java.lang.String)} and {@link #av_parse_cpu_flags(com.sun.jna.Pointer)} instead
-	 */
-	@Deprecated 
-	int av_parse_cpu_flags(Pointer s);
-	/** Original signature : <code>int av_parse_cpu_flags(const char*)</code> */
-	int av_parse_cpu_flags(String s);
-	/**
-	 * Parse CPU caps from a string and update the given AV_CPU_* flags based on that.<br>
-	 * * @return negative on error.<br>
-	 * Original signature : <code>int av_parse_cpu_caps(unsigned*, const char*)</code><br>
-	 * @deprecated use the safer methods {@link #av_parse_cpu_caps(java.nio.IntBuffer, java.lang.String)} and {@link #av_parse_cpu_caps(com.sun.jna.ptr.IntByReference, com.sun.jna.Pointer)} instead
-	 */
-	@Deprecated 
-	int av_parse_cpu_caps(IntByReference flags, Pointer s);
-	/**
-	 * Parse CPU caps from a string and update the given AV_CPU_* flags based on that.<br>
-	 * * @return negative on error.<br>
-	 * Original signature : <code>int av_parse_cpu_caps(unsigned*, const char*)</code>
-	 */
-	int av_parse_cpu_caps(IntBuffer flags, String s);
-	/**
-	 * @return the number of logical CPU cores present.<br>
-	 * Original signature : <code>int av_cpu_count()</code>
-	 */
-	int av_cpu_count();
-	/**
-	 * The following CPU-specific functions shall not be called directly.<br>
-	 * Original signature : <code>int ff_get_cpu_flags_arm()</code>
-	 */
-	int ff_get_cpu_flags_arm();
-	/** Original signature : <code>int ff_get_cpu_flags_ppc()</code> */
-	int ff_get_cpu_flags_ppc();
-	/** Original signature : <code>int ff_get_cpu_flags_x86()</code> */
-	int ff_get_cpu_flags_x86();
-	/**
-	 * Return a channel layout id that matches name, or 0 if no match is found.<br>
-	 * * name can be one or several of the following notations,<br>
-	 * separated by '+' or '|':<br>
-	 * - the name of an usual channel layout (mono, stereo, 4.0, quad, 5.0,<br>
-	 *   5.0(side), 5.1, 5.1(side), 7.1, 7.1(wide), downmix);<br>
-	 * - the name of a single channel (FL, FR, FC, LFE, BL, BR, FLC, FRC, BC,<br>
-	 *   SL, SR, TC, TFL, TFC, TFR, TBL, TBC, TBR, DL, DR);<br>
-	 * - a number of channels, in decimal, optionally followed by 'c', yielding<br>
-	 *   the default channel layout for that number of channels (@see<br>
-	 *   av_get_default_channel_layout);<br>
-	 * - a channel layout mask, in hexadecimal starting with "0x" (see the<br>
-	 *   AV_CH_* macros).<br>
-	 * * Example: "stereo+FC" = "2+FC" = "2c+1c" = "0x7"<br>
-	 * Original signature : <code>uint64_t av_get_channel_layout(const char*)</code><br>
-	 * @deprecated use the safer methods {@link #av_get_channel_layout(java.lang.String)} and {@link #av_get_channel_layout(com.sun.jna.Pointer)} instead
-	 */
-	@Deprecated 
-	long av_get_channel_layout(Pointer name);
-	/**
-	 * Return a channel layout id that matches name, or 0 if no match is found.<br>
-	 * * name can be one or several of the following notations,<br>
-	 * separated by '+' or '|':<br>
-	 * - the name of an usual channel layout (mono, stereo, 4.0, quad, 5.0,<br>
-	 *   5.0(side), 5.1, 5.1(side), 7.1, 7.1(wide), downmix);<br>
-	 * - the name of a single channel (FL, FR, FC, LFE, BL, BR, FLC, FRC, BC,<br>
-	 *   SL, SR, TC, TFL, TFC, TFR, TBL, TBC, TBR, DL, DR);<br>
-	 * - a number of channels, in decimal, optionally followed by 'c', yielding<br>
-	 *   the default channel layout for that number of channels (@see<br>
-	 *   av_get_default_channel_layout);<br>
-	 * - a channel layout mask, in hexadecimal starting with "0x" (see the<br>
-	 *   AV_CH_* macros).<br>
-	 * * Example: "stereo+FC" = "2+FC" = "2c+1c" = "0x7"<br>
-	 * Original signature : <code>uint64_t av_get_channel_layout(const char*)</code>
-	 */
-	long av_get_channel_layout(String name);
-	/**
-	 * Return a description of a channel layout.<br>
-	 * If nb_channels is <= 0, it is guessed from the channel_layout.<br>
-	 * * @param buf put here the string containing the channel layout<br>
-	 * @param buf_size size in bytes of the buffer<br>
-	 * Original signature : <code>void av_get_channel_layout_string(char*, int, int, uint64_t)</code><br>
-	 * @deprecated use the safer methods {@link #av_get_channel_layout_string(java.nio.ByteBuffer, int, int, long)} and {@link #av_get_channel_layout_string(com.sun.jna.Pointer, int, int, long)} instead
-	 */
-	@Deprecated 
-	void av_get_channel_layout_string(Pointer buf, int buf_size, int nb_channels, long channel_layout);
-	/**
-	 * Return a description of a channel layout.<br>
-	 * If nb_channels is <= 0, it is guessed from the channel_layout.<br>
-	 * * @param buf put here the string containing the channel layout<br>
-	 * @param buf_size size in bytes of the buffer<br>
-	 * Original signature : <code>void av_get_channel_layout_string(char*, int, int, uint64_t)</code>
-	 */
-	void av_get_channel_layout_string(ByteBuffer buf, int buf_size, int nb_channels, long channel_layout);
-	/**
-	 * Append a description of a channel layout to a bprint buffer.<br>
-	 * Original signature : <code>void av_bprint_channel_layout(AVBPrint*, int, uint64_t)</code>
-	 */
-	void av_bprint_channel_layout(LibavformatLibrary.AVBPrint bp, int nb_channels, long channel_layout);
-	/**
-	 * Return the number of channels in the channel layout.<br>
-	 * Original signature : <code>int av_get_channel_layout_nb_channels(uint64_t)</code>
-	 */
-	int av_get_channel_layout_nb_channels(long channel_layout);
-	/**
-	 * Return default channel layout for a given number of channels.<br>
-	 * Original signature : <code>int64_t av_get_default_channel_layout(int)</code>
-	 */
-	long av_get_default_channel_layout(int nb_channels);
-	/**
-	 * Get the index of a channel in channel_layout.<br>
-	 * * @param channel a channel layout describing exactly one channel which must be<br>
-	 *                present in channel_layout.<br>
-	 * * @return index of channel in channel_layout on success, a negative AVERROR<br>
-	 *         on error.<br>
-	 * Original signature : <code>int av_get_channel_layout_channel_index(uint64_t, uint64_t)</code>
-	 */
-	int av_get_channel_layout_channel_index(long channel_layout, long channel);
-	/**
-	 * Get the channel with the given index in channel_layout.<br>
-	 * Original signature : <code>uint64_t av_channel_layout_extract_channel(uint64_t, int)</code>
-	 */
-	long av_channel_layout_extract_channel(long channel_layout, int index);
-	/**
-	 * Get the name of a given channel.<br>
-	 * * @return channel name on success, NULL on error.<br>
-	 * Original signature : <code>char* av_get_channel_name(uint64_t)</code>
-	 */
-	String av_get_channel_name(long channel);
-	/**
-	 * Get the description of a given channel.<br>
-	 * * @param channel  a channel layout with a single channel<br>
-	 * @return  channel description on success, NULL on error<br>
-	 * Original signature : <code>char* av_get_channel_description(uint64_t)</code>
-	 */
-	String av_get_channel_description(long channel);
-	/**
-	 * Get the value and name of a standard channel layout.<br>
-	 * * @param[in]  index   index in an internal list, starting at 0<br>
-	 * @param[out] layout  channel layout mask<br>
-	 * @param[out] name    name of the layout<br>
-	 * @return  0  if the layout exists,<br>
-	 *          <0 if index is beyond the limits<br>
-	 * Original signature : <code>int av_get_standard_channel_layout(unsigned, uint64_t*, const char**)</code><br>
-	 * @deprecated use the safer methods {@link #av_get_standard_channel_layout(int, java.nio.LongBuffer, java.lang.String[])} and {@link #av_get_standard_channel_layout(int, com.sun.jna.ptr.LongByReference, com.sun.jna.ptr.PointerByReference)} instead
-	 */
-	@Deprecated 
-	int av_get_standard_channel_layout(int index, LongByReference layout, PointerByReference name);
-	/**
-	 * Get the value and name of a standard channel layout.<br>
-	 * * @param[in]  index   index in an internal list, starting at 0<br>
-	 * @param[out] layout  channel layout mask<br>
-	 * @param[out] name    name of the layout<br>
-	 * @return  0  if the layout exists,<br>
-	 *          <0 if index is beyond the limits<br>
-	 * Original signature : <code>int av_get_standard_channel_layout(unsigned, uint64_t*, const char**)</code>
-	 */
-	int av_get_standard_channel_layout(int index, LongBuffer layout, String name[]);
-	/**
-	 * Get a dictionary entry with matching key.<br>
-	 * * @param prev Set to the previous matching element to find the next.<br>
-	 *             If set to NULL the first matching element is returned.<br>
-	 * @param flags Allows case as well as suffix-insensitive comparisons.<br>
-	 * @return Found entry or NULL, changing key or value leads to undefined behavior.<br>
-	 * Original signature : <code>AVDictionaryEntry* av_dict_get(AVDictionary*, const char*, const AVDictionaryEntry*, int)</code><br>
-	 * @deprecated use the safer methods {@link #av_dict_get(com.sun.jna.ptr.PointerByReference, java.lang.String, org.javaavc.ffmpeg.avformat.AVDictionaryEntry, int)} and {@link #av_dict_get(com.sun.jna.ptr.PointerByReference, com.sun.jna.Pointer, org.javaavc.ffmpeg.avformat.AVDictionaryEntry, int)} instead
-	 */
-	@Deprecated 
-	AVDictionaryEntry av_dict_get(Pointer m, Pointer key, AVDictionaryEntry prev, int flags);
-	/**
-	 * Get a dictionary entry with matching key.<br>
-	 * * @param prev Set to the previous matching element to find the next.<br>
-	 *             If set to NULL the first matching element is returned.<br>
-	 * @param flags Allows case as well as suffix-insensitive comparisons.<br>
-	 * @return Found entry or NULL, changing key or value leads to undefined behavior.<br>
-	 * Original signature : <code>AVDictionaryEntry* av_dict_get(AVDictionary*, const char*, const AVDictionaryEntry*, int)</code>
-	 */
-	AVDictionaryEntry av_dict_get(PointerByReference m, String key, AVDictionaryEntry prev, int flags);
-	/**
-	 * Get a dictionary entry with matching key.<br>
-	 * * @param prev Set to the previous matching element to find the next.<br>
-	 *             If set to NULL the first matching element is returned.<br>
-	 * @param flags Allows case as well as suffix-insensitive comparisons.<br>
-	 * @return Found entry or NULL, changing key or value leads to undefined behavior.<br>
-	 * Original signature : <code>AVDictionaryEntry* av_dict_get(AVDictionary*, const char*, const AVDictionaryEntry*, int)</code>
-	 */
-	AVDictionaryEntry av_dict_get(PointerByReference m, Pointer key, AVDictionaryEntry prev, int flags);
-	/**
-	 * Get number of entries in dictionary.<br>
-	 * * @param m dictionary<br>
-	 * @return  number of entries in dictionary<br>
-	 * Original signature : <code>int av_dict_count(const AVDictionary*)</code><br>
-	 * @deprecated use the safer method {@link #av_dict_count(com.sun.jna.ptr.PointerByReference)} instead
-	 */
-	@Deprecated 
-	int av_dict_count(Pointer m);
-	/**
-	 * Get number of entries in dictionary.<br>
-	 * * @param m dictionary<br>
-	 * @return  number of entries in dictionary<br>
-	 * Original signature : <code>int av_dict_count(const AVDictionary*)</code>
-	 */
-	int av_dict_count(PointerByReference m);
-	/**
-	 * Set the given entry in *pm, overwriting an existing entry.<br>
-	 * * @param pm pointer to a pointer to a dictionary struct. If *pm is NULL<br>
-	 * a dictionary struct is allocated and put in *pm.<br>
-	 * @param key entry key to add to *pm (will be av_strduped depending on flags)<br>
-	 * @param value entry value to add to *pm (will be av_strduped depending on flags).<br>
-	 *        Passing a NULL value will cause an existing entry to be deleted.<br>
-	 * @return >= 0 on success otherwise an error code <0<br>
-	 * Original signature : <code>int av_dict_set(AVDictionary**, const char*, const char*, int)</code><br>
-	 * @deprecated use the safer methods {@link #av_dict_set(com.sun.jna.ptr.PointerByReference, java.lang.String, java.lang.String, int)} and {@link #av_dict_set(com.sun.jna.ptr.PointerByReference, com.sun.jna.Pointer, com.sun.jna.Pointer, int)} instead
-	 */
-	@Deprecated 
-	int av_dict_set(PointerByReference pm, Pointer key, Pointer value, int flags);
-	/**
-	 * Set the given entry in *pm, overwriting an existing entry.<br>
-	 * * @param pm pointer to a pointer to a dictionary struct. If *pm is NULL<br>
-	 * a dictionary struct is allocated and put in *pm.<br>
-	 * @param key entry key to add to *pm (will be av_strduped depending on flags)<br>
-	 * @param value entry value to add to *pm (will be av_strduped depending on flags).<br>
-	 *        Passing a NULL value will cause an existing entry to be deleted.<br>
-	 * @return >= 0 on success otherwise an error code <0<br>
-	 * Original signature : <code>int av_dict_set(AVDictionary**, const char*, const char*, int)</code>
-	 */
-	int av_dict_set(PointerByReference pm, String key, String value, int flags);
-	/**
-	 * Parse the key/value pairs list and add to a dictionary.<br>
-	 * * @param key_val_sep  a 0-terminated list of characters used to separate<br>
-	 *                     key from value<br>
-	 * @param pairs_sep    a 0-terminated list of characters used to separate<br>
-	 *                     two pairs from each other<br>
-	 * @param flags        flags to use when adding to dictionary.<br>
-	 *                     AV_DICT_DONT_STRDUP_KEY and AV_DICT_DONT_STRDUP_VAL<br>
-	 *                     are ignored since the key/value tokens will always<br>
-	 *                     be duplicated.<br>
-	 * @return             0 on success, negative AVERROR code on failure<br>
-	 * Original signature : <code>int av_dict_parse_string(AVDictionary**, const char*, const char*, const char*, int)</code><br>
-	 * @deprecated use the safer methods {@link #av_dict_parse_string(com.sun.jna.ptr.PointerByReference, java.lang.String, java.lang.String, java.lang.String, int)} and {@link #av_dict_parse_string(com.sun.jna.ptr.PointerByReference, com.sun.jna.Pointer, com.sun.jna.Pointer, com.sun.jna.Pointer, int)} instead
-	 */
-	@Deprecated 
-	int av_dict_parse_string(PointerByReference pm, Pointer str, Pointer key_val_sep, Pointer pairs_sep, int flags);
-	/**
-	 * Parse the key/value pairs list and add to a dictionary.<br>
-	 * * @param key_val_sep  a 0-terminated list of characters used to separate<br>
-	 *                     key from value<br>
-	 * @param pairs_sep    a 0-terminated list of characters used to separate<br>
-	 *                     two pairs from each other<br>
-	 * @param flags        flags to use when adding to dictionary.<br>
-	 *                     AV_DICT_DONT_STRDUP_KEY and AV_DICT_DONT_STRDUP_VAL<br>
-	 *                     are ignored since the key/value tokens will always<br>
-	 *                     be duplicated.<br>
-	 * @return             0 on success, negative AVERROR code on failure<br>
-	 * Original signature : <code>int av_dict_parse_string(AVDictionary**, const char*, const char*, const char*, int)</code>
-	 */
-	int av_dict_parse_string(PointerByReference pm, String str, String key_val_sep, String pairs_sep, int flags);
-	/**
-	 * Copy entries from one AVDictionary struct into another.<br>
-	 * @param dst pointer to a pointer to a AVDictionary struct. If *dst is NULL,<br>
-	 *            this function will allocate a struct for you and put it in *dst<br>
-	 * @param src pointer to source AVDictionary struct<br>
-	 * @param flags flags to use when setting entries in *dst<br>
-	 * @note metadata is read using the AV_DICT_IGNORE_SUFFIX flag<br>
-	 * Original signature : <code>void av_dict_copy(AVDictionary**, AVDictionary*, int)</code><br>
-	 * @deprecated use the safer method {@link #av_dict_copy(com.sun.jna.ptr.PointerByReference, com.sun.jna.ptr.PointerByReference, int)} instead
-	 */
-	@Deprecated 
-	void av_dict_copy(PointerByReference dst, Pointer src, int flags);
-	/**
-	 * Copy entries from one AVDictionary struct into another.<br>
-	 * @param dst pointer to a pointer to a AVDictionary struct. If *dst is NULL,<br>
-	 *            this function will allocate a struct for you and put it in *dst<br>
-	 * @param src pointer to source AVDictionary struct<br>
-	 * @param flags flags to use when setting entries in *dst<br>
-	 * @note metadata is read using the AV_DICT_IGNORE_SUFFIX flag<br>
-	 * Original signature : <code>void av_dict_copy(AVDictionary**, AVDictionary*, int)</code>
-	 */
-	void av_dict_copy(PointerByReference dst, PointerByReference src, int flags);
-	/**
-	 * Free all the memory allocated for an AVDictionary struct<br>
-	 * and all keys and values.<br>
-	 * Original signature : <code>void av_dict_free(AVDictionary**)</code>
-	 */
-	void av_dict_free(PointerByReference m);
-	/**
-	 * Accessors for some AVFrame fields.<br>
-	 * The position of these field in the structure is not part of the ABI,<br>
-	 * they should not be accessed directly outside libavcodec.<br>
-	 * Original signature : <code>int64_t av_frame_get_best_effort_timestamp(const AVFrame*)</code>
-	 */
-	long av_frame_get_best_effort_timestamp(AVFrame frame);
-	/** Original signature : <code>void av_frame_set_best_effort_timestamp(AVFrame*, int64_t)</code> */
-	void av_frame_set_best_effort_timestamp(AVFrame frame, long val);
-	/** Original signature : <code>int64_t av_frame_get_pkt_duration(const AVFrame*)</code> */
-	long av_frame_get_pkt_duration(AVFrame frame);
-	/** Original signature : <code>void av_frame_set_pkt_duration(AVFrame*, int64_t)</code> */
-	void av_frame_set_pkt_duration(AVFrame frame, long val);
-	/** Original signature : <code>int64_t av_frame_get_pkt_pos(const AVFrame*)</code> */
-	long av_frame_get_pkt_pos(AVFrame frame);
-	/** Original signature : <code>void av_frame_set_pkt_pos(AVFrame*, int64_t)</code> */
-	void av_frame_set_pkt_pos(AVFrame frame, long val);
-	/** Original signature : <code>int64_t av_frame_get_channel_layout(const AVFrame*)</code> */
-	long av_frame_get_channel_layout(AVFrame frame);
-	/** Original signature : <code>void av_frame_set_channel_layout(AVFrame*, int64_t)</code> */
-	void av_frame_set_channel_layout(AVFrame frame, long val);
-	/** Original signature : <code>int av_frame_get_channels(const AVFrame*)</code> */
-	int av_frame_get_channels(AVFrame frame);
-	/** Original signature : <code>void av_frame_set_channels(AVFrame*, int)</code> */
-	void av_frame_set_channels(AVFrame frame, int val);
-	/** Original signature : <code>int av_frame_get_sample_rate(const AVFrame*)</code> */
-	int av_frame_get_sample_rate(AVFrame frame);
-	/** Original signature : <code>void av_frame_set_sample_rate(AVFrame*, int)</code> */
-	void av_frame_set_sample_rate(AVFrame frame, int val);
-	/** Original signature : <code>AVDictionary* av_frame_get_metadata(const AVFrame*)</code> */
-	PointerByReference av_frame_get_metadata(AVFrame frame);
-	/**
-	 * Original signature : <code>void av_frame_set_metadata(AVFrame*, AVDictionary*)</code><br>
-	 * @deprecated use the safer method {@link #av_frame_set_metadata(org.javaavc.ffmpeg.avformat.AVFrame, com.sun.jna.ptr.PointerByReference)} instead
-	 */
-	@Deprecated 
-	void av_frame_set_metadata(AVFrame frame, Pointer val);
-	/** Original signature : <code>void av_frame_set_metadata(AVFrame*, AVDictionary*)</code> */
-	void av_frame_set_metadata(AVFrame frame, PointerByReference val);
-	/** Original signature : <code>int av_frame_get_decode_error_flags(const AVFrame*)</code> */
-	int av_frame_get_decode_error_flags(AVFrame frame);
-	/** Original signature : <code>void av_frame_set_decode_error_flags(AVFrame*, int)</code> */
-	void av_frame_set_decode_error_flags(AVFrame frame, int val);
-	/** Original signature : <code>int av_frame_get_pkt_size(const AVFrame*)</code> */
-	int av_frame_get_pkt_size(AVFrame frame);
-	/** Original signature : <code>void av_frame_set_pkt_size(AVFrame*, int)</code> */
-	void av_frame_set_pkt_size(AVFrame frame, int val);
-	/** Original signature : <code>AVDictionary** avpriv_frame_get_metadatap(AVFrame*)</code> */
-	PointerByReference avpriv_frame_get_metadatap(AVFrame frame);
-	/**
-	 * Original signature : <code>int8_t* av_frame_get_qp_table(AVFrame*, int*, int*)</code><br>
-	 * @deprecated use the safer methods {@link #av_frame_get_qp_table(org.javaavc.ffmpeg.avformat.AVFrame, java.nio.IntBuffer, java.nio.IntBuffer)} and {@link #av_frame_get_qp_table(org.javaavc.ffmpeg.avformat.AVFrame, com.sun.jna.ptr.IntByReference, com.sun.jna.ptr.IntByReference)} instead
-	 */
-	@Deprecated 
-	Pointer av_frame_get_qp_table(AVFrame f, IntByReference stride, IntByReference type);
-	/** Original signature : <code>int8_t* av_frame_get_qp_table(AVFrame*, int*, int*)</code> */
-	Pointer av_frame_get_qp_table(AVFrame f, IntBuffer stride, IntBuffer type);
-	/** Original signature : <code>int av_frame_set_qp_table(AVFrame*, AVBufferRef*, int, int)</code> */
-	int av_frame_set_qp_table(AVFrame f, AVBufferRef buf, int stride, int type);
-	/**
-	 * Allocate an AVFrame and set its fields to default values.  The resulting<br>
-	 * struct must be freed using av_frame_free().<br>
-	 * * @return An AVFrame filled with default values or NULL on failure.<br>
-	 * * @note this only allocates the AVFrame itself, not the data buffers. Those<br>
-	 * must be allocated through other means, e.g. with av_frame_get_buffer() or<br>
-	 * manually.<br>
-	 * Original signature : <code>AVFrame* av_frame_alloc()</code>
-	 */
-	AVFrame av_frame_alloc();
-	/**
-	 * Free the frame and any dynamically allocated objects in it,<br>
-	 * e.g. extended_data. If the frame is reference counted, it will be<br>
-	 * unreferenced first.<br>
-	 * * @param frame frame to be freed. The pointer will be set to NULL.<br>
-	 * Original signature : <code>void av_frame_free(AVFrame**)</code><br>
-	 * @deprecated use the safer method {@link #av_frame_free(org.javaavc.ffmpeg.avformat.AVFrame.ByReference[])} instead
-	 */
-	@Deprecated 
-	void av_frame_free(PointerByReference frame);
-	/**
-	 * Free the frame and any dynamically allocated objects in it,<br>
-	 * e.g. extended_data. If the frame is reference counted, it will be<br>
-	 * unreferenced first.<br>
-	 * * @param frame frame to be freed. The pointer will be set to NULL.<br>
-	 * Original signature : <code>void av_frame_free(AVFrame**)</code>
-	 */
-	void av_frame_free(AVFrame.ByReference frame[]);
-	/**
-	 * Setup a new reference to the data described by an given frame.<br>
-	 * * Copy frame properties from src to dst and create a new reference for each<br>
-	 * AVBufferRef from src.<br>
-	 * * If src is not reference counted, new buffers are allocated and the data is<br>
-	 * copied.<br>
-	 * * @return 0 on success, a negative AVERROR on error<br>
-	 * Original signature : <code>int av_frame_ref(AVFrame*, AVFrame*)</code>
-	 */
-	int av_frame_ref(AVFrame dst, AVFrame src);
-	/**
-	 * Create a new frame that references the same data as src.<br>
-	 * * This is a shortcut for av_frame_alloc()+av_frame_ref().<br>
-	 * * @return newly created AVFrame on success, NULL on error.<br>
-	 * Original signature : <code>AVFrame* av_frame_clone(AVFrame*)</code>
-	 */
-	AVFrame av_frame_clone(AVFrame src);
-	/**
-	 * Unreference all the buffers referenced by frame and reset the frame fields.<br>
-	 * Original signature : <code>void av_frame_unref(AVFrame*)</code>
-	 */
-	void av_frame_unref(AVFrame frame);
-	/**
-	 * Move everythnig contained in src to dst and reset src.<br>
-	 * Original signature : <code>void av_frame_move_ref(AVFrame*, AVFrame*)</code>
-	 */
-	void av_frame_move_ref(AVFrame dst, AVFrame src);
-	/**
-	 * Allocate new buffer(s) for audio or video data.<br>
-	 * * The following fields must be set on frame before calling this function:<br>
-	 * - format (pixel format for video, sample format for audio)<br>
-	 * - width and height for video<br>
-	 * - nb_samples and channel_layout for audio<br>
-	 * * This function will fill AVFrame.data and AVFrame.buf arrays and, if<br>
-	 * necessary, allocate and fill AVFrame.extended_data and AVFrame.extended_buf.<br>
-	 * For planar formats, one buffer will be allocated for each plane.<br>
-	 * * @param frame frame in which to store the new buffers.<br>
-	 * @param align required buffer size alignment<br>
-	 * * @return 0 on success, a negative AVERROR on error.<br>
-	 * Original signature : <code>int av_frame_get_buffer(AVFrame*, int)</code>
-	 */
-	int av_frame_get_buffer(AVFrame frame, int align);
-	/**
-	 * Check if the frame data is writable.<br>
-	 * * @return A positive value if the frame data is writable (which is true if and<br>
-	 * only if each of the underlying buffers has only one reference, namely the one<br>
-	 * stored in this frame). Return 0 otherwise.<br>
-	 * * If 1 is returned the answer is valid until av_buffer_ref() is called on any<br>
-	 * of the underlying AVBufferRefs (e.g. through av_frame_ref() or directly).<br>
-	 * * @see av_frame_make_writable(), av_buffer_is_writable()<br>
-	 * Original signature : <code>int av_frame_is_writable(AVFrame*)</code>
-	 */
-	int av_frame_is_writable(AVFrame frame);
-	/**
-	 * Ensure that the frame data is writable, avoiding data copy if possible.<br>
-	 * * Do nothing if the frame is writable, allocate new buffers and copy the data<br>
-	 * if it is not.<br>
-	 * * @return 0 on success, a negative AVERROR on error.<br>
-	 * * @see av_frame_is_writable(), av_buffer_is_writable(),<br>
-	 * av_buffer_make_writable()<br>
-	 * Original signature : <code>int av_frame_make_writable(AVFrame*)</code>
-	 */
-	int av_frame_make_writable(AVFrame frame);
-	/**
-	 * Copy only "metadata" fields from src to dst.<br>
-	 * * Metadata for the purpose of this function are those fields that do not affect<br>
-	 * the data layout in the buffers.  E.g. pts, sample rate (for audio) or sample<br>
-	 * aspect ratio (for video), but not width/height or channel layout.<br>
-	 * Side data is also copied.<br>
-	 * Original signature : <code>int av_frame_copy_props(AVFrame*, const AVFrame*)</code>
-	 */
-	int av_frame_copy_props(AVFrame dst, AVFrame src);
-	/**
-	 * Get the buffer reference a given data plane is stored in.<br>
-	 * * @param plane index of the data plane of interest in frame->extended_data.<br>
-	 * * @return the buffer reference that contains the plane or NULL if the input<br>
-	 * frame is not valid.<br>
-	 * Original signature : <code>AVBufferRef* av_frame_get_plane_buffer(AVFrame*, int)</code>
-	 */
-	AVBufferRef av_frame_get_plane_buffer(AVFrame frame, int plane);
-	/**
-	 * Add a new side data to a frame.<br>
-	 * * @param frame a frame to which the side data should be added<br>
-	 * @param type type of the added side data<br>
-	 * @param size size of the side data<br>
-	 * * @return newly added side data on success, NULL on error<br>
-	 * Original signature : <code>AVFrameSideData* av_frame_new_side_data(AVFrame*, AVFrameSideDataType, int)</code>
-	 */
-	AVFrameSideData av_frame_new_side_data(AVFrame frame, int type, int size);
-	/**
-	 * @return a pointer to the side data of a given type on success, NULL if there<br>
-	 * is no side data with such type in this frame.<br>
-	 * Original signature : <code>AVFrameSideData* av_frame_get_side_data(AVFrame*, AVFrameSideDataType)</code>
-	 */
-	AVFrameSideData av_frame_get_side_data(AVFrame frame, int type);
-	/** Original signature : <code>AVRational av_codec_get_pkt_timebase(const AVCodecContext*)</code> */
-	AVRational.ByValue av_codec_get_pkt_timebase(AVCodecContext avctx);
-	/** Original signature : <code>void av_codec_set_pkt_timebase(AVCodecContext*, AVRational)</code> */
-	void av_codec_set_pkt_timebase(AVCodecContext avctx, AVRational.ByValue val);
-	/** Original signature : <code>AVCodecDescriptor* av_codec_get_codec_descriptor(const AVCodecContext*)</code> */
-	AVCodecDescriptor av_codec_get_codec_descriptor(AVCodecContext avctx);
-	/** Original signature : <code>void av_codec_set_codec_descriptor(AVCodecContext*, const AVCodecDescriptor*)</code> */
-	void av_codec_set_codec_descriptor(AVCodecContext avctx, AVCodecDescriptor desc);
-	/** Original signature : <code>int av_codec_get_lowres(const AVCodecContext*)</code> */
-	int av_codec_get_lowres(AVCodecContext avctx);
-	/** Original signature : <code>void av_codec_set_lowres(AVCodecContext*, int)</code> */
-	void av_codec_set_lowres(AVCodecContext avctx, int val);
-	/**
-	 * If c is NULL, returns the first registered codec,<br>
-	 * if c is non-NULL, returns the next registered codec after c,<br>
-	 * or NULL if c is the last one.<br>
-	 * Original signature : <code>AVCodec* av_codec_next(const AVCodec*)</code>
-	 */
-	AVCodec av_codec_next(AVCodec c);
-	/**
-	 * Return the LIBAVCODEC_VERSION_INT constant.<br>
-	 * Original signature : <code>int avcodec_version()</code>
-	 */
-	int avcodec_version();
-	/**
-	 * Return the libavcodec build-time configuration.<br>
-	 * Original signature : <code>char* avcodec_configuration()</code>
-	 */
-	String avcodec_configuration();
-	/**
-	 * Return the libavcodec license.<br>
-	 * Original signature : <code>char* avcodec_license()</code>
-	 */
-	String avcodec_license();
-	/**
-	 * Register the codec codec and initialize libavcodec.<br>
-	 * * @warning either this function or avcodec_register_all() must be called<br>
-	 * before any other libavcodec functions.<br>
-	 * * @see avcodec_register_all()<br>
-	 * Original signature : <code>void avcodec_register(AVCodec*)</code>
-	 */
-	void avcodec_register(AVCodec codec);
-	/**
-	 * Register all the codecs, parsers and bitstream filters which were enabled at<br>
-	 * configuration time. If you do not call this function you can select exactly<br>
-	 * which formats you want to support, by using the individual registration<br>
-	 * functions.<br>
-	 * * @see avcodec_register<br>
-	 * @see av_register_codec_parser<br>
-	 * @see av_register_bitstream_filter<br>
-	 * Original signature : <code>void avcodec_register_all()</code>
-	 */
-	void avcodec_register_all();
-	/**
-	 * Allocate an AVCodecContext and set its fields to default values.  The<br>
-	 * resulting struct can be deallocated by calling avcodec_close() on it followed<br>
-	 * by av_free().<br>
-	 * * @param codec if non-NULL, allocate private data and initialize defaults<br>
-	 *              for the given codec. It is illegal to then call avcodec_open2()<br>
-	 *              with a different codec.<br>
-	 *              If NULL, then the codec-specific defaults won't be initialized,<br>
-	 *              which may result in suboptimal default settings (this is<br>
-	 *              important mainly for encoders, e.g. libx264).<br>
-	 * * @return An AVCodecContext filled with default values or NULL on failure.<br>
-	 * @see avcodec_get_context_defaults<br>
-	 * Original signature : <code>AVCodecContext* avcodec_alloc_context3(const AVCodec*)</code>
-	 */
-	AVCodecContext avcodec_alloc_context3(AVCodec codec);
-	/**
-	 * Set the fields of the given AVCodecContext to default values corresponding<br>
-	 * to the given codec (defaults may be codec-dependent).<br>
-	 * * Do not call this function if a non-NULL codec has been passed<br>
-	 * to avcodec_alloc_context3() that allocated this AVCodecContext.<br>
-	 * If codec is non-NULL, it is illegal to call avcodec_open2() with a<br>
-	 * different codec on this AVCodecContext.<br>
-	 * Original signature : <code>int avcodec_get_context_defaults3(AVCodecContext*, const AVCodec*)</code>
-	 */
-	int avcodec_get_context_defaults3(AVCodecContext s, AVCodec codec);
-	/**
-	 * Get the AVClass for AVCodecContext. It can be used in combination with<br>
-	 * AV_OPT_SEARCH_FAKE_OBJ for examining options.<br>
-	 * * @see av_opt_find().<br>
-	 * Original signature : <code>AVClass* avcodec_get_class()</code>
-	 */
-	AVClass avcodec_get_class();
-	/**
-	 * Get the AVClass for AVFrame. It can be used in combination with<br>
-	 * AV_OPT_SEARCH_FAKE_OBJ for examining options.<br>
-	 * * @see av_opt_find().<br>
-	 * Original signature : <code>AVClass* avcodec_get_frame_class()</code>
-	 */
-	AVClass avcodec_get_frame_class();
-	/**
-	 * Get the AVClass for AVSubtitleRect. It can be used in combination with<br>
-	 * AV_OPT_SEARCH_FAKE_OBJ for examining options.<br>
-	 * * @see av_opt_find().<br>
-	 * Original signature : <code>AVClass* avcodec_get_subtitle_rect_class()</code>
-	 */
-	AVClass avcodec_get_subtitle_rect_class();
-	/**
-	 * Copy the settings of the source AVCodecContext into the destination<br>
-	 * AVCodecContext. The resulting destination codec context will be<br>
-	 * unopened, i.e. you are required to call avcodec_open2() before you<br>
-	 * can use this AVCodecContext to decode/encode video/audio data.<br>
-	 * * @param dest target codec context, should be initialized with<br>
-	 *             avcodec_alloc_context3(), but otherwise uninitialized<br>
-	 * @param src source codec context<br>
-	 * @return AVERROR() on error (e.g. memory allocation error), 0 on success<br>
-	 * Original signature : <code>int avcodec_copy_context(AVCodecContext*, const AVCodecContext*)</code>
-	 */
-	int avcodec_copy_context(AVCodecContext dest, AVCodecContext src);
-	/**
-	 * Allocate an AVFrame and set its fields to default values.  The resulting<br>
-	 * struct must be freed using avcodec_free_frame().<br>
-	 * * @return An AVFrame filled with default values or NULL on failure.<br>
-	 * @see avcodec_get_frame_defaults<br>
-	 * Original signature : <code>AVFrame* avcodec_alloc_frame()</code>
-	 */
-	AVFrame avcodec_alloc_frame();
-	/**
-	 * Set the fields of the given AVFrame to default values.<br>
-	 * * @param frame The AVFrame of which the fields should be set to default values.<br>
-	 * Original signature : <code>void avcodec_get_frame_defaults(AVFrame*)</code>
-	 */
-	void avcodec_get_frame_defaults(AVFrame frame);
-	/**
-	 * Free the frame and any dynamically allocated objects in it,<br>
-	 * e.g. extended_data.<br>
-	 * * @param frame frame to be freed. The pointer will be set to NULL.<br>
-	 * * @warning this function does NOT free the data buffers themselves<br>
-	 * (it does not know how, since they might have been allocated with<br>
-	 *  a custom get_buffer()).<br>
-	 * Original signature : <code>void avcodec_free_frame(AVFrame**)</code><br>
-	 * @deprecated use the safer method {@link #avcodec_free_frame(org.javaavc.ffmpeg.avformat.AVFrame.ByReference[])} instead
-	 */
-	@Deprecated 
-	void avcodec_free_frame(PointerByReference frame);
-	/**
-	 * Free the frame and any dynamically allocated objects in it,<br>
-	 * e.g. extended_data.<br>
-	 * * @param frame frame to be freed. The pointer will be set to NULL.<br>
-	 * * @warning this function does NOT free the data buffers themselves<br>
-	 * (it does not know how, since they might have been allocated with<br>
-	 *  a custom get_buffer()).<br>
-	 * Original signature : <code>void avcodec_free_frame(AVFrame**)</code>
-	 */
-	void avcodec_free_frame(AVFrame.ByReference frame[]);
-	/**
-	 * Initialize the AVCodecContext to use the given AVCodec. Prior to using this<br>
-	 * function the context has to be allocated with avcodec_alloc_context3().<br>
-	 * * The functions avcodec_find_decoder_by_name(), avcodec_find_encoder_by_name(),<br>
-	 * avcodec_find_decoder() and avcodec_find_encoder() provide an easy way for<br>
-	 * retrieving a codec.<br>
-	 * * @warning This function is not thread safe!<br>
-	 * * @code<br>
-	 * avcodec_register_all();<br>
-	 * av_dict_set(&opts, "b", "2.5M", 0);<br>
-	 * codec = avcodec_find_decoder(AV_CODEC_ID_H264);<br>
-	 * if (!codec)<br>
-	 *     exit(1);<br>
-	 * * context = avcodec_alloc_context3(codec);<br>
-	 * * if (avcodec_open2(context, codec, opts) < 0)<br>
-	 *     exit(1);<br>
-	 * @endcode<br>
-	 * * @param avctx The context to initialize.<br>
-	 * @param codec The codec to open this context for. If a non-NULL codec has been<br>
-	 *              previously passed to avcodec_alloc_context3() or<br>
-	 *              avcodec_get_context_defaults3() for this context, then this<br>
-	 *              parameter MUST be either NULL or equal to the previously passed<br>
-	 *              codec.<br>
-	 * @param options A dictionary filled with AVCodecContext and codec-private options.<br>
-	 *                On return this object will be filled with options that were not found.<br>
-	 * * @return zero on success, a negative value on error<br>
-	 * @see avcodec_alloc_context3(), avcodec_find_decoder(), avcodec_find_encoder(),<br>
-	 *      av_dict_set(), av_opt_find().<br>
-	 * Original signature : <code>int avcodec_open2(AVCodecContext*, const AVCodec*, AVDictionary**)</code>
-	 */
-	int avcodec_open2(AVCodecContext avctx, AVCodec codec, PointerByReference options);
-	/**
-	 * Close a given AVCodecContext and free all the data associated with it<br>
-	 * (but not the AVCodecContext itself).<br>
-	 * * Calling this function on an AVCodecContext that hasn't been opened will free<br>
-	 * the codec-specific data allocated in avcodec_alloc_context3() /<br>
-	 * avcodec_get_context_defaults3() with a non-NULL codec. Subsequent calls will<br>
-	 * do nothing.<br>
-	 * Original signature : <code>int avcodec_close(AVCodecContext*)</code>
-	 */
-	int avcodec_close(AVCodecContext avctx);
-	/**
-	 * Free all allocated data in the given subtitle struct.<br>
-	 * * @param sub AVSubtitle to free.<br>
-	 * Original signature : <code>void avsubtitle_free(AVSubtitle*)</code>
-	 */
-	void avsubtitle_free(AVSubtitle sub);
-	/** Original signature : <code>void av_destruct_packet(AVPacket*)</code> */
-	void av_destruct_packet(AVPacket pkt);
-	/**
-	 * Initialize optional fields of a packet with default values.<br>
-	 * * Note, this does not touch the data and size members, which have to be<br>
-	 * initialized separately.<br>
-	 * * @param pkt packet<br>
-	 * Original signature : <code>void av_init_packet(AVPacket*)</code>
-	 */
-	void av_init_packet(AVPacket pkt);
-	/**
-	 * Allocate the payload of a packet and initialize its fields with<br>
-	 * default values.<br>
-	 * * @param pkt packet<br>
-	 * @param size wanted payload size<br>
-	 * @return 0 if OK, AVERROR_xxx otherwise<br>
-	 * Original signature : <code>int av_new_packet(AVPacket*, int)</code>
-	 */
-	int av_new_packet(AVPacket pkt, int size);
-	/**
-	 * Reduce packet size, correctly zeroing padding<br>
-	 * * @param pkt packet<br>
-	 * @param size new size<br>
-	 * Original signature : <code>void av_shrink_packet(AVPacket*, int)</code>
-	 */
-	void av_shrink_packet(AVPacket pkt, int size);
-	/**
-	 * Increase packet size, correctly zeroing padding<br>
-	 * * @param pkt packet<br>
-	 * @param grow_by number of bytes by which to increase the size of the packet<br>
-	 * Original signature : <code>int av_grow_packet(AVPacket*, int)</code>
-	 */
-	int av_grow_packet(AVPacket pkt, int grow_by);
-	/**
-	 * Initialize a reference-counted packet from av_malloc()ed data.<br>
-	 * * @param pkt packet to be initialized. This function will set the data, size,<br>
-	 *        buf and destruct fields, all others are left untouched.<br>
-	 * @param data Data allocated by av_malloc() to be used as packet data. If this<br>
-	 *        function returns successfully, the data is owned by the underlying AVBuffer.<br>
-	 *        The caller may not access the data through other means.<br>
-	 * @param size size of data in bytes, without the padding. I.e. the full buffer<br>
-	 *        size is assumed to be size + FF_INPUT_BUFFER_PADDING_SIZE.<br>
-	 * * @return 0 on success, a negative AVERROR on error<br>
-	 * Original signature : <code>int av_packet_from_data(AVPacket*, uint8_t*, int)</code><br>
-	 * @deprecated use the safer methods {@link #av_packet_from_data(org.javaavc.ffmpeg.avformat.AVPacket, java.nio.ByteBuffer, int)} and {@link #av_packet_from_data(org.javaavc.ffmpeg.avformat.AVPacket, com.sun.jna.Pointer, int)} instead
-	 */
-	@Deprecated 
-	int av_packet_from_data(AVPacket pkt, Pointer data, int size);
-	/**
-	 * Initialize a reference-counted packet from av_malloc()ed data.<br>
-	 * * @param pkt packet to be initialized. This function will set the data, size,<br>
-	 *        buf and destruct fields, all others are left untouched.<br>
-	 * @param data Data allocated by av_malloc() to be used as packet data. If this<br>
-	 *        function returns successfully, the data is owned by the underlying AVBuffer.<br>
-	 *        The caller may not access the data through other means.<br>
-	 * @param size size of data in bytes, without the padding. I.e. the full buffer<br>
-	 *        size is assumed to be size + FF_INPUT_BUFFER_PADDING_SIZE.<br>
-	 * * @return 0 on success, a negative AVERROR on error<br>
-	 * Original signature : <code>int av_packet_from_data(AVPacket*, uint8_t*, int)</code>
-	 */
-	int av_packet_from_data(AVPacket pkt, ByteBuffer data, int size);
-	/**
-	 * @warning This is a hack - the packet memory allocation stuff is broken. The<br>
-	 * packet is allocated if it was not really allocated.<br>
-	 * Original signature : <code>int av_dup_packet(AVPacket*)</code>
-	 */
-	int av_dup_packet(AVPacket pkt);
-	/**
-	 * Copy packet, including contents<br>
-	 * * @return 0 on success, negative AVERROR on fail<br>
-	 * Original signature : <code>int av_copy_packet(AVPacket*, AVPacket*)</code>
-	 */
-	int av_copy_packet(AVPacket dst, AVPacket src);
-	/**
-	 * Copy packet side data<br>
-	 * * @return 0 on success, negative AVERROR on fail<br>
-	 * Original signature : <code>int av_copy_packet_side_data(AVPacket*, AVPacket*)</code>
-	 */
-	int av_copy_packet_side_data(AVPacket dst, AVPacket src);
-	/**
-	 * Free a packet.<br>
-	 * * @param pkt packet to free<br>
-	 * Original signature : <code>void av_free_packet(AVPacket*)</code>
-	 */
-	void av_free_packet(AVPacket pkt);
-	/**
-	 * Allocate new information of a packet.<br>
-	 * * @param pkt packet<br>
-	 * @param type side information type<br>
-	 * @param size side information size<br>
-	 * @return pointer to fresh allocated data or NULL otherwise<br>
-	 * Original signature : <code>uint8_t* av_packet_new_side_data(AVPacket*, AVPacketSideDataType, int)</code>
-	 */
-	Pointer av_packet_new_side_data(AVPacket pkt, int type, int size);
-	/**
-	 * Shrink the already allocated side data buffer<br>
-	 * * @param pkt packet<br>
-	 * @param type side information type<br>
-	 * @param size new side information size<br>
-	 * @return 0 on success, < 0 on failure<br>
-	 * Original signature : <code>int av_packet_shrink_side_data(AVPacket*, AVPacketSideDataType, int)</code>
-	 */
-	int av_packet_shrink_side_data(AVPacket pkt, int type, int size);
-	/**
-	 * Get side information from packet.<br>
-	 * * @param pkt packet<br>
-	 * @param type desired side information type<br>
-	 * @param size pointer for side information size to store (optional)<br>
-	 * @return pointer to data if present or NULL otherwise<br>
-	 * Original signature : <code>uint8_t* av_packet_get_side_data(AVPacket*, AVPacketSideDataType, int*)</code><br>
-	 * @deprecated use the safer methods {@link #av_packet_get_side_data(org.javaavc.ffmpeg.avformat.AVPacket, int, java.nio.IntBuffer)} and {@link #av_packet_get_side_data(org.javaavc.ffmpeg.avformat.AVPacket, int, com.sun.jna.ptr.IntByReference)} instead
-	 */
-	@Deprecated 
-	Pointer av_packet_get_side_data(AVPacket pkt, int type, IntByReference size);
-	/**
-	 * Get side information from packet.<br>
-	 * * @param pkt packet<br>
-	 * @param type desired side information type<br>
-	 * @param size pointer for side information size to store (optional)<br>
-	 * @return pointer to data if present or NULL otherwise<br>
-	 * Original signature : <code>uint8_t* av_packet_get_side_data(AVPacket*, AVPacketSideDataType, int*)</code>
-	 */
-	Pointer av_packet_get_side_data(AVPacket pkt, int type, IntBuffer size);
-	/** Original signature : <code>int av_packet_merge_side_data(AVPacket*)</code> */
-	int av_packet_merge_side_data(AVPacket pkt);
-	/** Original signature : <code>int av_packet_split_side_data(AVPacket*)</code> */
-	int av_packet_split_side_data(AVPacket pkt);
-	/**
-	 * Find a registered decoder with a matching codec ID.<br>
-	 * * @param id AVCodecID of the requested decoder<br>
-	 * @return A decoder if one was found, NULL otherwise.<br>
-	 * Original signature : <code>AVCodec* avcodec_find_decoder(AVCodecID)</code>
-	 */
-	AVCodec avcodec_find_decoder(int id);
-	/**
-	 * Find a registered decoder with the specified name.<br>
-	 * * @param name name of the requested decoder<br>
-	 * @return A decoder if one was found, NULL otherwise.<br>
-	 * Original signature : <code>AVCodec* avcodec_find_decoder_by_name(const char*)</code><br>
-	 * @deprecated use the safer methods {@link #avcodec_find_decoder_by_name(java.lang.String)} and {@link #avcodec_find_decoder_by_name(com.sun.jna.Pointer)} instead
-	 */
-	@Deprecated 
-	AVCodec avcodec_find_decoder_by_name(Pointer name);
-	/**
-	 * Find a registered decoder with the specified name.<br>
-	 * * @param name name of the requested decoder<br>
-	 * @return A decoder if one was found, NULL otherwise.<br>
-	 * Original signature : <code>AVCodec* avcodec_find_decoder_by_name(const char*)</code>
-	 */
-	AVCodec avcodec_find_decoder_by_name(String name);
-	/** Original signature : <code>int avcodec_default_get_buffer(AVCodecContext*, AVFrame*)</code> */
-	int avcodec_default_get_buffer(AVCodecContext s, AVFrame pic);
-	/** Original signature : <code>void avcodec_default_release_buffer(AVCodecContext*, AVFrame*)</code> */
-	void avcodec_default_release_buffer(AVCodecContext s, AVFrame pic);
-	/** Original signature : <code>int avcodec_default_reget_buffer(AVCodecContext*, AVFrame*)</code> */
-	int avcodec_default_reget_buffer(AVCodecContext s, AVFrame pic);
-	/**
-	 * The default callback for AVCodecContext.get_buffer2(). It is made public so<br>
-	 * it can be called by custom get_buffer2() implementations for decoders without<br>
-	 * CODEC_CAP_DR1 set.<br>
-	 * Original signature : <code>int avcodec_default_get_buffer2(AVCodecContext*, AVFrame*, int)</code>
-	 */
-	int avcodec_default_get_buffer2(AVCodecContext s, AVFrame frame, int flags);
-	/**
-	 * Return the amount of padding in pixels which the get_buffer callback must<br>
-	 * provide around the edge of the image for codecs which do not have the<br>
-	 * CODEC_FLAG_EMU_EDGE flag.<br>
-	 * * @return Required padding in pixels.<br>
-	 * Original signature : <code>int avcodec_get_edge_width()</code>
-	 */
-	int avcodec_get_edge_width();
-	/**
-	 * Modify width and height values so that they will result in a memory<br>
-	 * buffer that is acceptable for the codec if you do not use any horizontal<br>
-	 * padding.<br>
-	 * * May only be used if a codec with CODEC_CAP_DR1 has been opened.<br>
-	 * If CODEC_FLAG_EMU_EDGE is not set, the dimensions must have been increased<br>
-	 * according to avcodec_get_edge_width() before.<br>
-	 * Original signature : <code>void avcodec_align_dimensions(AVCodecContext*, int*, int*)</code><br>
-	 * @deprecated use the safer methods {@link #avcodec_align_dimensions(org.javaavc.ffmpeg.avformat.AVCodecContext, java.nio.IntBuffer, java.nio.IntBuffer)} and {@link #avcodec_align_dimensions(org.javaavc.ffmpeg.avformat.AVCodecContext, com.sun.jna.ptr.IntByReference, com.sun.jna.ptr.IntByReference)} instead
-	 */
-	@Deprecated 
-	void avcodec_align_dimensions(AVCodecContext s, IntByReference width, IntByReference height);
-	/**
-	 * Modify width and height values so that they will result in a memory<br>
-	 * buffer that is acceptable for the codec if you do not use any horizontal<br>
-	 * padding.<br>
-	 * * May only be used if a codec with CODEC_CAP_DR1 has been opened.<br>
-	 * If CODEC_FLAG_EMU_EDGE is not set, the dimensions must have been increased<br>
-	 * according to avcodec_get_edge_width() before.<br>
-	 * Original signature : <code>void avcodec_align_dimensions(AVCodecContext*, int*, int*)</code>
-	 */
-	void avcodec_align_dimensions(AVCodecContext s, IntBuffer width, IntBuffer height);
-	/**
-	 * Modify width and height values so that they will result in a memory<br>
-	 * buffer that is acceptable for the codec if you also ensure that all<br>
-	 * line sizes are a multiple of the respective linesize_align[i].<br>
-	 * * May only be used if a codec with CODEC_CAP_DR1 has been opened.<br>
-	 * If CODEC_FLAG_EMU_EDGE is not set, the dimensions must have been increased<br>
-	 * according to avcodec_get_edge_width() before.<br>
-	 * Original signature : <code>void avcodec_align_dimensions2(AVCodecContext*, int*, int*, int[8])</code><br>
-	 * @deprecated use the safer methods {@link #avcodec_align_dimensions2(org.javaavc.ffmpeg.avformat.AVCodecContext, java.nio.IntBuffer, java.nio.IntBuffer, java.nio.IntBuffer)} and {@link #avcodec_align_dimensions2(org.javaavc.ffmpeg.avformat.AVCodecContext, com.sun.jna.ptr.IntByReference, com.sun.jna.ptr.IntByReference, com.sun.jna.ptr.IntByReference)} instead
-	 */
-	@Deprecated 
-	void avcodec_align_dimensions2(AVCodecContext s, IntByReference width, IntByReference height, IntByReference linesize_align);
-	/**
-	 * Modify width and height values so that they will result in a memory<br>
-	 * buffer that is acceptable for the codec if you also ensure that all<br>
-	 * line sizes are a multiple of the respective linesize_align[i].<br>
-	 * * May only be used if a codec with CODEC_CAP_DR1 has been opened.<br>
-	 * If CODEC_FLAG_EMU_EDGE is not set, the dimensions must have been increased<br>
-	 * according to avcodec_get_edge_width() before.<br>
-	 * Original signature : <code>void avcodec_align_dimensions2(AVCodecContext*, int*, int*, int[8])</code>
-	 */
-	void avcodec_align_dimensions2(AVCodecContext s, IntBuffer width, IntBuffer height, IntBuffer linesize_align);
-	/**
-	 * Wrapper function which calls avcodec_decode_audio4.<br>
-	 * * @deprecated Use avcodec_decode_audio4 instead.<br>
-	 * * Decode the audio frame of size avpkt->size from avpkt->data into samples.<br>
-	 * Some decoders may support multiple frames in a single AVPacket, such<br>
-	 * decoders would then just decode the first frame. In this case,<br>
-	 * avcodec_decode_audio3 has to be called again with an AVPacket that contains<br>
-	 * the remaining data in order to decode the second frame etc.<br>
-	 * If no frame<br>
-	 * could be outputted, frame_size_ptr is zero. Otherwise, it is the<br>
-	 * decompressed frame size in bytes.<br>
-	 * * @warning You must set frame_size_ptr to the allocated size of the<br>
-	 * output buffer before calling avcodec_decode_audio3().<br>
-	 * * @warning The input buffer must be FF_INPUT_BUFFER_PADDING_SIZE larger than<br>
-	 * the actual read bytes because some optimized bitstream readers read 32 or 64<br>
-	 * bits at once and could read over the end.<br>
-	 * * @warning The end of the input buffer avpkt->data should be set to 0 to ensure that<br>
-	 * no overreading happens for damaged MPEG streams.<br>
-	 * * @warning You must not provide a custom get_buffer() when using<br>
-	 * avcodec_decode_audio3().  Doing so will override it with<br>
-	 * avcodec_default_get_buffer.  Use avcodec_decode_audio4() instead,<br>
-	 * which does allow the application to provide a custom get_buffer().<br>
-	 * * @note You might have to align the input buffer avpkt->data and output buffer<br>
-	 * samples. The alignment requirements depend on the CPU: On some CPUs it isn't<br>
-	 * necessary at all, on others it won't work at all if not aligned and on others<br>
-	 * it will work but it will have an impact on performance.<br>
-	 * * In practice, avpkt->data should have 4 byte alignment at minimum and<br>
-	 * samples should be 16 byte aligned unless the CPU doesn't need it<br>
-	 * (AltiVec and SSE do).<br>
-	 * * @note Codecs which have the CODEC_CAP_DELAY capability set have a delay<br>
-	 * between input and output, these need to be fed with avpkt->data=NULL,<br>
-	 * avpkt->size=0 at the end to return the remaining frames.<br>
-	 * * @param avctx the codec context<br>
-	 * @param[out] samples the output buffer, sample type in avctx->sample_fmt<br>
-	 *                     If the sample format is planar, each channel plane will<br>
-	 *                     be the same size, with no padding between channels.<br>
-	 * @param[in,out] frame_size_ptr the output buffer size in bytes<br>
-	 * @param[in] avpkt The input AVPacket containing the input buffer.<br>
-	 *            You can create such packet with av_init_packet() and by then setting<br>
-	 *            data and size, some decoders might in addition need other fields.<br>
-	 *            All decoders are designed to use the least fields possible though.<br>
-	 * @return On error a negative value is returned, otherwise the number of bytes<br>
-	 * used or zero if no frame data was decompressed (used) from the input AVPacket.<br>
-	 * Original signature : <code>int avcodec_decode_audio3(AVCodecContext*, int16_t*, int*, AVPacket*)</code><br>
-	 * @deprecated use the safer methods {@link #avcodec_decode_audio3(org.javaavc.ffmpeg.avformat.AVCodecContext, java.nio.ShortBuffer, java.nio.IntBuffer, org.javaavc.ffmpeg.avformat.AVPacket)} and {@link #avcodec_decode_audio3(org.javaavc.ffmpeg.avformat.AVCodecContext, com.sun.jna.ptr.ShortByReference, com.sun.jna.ptr.IntByReference, org.javaavc.ffmpeg.avformat.AVPacket)} instead
-	 */
-	@Deprecated 
-	int avcodec_decode_audio3(AVCodecContext avctx, ShortByReference samples, IntByReference frame_size_ptr, AVPacket avpkt);
-	/**
-	 * Wrapper function which calls avcodec_decode_audio4.<br>
-	 * * @deprecated Use avcodec_decode_audio4 instead.<br>
-	 * * Decode the audio frame of size avpkt->size from avpkt->data into samples.<br>
-	 * Some decoders may support multiple frames in a single AVPacket, such<br>
-	 * decoders would then just decode the first frame. In this case,<br>
-	 * avcodec_decode_audio3 has to be called again with an AVPacket that contains<br>
-	 * the remaining data in order to decode the second frame etc.<br>
-	 * If no frame<br>
-	 * could be outputted, frame_size_ptr is zero. Otherwise, it is the<br>
-	 * decompressed frame size in bytes.<br>
-	 * * @warning You must set frame_size_ptr to the allocated size of the<br>
-	 * output buffer before calling avcodec_decode_audio3().<br>
-	 * * @warning The input buffer must be FF_INPUT_BUFFER_PADDING_SIZE larger than<br>
-	 * the actual read bytes because some optimized bitstream readers read 32 or 64<br>
-	 * bits at once and could read over the end.<br>
-	 * * @warning The end of the input buffer avpkt->data should be set to 0 to ensure that<br>
-	 * no overreading happens for damaged MPEG streams.<br>
-	 * * @warning You must not provide a custom get_buffer() when using<br>
-	 * avcodec_decode_audio3().  Doing so will override it with<br>
-	 * avcodec_default_get_buffer.  Use avcodec_decode_audio4() instead,<br>
-	 * which does allow the application to provide a custom get_buffer().<br>
-	 * * @note You might have to align the input buffer avpkt->data and output buffer<br>
-	 * samples. The alignment requirements depend on the CPU: On some CPUs it isn't<br>
-	 * necessary at all, on others it won't work at all if not aligned and on others<br>
-	 * it will work but it will have an impact on performance.<br>
-	 * * In practice, avpkt->data should have 4 byte alignment at minimum and<br>
-	 * samples should be 16 byte aligned unless the CPU doesn't need it<br>
-	 * (AltiVec and SSE do).<br>
-	 * * @note Codecs which have the CODEC_CAP_DELAY capability set have a delay<br>
-	 * between input and output, these need to be fed with avpkt->data=NULL,<br>
-	 * avpkt->size=0 at the end to return the remaining frames.<br>
-	 * * @param avctx the codec context<br>
-	 * @param[out] samples the output buffer, sample type in avctx->sample_fmt<br>
-	 *                     If the sample format is planar, each channel plane will<br>
-	 *                     be the same size, with no padding between channels.<br>
-	 * @param[in,out] frame_size_ptr the output buffer size in bytes<br>
-	 * @param[in] avpkt The input AVPacket containing the input buffer.<br>
-	 *            You can create such packet with av_init_packet() and by then setting<br>
-	 *            data and size, some decoders might in addition need other fields.<br>
-	 *            All decoders are designed to use the least fields possible though.<br>
-	 * @return On error a negative value is returned, otherwise the number of bytes<br>
-	 * used or zero if no frame data was decompressed (used) from the input AVPacket.<br>
-	 * Original signature : <code>int avcodec_decode_audio3(AVCodecContext*, int16_t*, int*, AVPacket*)</code>
-	 */
-	int avcodec_decode_audio3(AVCodecContext avctx, ShortBuffer samples, IntBuffer frame_size_ptr, AVPacket avpkt);
-	/**
-	 * Decode the audio frame of size avpkt->size from avpkt->data into frame.<br>
-	 * * Some decoders may support multiple frames in a single AVPacket. Such<br>
-	 * decoders would then just decode the first frame. In this case,<br>
-	 * avcodec_decode_audio4 has to be called again with an AVPacket containing<br>
-	 * the remaining data in order to decode the second frame, etc...<br>
-	 * Even if no frames are returned, the packet needs to be fed to the decoder<br>
-	 * with remaining data until it is completely consumed or an error occurs.<br>
-	 * * @warning The input buffer, avpkt->data must be FF_INPUT_BUFFER_PADDING_SIZE<br>
-	 *          larger than the actual read bytes because some optimized bitstream<br>
-	 *          readers read 32 or 64 bits at once and could read over the end.<br>
-	 * * @note You might have to align the input buffer. The alignment requirements<br>
-	 *       depend on the CPU and the decoder.<br>
-	 * * @param      avctx the codec context<br>
-	 * @param[out] frame The AVFrame in which to store decoded audio samples.<br>
-	 *                   The decoder will allocate a buffer for the decoded frame by<br>
-	 *                   calling the AVCodecContext.get_buffer2() callback.<br>
-	 *                   When AVCodecContext.refcounted_frames is set to 1, the frame is<br>
-	 *                   reference counted and the returned reference belongs to the<br>
-	 *                   caller. The caller must release the frame using av_frame_unref()<br>
-	 *                   when the frame is no longer needed. The caller may safely write<br>
-	 *                   to the frame if av_frame_is_writable() returns 1.<br>
-	 *                   When AVCodecContext.refcounted_frames is set to 0, the returned<br>
-	 *                   reference belongs to the decoder and is valid only until the<br>
-	 *                   next call to this function or until closing the decoder.<br>
-	 *                   The caller may not write to it.<br>
-	 * @param[out] got_frame_ptr Zero if no frame could be decoded, otherwise it is<br>
-	 *                           non-zero.<br>
-	 * @param[in]  avpkt The input AVPacket containing the input buffer.<br>
-	 *                   At least avpkt->data and avpkt->size should be set. Some<br>
-	 *                   decoders might also require additional fields to be set.<br>
-	 * @return A negative error code is returned if an error occurred during<br>
-	 *         decoding, otherwise the number of bytes consumed from the input<br>
-	 *         AVPacket is returned.<br>
-	 * Original signature : <code>int avcodec_decode_audio4(AVCodecContext*, AVFrame*, int*, const AVPacket*)</code><br>
-	 * @deprecated use the safer methods {@link #avcodec_decode_audio4(org.javaavc.ffmpeg.avformat.AVCodecContext, org.javaavc.ffmpeg.avformat.AVFrame, java.nio.IntBuffer, org.javaavc.ffmpeg.avformat.AVPacket)} and {@link #avcodec_decode_audio4(org.javaavc.ffmpeg.avformat.AVCodecContext, org.javaavc.ffmpeg.avformat.AVFrame, com.sun.jna.ptr.IntByReference, org.javaavc.ffmpeg.avformat.AVPacket)} instead
-	 */
-	@Deprecated 
-	int avcodec_decode_audio4(AVCodecContext avctx, AVFrame frame, IntByReference got_frame_ptr, AVPacket avpkt);
-	/**
-	 * Decode the audio frame of size avpkt->size from avpkt->data into frame.<br>
-	 * * Some decoders may support multiple frames in a single AVPacket. Such<br>
-	 * decoders would then just decode the first frame. In this case,<br>
-	 * avcodec_decode_audio4 has to be called again with an AVPacket containing<br>
-	 * the remaining data in order to decode the second frame, etc...<br>
-	 * Even if no frames are returned, the packet needs to be fed to the decoder<br>
-	 * with remaining data until it is completely consumed or an error occurs.<br>
-	 * * @warning The input buffer, avpkt->data must be FF_INPUT_BUFFER_PADDING_SIZE<br>
-	 *          larger than the actual read bytes because some optimized bitstream<br>
-	 *          readers read 32 or 64 bits at once and could read over the end.<br>
-	 * * @note You might have to align the input buffer. The alignment requirements<br>
-	 *       depend on the CPU and the decoder.<br>
-	 * * @param      avctx the codec context<br>
-	 * @param[out] frame The AVFrame in which to store decoded audio samples.<br>
-	 *                   The decoder will allocate a buffer for the decoded frame by<br>
-	 *                   calling the AVCodecContext.get_buffer2() callback.<br>
-	 *                   When AVCodecContext.refcounted_frames is set to 1, the frame is<br>
-	 *                   reference counted and the returned reference belongs to the<br>
-	 *                   caller. The caller must release the frame using av_frame_unref()<br>
-	 *                   when the frame is no longer needed. The caller may safely write<br>
-	 *                   to the frame if av_frame_is_writable() returns 1.<br>
-	 *                   When AVCodecContext.refcounted_frames is set to 0, the returned<br>
-	 *                   reference belongs to the decoder and is valid only until the<br>
-	 *                   next call to this function or until closing the decoder.<br>
-	 *                   The caller may not write to it.<br>
-	 * @param[out] got_frame_ptr Zero if no frame could be decoded, otherwise it is<br>
-	 *                           non-zero.<br>
-	 * @param[in]  avpkt The input AVPacket containing the input buffer.<br>
-	 *                   At least avpkt->data and avpkt->size should be set. Some<br>
-	 *                   decoders might also require additional fields to be set.<br>
-	 * @return A negative error code is returned if an error occurred during<br>
-	 *         decoding, otherwise the number of bytes consumed from the input<br>
-	 *         AVPacket is returned.<br>
-	 * Original signature : <code>int avcodec_decode_audio4(AVCodecContext*, AVFrame*, int*, const AVPacket*)</code>
-	 */
-	int avcodec_decode_audio4(AVCodecContext avctx, AVFrame frame, IntBuffer got_frame_ptr, AVPacket avpkt);
-	/**
-	 * Decode the video frame of size avpkt->size from avpkt->data into picture.<br>
-	 * Some decoders may support multiple frames in a single AVPacket, such<br>
-	 * decoders would then just decode the first frame.<br>
-	 * * @warning The input buffer must be FF_INPUT_BUFFER_PADDING_SIZE larger than<br>
-	 * the actual read bytes because some optimized bitstream readers read 32 or 64<br>
-	 * bits at once and could read over the end.<br>
-	 * * @warning The end of the input buffer buf should be set to 0 to ensure that<br>
-	 * no overreading happens for damaged MPEG streams.<br>
-	 * * @note You might have to align the input buffer avpkt->data.<br>
-	 * The alignment requirements depend on the CPU: on some CPUs it isn't<br>
-	 * necessary at all, on others it won't work at all if not aligned and on others<br>
-	 * it will work but it will have an impact on performance.<br>
-	 * * In practice, avpkt->data should have 4 byte alignment at minimum.<br>
-	 * * @note Codecs which have the CODEC_CAP_DELAY capability set have a delay<br>
-	 * between input and output, these need to be fed with avpkt->data=NULL,<br>
-	 * avpkt->size=0 at the end to return the remaining frames.<br>
-	 * * @param avctx the codec context<br>
-	 * @param[out] picture The AVFrame in which the decoded video frame will be stored.<br>
-	 *             Use av_frame_alloc() to get an AVFrame. The codec will<br>
-	 *             allocate memory for the actual bitmap by calling the<br>
-	 *             AVCodecContext.get_buffer2() callback.<br>
-	 *             When AVCodecContext.refcounted_frames is set to 1, the frame is<br>
-	 *             reference counted and the returned reference belongs to the<br>
-	 *             caller. The caller must release the frame using av_frame_unref()<br>
-	 *             when the frame is no longer needed. The caller may safely write<br>
-	 *             to the frame if av_frame_is_writable() returns 1.<br>
-	 *             When AVCodecContext.refcounted_frames is set to 0, the returned<br>
-	 *             reference belongs to the decoder and is valid only until the<br>
-	 *             next call to this function or until closing the decoder. The<br>
-	 *             caller may not write to it.<br>
-	 * * @param[in] avpkt The input AVpacket containing the input buffer.<br>
-	 *            You can create such packet with av_init_packet() and by then setting<br>
-	 *            data and size, some decoders might in addition need other fields like<br>
-	 *            flags&AV_PKT_FLAG_KEY. All decoders are designed to use the least<br>
-	 *            fields possible.<br>
-	 * @param[in,out] got_picture_ptr Zero if no frame could be decompressed, otherwise, it is nonzero.<br>
-	 * @return On error a negative value is returned, otherwise the number of bytes<br>
-	 * used or zero if no frame could be decompressed.<br>
-	 * Original signature : <code>int avcodec_decode_video2(AVCodecContext*, AVFrame*, int*, const AVPacket*)</code><br>
-	 * @deprecated use the safer methods {@link #avcodec_decode_video2(org.javaavc.ffmpeg.avformat.AVCodecContext, org.javaavc.ffmpeg.avformat.AVFrame, java.nio.IntBuffer, org.javaavc.ffmpeg.avformat.AVPacket)} and {@link #avcodec_decode_video2(org.javaavc.ffmpeg.avformat.AVCodecContext, org.javaavc.ffmpeg.avformat.AVFrame, com.sun.jna.ptr.IntByReference, org.javaavc.ffmpeg.avformat.AVPacket)} instead
-	 */
-	@Deprecated 
-	int avcodec_decode_video2(AVCodecContext avctx, AVFrame picture, IntByReference got_picture_ptr, AVPacket avpkt);
-	/**
-	 * Decode the video frame of size avpkt->size from avpkt->data into picture.<br>
-	 * Some decoders may support multiple frames in a single AVPacket, such<br>
-	 * decoders would then just decode the first frame.<br>
-	 * * @warning The input buffer must be FF_INPUT_BUFFER_PADDING_SIZE larger than<br>
-	 * the actual read bytes because some optimized bitstream readers read 32 or 64<br>
-	 * bits at once and could read over the end.<br>
-	 * * @warning The end of the input buffer buf should be set to 0 to ensure that<br>
-	 * no overreading happens for damaged MPEG streams.<br>
-	 * * @note You might have to align the input buffer avpkt->data.<br>
-	 * The alignment requirements depend on the CPU: on some CPUs it isn't<br>
-	 * necessary at all, on others it won't work at all if not aligned and on others<br>
-	 * it will work but it will have an impact on performance.<br>
-	 * * In practice, avpkt->data should have 4 byte alignment at minimum.<br>
-	 * * @note Codecs which have the CODEC_CAP_DELAY capability set have a delay<br>
-	 * between input and output, these need to be fed with avpkt->data=NULL,<br>
-	 * avpkt->size=0 at the end to return the remaining frames.<br>
-	 * * @param avctx the codec context<br>
-	 * @param[out] picture The AVFrame in which the decoded video frame will be stored.<br>
-	 *             Use av_frame_alloc() to get an AVFrame. The codec will<br>
-	 *             allocate memory for the actual bitmap by calling the<br>
-	 *             AVCodecContext.get_buffer2() callback.<br>
-	 *             When AVCodecContext.refcounted_frames is set to 1, the frame is<br>
-	 *             reference counted and the returned reference belongs to the<br>
-	 *             caller. The caller must release the frame using av_frame_unref()<br>
-	 *             when the frame is no longer needed. The caller may safely write<br>
-	 *             to the frame if av_frame_is_writable() returns 1.<br>
-	 *             When AVCodecContext.refcounted_frames is set to 0, the returned<br>
-	 *             reference belongs to the decoder and is valid only until the<br>
-	 *             next call to this function or until closing the decoder. The<br>
-	 *             caller may not write to it.<br>
-	 * * @param[in] avpkt The input AVpacket containing the input buffer.<br>
-	 *            You can create such packet with av_init_packet() and by then setting<br>
-	 *            data and size, some decoders might in addition need other fields like<br>
-	 *            flags&AV_PKT_FLAG_KEY. All decoders are designed to use the least<br>
-	 *            fields possible.<br>
-	 * @param[in,out] got_picture_ptr Zero if no frame could be decompressed, otherwise, it is nonzero.<br>
-	 * @return On error a negative value is returned, otherwise the number of bytes<br>
-	 * used or zero if no frame could be decompressed.<br>
-	 * Original signature : <code>int avcodec_decode_video2(AVCodecContext*, AVFrame*, int*, const AVPacket*)</code>
-	 */
-	int avcodec_decode_video2(AVCodecContext avctx, AVFrame picture, IntBuffer got_picture_ptr, AVPacket avpkt);
-	/**
-	 * Decode a subtitle message.<br>
-	 * Return a negative value on error, otherwise return the number of bytes used.<br>
-	 * If no subtitle could be decompressed, got_sub_ptr is zero.<br>
-	 * Otherwise, the subtitle is stored in *sub.<br>
-	 * Note that CODEC_CAP_DR1 is not available for subtitle codecs. This is for<br>
-	 * simplicity, because the performance difference is expect to be negligible<br>
-	 * and reusing a get_buffer written for video codecs would probably perform badly<br>
-	 * due to a potentially very different allocation pattern.<br>
-	 * * @param avctx the codec context<br>
-	 * @param[out] sub The AVSubtitle in which the decoded subtitle will be stored, must be<br>
-	 * freed with avsubtitle_free if *got_sub_ptr is set.<br>
-	 * @param[in,out] got_sub_ptr Zero if no subtitle could be decompressed, otherwise, it is nonzero.<br>
-	 * @param[in] avpkt The input AVPacket containing the input buffer.<br>
-	 * Original signature : <code>int avcodec_decode_subtitle2(AVCodecContext*, AVSubtitle*, int*, AVPacket*)</code><br>
-	 * @deprecated use the safer methods {@link #avcodec_decode_subtitle2(org.javaavc.ffmpeg.avformat.AVCodecContext, org.javaavc.ffmpeg.avformat.AVSubtitle, java.nio.IntBuffer, org.javaavc.ffmpeg.avformat.AVPacket)} and {@link #avcodec_decode_subtitle2(org.javaavc.ffmpeg.avformat.AVCodecContext, org.javaavc.ffmpeg.avformat.AVSubtitle, com.sun.jna.ptr.IntByReference, org.javaavc.ffmpeg.avformat.AVPacket)} instead
-	 */
-	@Deprecated 
-	int avcodec_decode_subtitle2(AVCodecContext avctx, AVSubtitle sub, IntByReference got_sub_ptr, AVPacket avpkt);
-	/**
-	 * Decode a subtitle message.<br>
-	 * Return a negative value on error, otherwise return the number of bytes used.<br>
-	 * If no subtitle could be decompressed, got_sub_ptr is zero.<br>
-	 * Otherwise, the subtitle is stored in *sub.<br>
-	 * Note that CODEC_CAP_DR1 is not available for subtitle codecs. This is for<br>
-	 * simplicity, because the performance difference is expect to be negligible<br>
-	 * and reusing a get_buffer written for video codecs would probably perform badly<br>
-	 * due to a potentially very different allocation pattern.<br>
-	 * * @param avctx the codec context<br>
-	 * @param[out] sub The AVSubtitle in which the decoded subtitle will be stored, must be<br>
-	 * freed with avsubtitle_free if *got_sub_ptr is set.<br>
-	 * @param[in,out] got_sub_ptr Zero if no subtitle could be decompressed, otherwise, it is nonzero.<br>
-	 * @param[in] avpkt The input AVPacket containing the input buffer.<br>
-	 * Original signature : <code>int avcodec_decode_subtitle2(AVCodecContext*, AVSubtitle*, int*, AVPacket*)</code>
-	 */
-	int avcodec_decode_subtitle2(AVCodecContext avctx, AVSubtitle sub, IntBuffer got_sub_ptr, AVPacket avpkt);
-	/** Original signature : <code>AVCodecParser* av_parser_next(AVCodecParser*)</code> */
-	AVCodecParser av_parser_next(AVCodecParser c);
-	/** Original signature : <code>void av_register_codec_parser(AVCodecParser*)</code> */
-	void av_register_codec_parser(AVCodecParser parser);
-	/** Original signature : <code>AVCodecParserContext* av_parser_init(int)</code> */
-	AVCodecParserContext av_parser_init(int codec_id);
-	/**
-	 * Parse a packet.<br>
-	 * * @param s             parser context.<br>
-	 * @param avctx         codec context.<br>
-	 * @param poutbuf       set to pointer to parsed buffer or NULL if not yet finished.<br>
-	 * @param poutbuf_size  set to size of parsed buffer or zero if not yet finished.<br>
-	 * @param buf           input buffer.<br>
-	 * @param buf_size      input length, to signal EOF, this should be 0 (so that the last frame can be output).<br>
-	 * @param pts           input presentation timestamp.<br>
-	 * @param dts           input decoding timestamp.<br>
-	 * @param pos           input byte position in stream.<br>
-	 * @return the number of bytes of the input bitstream used.<br>
-	 * * Example:<br>
-	 * @code<br>
-	 *   while(in_len){<br>
-	 *       len = av_parser_parse2(myparser, AVCodecContext, &data, &size,<br>
-	 *                                        in_data, in_len,<br>
-	 *                                        pts, dts, pos);<br>
-	 *       in_data += len;<br>
-	 *       in_len  -= len;<br>
-	 * *       if(size)<br>
-	 *          decode_frame(data, size);<br>
-	 *   }<br>
-	 * @endcode<br>
-	 * Original signature : <code>int av_parser_parse2(AVCodecParserContext*, AVCodecContext*, uint8_t**, int*, const uint8_t*, int, int64_t, int64_t, int64_t)</code><br>
-	 * @deprecated use the safer methods {@link #av_parser_parse2(org.javaavc.ffmpeg.avformat.AVCodecParserContext, org.javaavc.ffmpeg.avformat.AVCodecContext, com.sun.jna.ptr.PointerByReference, java.nio.IntBuffer, java.nio.ByteBuffer, int, long, long, long)} and {@link #av_parser_parse2(org.javaavc.ffmpeg.avformat.AVCodecParserContext, org.javaavc.ffmpeg.avformat.AVCodecContext, com.sun.jna.ptr.PointerByReference, com.sun.jna.ptr.IntByReference, com.sun.jna.Pointer, int, long, long, long)} instead
-	 */
-	@Deprecated 
-	int av_parser_parse2(AVCodecParserContext s, AVCodecContext avctx, PointerByReference poutbuf, IntByReference poutbuf_size, Pointer buf, int buf_size, long pts, long dts, long pos);
-	/**
-	 * Parse a packet.<br>
-	 * * @param s             parser context.<br>
-	 * @param avctx         codec context.<br>
-	 * @param poutbuf       set to pointer to parsed buffer or NULL if not yet finished.<br>
-	 * @param poutbuf_size  set to size of parsed buffer or zero if not yet finished.<br>
-	 * @param buf           input buffer.<br>
-	 * @param buf_size      input length, to signal EOF, this should be 0 (so that the last frame can be output).<br>
-	 * @param pts           input presentation timestamp.<br>
-	 * @param dts           input decoding timestamp.<br>
-	 * @param pos           input byte position in stream.<br>
-	 * @return the number of bytes of the input bitstream used.<br>
-	 * * Example:<br>
-	 * @code<br>
-	 *   while(in_len){<br>
-	 *       len = av_parser_parse2(myparser, AVCodecContext, &data, &size,<br>
-	 *                                        in_data, in_len,<br>
-	 *                                        pts, dts, pos);<br>
-	 *       in_data += len;<br>
-	 *       in_len  -= len;<br>
-	 * *       if(size)<br>
-	 *          decode_frame(data, size);<br>
-	 *   }<br>
-	 * @endcode<br>
-	 * Original signature : <code>int av_parser_parse2(AVCodecParserContext*, AVCodecContext*, uint8_t**, int*, const uint8_t*, int, int64_t, int64_t, int64_t)</code>
-	 */
-	int av_parser_parse2(AVCodecParserContext s, AVCodecContext avctx, PointerByReference poutbuf, IntBuffer poutbuf_size, ByteBuffer buf, int buf_size, long pts, long dts, long pos);
-	/**
-	 * @return 0 if the output buffer is a subset of the input, 1 if it is allocated and must be freed<br>
-	 * @deprecated use AVBitStreamFilter<br>
-	 * Original signature : <code>int av_parser_change(AVCodecParserContext*, AVCodecContext*, uint8_t**, int*, const uint8_t*, int, int)</code><br>
-	 * @deprecated use the safer methods {@link #av_parser_change(org.javaavc.ffmpeg.avformat.AVCodecParserContext, org.javaavc.ffmpeg.avformat.AVCodecContext, com.sun.jna.ptr.PointerByReference, java.nio.IntBuffer, java.nio.ByteBuffer, int, int)} and {@link #av_parser_change(org.javaavc.ffmpeg.avformat.AVCodecParserContext, org.javaavc.ffmpeg.avformat.AVCodecContext, com.sun.jna.ptr.PointerByReference, com.sun.jna.ptr.IntByReference, com.sun.jna.Pointer, int, int)} instead
-	 */
-	@Deprecated 
-	int av_parser_change(AVCodecParserContext s, AVCodecContext avctx, PointerByReference poutbuf, IntByReference poutbuf_size, Pointer buf, int buf_size, int keyframe);
-	/**
-	 * @return 0 if the output buffer is a subset of the input, 1 if it is allocated and must be freed<br>
-	 * @deprecated use AVBitStreamFilter<br>
-	 * Original signature : <code>int av_parser_change(AVCodecParserContext*, AVCodecContext*, uint8_t**, int*, const uint8_t*, int, int)</code>
-	 */
-	int av_parser_change(AVCodecParserContext s, AVCodecContext avctx, PointerByReference poutbuf, IntBuffer poutbuf_size, ByteBuffer buf, int buf_size, int keyframe);
-	/** Original signature : <code>void av_parser_close(AVCodecParserContext*)</code> */
-	void av_parser_close(AVCodecParserContext s);
-	/**
-	 * Find a registered encoder with a matching codec ID.<br>
-	 * * @param id AVCodecID of the requested encoder<br>
-	 * @return An encoder if one was found, NULL otherwise.<br>
-	 * Original signature : <code>AVCodec* avcodec_find_encoder(AVCodecID)</code>
-	 */
-	AVCodec avcodec_find_encoder(int id);
-	/**
-	 * Find a registered encoder with the specified name.<br>
-	 * * @param name name of the requested encoder<br>
-	 * @return An encoder if one was found, NULL otherwise.<br>
-	 * Original signature : <code>AVCodec* avcodec_find_encoder_by_name(const char*)</code><br>
-	 * @deprecated use the safer methods {@link #avcodec_find_encoder_by_name(java.lang.String)} and {@link #avcodec_find_encoder_by_name(com.sun.jna.Pointer)} instead
-	 */
-	@Deprecated 
-	AVCodec avcodec_find_encoder_by_name(Pointer name);
-	/**
-	 * Find a registered encoder with the specified name.<br>
-	 * * @param name name of the requested encoder<br>
-	 * @return An encoder if one was found, NULL otherwise.<br>
-	 * Original signature : <code>AVCodec* avcodec_find_encoder_by_name(const char*)</code>
-	 */
-	AVCodec avcodec_find_encoder_by_name(String name);
-	/**
-	 * Encode an audio frame from samples into buf.<br>
-	 * * @deprecated Use avcodec_encode_audio2 instead.<br>
-	 * * @note The output buffer should be at least FF_MIN_BUFFER_SIZE bytes large.<br>
-	 * However, for codecs with avctx->frame_size equal to 0 (e.g. PCM) the user<br>
-	 * will know how much space is needed because it depends on the value passed<br>
-	 * in buf_size as described below. In that case a lower value can be used.<br>
-	 * * @param avctx the codec context<br>
-	 * @param[out] buf the output buffer<br>
-	 * @param[in] buf_size the output buffer size<br>
-	 * @param[in] samples the input buffer containing the samples<br>
-	 * The number of samples read from this buffer is frame_size*channels,<br>
-	 * both of which are defined in avctx.<br>
-	 * For codecs which have avctx->frame_size equal to 0 (e.g. PCM) the number of<br>
-	 * samples read from samples is equal to:<br>
-	 * buf_size * 8 / (avctx->channels * av_get_bits_per_sample(avctx->codec_id))<br>
-	 * This also implies that av_get_bits_per_sample() must not return 0 for these<br>
-	 * codecs.<br>
-	 * @return On error a negative value is returned, on success zero or the number<br>
-	 * of bytes used to encode the data read from the input buffer.<br>
-	 * Original signature : <code>int avcodec_encode_audio(AVCodecContext*, uint8_t*, int, const short*)</code><br>
-	 * @deprecated use the safer methods {@link #avcodec_encode_audio(org.javaavc.ffmpeg.avformat.AVCodecContext, java.nio.ByteBuffer, int, java.nio.ShortBuffer)} and {@link #avcodec_encode_audio(org.javaavc.ffmpeg.avformat.AVCodecContext, com.sun.jna.Pointer, int, com.sun.jna.ptr.ShortByReference)} instead
-	 */
-	@Deprecated 
-	int avcodec_encode_audio(AVCodecContext avctx, Pointer buf, int buf_size, ShortByReference samples);
-	/**
-	 * Encode an audio frame from samples into buf.<br>
-	 * * @deprecated Use avcodec_encode_audio2 instead.<br>
-	 * * @note The output buffer should be at least FF_MIN_BUFFER_SIZE bytes large.<br>
-	 * However, for codecs with avctx->frame_size equal to 0 (e.g. PCM) the user<br>
-	 * will know how much space is needed because it depends on the value passed<br>
-	 * in buf_size as described below. In that case a lower value can be used.<br>
-	 * * @param avctx the codec context<br>
-	 * @param[out] buf the output buffer<br>
-	 * @param[in] buf_size the output buffer size<br>
-	 * @param[in] samples the input buffer containing the samples<br>
-	 * The number of samples read from this buffer is frame_size*channels,<br>
-	 * both of which are defined in avctx.<br>
-	 * For codecs which have avctx->frame_size equal to 0 (e.g. PCM) the number of<br>
-	 * samples read from samples is equal to:<br>
-	 * buf_size * 8 / (avctx->channels * av_get_bits_per_sample(avctx->codec_id))<br>
-	 * This also implies that av_get_bits_per_sample() must not return 0 for these<br>
-	 * codecs.<br>
-	 * @return On error a negative value is returned, on success zero or the number<br>
-	 * of bytes used to encode the data read from the input buffer.<br>
-	 * Original signature : <code>int avcodec_encode_audio(AVCodecContext*, uint8_t*, int, const short*)</code>
-	 */
-	int avcodec_encode_audio(AVCodecContext avctx, ByteBuffer buf, int buf_size, ShortBuffer samples);
-	/**
-	 * Encode a frame of audio.<br>
-	 * * Takes input samples from frame and writes the next output packet, if<br>
-	 * available, to avpkt. The output packet does not necessarily contain data for<br>
-	 * the most recent frame, as encoders can delay, split, and combine input frames<br>
-	 * internally as needed.<br>
-	 * * @param avctx     codec context<br>
-	 * @param avpkt     output AVPacket.<br>
-	 *                  The user can supply an output buffer by setting<br>
-	 *                  avpkt->data and avpkt->size prior to calling the<br>
-	 *                  function, but if the size of the user-provided data is not<br>
-	 *                  large enough, encoding will fail. If avpkt->data and<br>
-	 *                  avpkt->size are set, avpkt->destruct must also be set. All<br>
-	 *                  other AVPacket fields will be reset by the encoder using<br>
-	 *                  av_init_packet(). If avpkt->data is NULL, the encoder will<br>
-	 *                  allocate it. The encoder will set avpkt->size to the size<br>
-	 *                  of the output packet.<br>
-	 * *                  If this function fails or produces no output, avpkt will be<br>
-	 *                  freed using av_free_packet() (i.e. avpkt->destruct will be<br>
-	 *                  called to free the user supplied buffer).<br>
-	 * @param[in] frame AVFrame containing the raw audio data to be encoded.<br>
-	 *                  May be NULL when flushing an encoder that has the<br>
-	 *                  CODEC_CAP_DELAY capability set.<br>
-	 *                  If CODEC_CAP_VARIABLE_FRAME_SIZE is set, then each frame<br>
-	 *                  can have any number of samples.<br>
-	 *                  If it is not set, frame->nb_samples must be equal to<br>
-	 *                  avctx->frame_size for all frames except the last.<br>
-	 *                  The final frame may be smaller than avctx->frame_size.<br>
-	 * @param[out] got_packet_ptr This field is set to 1 by libavcodec if the<br>
-	 *                            output packet is non-empty, and to 0 if it is<br>
-	 *                            empty. If the function returns an error, the<br>
-	 *                            packet can be assumed to be invalid, and the<br>
-	 *                            value of got_packet_ptr is undefined and should<br>
-	 *                            not be used.<br>
-	 * @return          0 on success, negative error code on failure<br>
-	 * Original signature : <code>int avcodec_encode_audio2(AVCodecContext*, AVPacket*, const AVFrame*, int*)</code><br>
-	 * @deprecated use the safer methods {@link #avcodec_encode_audio2(org.javaavc.ffmpeg.avformat.AVCodecContext, org.javaavc.ffmpeg.avformat.AVPacket, org.javaavc.ffmpeg.avformat.AVFrame, java.nio.IntBuffer)} and {@link #avcodec_encode_audio2(org.javaavc.ffmpeg.avformat.AVCodecContext, org.javaavc.ffmpeg.avformat.AVPacket, org.javaavc.ffmpeg.avformat.AVFrame, com.sun.jna.ptr.IntByReference)} instead
-	 */
-	@Deprecated 
-	int avcodec_encode_audio2(AVCodecContext avctx, AVPacket avpkt, AVFrame frame, IntByReference got_packet_ptr);
-	/**
-	 * Encode a frame of audio.<br>
-	 * * Takes input samples from frame and writes the next output packet, if<br>
-	 * available, to avpkt. The output packet does not necessarily contain data for<br>
-	 * the most recent frame, as encoders can delay, split, and combine input frames<br>
-	 * internally as needed.<br>
-	 * * @param avctx     codec context<br>
-	 * @param avpkt     output AVPacket.<br>
-	 *                  The user can supply an output buffer by setting<br>
-	 *                  avpkt->data and avpkt->size prior to calling the<br>
-	 *                  function, but if the size of the user-provided data is not<br>
-	 *                  large enough, encoding will fail. If avpkt->data and<br>
-	 *                  avpkt->size are set, avpkt->destruct must also be set. All<br>
-	 *                  other AVPacket fields will be reset by the encoder using<br>
-	 *                  av_init_packet(). If avpkt->data is NULL, the encoder will<br>
-	 *                  allocate it. The encoder will set avpkt->size to the size<br>
-	 *                  of the output packet.<br>
-	 * *                  If this function fails or produces no output, avpkt will be<br>
-	 *                  freed using av_free_packet() (i.e. avpkt->destruct will be<br>
-	 *                  called to free the user supplied buffer).<br>
-	 * @param[in] frame AVFrame containing the raw audio data to be encoded.<br>
-	 *                  May be NULL when flushing an encoder that has the<br>
-	 *                  CODEC_CAP_DELAY capability set.<br>
-	 *                  If CODEC_CAP_VARIABLE_FRAME_SIZE is set, then each frame<br>
-	 *                  can have any number of samples.<br>
-	 *                  If it is not set, frame->nb_samples must be equal to<br>
-	 *                  avctx->frame_size for all frames except the last.<br>
-	 *                  The final frame may be smaller than avctx->frame_size.<br>
-	 * @param[out] got_packet_ptr This field is set to 1 by libavcodec if the<br>
-	 *                            output packet is non-empty, and to 0 if it is<br>
-	 *                            empty. If the function returns an error, the<br>
-	 *                            packet can be assumed to be invalid, and the<br>
-	 *                            value of got_packet_ptr is undefined and should<br>
-	 *                            not be used.<br>
-	 * @return          0 on success, negative error code on failure<br>
-	 * Original signature : <code>int avcodec_encode_audio2(AVCodecContext*, AVPacket*, const AVFrame*, int*)</code>
-	 */
-	int avcodec_encode_audio2(AVCodecContext avctx, AVPacket avpkt, AVFrame frame, IntBuffer got_packet_ptr);
-	/**
-	 * Original signature : <code>int avcodec_encode_video(AVCodecContext*, uint8_t*, int, const AVFrame*)</code><br>
-	 * @deprecated use the safer methods {@link #avcodec_encode_video(org.javaavc.ffmpeg.avformat.AVCodecContext, java.nio.ByteBuffer, int, org.javaavc.ffmpeg.avformat.AVFrame)} and {@link #avcodec_encode_video(org.javaavc.ffmpeg.avformat.AVCodecContext, com.sun.jna.Pointer, int, org.javaavc.ffmpeg.avformat.AVFrame)} instead
-	 */
-	@Deprecated 
-	int avcodec_encode_video(AVCodecContext avctx, Pointer buf, int buf_size, AVFrame pict);
-	/** Original signature : <code>int avcodec_encode_video(AVCodecContext*, uint8_t*, int, const AVFrame*)</code> */
-	int avcodec_encode_video(AVCodecContext avctx, ByteBuffer buf, int buf_size, AVFrame pict);
-	/**
-	 * Encode a frame of video.<br>
-	 * * Takes input raw video data from frame and writes the next output packet, if<br>
-	 * available, to avpkt. The output packet does not necessarily contain data for<br>
-	 * the most recent frame, as encoders can delay and reorder input frames<br>
-	 * internally as needed.<br>
-	 * * @param avctx     codec context<br>
-	 * @param avpkt     output AVPacket.<br>
-	 *                  The user can supply an output buffer by setting<br>
-	 *                  avpkt->data and avpkt->size prior to calling the<br>
-	 *                  function, but if the size of the user-provided data is not<br>
-	 *                  large enough, encoding will fail. All other AVPacket fields<br>
-	 *                  will be reset by the encoder using av_init_packet(). If<br>
-	 *                  avpkt->data is NULL, the encoder will allocate it.<br>
-	 *                  The encoder will set avpkt->size to the size of the<br>
-	 *                  output packet. The returned data (if any) belongs to the<br>
-	 *                  caller, he is responsible for freeing it.<br>
-	 * *                  If this function fails or produces no output, avpkt will be<br>
-	 *                  freed using av_free_packet() (i.e. avpkt->destruct will be<br>
-	 *                  called to free the user supplied buffer).<br>
-	 * @param[in] frame AVFrame containing the raw video data to be encoded.<br>
-	 *                  May be NULL when flushing an encoder that has the<br>
-	 *                  CODEC_CAP_DELAY capability set.<br>
-	 * @param[out] got_packet_ptr This field is set to 1 by libavcodec if the<br>
-	 *                            output packet is non-empty, and to 0 if it is<br>
-	 *                            empty. If the function returns an error, the<br>
-	 *                            packet can be assumed to be invalid, and the<br>
-	 *                            value of got_packet_ptr is undefined and should<br>
-	 *                            not be used.<br>
-	 * @return          0 on success, negative error code on failure<br>
-	 * Original signature : <code>int avcodec_encode_video2(AVCodecContext*, AVPacket*, const AVFrame*, int*)</code><br>
-	 * @deprecated use the safer methods {@link #avcodec_encode_video2(org.javaavc.ffmpeg.avformat.AVCodecContext, org.javaavc.ffmpeg.avformat.AVPacket, org.javaavc.ffmpeg.avformat.AVFrame, java.nio.IntBuffer)} and {@link #avcodec_encode_video2(org.javaavc.ffmpeg.avformat.AVCodecContext, org.javaavc.ffmpeg.avformat.AVPacket, org.javaavc.ffmpeg.avformat.AVFrame, com.sun.jna.ptr.IntByReference)} instead
-	 */
-	@Deprecated 
-	int avcodec_encode_video2(AVCodecContext avctx, AVPacket avpkt, AVFrame frame, IntByReference got_packet_ptr);
-	/**
-	 * Encode a frame of video.<br>
-	 * * Takes input raw video data from frame and writes the next output packet, if<br>
-	 * available, to avpkt. The output packet does not necessarily contain data for<br>
-	 * the most recent frame, as encoders can delay and reorder input frames<br>
-	 * internally as needed.<br>
-	 * * @param avctx     codec context<br>
-	 * @param avpkt     output AVPacket.<br>
-	 *                  The user can supply an output buffer by setting<br>
-	 *                  avpkt->data and avpkt->size prior to calling the<br>
-	 *                  function, but if the size of the user-provided data is not<br>
-	 *                  large enough, encoding will fail. All other AVPacket fields<br>
-	 *                  will be reset by the encoder using av_init_packet(). If<br>
-	 *                  avpkt->data is NULL, the encoder will allocate it.<br>
-	 *                  The encoder will set avpkt->size to the size of the<br>
-	 *                  output packet. The returned data (if any) belongs to the<br>
-	 *                  caller, he is responsible for freeing it.<br>
-	 * *                  If this function fails or produces no output, avpkt will be<br>
-	 *                  freed using av_free_packet() (i.e. avpkt->destruct will be<br>
-	 *                  called to free the user supplied buffer).<br>
-	 * @param[in] frame AVFrame containing the raw video data to be encoded.<br>
-	 *                  May be NULL when flushing an encoder that has the<br>
-	 *                  CODEC_CAP_DELAY capability set.<br>
-	 * @param[out] got_packet_ptr This field is set to 1 by libavcodec if the<br>
-	 *                            output packet is non-empty, and to 0 if it is<br>
-	 *                            empty. If the function returns an error, the<br>
-	 *                            packet can be assumed to be invalid, and the<br>
-	 *                            value of got_packet_ptr is undefined and should<br>
-	 *                            not be used.<br>
-	 * @return          0 on success, negative error code on failure<br>
-	 * Original signature : <code>int avcodec_encode_video2(AVCodecContext*, AVPacket*, const AVFrame*, int*)</code>
-	 */
-	int avcodec_encode_video2(AVCodecContext avctx, AVPacket avpkt, AVFrame frame, IntBuffer got_packet_ptr);
-	/**
-	 * Original signature : <code>int avcodec_encode_subtitle(AVCodecContext*, uint8_t*, int, const AVSubtitle*)</code><br>
-	 * @deprecated use the safer methods {@link #avcodec_encode_subtitle(org.javaavc.ffmpeg.avformat.AVCodecContext, java.nio.ByteBuffer, int, org.javaavc.ffmpeg.avformat.AVSubtitle)} and {@link #avcodec_encode_subtitle(org.javaavc.ffmpeg.avformat.AVCodecContext, com.sun.jna.Pointer, int, org.javaavc.ffmpeg.avformat.AVSubtitle)} instead
-	 */
-	@Deprecated 
-	int avcodec_encode_subtitle(AVCodecContext avctx, Pointer buf, int buf_size, AVSubtitle sub);
-	/** Original signature : <code>int avcodec_encode_subtitle(AVCodecContext*, uint8_t*, int, const AVSubtitle*)</code> */
-	int avcodec_encode_subtitle(AVCodecContext avctx, ByteBuffer buf, int buf_size, AVSubtitle sub);
-	/** Original signature : <code>ReSampleContext* av_audio_resample_init(int, int, int, int, AVSampleFormat, AVSampleFormat, int, int, int, double)</code> */
-	PointerByReference av_audio_resample_init(int output_channels, int input_channels, int output_rate, int input_rate, int sample_fmt_out, int sample_fmt_in, int filter_length, int log2_phase_count, int linear, double cutoff);
-	/**
-	 * Original signature : <code>int audio_resample(ReSampleContext*, short*, short*, int)</code><br>
-	 * @deprecated use the safer methods {@link #audio_resample(com.sun.jna.ptr.PointerByReference, java.nio.ShortBuffer, java.nio.ShortBuffer, int)} and {@link #audio_resample(com.sun.jna.ptr.PointerByReference, com.sun.jna.ptr.ShortByReference, com.sun.jna.ptr.ShortByReference, int)} instead
-	 */
-	@Deprecated 
-	int audio_resample(Pointer s, ShortByReference output, ShortByReference input, int nb_samples);
-	/** Original signature : <code>int audio_resample(ReSampleContext*, short*, short*, int)</code> */
-	int audio_resample(PointerByReference s, ShortBuffer output, ShortBuffer input, int nb_samples);
-	/** Original signature : <code>int audio_resample(ReSampleContext*, short*, short*, int)</code> */
-	int audio_resample(PointerByReference s, ShortByReference output, ShortByReference input, int nb_samples);
-	/**
-	 * Original signature : <code>void audio_resample_close(ReSampleContext*)</code><br>
-	 * @deprecated use the safer method {@link #audio_resample_close(com.sun.jna.ptr.PointerByReference)} instead
-	 */
-	@Deprecated 
-	void audio_resample_close(Pointer s);
-	/** Original signature : <code>void audio_resample_close(ReSampleContext*)</code> */
-	void audio_resample_close(PointerByReference s);
-	/** Original signature : <code>AVResampleContext* av_resample_init(int, int, int, int, int, double)</code> */
-	LibavformatLibrary.AVResampleContext av_resample_init(int out_rate, int in_rate, int filter_length, int log2_phase_count, int linear, double cutoff);
-	/**
-	 * Original signature : <code>int av_resample(AVResampleContext*, short*, short*, int*, int, int, int)</code><br>
-	 * @deprecated use the safer methods {@link #av_resample(org.javaavc.ffmpeg.avformat.LibavformatLibrary.AVResampleContext, java.nio.ShortBuffer, java.nio.ShortBuffer, java.nio.IntBuffer, int, int, int)} and {@link #av_resample(org.javaavc.ffmpeg.avformat.LibavformatLibrary.AVResampleContext, com.sun.jna.ptr.ShortByReference, com.sun.jna.ptr.ShortByReference, com.sun.jna.ptr.IntByReference, int, int, int)} instead
-	 */
-	@Deprecated 
-	int av_resample(LibavformatLibrary.AVResampleContext c, ShortByReference dst, ShortByReference src, IntByReference consumed, int src_size, int dst_size, int update_ctx);
-	/** Original signature : <code>int av_resample(AVResampleContext*, short*, short*, int*, int, int, int)</code> */
-	int av_resample(LibavformatLibrary.AVResampleContext c, ShortBuffer dst, ShortBuffer src, IntBuffer consumed, int src_size, int dst_size, int update_ctx);
-	/** Original signature : <code>void av_resample_compensate(AVResampleContext*, int, int)</code> */
-	void av_resample_compensate(LibavformatLibrary.AVResampleContext c, int sample_delta, int compensation_distance);
-	/** Original signature : <code>void av_resample_close(AVResampleContext*)</code> */
-	void av_resample_close(LibavformatLibrary.AVResampleContext c);
-	/**
-	 * Allocate memory for a picture.  Call avpicture_free() to free it.<br>
-	 * * @see avpicture_fill()<br>
-	 * * @param picture the picture to be filled in<br>
-	 * @param pix_fmt the format of the picture<br>
-	 * @param width the width of the picture<br>
-	 * @param height the height of the picture<br>
-	 * @return zero if successful, a negative value if not<br>
-	 * Original signature : <code>int avpicture_alloc(AVPicture*, AVPixelFormat, int, int)</code>
-	 */
-	int avpicture_alloc(AVPicture picture, int pix_fmt, int width, int height);
-	/**
-	 * Free a picture previously allocated by avpicture_alloc().<br>
-	 * The data buffer used by the AVPicture is freed, but the AVPicture structure<br>
-	 * itself is not.<br>
-	 * * @param picture the AVPicture to be freed<br>
-	 * Original signature : <code>void avpicture_free(AVPicture*)</code>
-	 */
-	void avpicture_free(AVPicture picture);
-	/**
-	 * Fill in the AVPicture fields, always assume a linesize alignment of<br>
-	 * 1.<br>
-	 * * @see av_image_fill_arrays()<br>
-	 * Original signature : <code>int avpicture_fill(AVPicture*, const uint8_t*, AVPixelFormat, int, int)</code><br>
-	 * @deprecated use the safer methods {@link #avpicture_fill(org.javaavc.ffmpeg.avformat.AVPicture, java.nio.ByteBuffer, int, int, int)} and {@link #avpicture_fill(org.javaavc.ffmpeg.avformat.AVPicture, com.sun.jna.Pointer, int, int, int)} instead
-	 */
-	@Deprecated 
-	int avpicture_fill(AVPicture picture, Pointer ptr, int pix_fmt, int width, int height);
-	/**
-	 * Fill in the AVPicture fields, always assume a linesize alignment of<br>
-	 * 1.<br>
-	 * * @see av_image_fill_arrays()<br>
-	 * Original signature : <code>int avpicture_fill(AVPicture*, const uint8_t*, AVPixelFormat, int, int)</code>
-	 */
-	int avpicture_fill(AVPicture picture, ByteBuffer ptr, int pix_fmt, int width, int height);
-	/**
-	 * Copy pixel data from an AVPicture into a buffer, always assume a<br>
-	 * linesize alignment of 1.<br>
-	 * * @see av_image_copy_to_buffer()<br>
-	 * Original signature : <code>int avpicture_layout(const AVPicture*, AVPixelFormat, int, int, unsigned char*, int)</code><br>
-	 * @deprecated use the safer methods {@link #avpicture_layout(org.javaavc.ffmpeg.avformat.AVPicture, int, int, int, java.nio.ByteBuffer, int)} and {@link #avpicture_layout(org.javaavc.ffmpeg.avformat.AVPicture, int, int, int, com.sun.jna.Pointer, int)} instead
-	 */
-	@Deprecated 
-	int avpicture_layout(AVPicture src, int pix_fmt, int width, int height, Pointer dest, int dest_size);
-	/**
-	 * Copy pixel data from an AVPicture into a buffer, always assume a<br>
-	 * linesize alignment of 1.<br>
-	 * * @see av_image_copy_to_buffer()<br>
-	 * Original signature : <code>int avpicture_layout(const AVPicture*, AVPixelFormat, int, int, unsigned char*, int)</code>
-	 */
-	int avpicture_layout(AVPicture src, int pix_fmt, int width, int height, ByteBuffer dest, int dest_size);
-	/**
-	 * Calculate the size in bytes that a picture of the given width and height<br>
-	 * would occupy if stored in the given picture format.<br>
-	 * Always assume a linesize alignment of 1.<br>
-	 * * @see av_image_get_buffer_size().<br>
-	 * Original signature : <code>int avpicture_get_size(AVPixelFormat, int, int)</code>
-	 */
-	int avpicture_get_size(int pix_fmt, int width, int height);
-	/** Original signature : <code>int avpicture_deinterlace(AVPicture*, const AVPicture*, AVPixelFormat, int, int)</code> */
-	int avpicture_deinterlace(AVPicture dst, AVPicture src, int pix_fmt, int width, int height);
-	/**
-	 * Copy image src to dst. Wraps av_image_copy().<br>
-	 * Original signature : <code>void av_picture_copy(AVPicture*, const AVPicture*, AVPixelFormat, int, int)</code>
-	 */
-	void av_picture_copy(AVPicture dst, AVPicture src, int pix_fmt, int width, int height);
-	/**
-	 * Crop image top and left side.<br>
-	 * Original signature : <code>int av_picture_crop(AVPicture*, const AVPicture*, AVPixelFormat, int, int)</code>
-	 */
-	int av_picture_crop(AVPicture dst, AVPicture src, int pix_fmt, int top_band, int left_band);
-	/**
-	 * Pad image.<br>
-	 * Original signature : <code>int av_picture_pad(AVPicture*, const AVPicture*, int, int, AVPixelFormat, int, int, int, int, int*)</code><br>
-	 * @deprecated use the safer methods {@link #av_picture_pad(org.javaavc.ffmpeg.avformat.AVPicture, org.javaavc.ffmpeg.avformat.AVPicture, int, int, int, int, int, int, int, java.nio.IntBuffer)} and {@link #av_picture_pad(org.javaavc.ffmpeg.avformat.AVPicture, org.javaavc.ffmpeg.avformat.AVPicture, int, int, int, int, int, int, int, com.sun.jna.ptr.IntByReference)} instead
-	 */
-	@Deprecated 
-	int av_picture_pad(AVPicture dst, AVPicture src, int height, int width, int pix_fmt, int padtop, int padbottom, int padleft, int padright, IntByReference color);
-	/**
-	 * Pad image.<br>
-	 * Original signature : <code>int av_picture_pad(AVPicture*, const AVPicture*, int, int, AVPixelFormat, int, int, int, int, int*)</code>
-	 */
-	int av_picture_pad(AVPicture dst, AVPicture src, int height, int width, int pix_fmt, int padtop, int padbottom, int padleft, int padright, IntBuffer color);
-	/**
-	 * Original signature : <code>void avcodec_get_chroma_sub_sample(AVPixelFormat, int*, int*)</code><br>
-	 * @deprecated use the safer methods {@link #avcodec_get_chroma_sub_sample(int, java.nio.IntBuffer, java.nio.IntBuffer)} and {@link #avcodec_get_chroma_sub_sample(int, com.sun.jna.ptr.IntByReference, com.sun.jna.ptr.IntByReference)} instead
-	 */
-	@Deprecated 
-	void avcodec_get_chroma_sub_sample(int pix_fmt, IntByReference h_shift, IntByReference v_shift);
-	/** Original signature : <code>void avcodec_get_chroma_sub_sample(AVPixelFormat, int*, int*)</code> */
-	void avcodec_get_chroma_sub_sample(int pix_fmt, IntBuffer h_shift, IntBuffer v_shift);
-	/**
-	 * Return a value representing the fourCC code associated to the<br>
-	 * pixel format pix_fmt, or 0 if no associated fourCC code can be<br>
-	 * found.<br>
-	 * Original signature : <code>int avcodec_pix_fmt_to_codec_tag(AVPixelFormat)</code>
-	 */
-	int avcodec_pix_fmt_to_codec_tag(int pix_fmt);
-	/**
-	 * Compute what kind of losses will occur when converting from one specific<br>
-	 * pixel format to another.<br>
-	 * When converting from one pixel format to another, information loss may occur.<br>
-	 * For example, when converting from RGB24 to GRAY, the color information will<br>
-	 * be lost. Similarly, other losses occur when converting from some formats to<br>
-	 * other formats. These losses can involve loss of chroma, but also loss of<br>
-	 * resolution, loss of color depth, loss due to the color space conversion, loss<br>
-	 * of the alpha bits or loss due to color quantization.<br>
-	 * avcodec_get_fix_fmt_loss() informs you about the various types of losses<br>
-	 * which will occur when converting from one pixel format to another.<br>
-	 * * @param[in] dst_pix_fmt destination pixel format<br>
-	 * @param[in] src_pix_fmt source pixel format<br>
-	 * @param[in] has_alpha Whether the source pixel format alpha channel is used.<br>
-	 * @return Combination of flags informing you what kind of losses will occur<br>
-	 * (maximum loss for an invalid dst_pix_fmt).<br>
-	 * Original signature : <code>int avcodec_get_pix_fmt_loss(AVPixelFormat, AVPixelFormat, int)</code>
-	 */
-	int avcodec_get_pix_fmt_loss(int dst_pix_fmt, int src_pix_fmt, int has_alpha);
-	/**
-	 * Find the best pixel format to convert to given a certain source pixel<br>
-	 * format.  When converting from one pixel format to another, information loss<br>
-	 * may occur.  For example, when converting from RGB24 to GRAY, the color<br>
-	 * information will be lost. Similarly, other losses occur when converting from<br>
-	 * some formats to other formats. avcodec_find_best_pix_fmt_of_2() searches which of<br>
-	 * the given pixel formats should be used to suffer the least amount of loss.<br>
-	 * The pixel formats from which it chooses one, are determined by the<br>
-	 * pix_fmt_list parameter.<br>
-	 * *<br>
-	 * @param[in] pix_fmt_list AV_PIX_FMT_NONE terminated array of pixel formats to choose from<br>
-	 * @param[in] src_pix_fmt source pixel format<br>
-	 * @param[in] has_alpha Whether the source pixel format alpha channel is used.<br>
-	 * @param[out] loss_ptr Combination of flags informing you what kind of losses will occur.<br>
-	 * @return The best pixel format to convert to or -1 if none was found.<br>
-	 * Original signature : <code>AVPixelFormat avcodec_find_best_pix_fmt_of_list(AVPixelFormat*, AVPixelFormat, int, int*)</code><br>
-	 * @deprecated use the safer methods {@link #avcodec_find_best_pix_fmt_of_list(java.nio.IntBuffer, int, int, java.nio.IntBuffer)} and {@link #avcodec_find_best_pix_fmt_of_list(com.sun.jna.ptr.IntByReference, int, int, com.sun.jna.ptr.IntByReference)} instead
-	 */
-	@Deprecated 
-	int avcodec_find_best_pix_fmt_of_list(IntByReference pix_fmt_list, int src_pix_fmt, int has_alpha, IntByReference loss_ptr);
-	/**
-	 * Find the best pixel format to convert to given a certain source pixel<br>
-	 * format.  When converting from one pixel format to another, information loss<br>
-	 * may occur.  For example, when converting from RGB24 to GRAY, the color<br>
-	 * information will be lost. Similarly, other losses occur when converting from<br>
-	 * some formats to other formats. avcodec_find_best_pix_fmt_of_2() searches which of<br>
-	 * the given pixel formats should be used to suffer the least amount of loss.<br>
-	 * The pixel formats from which it chooses one, are determined by the<br>
-	 * pix_fmt_list parameter.<br>
-	 * *<br>
-	 * @param[in] pix_fmt_list AV_PIX_FMT_NONE terminated array of pixel formats to choose from<br>
-	 * @param[in] src_pix_fmt source pixel format<br>
-	 * @param[in] has_alpha Whether the source pixel format alpha channel is used.<br>
-	 * @param[out] loss_ptr Combination of flags informing you what kind of losses will occur.<br>
-	 * @return The best pixel format to convert to or -1 if none was found.<br>
-	 * Original signature : <code>AVPixelFormat avcodec_find_best_pix_fmt_of_list(AVPixelFormat*, AVPixelFormat, int, int*)</code>
-	 */
-	int avcodec_find_best_pix_fmt_of_list(IntBuffer pix_fmt_list, int src_pix_fmt, int has_alpha, IntBuffer loss_ptr);
-	/**
-	 * Find the best pixel format to convert to given a certain source pixel<br>
-	 * format and a selection of two destination pixel formats. When converting from<br>
-	 * one pixel format to another, information loss may occur.  For example, when converting<br>
-	 * from RGB24 to GRAY, the color information will be lost. Similarly, other losses occur when<br>
-	 * converting from some formats to other formats. avcodec_find_best_pix_fmt_of_2() selects which of<br>
-	 * the given pixel formats should be used to suffer the least amount of loss.<br>
-	 * * If one of the destination formats is AV_PIX_FMT_NONE the other pixel format (if valid) will be<br>
-	 * returned.<br>
-	 * * @code<br>
-	 * src_pix_fmt = AV_PIX_FMT_YUV420P;<br>
-	 * dst_pix_fmt1= AV_PIX_FMT_RGB24;<br>
-	 * dst_pix_fmt2= AV_PIX_FMT_GRAY8;<br>
-	 * dst_pix_fmt3= AV_PIX_FMT_RGB8;<br>
-	 * loss= FF_LOSS_CHROMA; // don't care about chroma loss, so chroma loss will be ignored.<br>
-	 * dst_pix_fmt = avcodec_find_best_pix_fmt_of_2(dst_pix_fmt1, dst_pix_fmt2, src_pix_fmt, alpha, &loss);<br>
-	 * dst_pix_fmt = avcodec_find_best_pix_fmt_of_2(dst_pix_fmt, dst_pix_fmt3, src_pix_fmt, alpha, &loss);<br>
-	 * @endcode<br>
-	 * * @param[in] dst_pix_fmt1 One of the two destination pixel formats to choose from<br>
-	 * @param[in] dst_pix_fmt2 The other of the two destination pixel formats to choose from<br>
-	 * @param[in] src_pix_fmt Source pixel format<br>
-	 * @param[in] has_alpha Whether the source pixel format alpha channel is used.<br>
-	 * @param[in, out] loss_ptr Combination of loss flags. In: selects which of the losses to ignore, i.e.<br>
-	 *                               NULL or value of zero means we care about all losses. Out: the loss<br>
-	 *                               that occurs when converting from src to selected dst pixel format.<br>
-	 * @return The best pixel format to convert to or -1 if none was found.<br>
-	 * Original signature : <code>AVPixelFormat avcodec_find_best_pix_fmt_of_2(AVPixelFormat, AVPixelFormat, AVPixelFormat, int, int*)</code><br>
-	 * @deprecated use the safer methods {@link #avcodec_find_best_pix_fmt_of_2(int, int, int, int, java.nio.IntBuffer)} and {@link #avcodec_find_best_pix_fmt_of_2(int, int, int, int, com.sun.jna.ptr.IntByReference)} instead
-	 */
-	@Deprecated 
-	int avcodec_find_best_pix_fmt_of_2(int dst_pix_fmt1, int dst_pix_fmt2, int src_pix_fmt, int has_alpha, IntByReference loss_ptr);
-	/**
-	 * Find the best pixel format to convert to given a certain source pixel<br>
-	 * format and a selection of two destination pixel formats. When converting from<br>
-	 * one pixel format to another, information loss may occur.  For example, when converting<br>
-	 * from RGB24 to GRAY, the color information will be lost. Similarly, other losses occur when<br>
-	 * converting from some formats to other formats. avcodec_find_best_pix_fmt_of_2() selects which of<br>
-	 * the given pixel formats should be used to suffer the least amount of loss.<br>
-	 * * If one of the destination formats is AV_PIX_FMT_NONE the other pixel format (if valid) will be<br>
-	 * returned.<br>
-	 * * @code<br>
-	 * src_pix_fmt = AV_PIX_FMT_YUV420P;<br>
-	 * dst_pix_fmt1= AV_PIX_FMT_RGB24;<br>
-	 * dst_pix_fmt2= AV_PIX_FMT_GRAY8;<br>
-	 * dst_pix_fmt3= AV_PIX_FMT_RGB8;<br>
-	 * loss= FF_LOSS_CHROMA; // don't care about chroma loss, so chroma loss will be ignored.<br>
-	 * dst_pix_fmt = avcodec_find_best_pix_fmt_of_2(dst_pix_fmt1, dst_pix_fmt2, src_pix_fmt, alpha, &loss);<br>
-	 * dst_pix_fmt = avcodec_find_best_pix_fmt_of_2(dst_pix_fmt, dst_pix_fmt3, src_pix_fmt, alpha, &loss);<br>
-	 * @endcode<br>
-	 * * @param[in] dst_pix_fmt1 One of the two destination pixel formats to choose from<br>
-	 * @param[in] dst_pix_fmt2 The other of the two destination pixel formats to choose from<br>
-	 * @param[in] src_pix_fmt Source pixel format<br>
-	 * @param[in] has_alpha Whether the source pixel format alpha channel is used.<br>
-	 * @param[in, out] loss_ptr Combination of loss flags. In: selects which of the losses to ignore, i.e.<br>
-	 *                               NULL or value of zero means we care about all losses. Out: the loss<br>
-	 *                               that occurs when converting from src to selected dst pixel format.<br>
-	 * @return The best pixel format to convert to or -1 if none was found.<br>
-	 * Original signature : <code>AVPixelFormat avcodec_find_best_pix_fmt_of_2(AVPixelFormat, AVPixelFormat, AVPixelFormat, int, int*)</code>
-	 */
-	int avcodec_find_best_pix_fmt_of_2(int dst_pix_fmt1, int dst_pix_fmt2, int src_pix_fmt, int has_alpha, IntBuffer loss_ptr);
-	/**
-	 * Original signature : <code>AVPixelFormat avcodec_find_best_pix_fmt2(AVPixelFormat, AVPixelFormat, AVPixelFormat, int, int*)</code><br>
-	 * @deprecated use the safer methods {@link #avcodec_find_best_pix_fmt2(int, int, int, int, java.nio.IntBuffer)} and {@link #avcodec_find_best_pix_fmt2(int, int, int, int, com.sun.jna.ptr.IntByReference)} instead
-	 */
-	@Deprecated 
-	int avcodec_find_best_pix_fmt2(int dst_pix_fmt1, int dst_pix_fmt2, int src_pix_fmt, int has_alpha, IntByReference loss_ptr);
-	/** Original signature : <code>AVPixelFormat avcodec_find_best_pix_fmt2(AVPixelFormat, AVPixelFormat, AVPixelFormat, int, int*)</code> */
-	int avcodec_find_best_pix_fmt2(int dst_pix_fmt1, int dst_pix_fmt2, int src_pix_fmt, int has_alpha, IntBuffer loss_ptr);
-	/**
-	 * Original signature : <code>AVPixelFormat avcodec_default_get_format(AVCodecContext*, AVPixelFormat*)</code><br>
-	 * @deprecated use the safer methods {@link #avcodec_default_get_format(org.javaavc.ffmpeg.avformat.AVCodecContext, java.nio.IntBuffer)} and {@link #avcodec_default_get_format(org.javaavc.ffmpeg.avformat.AVCodecContext, com.sun.jna.ptr.IntByReference)} instead
-	 */
-	@Deprecated 
-	int avcodec_default_get_format(AVCodecContext s, IntByReference fmt);
-	/** Original signature : <code>AVPixelFormat avcodec_default_get_format(AVCodecContext*, AVPixelFormat*)</code> */
-	int avcodec_default_get_format(AVCodecContext s, IntBuffer fmt);
-	/** Original signature : <code>void avcodec_set_dimensions(AVCodecContext*, int, int)</code> */
-	void avcodec_set_dimensions(AVCodecContext s, int width, int height);
-	/**
-	 * Put a string representing the codec tag codec_tag in buf.<br>
-	 * * @param buf_size size in bytes of buf<br>
-	 * @return the length of the string that would have been generated if<br>
-	 * enough space had been available, excluding the trailing null<br>
-	 * Original signature : <code>size_t av_get_codec_tag_string(char*, size_t, unsigned int)</code><br>
-	 * @deprecated use the safer methods {@link #av_get_codec_tag_string(java.nio.ByteBuffer, org.javaavc.ffmpeg.NativeSize, int)} and {@link #av_get_codec_tag_string(com.sun.jna.Pointer, org.javaavc.ffmpeg.NativeSize, int)} instead
-	 */
-	@Deprecated 
-	NativeSize av_get_codec_tag_string(Pointer buf, NativeSize buf_size, int codec_tag);
-	/**
-	 * Put a string representing the codec tag codec_tag in buf.<br>
-	 * * @param buf_size size in bytes of buf<br>
-	 * @return the length of the string that would have been generated if<br>
-	 * enough space had been available, excluding the trailing null<br>
-	 * Original signature : <code>size_t av_get_codec_tag_string(char*, size_t, unsigned int)</code>
-	 */
-	NativeSize av_get_codec_tag_string(ByteBuffer buf, NativeSize buf_size, int codec_tag);
-	/**
-	 * Original signature : <code>void avcodec_string(char*, int, AVCodecContext*, int)</code><br>
-	 * @deprecated use the safer methods {@link #avcodec_string(java.nio.ByteBuffer, int, org.javaavc.ffmpeg.avformat.AVCodecContext, int)} and {@link #avcodec_string(com.sun.jna.Pointer, int, org.javaavc.ffmpeg.avformat.AVCodecContext, int)} instead
-	 */
-	@Deprecated 
-	void avcodec_string(Pointer buf, int buf_size, AVCodecContext enc, int encode);
-	/** Original signature : <code>void avcodec_string(char*, int, AVCodecContext*, int)</code> */
-	void avcodec_string(ByteBuffer buf, int buf_size, AVCodecContext enc, int encode);
-	/**
-	 * Return a name for the specified profile, if available.<br>
-	 * * @param codec the codec that is searched for the given profile<br>
-	 * @param profile the profile value for which a name is requested<br>
-	 * @return A name for the profile if found, NULL otherwise.<br>
-	 * Original signature : <code>char* av_get_profile_name(const AVCodec*, int)</code>
-	 */
-	String av_get_profile_name(AVCodec codec, int profile);
-	/**
-	 * Original signature : <code>int avcodec_default_execute(AVCodecContext*, avcodec_default_execute_func_callback*, void*, int*, int, int)</code><br>
-	 * @deprecated use the safer methods {@link #avcodec_default_execute(org.javaavc.ffmpeg.avformat.AVCodecContext, org.javaavc.ffmpeg.avformat.LibavformatLibrary.avcodec_default_execute_func_callback, com.sun.jna.Pointer, java.nio.IntBuffer, int, int)} and {@link #avcodec_default_execute(org.javaavc.ffmpeg.avformat.AVCodecContext, org.javaavc.ffmpeg.avformat.LibavformatLibrary.avcodec_default_execute_func_callback, com.sun.jna.Pointer, com.sun.jna.ptr.IntByReference, int, int)} instead
-	 */
-	@Deprecated 
-	int avcodec_default_execute(AVCodecContext c, LibavformatLibrary.avcodec_default_execute_func_callback func, Pointer arg, IntByReference ret, int count, int size);
-	/** Original signature : <code>int avcodec_default_execute(AVCodecContext*, avcodec_default_execute_func_callback*, void*, int*, int, int)</code> */
-	int avcodec_default_execute(AVCodecContext c, LibavformatLibrary.avcodec_default_execute_func_callback func, Pointer arg, IntBuffer ret, int count, int size);
-	/**
-	 * Original signature : <code>int avcodec_default_execute2(AVCodecContext*, avcodec_default_execute2_func_callback*, void*, int*, int)</code><br>
-	 * @deprecated use the safer methods {@link #avcodec_default_execute2(org.javaavc.ffmpeg.avformat.AVCodecContext, org.javaavc.ffmpeg.avformat.LibavformatLibrary.avcodec_default_execute2_func_callback, com.sun.jna.Pointer, java.nio.IntBuffer, int)} and {@link #avcodec_default_execute2(org.javaavc.ffmpeg.avformat.AVCodecContext, org.javaavc.ffmpeg.avformat.LibavformatLibrary.avcodec_default_execute2_func_callback, com.sun.jna.Pointer, com.sun.jna.ptr.IntByReference, int)} instead
-	 */
-	@Deprecated 
-	int avcodec_default_execute2(AVCodecContext c, LibavformatLibrary.avcodec_default_execute2_func_callback func, Pointer arg, IntByReference ret, int count);
-	/** Original signature : <code>int avcodec_default_execute2(AVCodecContext*, avcodec_default_execute2_func_callback*, void*, int*, int)</code> */
-	int avcodec_default_execute2(AVCodecContext c, LibavformatLibrary.avcodec_default_execute2_func_callback func, Pointer arg, IntBuffer ret, int count);
-	/**
-	 * Fill AVFrame audio data and linesize pointers.<br>
-	 * * The buffer buf must be a preallocated buffer with a size big enough<br>
-	 * to contain the specified samples amount. The filled AVFrame data<br>
-	 * pointers will point to this buffer.<br>
-	 * * AVFrame extended_data channel pointers are allocated if necessary for<br>
-	 * planar audio.<br>
-	 * * @param frame       the AVFrame<br>
-	 *                    frame->nb_samples must be set prior to calling the<br>
-	 *                    function. This function fills in frame->data,<br>
-	 *                    frame->extended_data, frame->linesize[0].<br>
-	 * @param nb_channels channel count<br>
-	 * @param sample_fmt  sample format<br>
-	 * @param buf         buffer to use for frame data<br>
-	 * @param buf_size    size of buffer<br>
-	 * @param align       plane size sample alignment (0 = default)<br>
-	 * @return            >=0 on success, negative error code on failure<br>
-	 * @todo return the size in bytes required to store the samples in<br>
-	 * case of success, at the next libavutil bump<br>
-	 * Original signature : <code>int avcodec_fill_audio_frame(AVFrame*, int, AVSampleFormat, const uint8_t*, int, int)</code><br>
-	 * @deprecated use the safer methods {@link #avcodec_fill_audio_frame(org.javaavc.ffmpeg.avformat.AVFrame, int, int, java.nio.ByteBuffer, int, int)} and {@link #avcodec_fill_audio_frame(org.javaavc.ffmpeg.avformat.AVFrame, int, int, com.sun.jna.Pointer, int, int)} instead
-	 */
-	@Deprecated 
-	int avcodec_fill_audio_frame(AVFrame frame, int nb_channels, int sample_fmt, Pointer buf, int buf_size, int align);
-	/**
-	 * Fill AVFrame audio data and linesize pointers.<br>
-	 * * The buffer buf must be a preallocated buffer with a size big enough<br>
-	 * to contain the specified samples amount. The filled AVFrame data<br>
-	 * pointers will point to this buffer.<br>
-	 * * AVFrame extended_data channel pointers are allocated if necessary for<br>
-	 * planar audio.<br>
-	 * * @param frame       the AVFrame<br>
-	 *                    frame->nb_samples must be set prior to calling the<br>
-	 *                    function. This function fills in frame->data,<br>
-	 *                    frame->extended_data, frame->linesize[0].<br>
-	 * @param nb_channels channel count<br>
-	 * @param sample_fmt  sample format<br>
-	 * @param buf         buffer to use for frame data<br>
-	 * @param buf_size    size of buffer<br>
-	 * @param align       plane size sample alignment (0 = default)<br>
-	 * @return            >=0 on success, negative error code on failure<br>
-	 * @todo return the size in bytes required to store the samples in<br>
-	 * case of success, at the next libavutil bump<br>
-	 * Original signature : <code>int avcodec_fill_audio_frame(AVFrame*, int, AVSampleFormat, const uint8_t*, int, int)</code>
-	 */
-	int avcodec_fill_audio_frame(AVFrame frame, int nb_channels, int sample_fmt, ByteBuffer buf, int buf_size, int align);
-	/**
-	 * Flush buffers, should be called when seeking or when switching to a different stream.<br>
-	 * Original signature : <code>void avcodec_flush_buffers(AVCodecContext*)</code>
-	 */
-	void avcodec_flush_buffers(AVCodecContext avctx);
-	/**
-	 * Return codec bits per sample.<br>
-	 * * @param[in] codec_id the codec<br>
-	 * @return Number of bits per sample or zero if unknown for the given codec.<br>
-	 * Original signature : <code>int av_get_bits_per_sample(AVCodecID)</code>
-	 */
-	int av_get_bits_per_sample(int codec_id);
-	/**
-	 * Return the PCM codec associated with a sample format.<br>
-	 * @param be  endianness, 0 for little, 1 for big,<br>
-	 *            -1 (or anything else) for native<br>
-	 * @return  AV_CODEC_ID_PCM_* or AV_CODEC_ID_NONE<br>
-	 * Original signature : <code>AVCodecID av_get_pcm_codec(AVSampleFormat, int)</code>
-	 */
-	int av_get_pcm_codec(int fmt, int be);
-	/**
-	 * Return codec bits per sample.<br>
-	 * Only return non-zero if the bits per sample is exactly correct, not an<br>
-	 * approximation.<br>
-	 * * @param[in] codec_id the codec<br>
-	 * @return Number of bits per sample or zero if unknown for the given codec.<br>
-	 * Original signature : <code>int av_get_exact_bits_per_sample(AVCodecID)</code>
-	 */
-	int av_get_exact_bits_per_sample(int codec_id);
-	/**
-	 * Return audio frame duration.<br>
-	 * * @param avctx        codec context<br>
-	 * @param frame_bytes  size of the frame, or 0 if unknown<br>
-	 * @return             frame duration, in samples, if known. 0 if not able to<br>
-	 *                     determine.<br>
-	 * Original signature : <code>int av_get_audio_frame_duration(AVCodecContext*, int)</code>
-	 */
-	int av_get_audio_frame_duration(AVCodecContext avctx, int frame_bytes);
-	/**
-	 * Register a bitstream filter.<br>
-	 * * The filter will be accessible to the application code through<br>
-	 * av_bitstream_filter_next() or can be directly initialized with<br>
-	 * av_bitstream_filter_init().<br>
-	 * * @see avcodec_register_all()<br>
-	 * Original signature : <code>void av_register_bitstream_filter(AVBitStreamFilter*)</code>
-	 */
-	void av_register_bitstream_filter(AVBitStreamFilter bsf);
-	/**
-	 * Create and initialize a bitstream filter context given a bitstream<br>
-	 * filter name.<br>
-	 * * The returned context must be freed with av_bitstream_filter_close().<br>
-	 * * @param name    the name of the bitstream filter<br>
-	 * @return a bitstream filter context if a matching filter was found<br>
-	 * and successfully initialized, NULL otherwise<br>
-	 * Original signature : <code>AVBitStreamFilterContext* av_bitstream_filter_init(const char*)</code><br>
-	 * @deprecated use the safer methods {@link #av_bitstream_filter_init(java.lang.String)} and {@link #av_bitstream_filter_init(com.sun.jna.Pointer)} instead
-	 */
-	@Deprecated 
-	AVBitStreamFilterContext av_bitstream_filter_init(Pointer name);
-	/**
-	 * Create and initialize a bitstream filter context given a bitstream<br>
-	 * filter name.<br>
-	 * * The returned context must be freed with av_bitstream_filter_close().<br>
-	 * * @param name    the name of the bitstream filter<br>
-	 * @return a bitstream filter context if a matching filter was found<br>
-	 * and successfully initialized, NULL otherwise<br>
-	 * Original signature : <code>AVBitStreamFilterContext* av_bitstream_filter_init(const char*)</code>
-	 */
-	AVBitStreamFilterContext av_bitstream_filter_init(String name);
-	/**
-	 * Filter bitstream.<br>
-	 * * This function filters the buffer buf with size buf_size, and places the<br>
-	 * filtered buffer in the buffer pointed to by poutbuf.<br>
-	 * * The output buffer must be freed by the caller.<br>
-	 * * @param bsfc            bitstream filter context created by av_bitstream_filter_init()<br>
-	 * @param avctx           AVCodecContext accessed by the filter, may be NULL.<br>
-	 *                        If specified, this must point to the encoder context of the<br>
-	 *                        output stream the packet is sent to.<br>
-	 * @param args            arguments which specify the filter configuration, may be NULL<br>
-	 * @param poutbuf         pointer which is updated to point to the filtered buffer<br>
-	 * @param poutbuf_size    pointer which is updated to the filtered buffer size in bytes<br>
-	 * @param buf             buffer containing the data to filter<br>
-	 * @param buf_size        size in bytes of buf<br>
-	 * @param keyframe        set to non-zero if the buffer to filter corresponds to a key-frame packet data<br>
-	 * @return >= 0 in case of success, or a negative error code in case of failure<br>
-	 * * If the return value is positive, an output buffer is allocated and<br>
-	 * is availble in *poutbuf, and is distinct from the input buffer.<br>
-	 * * If the return value is 0, the output output buffer is not allocated<br>
-	 * and the output buffer should be considered identical to the input<br>
-	 * buffer, or in case *poutbuf was set it points to the input buffer<br>
-	 * (not necessarily to its starting address).<br>
-	 * Original signature : <code>int av_bitstream_filter_filter(AVBitStreamFilterContext*, AVCodecContext*, const char*, uint8_t**, int*, const uint8_t*, int, int)</code><br>
-	 * @deprecated use the safer methods {@link #av_bitstream_filter_filter(org.javaavc.ffmpeg.avformat.AVBitStreamFilterContext, org.javaavc.ffmpeg.avformat.AVCodecContext, java.lang.String, com.sun.jna.ptr.PointerByReference, java.nio.IntBuffer, java.nio.ByteBuffer, int, int)} and {@link #av_bitstream_filter_filter(org.javaavc.ffmpeg.avformat.AVBitStreamFilterContext, org.javaavc.ffmpeg.avformat.AVCodecContext, com.sun.jna.Pointer, com.sun.jna.ptr.PointerByReference, com.sun.jna.ptr.IntByReference, com.sun.jna.Pointer, int, int)} instead
-	 */
-	@Deprecated 
-	int av_bitstream_filter_filter(AVBitStreamFilterContext bsfc, AVCodecContext avctx, Pointer args, PointerByReference poutbuf, IntByReference poutbuf_size, Pointer buf, int buf_size, int keyframe);
-	/**
-	 * Filter bitstream.<br>
-	 * * This function filters the buffer buf with size buf_size, and places the<br>
-	 * filtered buffer in the buffer pointed to by poutbuf.<br>
-	 * * The output buffer must be freed by the caller.<br>
-	 * * @param bsfc            bitstream filter context created by av_bitstream_filter_init()<br>
-	 * @param avctx           AVCodecContext accessed by the filter, may be NULL.<br>
-	 *                        If specified, this must point to the encoder context of the<br>
-	 *                        output stream the packet is sent to.<br>
-	 * @param args            arguments which specify the filter configuration, may be NULL<br>
-	 * @param poutbuf         pointer which is updated to point to the filtered buffer<br>
-	 * @param poutbuf_size    pointer which is updated to the filtered buffer size in bytes<br>
-	 * @param buf             buffer containing the data to filter<br>
-	 * @param buf_size        size in bytes of buf<br>
-	 * @param keyframe        set to non-zero if the buffer to filter corresponds to a key-frame packet data<br>
-	 * @return >= 0 in case of success, or a negative error code in case of failure<br>
-	 * * If the return value is positive, an output buffer is allocated and<br>
-	 * is availble in *poutbuf, and is distinct from the input buffer.<br>
-	 * * If the return value is 0, the output output buffer is not allocated<br>
-	 * and the output buffer should be considered identical to the input<br>
-	 * buffer, or in case *poutbuf was set it points to the input buffer<br>
-	 * (not necessarily to its starting address).<br>
-	 * Original signature : <code>int av_bitstream_filter_filter(AVBitStreamFilterContext*, AVCodecContext*, const char*, uint8_t**, int*, const uint8_t*, int, int)</code>
-	 */
-	int av_bitstream_filter_filter(AVBitStreamFilterContext bsfc, AVCodecContext avctx, String args, PointerByReference poutbuf, IntBuffer poutbuf_size, ByteBuffer buf, int buf_size, int keyframe);
-	/**
-	 * Release bitstream filter context.<br>
-	 * * @param bsf the bitstream filter context created with<br>
-	 * av_bitstream_filter_init(), can be NULL<br>
-	 * Original signature : <code>void av_bitstream_filter_close(AVBitStreamFilterContext*)</code>
-	 */
-	void av_bitstream_filter_close(AVBitStreamFilterContext bsf);
-	/**
-	 * If f is NULL, return the first registered bitstream filter,<br>
-	 * if f is non-NULL, return the next registered bitstream filter<br>
-	 * after f, or NULL if f is the last one.<br>
-	 * * This function can be used to iterate over all registered bitstream<br>
-	 * filters.<br>
-	 * Original signature : <code>AVBitStreamFilter* av_bitstream_filter_next(AVBitStreamFilter*)</code>
-	 */
-	AVBitStreamFilter av_bitstream_filter_next(AVBitStreamFilter f);
-	/**
-	 * Reallocate the given block if it is not large enough, otherwise do nothing.<br>
-	 * * @see av_realloc<br>
-	 * Original signature : <code>void* av_fast_realloc(void*, unsigned int*, size_t)</code><br>
-	 * @deprecated use the safer methods {@link #av_fast_realloc(com.sun.jna.Pointer, java.nio.IntBuffer, org.javaavc.ffmpeg.NativeSize)} and {@link #av_fast_realloc(com.sun.jna.Pointer, com.sun.jna.ptr.IntByReference, org.javaavc.ffmpeg.NativeSize)} instead
-	 */
-	@Deprecated 
-	Pointer av_fast_realloc(Pointer ptr, IntByReference size, NativeSize min_size);
-	/**
-	 * Reallocate the given block if it is not large enough, otherwise do nothing.<br>
-	 * * @see av_realloc<br>
-	 * Original signature : <code>void* av_fast_realloc(void*, unsigned int*, size_t)</code>
-	 */
-	Pointer av_fast_realloc(Pointer ptr, IntBuffer size, NativeSize min_size);
-	/**
-	 * Allocate a buffer, reusing the given one if large enough.<br>
-	 * * Contrary to av_fast_realloc the current buffer contents might not be<br>
-	 * preserved and on error the old buffer is freed, thus no special<br>
-	 * handling to avoid memleaks is necessary.<br>
-	 * * @param ptr pointer to pointer to already allocated buffer, overwritten with pointer to new buffer<br>
-	 * @param size size of the buffer *ptr points to<br>
-	 * @param min_size minimum size of *ptr buffer after returning, *ptr will be NULL and<br>
-	 *                 *size 0 if an error occurred.<br>
-	 * Original signature : <code>void av_fast_malloc(void*, unsigned int*, size_t)</code><br>
-	 * @deprecated use the safer methods {@link #av_fast_malloc(com.sun.jna.Pointer, java.nio.IntBuffer, org.javaavc.ffmpeg.NativeSize)} and {@link #av_fast_malloc(com.sun.jna.Pointer, com.sun.jna.ptr.IntByReference, org.javaavc.ffmpeg.NativeSize)} instead
-	 */
-	@Deprecated 
-	void av_fast_malloc(Pointer ptr, IntByReference size, NativeSize min_size);
-	/**
-	 * Allocate a buffer, reusing the given one if large enough.<br>
-	 * * Contrary to av_fast_realloc the current buffer contents might not be<br>
-	 * preserved and on error the old buffer is freed, thus no special<br>
-	 * handling to avoid memleaks is necessary.<br>
-	 * * @param ptr pointer to pointer to already allocated buffer, overwritten with pointer to new buffer<br>
-	 * @param size size of the buffer *ptr points to<br>
-	 * @param min_size minimum size of *ptr buffer after returning, *ptr will be NULL and<br>
-	 *                 *size 0 if an error occurred.<br>
-	 * Original signature : <code>void av_fast_malloc(void*, unsigned int*, size_t)</code>
-	 */
-	void av_fast_malloc(Pointer ptr, IntBuffer size, NativeSize min_size);
-	/**
-	 * Same behaviour av_fast_malloc but the buffer has additional<br>
-	 * FF_INPUT_BUFFER_PADDING_SIZE at the end which will will always be 0.<br>
-	 * * In addition the whole buffer will initially and after resizes<br>
-	 * be 0-initialized so that no uninitialized data will ever appear.<br>
-	 * Original signature : <code>void av_fast_padded_malloc(void*, unsigned int*, size_t)</code><br>
-	 * @deprecated use the safer methods {@link #av_fast_padded_malloc(com.sun.jna.Pointer, java.nio.IntBuffer, org.javaavc.ffmpeg.NativeSize)} and {@link #av_fast_padded_malloc(com.sun.jna.Pointer, com.sun.jna.ptr.IntByReference, org.javaavc.ffmpeg.NativeSize)} instead
-	 */
-	@Deprecated 
-	void av_fast_padded_malloc(Pointer ptr, IntByReference size, NativeSize min_size);
-	/**
-	 * Same behaviour av_fast_malloc but the buffer has additional<br>
-	 * FF_INPUT_BUFFER_PADDING_SIZE at the end which will will always be 0.<br>
-	 * * In addition the whole buffer will initially and after resizes<br>
-	 * be 0-initialized so that no uninitialized data will ever appear.<br>
-	 * Original signature : <code>void av_fast_padded_malloc(void*, unsigned int*, size_t)</code>
-	 */
-	void av_fast_padded_malloc(Pointer ptr, IntBuffer size, NativeSize min_size);
-	/**
-	 * Same behaviour av_fast_padded_malloc except that buffer will always<br>
-	 * be 0-initialized after call.<br>
-	 * Original signature : <code>void av_fast_padded_mallocz(void*, unsigned int*, size_t)</code><br>
-	 * @deprecated use the safer methods {@link #av_fast_padded_mallocz(com.sun.jna.Pointer, java.nio.IntBuffer, org.javaavc.ffmpeg.NativeSize)} and {@link #av_fast_padded_mallocz(com.sun.jna.Pointer, com.sun.jna.ptr.IntByReference, org.javaavc.ffmpeg.NativeSize)} instead
-	 */
-	@Deprecated 
-	void av_fast_padded_mallocz(Pointer ptr, IntByReference size, NativeSize min_size);
-	/**
-	 * Same behaviour av_fast_padded_malloc except that buffer will always<br>
-	 * be 0-initialized after call.<br>
-	 * Original signature : <code>void av_fast_padded_mallocz(void*, unsigned int*, size_t)</code>
-	 */
-	void av_fast_padded_mallocz(Pointer ptr, IntBuffer size, NativeSize min_size);
-	/**
-	 * Encode extradata length to a buffer. Used by xiph codecs.<br>
-	 * * @param s buffer to write to; must be at least (v/255+1) bytes long<br>
-	 * @param v size of extradata in bytes<br>
-	 * @return number of bytes written to the buffer.<br>
-	 * Original signature : <code>int av_xiphlacing(unsigned char*, unsigned int)</code><br>
-	 * @deprecated use the safer methods {@link #av_xiphlacing(java.nio.ByteBuffer, int)} and {@link #av_xiphlacing(com.sun.jna.Pointer, int)} instead
-	 */
-	@Deprecated 
-	int av_xiphlacing(Pointer s, int v);
-	/**
-	 * Encode extradata length to a buffer. Used by xiph codecs.<br>
-	 * * @param s buffer to write to; must be at least (v/255+1) bytes long<br>
-	 * @param v size of extradata in bytes<br>
-	 * @return number of bytes written to the buffer.<br>
-	 * Original signature : <code>int av_xiphlacing(unsigned char*, unsigned int)</code>
-	 */
-	int av_xiphlacing(ByteBuffer s, int v);
-	/**
-	 * Original signature : <code>void av_log_missing_feature(void*, const char*, int)</code><br>
-	 * @deprecated use the safer methods {@link #av_log_missing_feature(com.sun.jna.Pointer, java.lang.String, int)} and {@link #av_log_missing_feature(com.sun.jna.Pointer, com.sun.jna.Pointer, int)} instead
-	 */
-	@Deprecated 
-	void av_log_missing_feature(Pointer avc, Pointer feature, int want_sample);
-	/** Original signature : <code>void av_log_missing_feature(void*, const char*, int)</code> */
-	void av_log_missing_feature(Pointer avc, String feature, int want_sample);
-	/**
-	 * Original signature : <code>void av_log_ask_for_sample(void*, const char*, null)</code><br>
-	 * @deprecated use the safer methods {@link #av_log_ask_for_sample(com.sun.jna.Pointer, java.lang.String, java.lang.Object)} and {@link #av_log_ask_for_sample(com.sun.jna.Pointer, com.sun.jna.Pointer, java.lang.Object)} instead
-	 */
-	@Deprecated 
-	void av_log_ask_for_sample(Pointer avc, Pointer msg, Object... varargs);
-	/** Original signature : <code>void av_log_ask_for_sample(void*, const char*, null)</code> */
-	void av_log_ask_for_sample(Pointer avc, String msg, Object... varargs);
-	/**
-	 * Register the hardware accelerator hwaccel.<br>
-	 * Original signature : <code>void av_register_hwaccel(AVHWAccel*)</code>
-	 */
-	void av_register_hwaccel(AVHWAccel hwaccel);
-	/**
-	 * If hwaccel is NULL, returns the first registered hardware accelerator,<br>
-	 * if hwaccel is non-NULL, returns the next registered hardware accelerator<br>
-	 * after hwaccel, or NULL if hwaccel is the last one.<br>
-	 * Original signature : <code>AVHWAccel* av_hwaccel_next(AVHWAccel*)</code>
-	 */
-	AVHWAccel av_hwaccel_next(AVHWAccel hwaccel);
-	/**
-	 * Register a user provided lock manager supporting the operations<br>
-	 * specified by AVLockOp. mutex points to a (void *) where the<br>
-	 * lockmgr should store/get a pointer to a user allocated mutex. It's<br>
-	 * NULL upon AV_LOCK_CREATE and != NULL for all other ops.<br>
-	 * * @param cb User defined callback. Note: FFmpeg may invoke calls to this<br>
-	 *           callback during the call to av_lockmgr_register().<br>
-	 *           Thus, the application must be prepared to handle that.<br>
-	 *           If cb is set to NULL the lockmgr will be unregistered.<br>
-	 *           Also note that during unregistration the previously registered<br>
-	 *           lockmgr callback may also be invoked.<br>
-	 * Original signature : <code>int av_lockmgr_register(av_lockmgr_register_cb_callback*)</code>
-	 */
-	int av_lockmgr_register(LibavformatLibrary.av_lockmgr_register_cb_callback cb);
-	/**
-	 * Get the type of the given codec.<br>
-	 * Original signature : <code>AVMediaType avcodec_get_type(AVCodecID)</code>
-	 */
-	int avcodec_get_type(int codec_id);
-	/**
-	 * Get the name of a codec.<br>
-	 * @return  a static string identifying the codec; never NULL<br>
-	 * Original signature : <code>char* avcodec_get_name(AVCodecID)</code>
-	 */
-	String avcodec_get_name(int id);
-	/**
-	 * @return a positive value if s is open (i.e. avcodec_open2() was called on it<br>
-	 * with no corresponding avcodec_close()), 0 otherwise.<br>
-	 * Original signature : <code>int avcodec_is_open(AVCodecContext*)</code>
-	 */
-	int avcodec_is_open(AVCodecContext s);
-	/**
-	 * @return a non-zero number if codec is an encoder, zero otherwise<br>
-	 * Original signature : <code>int av_codec_is_encoder(const AVCodec*)</code>
-	 */
-	int av_codec_is_encoder(AVCodec codec);
-	/**
-	 * @return a non-zero number if codec is a decoder, zero otherwise<br>
-	 * Original signature : <code>int av_codec_is_decoder(const AVCodec*)</code>
-	 */
-	int av_codec_is_decoder(AVCodec codec);
-	/**
-	 * @return descriptor for given codec ID or NULL if no descriptor exists.<br>
-	 * Original signature : <code>AVCodecDescriptor* avcodec_descriptor_get(AVCodecID)</code>
-	 */
-	AVCodecDescriptor avcodec_descriptor_get(int id);
-	/**
-	 * Iterate over all codec descriptors known to libavcodec.<br>
-	 * * @param prev previous descriptor. NULL to get the first descriptor.<br>
-	 * * @return next descriptor or NULL after the last descriptor<br>
-	 * Original signature : <code>AVCodecDescriptor* avcodec_descriptor_next(const AVCodecDescriptor*)</code>
-	 */
-	AVCodecDescriptor avcodec_descriptor_next(AVCodecDescriptor prev);
-	/**
-	 * @return codec descriptor with the given name or NULL if no such descriptor<br>
-	 *         exists.<br>
-	 * Original signature : <code>AVCodecDescriptor* avcodec_descriptor_get_by_name(const char*)</code><br>
-	 * @deprecated use the safer methods {@link #avcodec_descriptor_get_by_name(java.lang.String)} and {@link #avcodec_descriptor_get_by_name(com.sun.jna.Pointer)} instead
-	 */
-	@Deprecated 
-	AVCodecDescriptor avcodec_descriptor_get_by_name(Pointer name);
-	/**
-	 * @return codec descriptor with the given name or NULL if no such descriptor<br>
-	 *         exists.<br>
-	 * Original signature : <code>AVCodecDescriptor* avcodec_descriptor_get_by_name(const char*)</code>
-	 */
-	AVCodecDescriptor avcodec_descriptor_get_by_name(String name);
-	/**
-	 * Return AVIO_FLAG_* access flags corresponding to the access permissions<br>
-	 * of the resource in url, or a negative value corresponding to an<br>
-	 * AVERROR code in case of failure. The returned access flags are<br>
-	 * masked by the value in flags.<br>
-	 * * @note This function is intrinsically unsafe, in the sense that the<br>
-	 * checked resource may change its existence or permission status from<br>
-	 * one call to another. Thus you should not trust the returned value,<br>
-	 * unless you are sure that no other processes are accessing the<br>
-	 * checked resource.<br>
-	 * Original signature : <code>int avio_check(const char*, int)</code><br>
-	 * @deprecated use the safer methods {@link #avio_check(java.lang.String, int)} and {@link #avio_check(com.sun.jna.Pointer, int)} instead
-	 */
-	@Deprecated 
-	int avio_check(Pointer url, int flags);
-	/**
-	 * Return AVIO_FLAG_* access flags corresponding to the access permissions<br>
-	 * of the resource in url, or a negative value corresponding to an<br>
-	 * AVERROR code in case of failure. The returned access flags are<br>
-	 * masked by the value in flags.<br>
-	 * * @note This function is intrinsically unsafe, in the sense that the<br>
-	 * checked resource may change its existence or permission status from<br>
-	 * one call to another. Thus you should not trust the returned value,<br>
-	 * unless you are sure that no other processes are accessing the<br>
-	 * checked resource.<br>
-	 * Original signature : <code>int avio_check(const char*, int)</code>
-	 */
-	int avio_check(String url, int flags);
-	/**
-	 * Allocate and initialize an AVIOContext for buffered I/O. It must be later<br>
-	 * freed with av_free().<br>
-	 * * @param buffer Memory block for input/output operations via AVIOContext.<br>
-	 *        The buffer must be allocated with av_malloc() and friends.<br>
-	 * @param buffer_size The buffer size is very important for performance.<br>
-	 *        For protocols with fixed blocksize it should be set to this blocksize.<br>
-	 *        For others a typical size is a cache page, e.g. 4kb.<br>
-	 * @param write_flag Set to 1 if the buffer should be writable, 0 otherwise.<br>
-	 * @param opaque An opaque pointer to user-specific data.<br>
-	 * @param read_packet  A function for refilling the buffer, may be NULL.<br>
-	 * @param write_packet A function for writing the buffer contents, may be NULL.<br>
-	 *        The function may not change the input buffers content.<br>
-	 * @param seek A function for seeking to specified byte position, may be NULL.<br>
-	 * * @return Allocated AVIOContext or NULL on failure.<br>
-	 * Original signature : <code>AVIOContext* avio_alloc_context(unsigned char*, int, int, void*, avio_alloc_context_read_packet_callback*, avio_alloc_context_write_packet_callback*, avio_alloc_context_seek_callback*)</code><br>
-	 * @deprecated use the safer methods {@link #avio_alloc_context(java.nio.ByteBuffer, int, int, com.sun.jna.Pointer, org.javaavc.ffmpeg.avformat.LibavformatLibrary.avio_alloc_context_read_packet_callback, org.javaavc.ffmpeg.avformat.LibavformatLibrary.avio_alloc_context_write_packet_callback, org.javaavc.ffmpeg.avformat.LibavformatLibrary.avio_alloc_context_seek_callback)} and {@link #avio_alloc_context(com.sun.jna.Pointer, int, int, com.sun.jna.Pointer, org.javaavc.ffmpeg.avformat.LibavformatLibrary.avio_alloc_context_read_packet_callback, org.javaavc.ffmpeg.avformat.LibavformatLibrary.avio_alloc_context_write_packet_callback, org.javaavc.ffmpeg.avformat.LibavformatLibrary.avio_alloc_context_seek_callback)} instead
-	 */
-	@Deprecated 
-	AVIOContext avio_alloc_context(Pointer buffer, int buffer_size, int write_flag, Pointer opaque, LibavformatLibrary.avio_alloc_context_read_packet_callback read_packet, LibavformatLibrary.avio_alloc_context_write_packet_callback write_packet, LibavformatLibrary.avio_alloc_context_seek_callback seek);
-	/**
-	 * Allocate and initialize an AVIOContext for buffered I/O. It must be later<br>
-	 * freed with av_free().<br>
-	 * * @param buffer Memory block for input/output operations via AVIOContext.<br>
-	 *        The buffer must be allocated with av_malloc() and friends.<br>
-	 * @param buffer_size The buffer size is very important for performance.<br>
-	 *        For protocols with fixed blocksize it should be set to this blocksize.<br>
-	 *        For others a typical size is a cache page, e.g. 4kb.<br>
-	 * @param write_flag Set to 1 if the buffer should be writable, 0 otherwise.<br>
-	 * @param opaque An opaque pointer to user-specific data.<br>
-	 * @param read_packet  A function for refilling the buffer, may be NULL.<br>
-	 * @param write_packet A function for writing the buffer contents, may be NULL.<br>
-	 *        The function may not change the input buffers content.<br>
-	 * @param seek A function for seeking to specified byte position, may be NULL.<br>
-	 * * @return Allocated AVIOContext or NULL on failure.<br>
-	 * Original signature : <code>AVIOContext* avio_alloc_context(unsigned char*, int, int, void*, avio_alloc_context_read_packet_callback*, avio_alloc_context_write_packet_callback*, avio_alloc_context_seek_callback*)</code>
-	 */
-	AVIOContext avio_alloc_context(ByteBuffer buffer, int buffer_size, int write_flag, Pointer opaque, LibavformatLibrary.avio_alloc_context_read_packet_callback read_packet, LibavformatLibrary.avio_alloc_context_write_packet_callback write_packet, LibavformatLibrary.avio_alloc_context_seek_callback seek);
-	/** Original signature : <code>void avio_w8(AVIOContext*, int)</code> */
-	void avio_w8(AVIOContext s, int b);
-	/**
-	 * Original signature : <code>void avio_write(AVIOContext*, const unsigned char*, int)</code><br>
-	 * @deprecated use the safer methods {@link #avio_write(org.javaavc.ffmpeg.avformat.AVIOContext, java.nio.ByteBuffer, int)} and {@link #avio_write(org.javaavc.ffmpeg.avformat.AVIOContext, com.sun.jna.Pointer, int)} instead
-	 */
-	@Deprecated 
-	void avio_write(AVIOContext s, Pointer buf, int size);
-	/** Original signature : <code>void avio_write(AVIOContext*, const unsigned char*, int)</code> */
-	void avio_write(AVIOContext s, ByteBuffer buf, int size);
-	/** Original signature : <code>void avio_wl64(AVIOContext*, uint64_t)</code> */
-	void avio_wl64(AVIOContext s, long val);
-	/** Original signature : <code>void avio_wb64(AVIOContext*, uint64_t)</code> */
-	void avio_wb64(AVIOContext s, long val);
-	/** Original signature : <code>void avio_wl32(AVIOContext*, unsigned int)</code> */
-	void avio_wl32(AVIOContext s, int val);
-	/** Original signature : <code>void avio_wb32(AVIOContext*, unsigned int)</code> */
-	void avio_wb32(AVIOContext s, int val);
-	/** Original signature : <code>void avio_wl24(AVIOContext*, unsigned int)</code> */
-	void avio_wl24(AVIOContext s, int val);
-	/** Original signature : <code>void avio_wb24(AVIOContext*, unsigned int)</code> */
-	void avio_wb24(AVIOContext s, int val);
-	/** Original signature : <code>void avio_wl16(AVIOContext*, unsigned int)</code> */
-	void avio_wl16(AVIOContext s, int val);
-	/** Original signature : <code>void avio_wb16(AVIOContext*, unsigned int)</code> */
-	void avio_wb16(AVIOContext s, int val);
-	/**
-	 * Write a NULL-terminated string.<br>
-	 * @return number of bytes written.<br>
-	 * Original signature : <code>int avio_put_str(AVIOContext*, const char*)</code><br>
-	 * @deprecated use the safer methods {@link #avio_put_str(org.javaavc.ffmpeg.avformat.AVIOContext, java.lang.String)} and {@link #avio_put_str(org.javaavc.ffmpeg.avformat.AVIOContext, com.sun.jna.Pointer)} instead
-	 */
-	@Deprecated 
-	int avio_put_str(AVIOContext s, Pointer str);
-	/**
-	 * Write a NULL-terminated string.<br>
-	 * @return number of bytes written.<br>
-	 * Original signature : <code>int avio_put_str(AVIOContext*, const char*)</code>
-	 */
-	int avio_put_str(AVIOContext s, String str);
-	/**
-	 * Convert an UTF-8 string to UTF-16LE and write it.<br>
-	 * @return number of bytes written.<br>
-	 * Original signature : <code>int avio_put_str16le(AVIOContext*, const char*)</code><br>
-	 * @deprecated use the safer methods {@link #avio_put_str16le(org.javaavc.ffmpeg.avformat.AVIOContext, java.lang.String)} and {@link #avio_put_str16le(org.javaavc.ffmpeg.avformat.AVIOContext, com.sun.jna.Pointer)} instead
-	 */
-	@Deprecated 
-	int avio_put_str16le(AVIOContext s, Pointer str);
-	/**
-	 * Convert an UTF-8 string to UTF-16LE and write it.<br>
-	 * @return number of bytes written.<br>
-	 * Original signature : <code>int avio_put_str16le(AVIOContext*, const char*)</code>
-	 */
-	int avio_put_str16le(AVIOContext s, String str);
-	/**
-	 * fseek() equivalent for AVIOContext.<br>
-	 * @return new position or AVERROR.<br>
-	 * Original signature : <code>int64_t avio_seek(AVIOContext*, int64_t, int)</code>
-	 */
-	long avio_seek(AVIOContext s, long offset, int whence);
-	/**
-	 * Skip given number of bytes forward<br>
-	 * @return new position or AVERROR.<br>
-	 * Original signature : <code>int64_t avio_skip(AVIOContext*, int64_t)</code>
-	 */
-	long avio_skip(AVIOContext s, long offset);
-	/**
-	 * Get the filesize.<br>
-	 * @return filesize or AVERROR<br>
-	 * Original signature : <code>int64_t avio_size(AVIOContext*)</code>
-	 */
-	long avio_size(AVIOContext s);
-	/**
-	 * feof() equivalent for AVIOContext.<br>
-	 * @return non zero if and only if end of file<br>
-	 * Original signature : <code>int url_feof(AVIOContext*)</code>
-	 */
-	int url_feof(AVIOContext s);
-	/**
-	 * @warning currently size is limited<br>
-	 * Original signature : <code>int avio_printf(AVIOContext*, const char*, null)</code><br>
-	 * @deprecated use the safer methods {@link #avio_printf(org.javaavc.ffmpeg.avformat.AVIOContext, java.lang.String, java.lang.Object)} and {@link #avio_printf(org.javaavc.ffmpeg.avformat.AVIOContext, com.sun.jna.Pointer, java.lang.Object)} instead
-	 */
-	@Deprecated 
-	int avio_printf(AVIOContext s, Pointer fmt, Object... varargs);
-	/**
-	 * @warning currently size is limited<br>
-	 * Original signature : <code>int avio_printf(AVIOContext*, const char*, null)</code>
-	 */
-	int avio_printf(AVIOContext s, String fmt, Object... varargs);
-	/**
-	 * Force flushing of buffered data to the output s.<br>
-	 * * Force the buffered data to be immediately written to the output,<br>
-	 * without to wait to fill the internal buffer.<br>
-	 * Original signature : <code>void avio_flush(AVIOContext*)</code>
-	 */
-	void avio_flush(AVIOContext s);
-	/**
-	 * Read size bytes from AVIOContext into buf.<br>
-	 * @return number of bytes read or AVERROR<br>
-	 * Original signature : <code>int avio_read(AVIOContext*, unsigned char*, int)</code><br>
-	 * @deprecated use the safer methods {@link #avio_read(org.javaavc.ffmpeg.avformat.AVIOContext, java.nio.ByteBuffer, int)} and {@link #avio_read(org.javaavc.ffmpeg.avformat.AVIOContext, com.sun.jna.Pointer, int)} instead
-	 */
-	@Deprecated 
-	int avio_read(AVIOContext s, Pointer buf, int size);
-	/**
-	 * Read size bytes from AVIOContext into buf.<br>
-	 * @return number of bytes read or AVERROR<br>
-	 * Original signature : <code>int avio_read(AVIOContext*, unsigned char*, int)</code>
-	 */
-	int avio_read(AVIOContext s, ByteBuffer buf, int size);
-	/**
-	 * @name Functions for reading from AVIOContext<br>
-	 * @{<br>
-	 * * @note return 0 if EOF, so you cannot use it if EOF handling is<br>
-	 *       necessary<br>
-	 * Original signature : <code>int avio_r8(AVIOContext*)</code>
-	 */
-	int avio_r8(AVIOContext s);
-	/** Original signature : <code>int avio_rl16(AVIOContext*)</code> */
-	int avio_rl16(AVIOContext s);
-	/** Original signature : <code>int avio_rl24(AVIOContext*)</code> */
-	int avio_rl24(AVIOContext s);
-	/** Original signature : <code>int avio_rl32(AVIOContext*)</code> */
-	int avio_rl32(AVIOContext s);
-	/** Original signature : <code>uint64_t avio_rl64(AVIOContext*)</code> */
-	long avio_rl64(AVIOContext s);
-	/** Original signature : <code>int avio_rb16(AVIOContext*)</code> */
-	int avio_rb16(AVIOContext s);
-	/** Original signature : <code>int avio_rb24(AVIOContext*)</code> */
-	int avio_rb24(AVIOContext s);
-	/** Original signature : <code>int avio_rb32(AVIOContext*)</code> */
-	int avio_rb32(AVIOContext s);
-	/** Original signature : <code>uint64_t avio_rb64(AVIOContext*)</code> */
-	long avio_rb64(AVIOContext s);
-	/**
-	 * Read a string from pb into buf. The reading will terminate when either<br>
-	 * a NULL character was encountered, maxlen bytes have been read, or nothing<br>
-	 * more can be read from pb. The result is guaranteed to be NULL-terminated, it<br>
-	 * will be truncated if buf is too small.<br>
-	 * Note that the string is not interpreted or validated in any way, it<br>
-	 * might get truncated in the middle of a sequence for multi-byte encodings.<br>
-	 * * @return number of bytes read (is always <= maxlen).<br>
-	 * If reading ends on EOF or error, the return value will be one more than<br>
-	 * bytes actually read.<br>
-	 * Original signature : <code>int avio_get_str(AVIOContext*, int, char*, int)</code><br>
-	 * @deprecated use the safer methods {@link #avio_get_str(org.javaavc.ffmpeg.avformat.AVIOContext, int, java.nio.ByteBuffer, int)} and {@link #avio_get_str(org.javaavc.ffmpeg.avformat.AVIOContext, int, com.sun.jna.Pointer, int)} instead
-	 */
-	@Deprecated 
-	int avio_get_str(AVIOContext pb, int maxlen, Pointer buf, int buflen);
-	/**
-	 * Read a string from pb into buf. The reading will terminate when either<br>
-	 * a NULL character was encountered, maxlen bytes have been read, or nothing<br>
-	 * more can be read from pb. The result is guaranteed to be NULL-terminated, it<br>
-	 * will be truncated if buf is too small.<br>
-	 * Note that the string is not interpreted or validated in any way, it<br>
-	 * might get truncated in the middle of a sequence for multi-byte encodings.<br>
-	 * * @return number of bytes read (is always <= maxlen).<br>
-	 * If reading ends on EOF or error, the return value will be one more than<br>
-	 * bytes actually read.<br>
-	 * Original signature : <code>int avio_get_str(AVIOContext*, int, char*, int)</code>
-	 */
-	int avio_get_str(AVIOContext pb, int maxlen, ByteBuffer buf, int buflen);
-	/**
-	 * Read a UTF-16 string from pb and convert it to UTF-8.<br>
-	 * The reading will terminate when either a null or invalid character was<br>
-	 * encountered or maxlen bytes have been read.<br>
-	 * @return number of bytes read (is always <= maxlen)<br>
-	 * Original signature : <code>int avio_get_str16le(AVIOContext*, int, char*, int)</code><br>
-	 * @deprecated use the safer methods {@link #avio_get_str16le(org.javaavc.ffmpeg.avformat.AVIOContext, int, java.nio.ByteBuffer, int)} and {@link #avio_get_str16le(org.javaavc.ffmpeg.avformat.AVIOContext, int, com.sun.jna.Pointer, int)} instead
-	 */
-	@Deprecated 
-	int avio_get_str16le(AVIOContext pb, int maxlen, Pointer buf, int buflen);
-	/**
-	 * Read a UTF-16 string from pb and convert it to UTF-8.<br>
-	 * The reading will terminate when either a null or invalid character was<br>
-	 * encountered or maxlen bytes have been read.<br>
-	 * @return number of bytes read (is always <= maxlen)<br>
-	 * Original signature : <code>int avio_get_str16le(AVIOContext*, int, char*, int)</code>
-	 */
-	int avio_get_str16le(AVIOContext pb, int maxlen, ByteBuffer buf, int buflen);
-	/**
-	 * Original signature : <code>int avio_get_str16be(AVIOContext*, int, char*, int)</code><br>
-	 * @deprecated use the safer methods {@link #avio_get_str16be(org.javaavc.ffmpeg.avformat.AVIOContext, int, java.nio.ByteBuffer, int)} and {@link #avio_get_str16be(org.javaavc.ffmpeg.avformat.AVIOContext, int, com.sun.jna.Pointer, int)} instead
-	 */
-	@Deprecated 
-	int avio_get_str16be(AVIOContext pb, int maxlen, Pointer buf, int buflen);
-	/** Original signature : <code>int avio_get_str16be(AVIOContext*, int, char*, int)</code> */
-	int avio_get_str16be(AVIOContext pb, int maxlen, ByteBuffer buf, int buflen);
-	/**
-	 * Create and initialize a AVIOContext for accessing the<br>
-	 * resource indicated by url.<br>
-	 * @note When the resource indicated by url has been opened in<br>
-	 * read+write mode, the AVIOContext can be used only for writing.<br>
-	 * * @param s Used to return the pointer to the created AVIOContext.<br>
-	 * In case of failure the pointed to value is set to NULL.<br>
-	 * @param flags flags which control how the resource indicated by url<br>
-	 * is to be opened<br>
-	 * @return 0 in case of success, a negative value corresponding to an<br>
-	 * AVERROR code in case of failure<br>
-	 * Original signature : <code>int avio_open(AVIOContext**, const char*, int)</code><br>
-	 * @deprecated use the safer methods {@link #avio_open(org.javaavc.ffmpeg.avformat.AVIOContext.ByReference[], java.lang.String, int)} and {@link #avio_open(org.javaavc.ffmpeg.avformat.AVIOContext.ByReference[], com.sun.jna.Pointer, int)} instead
-	 */
-	@Deprecated 
-	int avio_open(PointerByReference s, Pointer url, int flags);
-	/**
-	 * Create and initialize a AVIOContext for accessing the<br>
-	 * resource indicated by url.<br>
-	 * @note When the resource indicated by url has been opened in<br>
-	 * read+write mode, the AVIOContext can be used only for writing.<br>
-	 * * @param s Used to return the pointer to the created AVIOContext.<br>
-	 * In case of failure the pointed to value is set to NULL.<br>
-	 * @param flags flags which control how the resource indicated by url<br>
-	 * is to be opened<br>
-	 * @return 0 in case of success, a negative value corresponding to an<br>
-	 * AVERROR code in case of failure<br>
-	 * Original signature : <code>int avio_open(AVIOContext**, const char*, int)</code>
-	 */
-	int avio_open(AVIOContext.ByReference s[], String url, int flags);
-	/**
-	 * Create and initialize a AVIOContext for accessing the<br>
-	 * resource indicated by url.<br>
-	 * @note When the resource indicated by url has been opened in<br>
-	 * read+write mode, the AVIOContext can be used only for writing.<br>
-	 * * @param s Used to return the pointer to the created AVIOContext.<br>
-	 * In case of failure the pointed to value is set to NULL.<br>
-	 * @param flags flags which control how the resource indicated by url<br>
-	 * is to be opened<br>
-	 * @return 0 in case of success, a negative value corresponding to an<br>
-	 * AVERROR code in case of failure<br>
-	 * Original signature : <code>int avio_open(AVIOContext**, const char*, int)</code>
-	 */
-	int avio_open(AVIOContext.ByReference s[], Pointer url, int flags);
-	/**
-	 * Create and initialize a AVIOContext for accessing the<br>
-	 * resource indicated by url.<br>
-	 * @note When the resource indicated by url has been opened in<br>
-	 * read+write mode, the AVIOContext can be used only for writing.<br>
-	 * * @param s Used to return the pointer to the created AVIOContext.<br>
-	 * In case of failure the pointed to value is set to NULL.<br>
-	 * @param flags flags which control how the resource indicated by url<br>
-	 * is to be opened<br>
-	 * @param int_cb an interrupt callback to be used at the protocols level<br>
-	 * @param options  A dictionary filled with protocol-private options. On return<br>
-	 * this parameter will be destroyed and replaced with a dict containing options<br>
-	 * that were not found. May be NULL.<br>
-	 * @return 0 in case of success, a negative value corresponding to an<br>
-	 * AVERROR code in case of failure<br>
-	 * Original signature : <code>int avio_open2(AVIOContext**, const char*, int, const AVIOInterruptCB*, AVDictionary**)</code><br>
-	 * @deprecated use the safer methods {@link #avio_open2(org.javaavc.ffmpeg.avformat.AVIOContext.ByReference[], java.lang.String, int, org.javaavc.ffmpeg.avformat.AVIOInterruptCB, com.sun.jna.ptr.PointerByReference)} and {@link #avio_open2(org.javaavc.ffmpeg.avformat.AVIOContext.ByReference[], com.sun.jna.Pointer, int, org.javaavc.ffmpeg.avformat.AVIOInterruptCB, com.sun.jna.ptr.PointerByReference)} instead
-	 */
-	@Deprecated 
-	int avio_open2(PointerByReference s, Pointer url, int flags, AVIOInterruptCB int_cb, PointerByReference options);
-	/**
-	 * Create and initialize a AVIOContext for accessing the<br>
-	 * resource indicated by url.<br>
-	 * @note When the resource indicated by url has been opened in<br>
-	 * read+write mode, the AVIOContext can be used only for writing.<br>
-	 * * @param s Used to return the pointer to the created AVIOContext.<br>
-	 * In case of failure the pointed to value is set to NULL.<br>
-	 * @param flags flags which control how the resource indicated by url<br>
-	 * is to be opened<br>
-	 * @param int_cb an interrupt callback to be used at the protocols level<br>
-	 * @param options  A dictionary filled with protocol-private options. On return<br>
-	 * this parameter will be destroyed and replaced with a dict containing options<br>
-	 * that were not found. May be NULL.<br>
-	 * @return 0 in case of success, a negative value corresponding to an<br>
-	 * AVERROR code in case of failure<br>
-	 * Original signature : <code>int avio_open2(AVIOContext**, const char*, int, const AVIOInterruptCB*, AVDictionary**)</code>
-	 */
-	int avio_open2(AVIOContext.ByReference s[], String url, int flags, AVIOInterruptCB int_cb, PointerByReference options);
-	/**
-	 * Create and initialize a AVIOContext for accessing the<br>
-	 * resource indicated by url.<br>
-	 * @note When the resource indicated by url has been opened in<br>
-	 * read+write mode, the AVIOContext can be used only for writing.<br>
-	 * * @param s Used to return the pointer to the created AVIOContext.<br>
-	 * In case of failure the pointed to value is set to NULL.<br>
-	 * @param flags flags which control how the resource indicated by url<br>
-	 * is to be opened<br>
-	 * @param int_cb an interrupt callback to be used at the protocols level<br>
-	 * @param options  A dictionary filled with protocol-private options. On return<br>
-	 * this parameter will be destroyed and replaced with a dict containing options<br>
-	 * that were not found. May be NULL.<br>
-	 * @return 0 in case of success, a negative value corresponding to an<br>
-	 * AVERROR code in case of failure<br>
-	 * Original signature : <code>int avio_open2(AVIOContext**, const char*, int, const AVIOInterruptCB*, AVDictionary**)</code>
-	 */
-	int avio_open2(AVIOContext.ByReference s[], Pointer url, int flags, AVIOInterruptCB int_cb, PointerByReference options);
-	/**
-	 * Close the resource accessed by the AVIOContext s and free it.<br>
-	 * This function can only be used if s was opened by avio_open().<br>
-	 * * The internal buffer is automatically flushed before closing the<br>
-	 * resource.<br>
-	 * * @return 0 on success, an AVERROR < 0 on error.<br>
-	 * @see avio_closep<br>
-	 * Original signature : <code>int avio_close(AVIOContext*)</code>
-	 */
-	int avio_close(AVIOContext s);
-	/**
-	 * Close the resource accessed by the AVIOContext *s, free it<br>
-	 * and set the pointer pointing to it to NULL.<br>
-	 * This function can only be used if s was opened by avio_open().<br>
-	 * * The internal buffer is automatically flushed before closing the<br>
-	 * resource.<br>
-	 * * @return 0 on success, an AVERROR < 0 on error.<br>
-	 * @see avio_close<br>
-	 * Original signature : <code>int avio_closep(AVIOContext**)</code><br>
-	 * @deprecated use the safer method {@link #avio_closep(org.javaavc.ffmpeg.avformat.AVIOContext.ByReference[])} instead
-	 */
-	@Deprecated 
-	int avio_closep(PointerByReference s);
-	/**
-	 * Close the resource accessed by the AVIOContext *s, free it<br>
-	 * and set the pointer pointing to it to NULL.<br>
-	 * This function can only be used if s was opened by avio_open().<br>
-	 * * The internal buffer is automatically flushed before closing the<br>
-	 * resource.<br>
-	 * * @return 0 on success, an AVERROR < 0 on error.<br>
-	 * @see avio_close<br>
-	 * Original signature : <code>int avio_closep(AVIOContext**)</code>
-	 */
-	int avio_closep(AVIOContext.ByReference s[]);
-	/**
-	 * Open a write only memory stream.<br>
-	 * * @param s new IO context<br>
-	 * @return zero if no error.<br>
-	 * Original signature : <code>int avio_open_dyn_buf(AVIOContext**)</code><br>
-	 * @deprecated use the safer method {@link #avio_open_dyn_buf(org.javaavc.ffmpeg.avformat.AVIOContext.ByReference[])} instead
-	 */
-	@Deprecated 
-	int avio_open_dyn_buf(PointerByReference s);
-	/**
-	 * Open a write only memory stream.<br>
-	 * * @param s new IO context<br>
-	 * @return zero if no error.<br>
-	 * Original signature : <code>int avio_open_dyn_buf(AVIOContext**)</code>
-	 */
-	int avio_open_dyn_buf(AVIOContext.ByReference s[]);
-	/**
-	 * Return the written size and a pointer to the buffer. The buffer<br>
-	 * must be freed with av_free().<br>
-	 * Padding of FF_INPUT_BUFFER_PADDING_SIZE is added to the buffer.<br>
-	 * * @param s IO context<br>
-	 * @param pbuffer pointer to a byte buffer<br>
-	 * @return the length of the byte buffer<br>
-	 * Original signature : <code>int avio_close_dyn_buf(AVIOContext*, uint8_t**)</code>
-	 */
-	int avio_close_dyn_buf(AVIOContext s, PointerByReference pbuffer);
-	/**
-	 * Iterate through names of available protocols.<br>
-	 * * @param opaque A private pointer representing current protocol.<br>
-	 *        It must be a pointer to NULL on first iteration and will<br>
-	 *        be updated by successive calls to avio_enum_protocols.<br>
-	 * @param output If set to 1, iterate over output protocols,<br>
-	 *               otherwise over input protocols.<br>
-	 * * @return A static string containing the name of current protocol or NULL<br>
-	 * Original signature : <code>char* avio_enum_protocols(void**, int)</code>
-	 */
-	String avio_enum_protocols(PointerByReference opaque, int output);
-	/**
-	 * Pause and resume playing - only meaningful if using a network streaming<br>
-	 * protocol (e.g. MMS).<br>
-	 * @param pause 1 for pause, 0 for resume<br>
-	 * Original signature : <code>int avio_pause(AVIOContext*, int)</code>
-	 */
-	int avio_pause(AVIOContext h, int pause);
-	/**
-	 * Seek to a given timestamp relative to some component stream.<br>
-	 * Only meaningful if using a network streaming protocol (e.g. MMS.).<br>
-	 * @param stream_index The stream index that the timestamp is relative to.<br>
-	 *        If stream_index is (-1) the timestamp should be in AV_TIME_BASE<br>
-	 *        units from the beginning of the presentation.<br>
-	 *        If a stream_index >= 0 is used and the protocol does not support<br>
-	 *        seeking based on component streams, the call will fail.<br>
-	 * @param timestamp timestamp in AVStream.time_base units<br>
-	 *        or if there is no stream specified then in AV_TIME_BASE units.<br>
-	 * @param flags Optional combination of AVSEEK_FLAG_BACKWARD, AVSEEK_FLAG_BYTE<br>
-	 *        and AVSEEK_FLAG_ANY. The protocol may silently ignore<br>
-	 *        AVSEEK_FLAG_BACKWARD and AVSEEK_FLAG_ANY, but AVSEEK_FLAG_BYTE will<br>
-	 *        fail if used and not supported.<br>
-	 * @return >= 0 on success<br>
-	 * @see AVInputFormat::read_seek<br>
-	 * Original signature : <code>int64_t avio_seek_time(AVIOContext*, int, int64_t, int)</code>
-	 */
-	long avio_seek_time(AVIOContext h, int stream_index, long timestamp, int flags);
-	/**
-	 * Allocate and read the payload of a packet and initialize its<br>
-	 * fields with default values.<br>
-	 * * @param pkt packet<br>
-	 * @param size desired payload size<br>
-	 * @return >0 (read size) if OK, AVERROR_xxx otherwise<br>
-	 * Original signature : <code>int av_get_packet(AVIOContext*, AVPacket*, int)</code>
-	 */
-	int av_get_packet(AVIOContext s, AVPacket pkt, int size);
-	/**
-	 * Read data and append it to the current content of the AVPacket.<br>
-	 * If pkt->size is 0 this is identical to av_get_packet.<br>
-	 * Note that this uses av_grow_packet and thus involves a realloc<br>
-	 * which is inefficient. Thus this function should only be used<br>
-	 * when there is no reasonable way to know (an upper bound of)<br>
-	 * the final size.<br>
-	 * * @param pkt packet<br>
-	 * @param size amount of data to read<br>
-	 * @return >0 (read size) if OK, AVERROR_xxx otherwise, previous data<br>
-	 *         will not be lost even if an error occurs.<br>
-	 * Original signature : <code>int av_append_packet(AVIOContext*, AVPacket*, int)</code>
-	 */
-	int av_append_packet(AVIOContext s, AVPacket pkt, int size);
-	/** Original signature : <code>AVRational av_stream_get_r_frame_rate(const AVStream*)</code> */
-	AVRational.ByValue av_stream_get_r_frame_rate(AVStream s);
-	/** Original signature : <code>void av_stream_set_r_frame_rate(AVStream*, AVRational)</code> */
-	void av_stream_set_r_frame_rate(AVStream s, AVRational.ByValue r);
-	/**
-	 * Returns the method used to set ctx->duration.<br>
-	 * * @return AVFMT_DURATION_FROM_PTS, AVFMT_DURATION_FROM_STREAM, or AVFMT_DURATION_FROM_BITRATE.<br>
-	 * Original signature : <code>AVDurationEstimationMethod av_fmt_ctx_get_duration_estimation_method(const AVFormatContext*)</code>
-	 */
-	int av_fmt_ctx_get_duration_estimation_method(AVFormatContext ctx);
-	/**
-	 * Return the LIBAVFORMAT_VERSION_INT constant.<br>
-	 * Original signature : <code>int avformat_version()</code>
-	 */
-	int avformat_version();
-	/**
-	 * Return the libavformat build-time configuration.<br>
-	 * Original signature : <code>char* avformat_configuration()</code>
-	 */
-	String avformat_configuration();
-	/**
-	 * Return the libavformat license.<br>
-	 * Original signature : <code>char* avformat_license()</code>
-	 */
-	String avformat_license();
-	/**
-	 * Initialize libavformat and register all the muxers, demuxers and<br>
-	 * protocols. If you do not call this function, then you can select<br>
-	 * exactly which formats you want to support.<br>
-	 * * @see av_register_input_format()<br>
-	 * @see av_register_output_format()<br>
-	 * Original signature : <code>void av_register_all()</code>
-	 */
-	void av_register_all();
-	/** Original signature : <code>void av_register_input_format(AVInputFormat*)</code> */
-	void av_register_input_format(AVInputFormat format);
-	/** Original signature : <code>void av_register_output_format(AVOutputFormat*)</code> */
-	void av_register_output_format(AVOutputFormat format);
-	/**
-	 * Do global initialization of network components. This is optional,<br>
-	 * but recommended, since it avoids the overhead of implicitly<br>
-	 * doing the setup for each session.<br>
-	 * * Calling this function will become mandatory if using network<br>
-	 * protocols at some major version bump.<br>
-	 * Original signature : <code>int avformat_network_init()</code>
-	 */
-	int avformat_network_init();
-	/**
-	 * Undo the initialization done by avformat_network_init.<br>
-	 * Original signature : <code>int avformat_network_deinit()</code>
-	 */
-	int avformat_network_deinit();
-	/**
-	 * If f is NULL, returns the first registered input format,<br>
-	 * if f is non-NULL, returns the next registered input format after f<br>
-	 * or NULL if f is the last one.<br>
-	 * Original signature : <code>AVInputFormat* av_iformat_next(AVInputFormat*)</code>
-	 */
-	AVInputFormat av_iformat_next(AVInputFormat f);
-	/**
-	 * If f is NULL, returns the first registered output format,<br>
-	 * if f is non-NULL, returns the next registered output format after f<br>
-	 * or NULL if f is the last one.<br>
-	 * Original signature : <code>AVOutputFormat* av_oformat_next(AVOutputFormat*)</code>
-	 */
-	AVOutputFormat av_oformat_next(AVOutputFormat f);
-	/**
-	 * Allocate an AVFormatContext.<br>
-	 * avformat_free_context() can be used to free the context and everything<br>
-	 * allocated by the framework within it.<br>
-	 * Original signature : <code>AVFormatContext* avformat_alloc_context()</code>
-	 */
-	AVFormatContext avformat_alloc_context();
-	/**
-	 * Free an AVFormatContext and all its streams.<br>
-	 * @param s context to free<br>
-	 * Original signature : <code>void avformat_free_context(AVFormatContext*)</code>
-	 */
-	void avformat_free_context(AVFormatContext s);
-	/**
-	 * Get the AVClass for AVFormatContext. It can be used in combination with<br>
-	 * AV_OPT_SEARCH_FAKE_OBJ for examining options.<br>
-	 * * @see av_opt_find().<br>
-	 * Original signature : <code>AVClass* avformat_get_class()</code>
-	 */
-	AVClass avformat_get_class();
-	/**
-	 * Add a new stream to a media file.<br>
-	 * * When demuxing, it is called by the demuxer in read_header(). If the<br>
-	 * flag AVFMTCTX_NOHEADER is set in s.ctx_flags, then it may also<br>
-	 * be called in read_packet().<br>
-	 * * When muxing, should be called by the user before avformat_write_header().<br>
-	 * * @param c If non-NULL, the AVCodecContext corresponding to the new stream<br>
-	 * will be initialized to use this codec. This is needed for e.g. codec-specific<br>
-	 * defaults to be set, so codec should be provided if it is known.<br>
-	 * * @return newly created stream or NULL on error.<br>
-	 * Original signature : <code>AVStream* avformat_new_stream(AVFormatContext*, const AVCodec*)</code>
-	 */
-	AVStream avformat_new_stream(AVFormatContext s, AVCodec c);
-	/** Original signature : <code>AVProgram* av_new_program(AVFormatContext*, int)</code> */
-	AVProgram av_new_program(AVFormatContext s, int id);
-	/**
-	 * Original signature : <code>AVFormatContext* avformat_alloc_output_context(const char*, AVOutputFormat*, const char*)</code><br>
-	 * @deprecated use the safer methods {@link #avformat_alloc_output_context(java.lang.String, org.javaavc.ffmpeg.avformat.AVOutputFormat, java.lang.String)} and {@link #avformat_alloc_output_context(com.sun.jna.Pointer, org.javaavc.ffmpeg.avformat.AVOutputFormat, com.sun.jna.Pointer)} instead
-	 */
-	@Deprecated 
-	AVFormatContext avformat_alloc_output_context(Pointer format, AVOutputFormat oformat, Pointer filename);
-	/** Original signature : <code>AVFormatContext* avformat_alloc_output_context(const char*, AVOutputFormat*, const char*)</code> */
-	AVFormatContext avformat_alloc_output_context(String format, AVOutputFormat oformat, String filename);
-	/**
-	 * Allocate an AVFormatContext for an output format.<br>
-	 * avformat_free_context() can be used to free the context and<br>
-	 * everything allocated by the framework within it.<br>
-	 * * @param *ctx is set to the created format context, or to NULL in<br>
-	 * case of failure<br>
-	 * @param oformat format to use for allocating the context, if NULL<br>
-	 * format_name and filename are used instead<br>
-	 * @param format_name the name of output format to use for allocating the<br>
-	 * context, if NULL filename is used instead<br>
-	 * @param filename the name of the filename to use for allocating the<br>
-	 * context, may be NULL<br>
-	 * @return >= 0 in case of success, a negative AVERROR code in case of<br>
-	 * failure<br>
-	 * Original signature : <code>int avformat_alloc_output_context2(AVFormatContext**, AVOutputFormat*, const char*, const char*)</code><br>
-	 * @deprecated use the safer methods {@link #avformat_alloc_output_context2(org.javaavc.ffmpeg.avformat.AVFormatContext.ByReference[], org.javaavc.ffmpeg.avformat.AVOutputFormat, java.lang.String, java.lang.String)} and {@link #avformat_alloc_output_context2(org.javaavc.ffmpeg.avformat.AVFormatContext.ByReference[], org.javaavc.ffmpeg.avformat.AVOutputFormat, com.sun.jna.Pointer, com.sun.jna.Pointer)} instead
-	 */
-	@Deprecated 
-	int avformat_alloc_output_context2(PointerByReference ctx, AVOutputFormat oformat, Pointer format_name, Pointer filename);
-	/**
-	 * Allocate an AVFormatContext for an output format.<br>
-	 * avformat_free_context() can be used to free the context and<br>
-	 * everything allocated by the framework within it.<br>
-	 * * @param *ctx is set to the created format context, or to NULL in<br>
-	 * case of failure<br>
-	 * @param oformat format to use for allocating the context, if NULL<br>
-	 * format_name and filename are used instead<br>
-	 * @param format_name the name of output format to use for allocating the<br>
-	 * context, if NULL filename is used instead<br>
-	 * @param filename the name of the filename to use for allocating the<br>
-	 * context, may be NULL<br>
-	 * @return >= 0 in case of success, a negative AVERROR code in case of<br>
-	 * failure<br>
-	 * Original signature : <code>int avformat_alloc_output_context2(AVFormatContext**, AVOutputFormat*, const char*, const char*)</code>
-	 */
-	int avformat_alloc_output_context2(AVFormatContext.ByReference ctx[], AVOutputFormat oformat, String format_name, String filename);
-	/**
-	 * Allocate an AVFormatContext for an output format.<br>
-	 * avformat_free_context() can be used to free the context and<br>
-	 * everything allocated by the framework within it.<br>
-	 * * @param *ctx is set to the created format context, or to NULL in<br>
-	 * case of failure<br>
-	 * @param oformat format to use for allocating the context, if NULL<br>
-	 * format_name and filename are used instead<br>
-	 * @param format_name the name of output format to use for allocating the<br>
-	 * context, if NULL filename is used instead<br>
-	 * @param filename the name of the filename to use for allocating the<br>
-	 * context, may be NULL<br>
-	 * @return >= 0 in case of success, a negative AVERROR code in case of<br>
-	 * failure<br>
-	 * Original signature : <code>int avformat_alloc_output_context2(AVFormatContext**, AVOutputFormat*, const char*, const char*)</code>
-	 */
-	int avformat_alloc_output_context2(AVFormatContext.ByReference ctx[], AVOutputFormat oformat, Pointer format_name, Pointer filename);
-	/**
-	 * Find AVInputFormat based on the short name of the input format.<br>
-	 * Original signature : <code>AVInputFormat* av_find_input_format(const char*)</code><br>
-	 * @deprecated use the safer methods {@link #av_find_input_format(java.lang.String)} and {@link #av_find_input_format(com.sun.jna.Pointer)} instead
-	 */
-	@Deprecated 
-	AVInputFormat av_find_input_format(Pointer short_name);
-	/**
-	 * Find AVInputFormat based on the short name of the input format.<br>
-	 * Original signature : <code>AVInputFormat* av_find_input_format(const char*)</code>
-	 */
-	AVInputFormat av_find_input_format(String short_name);
-	/**
-	 * Guess the file format.<br>
-	 * * @param is_opened Whether the file is already opened; determines whether<br>
-	 *                  demuxers with or without AVFMT_NOFILE are probed.<br>
-	 * Original signature : <code>AVInputFormat* av_probe_input_format(AVProbeData*, int)</code>
-	 */
-	AVInputFormat av_probe_input_format(AVProbeData pd, int is_opened);
-	/**
-	 * Guess the file format.<br>
-	 * * @param is_opened Whether the file is already opened; determines whether<br>
-	 *                  demuxers with or without AVFMT_NOFILE are probed.<br>
-	 * @param score_max A probe score larger that this is required to accept a<br>
-	 *                  detection, the variable is set to the actual detection<br>
-	 *                  score afterwards.<br>
-	 *                  If the score is <= AVPROBE_SCORE_MAX / 4 it is recommended<br>
-	 *                  to retry with a larger probe buffer.<br>
-	 * Original signature : <code>AVInputFormat* av_probe_input_format2(AVProbeData*, int, int*)</code><br>
-	 * @deprecated use the safer methods {@link #av_probe_input_format2(org.javaavc.ffmpeg.avformat.AVProbeData, int, java.nio.IntBuffer)} and {@link #av_probe_input_format2(org.javaavc.ffmpeg.avformat.AVProbeData, int, com.sun.jna.ptr.IntByReference)} instead
-	 */
-	@Deprecated 
-	AVInputFormat av_probe_input_format2(AVProbeData pd, int is_opened, IntByReference score_max);
-	/**
-	 * Guess the file format.<br>
-	 * * @param is_opened Whether the file is already opened; determines whether<br>
-	 *                  demuxers with or without AVFMT_NOFILE are probed.<br>
-	 * @param score_max A probe score larger that this is required to accept a<br>
-	 *                  detection, the variable is set to the actual detection<br>
-	 *                  score afterwards.<br>
-	 *                  If the score is <= AVPROBE_SCORE_MAX / 4 it is recommended<br>
-	 *                  to retry with a larger probe buffer.<br>
-	 * Original signature : <code>AVInputFormat* av_probe_input_format2(AVProbeData*, int, int*)</code>
-	 */
-	AVInputFormat av_probe_input_format2(AVProbeData pd, int is_opened, IntBuffer score_max);
-	/**
-	 * Guess the file format.<br>
-	 * * @param is_opened Whether the file is already opened; determines whether<br>
-	 *                  demuxers with or without AVFMT_NOFILE are probed.<br>
-	 * @param score_ret The score of the best detection.<br>
-	 * Original signature : <code>AVInputFormat* av_probe_input_format3(AVProbeData*, int, int*)</code><br>
-	 * @deprecated use the safer methods {@link #av_probe_input_format3(org.javaavc.ffmpeg.avformat.AVProbeData, int, java.nio.IntBuffer)} and {@link #av_probe_input_format3(org.javaavc.ffmpeg.avformat.AVProbeData, int, com.sun.jna.ptr.IntByReference)} instead
-	 */
-	@Deprecated 
-	AVInputFormat av_probe_input_format3(AVProbeData pd, int is_opened, IntByReference score_ret);
-	/**
-	 * Guess the file format.<br>
-	 * * @param is_opened Whether the file is already opened; determines whether<br>
-	 *                  demuxers with or without AVFMT_NOFILE are probed.<br>
-	 * @param score_ret The score of the best detection.<br>
-	 * Original signature : <code>AVInputFormat* av_probe_input_format3(AVProbeData*, int, int*)</code>
-	 */
-	AVInputFormat av_probe_input_format3(AVProbeData pd, int is_opened, IntBuffer score_ret);
-	/**
-	 * Probe a bytestream to determine the input format. Each time a probe returns<br>
-	 * with a score that is too low, the probe buffer size is increased and another<br>
-	 * attempt is made. When the maximum probe size is reached, the input format<br>
-	 * with the highest score is returned.<br>
-	 * * @param pb the bytestream to probe<br>
-	 * @param fmt the input format is put here<br>
-	 * @param filename the filename of the stream<br>
-	 * @param logctx the log context<br>
-	 * @param offset the offset within the bytestream to probe from<br>
-	 * @param max_probe_size the maximum probe buffer size (zero for default)<br>
-	 * @return 0 in case of success, a negative value corresponding to an<br>
-	 * AVERROR code otherwise<br>
-	 * Original signature : <code>int av_probe_input_buffer(AVIOContext*, AVInputFormat**, const char*, void*, unsigned int, unsigned int)</code><br>
-	 * @deprecated use the safer methods {@link #av_probe_input_buffer(org.javaavc.ffmpeg.avformat.AVIOContext, org.javaavc.ffmpeg.avformat.AVInputFormat.ByReference[], java.lang.String, com.sun.jna.Pointer, int, int)} and {@link #av_probe_input_buffer(org.javaavc.ffmpeg.avformat.AVIOContext, org.javaavc.ffmpeg.avformat.AVInputFormat.ByReference[], com.sun.jna.Pointer, com.sun.jna.Pointer, int, int)} instead
-	 */
-	@Deprecated 
-	int av_probe_input_buffer(AVIOContext pb, PointerByReference fmt, Pointer filename, Pointer logctx, int offset, int max_probe_size);
-	/**
-	 * Probe a bytestream to determine the input format. Each time a probe returns<br>
-	 * with a score that is too low, the probe buffer size is increased and another<br>
-	 * attempt is made. When the maximum probe size is reached, the input format<br>
-	 * with the highest score is returned.<br>
-	 * * @param pb the bytestream to probe<br>
-	 * @param fmt the input format is put here<br>
-	 * @param filename the filename of the stream<br>
-	 * @param logctx the log context<br>
-	 * @param offset the offset within the bytestream to probe from<br>
-	 * @param max_probe_size the maximum probe buffer size (zero for default)<br>
-	 * @return 0 in case of success, a negative value corresponding to an<br>
-	 * AVERROR code otherwise<br>
-	 * Original signature : <code>int av_probe_input_buffer(AVIOContext*, AVInputFormat**, const char*, void*, unsigned int, unsigned int)</code>
-	 */
-	int av_probe_input_buffer(AVIOContext pb, AVInputFormat.ByReference fmt[], String filename, Pointer logctx, int offset, int max_probe_size);
-	/**
-	 * Probe a bytestream to determine the input format. Each time a probe returns<br>
-	 * with a score that is too low, the probe buffer size is increased and another<br>
-	 * attempt is made. When the maximum probe size is reached, the input format<br>
-	 * with the highest score is returned.<br>
-	 * * @param pb the bytestream to probe<br>
-	 * @param fmt the input format is put here<br>
-	 * @param filename the filename of the stream<br>
-	 * @param logctx the log context<br>
-	 * @param offset the offset within the bytestream to probe from<br>
-	 * @param max_probe_size the maximum probe buffer size (zero for default)<br>
-	 * @return 0 in case of success, a negative value corresponding to an<br>
-	 * AVERROR code otherwise<br>
-	 * Original signature : <code>int av_probe_input_buffer(AVIOContext*, AVInputFormat**, const char*, void*, unsigned int, unsigned int)</code>
-	 */
-	int av_probe_input_buffer(AVIOContext pb, AVInputFormat.ByReference fmt[], Pointer filename, Pointer logctx, int offset, int max_probe_size);
-	/**
-	 * Open an input stream and read the header. The codecs are not opened.<br>
-	 * The stream must be closed with av_close_input_file().<br>
-	 * * @param ps Pointer to user-supplied AVFormatContext (allocated by avformat_alloc_context).<br>
-	 *           May be a pointer to NULL, in which case an AVFormatContext is allocated by this<br>
-	 *           function and written into ps.<br>
-	 *           Note that a user-supplied AVFormatContext will be freed on failure.<br>
-	 * @param filename Name of the stream to open.<br>
-	 * @param fmt If non-NULL, this parameter forces a specific input format.<br>
-	 *            Otherwise the format is autodetected.<br>
-	 * @param options  A dictionary filled with AVFormatContext and demuxer-private options.<br>
-	 *                 On return this parameter will be destroyed and replaced with a dict containing<br>
-	 *                 options that were not found. May be NULL.<br>
-	 * * @return 0 on success, a negative AVERROR on failure.<br>
-	 * * @note If you want to use custom IO, preallocate the format context and set its pb field.<br>
-	 * Original signature : <code>int avformat_open_input(AVFormatContext**, const char*, AVInputFormat*, AVDictionary**)</code><br>
-	 * @deprecated use the safer methods {@link #avformat_open_input(org.javaavc.ffmpeg.avformat.AVFormatContext.ByReference[], java.lang.String, org.javaavc.ffmpeg.avformat.AVInputFormat, com.sun.jna.ptr.PointerByReference)} and {@link #avformat_open_input(org.javaavc.ffmpeg.avformat.AVFormatContext.ByReference[], com.sun.jna.Pointer, org.javaavc.ffmpeg.avformat.AVInputFormat, com.sun.jna.ptr.PointerByReference)} instead
-	 */
-	@Deprecated 
-	int avformat_open_input(PointerByReference ps, Pointer filename, AVInputFormat fmt, PointerByReference options);
-	/**
-	 * Open an input stream and read the header. The codecs are not opened.<br>
-	 * The stream must be closed with av_close_input_file().<br>
-	 * * @param ps Pointer to user-supplied AVFormatContext (allocated by avformat_alloc_context).<br>
-	 *           May be a pointer to NULL, in which case an AVFormatContext is allocated by this<br>
-	 *           function and written into ps.<br>
-	 *           Note that a user-supplied AVFormatContext will be freed on failure.<br>
-	 * @param filename Name of the stream to open.<br>
-	 * @param fmt If non-NULL, this parameter forces a specific input format.<br>
-	 *            Otherwise the format is autodetected.<br>
-	 * @param options  A dictionary filled with AVFormatContext and demuxer-private options.<br>
-	 *                 On return this parameter will be destroyed and replaced with a dict containing<br>
-	 *                 options that were not found. May be NULL.<br>
-	 * * @return 0 on success, a negative AVERROR on failure.<br>
-	 * * @note If you want to use custom IO, preallocate the format context and set its pb field.<br>
-	 * Original signature : <code>int avformat_open_input(AVFormatContext**, const char*, AVInputFormat*, AVDictionary**)</code>
-	 */
-	int avformat_open_input(AVFormatContext.ByReference ps[], String filename, AVInputFormat fmt, PointerByReference options);
-	/**
-	 * Open an input stream and read the header. The codecs are not opened.<br>
-	 * The stream must be closed with av_close_input_file().<br>
-	 * * @param ps Pointer to user-supplied AVFormatContext (allocated by avformat_alloc_context).<br>
-	 *           May be a pointer to NULL, in which case an AVFormatContext is allocated by this<br>
-	 *           function and written into ps.<br>
-	 *           Note that a user-supplied AVFormatContext will be freed on failure.<br>
-	 * @param filename Name of the stream to open.<br>
-	 * @param fmt If non-NULL, this parameter forces a specific input format.<br>
-	 *            Otherwise the format is autodetected.<br>
-	 * @param options  A dictionary filled with AVFormatContext and demuxer-private options.<br>
-	 *                 On return this parameter will be destroyed and replaced with a dict containing<br>
-	 *                 options that were not found. May be NULL.<br>
-	 * * @return 0 on success, a negative AVERROR on failure.<br>
-	 * * @note If you want to use custom IO, preallocate the format context and set its pb field.<br>
-	 * Original signature : <code>int avformat_open_input(AVFormatContext**, const char*, AVInputFormat*, AVDictionary**)</code>
-	 */
-	int avformat_open_input(AVFormatContext.ByReference ps[], Pointer filename, AVInputFormat fmt, PointerByReference options);
-	/** Original signature : <code>int av_demuxer_open(AVFormatContext*)</code> */
-	int av_demuxer_open(AVFormatContext ic);
-	/** Original signature : <code>int av_find_stream_info(AVFormatContext*)</code> */
-	int av_find_stream_info(AVFormatContext ic);
-	/**
-	 * Read packets of a media file to get stream information. This<br>
-	 * is useful for file formats with no headers such as MPEG. This<br>
-	 * function also computes the real framerate in case of MPEG-2 repeat<br>
-	 * frame mode.<br>
-	 * The logical file position is not changed by this function;<br>
-	 * examined packets may be buffered for later processing.<br>
-	 * * @param ic media file handle<br>
-	 * @param options  If non-NULL, an ic.nb_streams long array of pointers to<br>
-	 *                 dictionaries, where i-th member contains options for<br>
-	 *                 codec corresponding to i-th stream.<br>
-	 *                 On return each dictionary will be filled with options that were not found.<br>
-	 * @return >=0 if OK, AVERROR_xxx on error<br>
-	 * * @note this function isn't guaranteed to open all the codecs, so<br>
-	 *       options being non-empty at return is a perfectly normal behavior.<br>
-	 * * @todo Let the user decide somehow what information is needed so that<br>
-	 *       we do not waste time getting stuff the user does not need.<br>
-	 * Original signature : <code>int avformat_find_stream_info(AVFormatContext*, AVDictionary**)</code>
-	 */
-	int avformat_find_stream_info(AVFormatContext ic, PointerByReference options);
-	/**
-	 * Find the programs which belong to a given stream.<br>
-	 * * @param ic    media file handle<br>
-	 * @param last  the last found program, the search will start after this<br>
-	 *              program, or from the beginning if it is NULL<br>
-	 * @param s     stream index<br>
-	 * @return the next program which belongs to s, NULL if no program is found or<br>
-	 *         the last program is not among the programs of ic.<br>
-	 * Original signature : <code>AVProgram* av_find_program_from_stream(AVFormatContext*, AVProgram*, int)</code>
-	 */
-	AVProgram av_find_program_from_stream(AVFormatContext ic, AVProgram last, int s);
-	/**
-	 * Find the "best" stream in the file.<br>
-	 * The best stream is determined according to various heuristics as the most<br>
-	 * likely to be what the user expects.<br>
-	 * If the decoder parameter is non-NULL, av_find_best_stream will find the<br>
-	 * default decoder for the stream's codec; streams for which no decoder can<br>
-	 * be found are ignored.<br>
-	 * * @param ic                media file handle<br>
-	 * @param type              stream type: video, audio, subtitles, etc.<br>
-	 * @param wanted_stream_nb  user-requested stream number,<br>
-	 *                          or -1 for automatic selection<br>
-	 * @param related_stream    try to find a stream related (eg. in the same<br>
-	 *                          program) to this one, or -1 if none<br>
-	 * @param decoder_ret       if non-NULL, returns the decoder for the<br>
-	 *                          selected stream<br>
-	 * @param flags             flags; none are currently defined<br>
-	 * @return  the non-negative stream number in case of success,<br>
-	 *          AVERROR_STREAM_NOT_FOUND if no stream with the requested type<br>
-	 *          could be found,<br>
-	 *          AVERROR_DECODER_NOT_FOUND if streams were found but no decoder<br>
-	 * @note  If av_find_best_stream returns successfully and decoder_ret is not<br>
-	 *        NULL, then *decoder_ret is guaranteed to be set to a valid AVCodec.<br>
-	 * Original signature : <code>int av_find_best_stream(AVFormatContext*, AVMediaType, int, int, AVCodec**, int)</code><br>
-	 * @deprecated use the safer method {@link #av_find_best_stream(org.javaavc.ffmpeg.avformat.AVFormatContext, int, int, int, org.javaavc.ffmpeg.avformat.AVCodec.ByReference[], int)} instead
-	 */
-	@Deprecated 
-	int av_find_best_stream(AVFormatContext ic, int type, int wanted_stream_nb, int related_stream, PointerByReference decoder_ret, int flags);
-	/**
-	 * Find the "best" stream in the file.<br>
-	 * The best stream is determined according to various heuristics as the most<br>
-	 * likely to be what the user expects.<br>
-	 * If the decoder parameter is non-NULL, av_find_best_stream will find the<br>
-	 * default decoder for the stream's codec; streams for which no decoder can<br>
-	 * be found are ignored.<br>
-	 * * @param ic                media file handle<br>
-	 * @param type              stream type: video, audio, subtitles, etc.<br>
-	 * @param wanted_stream_nb  user-requested stream number,<br>
-	 *                          or -1 for automatic selection<br>
-	 * @param related_stream    try to find a stream related (eg. in the same<br>
-	 *                          program) to this one, or -1 if none<br>
-	 * @param decoder_ret       if non-NULL, returns the decoder for the<br>
-	 *                          selected stream<br>
-	 * @param flags             flags; none are currently defined<br>
-	 * @return  the non-negative stream number in case of success,<br>
-	 *          AVERROR_STREAM_NOT_FOUND if no stream with the requested type<br>
-	 *          could be found,<br>
-	 *          AVERROR_DECODER_NOT_FOUND if streams were found but no decoder<br>
-	 * @note  If av_find_best_stream returns successfully and decoder_ret is not<br>
-	 *        NULL, then *decoder_ret is guaranteed to be set to a valid AVCodec.<br>
-	 * Original signature : <code>int av_find_best_stream(AVFormatContext*, AVMediaType, int, int, AVCodec**, int)</code>
-	 */
-	int av_find_best_stream(AVFormatContext ic, int type, int wanted_stream_nb, int related_stream, AVCodec.ByReference decoder_ret[], int flags);
-	/** Original signature : <code>int av_read_packet(AVFormatContext*, AVPacket*)</code> */
-	int av_read_packet(AVFormatContext s, AVPacket pkt);
-	/**
-	 * Return the next frame of a stream.<br>
-	 * This function returns what is stored in the file, and does not validate<br>
-	 * that what is there are valid frames for the decoder. It will split what is<br>
-	 * stored in the file into frames and return one for each call. It will not<br>
-	 * omit invalid data between valid frames so as to give the decoder the maximum<br>
-	 * information possible for decoding.<br>
-	 * * If pkt->buf is NULL, then the packet is valid until the next<br>
-	 * av_read_frame() or until av_close_input_file(). Otherwise the packet is valid<br>
-	 * indefinitely. In both cases the packet must be freed with<br>
-	 * av_free_packet when it is no longer needed. For video, the packet contains<br>
-	 * exactly one frame. For audio, it contains an integer number of frames if each<br>
-	 * frame has a known fixed size (e.g. PCM or ADPCM data). If the audio frames<br>
-	 * have a variable size (e.g. MPEG audio), then it contains one frame.<br>
-	 * * pkt->pts, pkt->dts and pkt->duration are always set to correct<br>
-	 * values in AVStream.time_base units (and guessed if the format cannot<br>
-	 * provide them). pkt->pts can be AV_NOPTS_VALUE if the video format<br>
-	 * has B-frames, so it is better to rely on pkt->dts if you do not<br>
-	 * decompress the payload.<br>
-	 * * @return 0 if OK, < 0 on error or end of file<br>
-	 * Original signature : <code>int av_read_frame(AVFormatContext*, AVPacket*)</code>
-	 */
-	int av_read_frame(AVFormatContext s, AVPacket pkt);
-	/**
-	 * Seek to the keyframe at timestamp.<br>
-	 * 'timestamp' in 'stream_index'.<br>
-	 * @param stream_index If stream_index is (-1), a default<br>
-	 * stream is selected, and timestamp is automatically converted<br>
-	 * from AV_TIME_BASE units to the stream specific time_base.<br>
-	 * @param timestamp Timestamp in AVStream.time_base units<br>
-	 *        or, if no stream is specified, in AV_TIME_BASE units.<br>
-	 * @param flags flags which select direction and seeking mode<br>
-	 * @return >= 0 on success<br>
-	 * Original signature : <code>int av_seek_frame(AVFormatContext*, int, int64_t, int)</code>
-	 */
-	int av_seek_frame(AVFormatContext s, int stream_index, long timestamp, int flags);
-	/**
-	 * Seek to timestamp ts.<br>
-	 * Seeking will be done so that the point from which all active streams<br>
-	 * can be presented successfully will be closest to ts and within min/max_ts.<br>
-	 * Active streams are all streams that have AVStream.discard < AVDISCARD_ALL.<br>
-	 * * If flags contain AVSEEK_FLAG_BYTE, then all timestamps are in bytes and<br>
-	 * are the file position (this may not be supported by all demuxers).<br>
-	 * If flags contain AVSEEK_FLAG_FRAME, then all timestamps are in frames<br>
-	 * in the stream with stream_index (this may not be supported by all demuxers).<br>
-	 * Otherwise all timestamps are in units of the stream selected by stream_index<br>
-	 * or if stream_index is -1, in AV_TIME_BASE units.<br>
-	 * If flags contain AVSEEK_FLAG_ANY, then non-keyframes are treated as<br>
-	 * keyframes (this may not be supported by all demuxers).<br>
-	 * If flags contain AVSEEK_FLAG_BACKWARD, it is ignored.<br>
-	 * * @param stream_index index of the stream which is used as time base reference<br>
-	 * @param min_ts smallest acceptable timestamp<br>
-	 * @param ts target timestamp<br>
-	 * @param max_ts largest acceptable timestamp<br>
-	 * @param flags flags<br>
-	 * @return >=0 on success, error code otherwise<br>
-	 * * @note This is part of the new seek API which is still under construction.<br>
-	 *       Thus do not use this yet. It may change at any time, do not expect<br>
-	 *       ABI compatibility yet!<br>
-	 * Original signature : <code>int avformat_seek_file(AVFormatContext*, int, int64_t, int64_t, int64_t, int)</code>
-	 */
-	int avformat_seek_file(AVFormatContext s, int stream_index, long min_ts, long ts, long max_ts, int flags);
-	/**
-	 * Start playing a network-based stream (e.g. RTSP stream) at the<br>
-	 * current position.<br>
-	 * Original signature : <code>int av_read_play(AVFormatContext*)</code>
-	 */
-	int av_read_play(AVFormatContext s);
-	/**
-	 * Pause a network-based stream (e.g. RTSP stream).<br>
-	 * * Use av_read_play() to resume it.<br>
-	 * Original signature : <code>int av_read_pause(AVFormatContext*)</code>
-	 */
-	int av_read_pause(AVFormatContext s);
-	/** Original signature : <code>void av_close_input_file(AVFormatContext*)</code> */
-	void av_close_input_file(AVFormatContext s);
-	/**
-	 * Close an opened input AVFormatContext. Free it and all its contents<br>
-	 * and set *s to NULL.<br>
-	 * Original signature : <code>void avformat_close_input(AVFormatContext**)</code><br>
-	 * @deprecated use the safer method {@link #avformat_close_input(org.javaavc.ffmpeg.avformat.AVFormatContext.ByReference[])} instead
-	 */
-	@Deprecated 
-	void avformat_close_input(PointerByReference s);
-	/**
-	 * Close an opened input AVFormatContext. Free it and all its contents<br>
-	 * and set *s to NULL.<br>
-	 * Original signature : <code>void avformat_close_input(AVFormatContext**)</code>
-	 */
-	void avformat_close_input(AVFormatContext.ByReference s[]);
-	/** Original signature : <code>AVStream* av_new_stream(AVFormatContext*, int)</code> */
-	AVStream av_new_stream(AVFormatContext s, int id);
-	/** Original signature : <code>void av_set_pts_info(AVStream*, int, unsigned int, unsigned int)</code> */
-	void av_set_pts_info(AVStream s, int pts_wrap_bits, int pts_num, int pts_den);
-	/**
-	 * Allocate the stream private data and write the stream header to<br>
-	 * an output media file.<br>
-	 * * @param s Media file handle, must be allocated with avformat_alloc_context().<br>
-	 *          Its oformat field must be set to the desired output format;<br>
-	 *          Its pb field must be set to an already opened AVIOContext.<br>
-	 * @param options  An AVDictionary filled with AVFormatContext and muxer-private options.<br>
-	 *                 On return this parameter will be destroyed and replaced with a dict containing<br>
-	 *                 options that were not found. May be NULL.<br>
-	 * * @return 0 on success, negative AVERROR on failure.<br>
-	 * * @see av_opt_find, av_dict_set, avio_open, av_oformat_next.<br>
-	 * Original signature : <code>int avformat_write_header(AVFormatContext*, AVDictionary**)</code>
-	 */
-	int avformat_write_header(AVFormatContext s, PointerByReference options);
-	/**
-	 * Write a packet to an output media file.<br>
-	 * * The packet shall contain one audio or video frame.<br>
-	 * The packet must be correctly interleaved according to the container<br>
-	 * specification, if not then av_interleaved_write_frame must be used.<br>
-	 * * @param s media file handle<br>
-	 * @param pkt The packet, which contains the stream_index, buf/buf_size,<br>
-	 *            dts/pts, ...<br>
-	 *            This can be NULL (at any time, not just at the end), in<br>
-	 *            order to immediately flush data buffered within the muxer,<br>
-	 *            for muxers that buffer up data internally before writing it<br>
-	 *            to the output.<br>
-	 * @return < 0 on error, = 0 if OK, 1 if flushed and there is no more data to flush<br>
-	 * Original signature : <code>int av_write_frame(AVFormatContext*, AVPacket*)</code>
-	 */
-	int av_write_frame(AVFormatContext s, AVPacket pkt);
-	/**
-	 * Write a packet to an output media file ensuring correct interleaving.<br>
-	 * * The packet must contain one audio or video frame.<br>
-	 * If the packets are already correctly interleaved, the application should<br>
-	 * call av_write_frame() instead as it is slightly faster. It is also important<br>
-	 * to keep in mind that completely non-interleaved input will need huge amounts<br>
-	 * of memory to interleave with this, so it is preferable to interleave at the<br>
-	 * demuxer level.<br>
-	 * * @param s media file handle<br>
-	 * @param pkt The packet containing the data to be written. pkt->buf must be set<br>
-	 * to a valid AVBufferRef describing the packet data. Libavformat takes<br>
-	 * ownership of this reference and will unref it when it sees fit. The caller<br>
-	 * must not access the data through this reference after this function returns.<br>
-	 * This can be NULL (at any time, not just at the end), to flush the<br>
-	 * interleaving queues.<br>
-	 * Packet's @ref AVPacket.stream_index "stream_index" field must be set to the<br>
-	 * index of the corresponding stream in @ref AVFormatContext.streams<br>
-	 * "s.streams".<br>
-	 * It is very strongly recommended that timing information (@ref AVPacket.pts<br>
-	 * "pts", @ref AVPacket.dts "dts" @ref AVPacket.duration "duration") is set to<br>
-	 * correct values.<br>
-	 * * @return 0 on success, a negative AVERROR on error.<br>
-	 * Original signature : <code>int av_interleaved_write_frame(AVFormatContext*, AVPacket*)</code>
-	 */
-	int av_interleaved_write_frame(AVFormatContext s, AVPacket pkt);
-	/**
-	 * Write the stream trailer to an output media file and free the<br>
-	 * file private data.<br>
-	 * * May only be called after a successful call to avformat_write_header.<br>
-	 * * @param s media file handle<br>
-	 * @return 0 if OK, AVERROR_xxx on error<br>
-	 * Original signature : <code>int av_write_trailer(AVFormatContext*)</code>
-	 */
-	int av_write_trailer(AVFormatContext s);
-	/**
-	 * Return the output format in the list of registered output formats<br>
-	 * which best matches the provided parameters, or return NULL if<br>
-	 * there is no match.<br>
-	 * * @param short_name if non-NULL checks if short_name matches with the<br>
-	 * names of the registered formats<br>
-	 * @param filename if non-NULL checks if filename terminates with the<br>
-	 * extensions of the registered formats<br>
-	 * @param mime_type if non-NULL checks if mime_type matches with the<br>
-	 * MIME type of the registered formats<br>
-	 * Original signature : <code>AVOutputFormat* av_guess_format(const char*, const char*, const char*)</code><br>
-	 * @deprecated use the safer methods {@link #av_guess_format(java.lang.String, java.lang.String, java.lang.String)} and {@link #av_guess_format(com.sun.jna.Pointer, com.sun.jna.Pointer, com.sun.jna.Pointer)} instead
-	 */
-	@Deprecated 
-	AVOutputFormat av_guess_format(Pointer short_name, Pointer filename, Pointer mime_type);
-	/**
-	 * Return the output format in the list of registered output formats<br>
-	 * which best matches the provided parameters, or return NULL if<br>
-	 * there is no match.<br>
-	 * * @param short_name if non-NULL checks if short_name matches with the<br>
-	 * names of the registered formats<br>
-	 * @param filename if non-NULL checks if filename terminates with the<br>
-	 * extensions of the registered formats<br>
-	 * @param mime_type if non-NULL checks if mime_type matches with the<br>
-	 * MIME type of the registered formats<br>
-	 * Original signature : <code>AVOutputFormat* av_guess_format(const char*, const char*, const char*)</code>
-	 */
-	AVOutputFormat av_guess_format(String short_name, String filename, String mime_type);
-	/**
-	 * Guess the codec ID based upon muxer and filename.<br>
-	 * Original signature : <code>AVCodecID av_guess_codec(AVOutputFormat*, const char*, const char*, const char*, AVMediaType)</code><br>
-	 * @deprecated use the safer methods {@link #av_guess_codec(org.javaavc.ffmpeg.avformat.AVOutputFormat, java.lang.String, java.lang.String, java.lang.String, int)} and {@link #av_guess_codec(org.javaavc.ffmpeg.avformat.AVOutputFormat, com.sun.jna.Pointer, com.sun.jna.Pointer, com.sun.jna.Pointer, int)} instead
-	 */
-	@Deprecated 
-	int av_guess_codec(AVOutputFormat fmt, Pointer short_name, Pointer filename, Pointer mime_type, int type);
-	/**
-	 * Guess the codec ID based upon muxer and filename.<br>
-	 * Original signature : <code>AVCodecID av_guess_codec(AVOutputFormat*, const char*, const char*, const char*, AVMediaType)</code>
-	 */
-	int av_guess_codec(AVOutputFormat fmt, String short_name, String filename, String mime_type, int type);
-	/**
-	 * Get timing information for the data currently output.<br>
-	 * The exact meaning of "currently output" depends on the format.<br>
-	 * It is mostly relevant for devices that have an internal buffer and/or<br>
-	 * work in real time.<br>
-	 * @param s          media file handle<br>
-	 * @param stream     stream in the media file<br>
-	 * @param[out] dts   DTS of the last packet output for the stream, in stream<br>
-	 *                   time_base units<br>
-	 * @param[out] wall  absolute time when that packet whas output,<br>
-	 *                   in microsecond<br>
-	 * @return  0 if OK, AVERROR(ENOSYS) if the format does not support it<br>
-	 * Note: some formats or devices may not allow to measure dts and wall<br>
-	 * atomically.<br>
-	 * Original signature : <code>int av_get_output_timestamp(AVFormatContext*, int, int64_t*, int64_t*)</code><br>
-	 * @deprecated use the safer methods {@link #av_get_output_timestamp(org.javaavc.ffmpeg.avformat.AVFormatContext, int, java.nio.LongBuffer, java.nio.LongBuffer)} and {@link #av_get_output_timestamp(org.javaavc.ffmpeg.avformat.AVFormatContext, int, com.sun.jna.ptr.LongByReference, com.sun.jna.ptr.LongByReference)} instead
-	 */
-	@Deprecated 
-	int av_get_output_timestamp(AVFormatContext s, int stream, LongByReference dts, LongByReference wall);
-	/**
-	 * Get timing information for the data currently output.<br>
-	 * The exact meaning of "currently output" depends on the format.<br>
-	 * It is mostly relevant for devices that have an internal buffer and/or<br>
-	 * work in real time.<br>
-	 * @param s          media file handle<br>
-	 * @param stream     stream in the media file<br>
-	 * @param[out] dts   DTS of the last packet output for the stream, in stream<br>
-	 *                   time_base units<br>
-	 * @param[out] wall  absolute time when that packet whas output,<br>
-	 *                   in microsecond<br>
-	 * @return  0 if OK, AVERROR(ENOSYS) if the format does not support it<br>
-	 * Note: some formats or devices may not allow to measure dts and wall<br>
-	 * atomically.<br>
-	 * Original signature : <code>int av_get_output_timestamp(AVFormatContext*, int, int64_t*, int64_t*)</code>
-	 */
-	int av_get_output_timestamp(AVFormatContext s, int stream, LongBuffer dts, LongBuffer wall);
-	/**
-	 * Send a nice hexadecimal dump of a buffer to the specified file stream.<br>
-	 * * @param f The file stream pointer where the dump should be sent to.<br>
-	 * @param buf buffer<br>
-	 * @param size buffer size<br>
-	 * * @see av_hex_dump_log, av_pkt_dump2, av_pkt_dump_log2<br>
-	 * Original signature : <code>void av_hex_dump(FILE*, const uint8_t*, int)</code><br>
-	 * @deprecated use the safer methods {@link #av_hex_dump(org.javaavc.ffmpeg.avformat.LibavformatLibrary.FILE, java.nio.ByteBuffer, int)} and {@link #av_hex_dump(org.javaavc.ffmpeg.avformat.LibavformatLibrary.FILE, com.sun.jna.Pointer, int)} instead
-	 */
-	@Deprecated 
-	void av_hex_dump(LibavformatLibrary.FILE f, Pointer buf, int size);
-	/**
-	 * Send a nice hexadecimal dump of a buffer to the specified file stream.<br>
-	 * * @param f The file stream pointer where the dump should be sent to.<br>
-	 * @param buf buffer<br>
-	 * @param size buffer size<br>
-	 * * @see av_hex_dump_log, av_pkt_dump2, av_pkt_dump_log2<br>
-	 * Original signature : <code>void av_hex_dump(FILE*, const uint8_t*, int)</code>
-	 */
-	void av_hex_dump(LibavformatLibrary.FILE f, ByteBuffer buf, int size);
-	/**
-	 * Send a nice hexadecimal dump of a buffer to the log.<br>
-	 * * @param avcl A pointer to an arbitrary struct of which the first field is a<br>
-	 * pointer to an AVClass struct.<br>
-	 * @param level The importance level of the message, lower values signifying<br>
-	 * higher importance.<br>
-	 * @param buf buffer<br>
-	 * @param size buffer size<br>
-	 * * @see av_hex_dump, av_pkt_dump2, av_pkt_dump_log2<br>
-	 * Original signature : <code>void av_hex_dump_log(void*, int, const uint8_t*, int)</code><br>
-	 * @deprecated use the safer methods {@link #av_hex_dump_log(com.sun.jna.Pointer, int, java.nio.ByteBuffer, int)} and {@link #av_hex_dump_log(com.sun.jna.Pointer, int, com.sun.jna.Pointer, int)} instead
-	 */
-	@Deprecated 
-	void av_hex_dump_log(Pointer avcl, int level, Pointer buf, int size);
-	/**
-	 * Send a nice hexadecimal dump of a buffer to the log.<br>
-	 * * @param avcl A pointer to an arbitrary struct of which the first field is a<br>
-	 * pointer to an AVClass struct.<br>
-	 * @param level The importance level of the message, lower values signifying<br>
-	 * higher importance.<br>
-	 * @param buf buffer<br>
-	 * @param size buffer size<br>
-	 * * @see av_hex_dump, av_pkt_dump2, av_pkt_dump_log2<br>
-	 * Original signature : <code>void av_hex_dump_log(void*, int, const uint8_t*, int)</code>
-	 */
-	void av_hex_dump_log(Pointer avcl, int level, ByteBuffer buf, int size);
-	/**
-	 * Send a nice dump of a packet to the specified file stream.<br>
-	 * * @param f The file stream pointer where the dump should be sent to.<br>
-	 * @param pkt packet to dump<br>
-	 * @param dump_payload True if the payload must be displayed, too.<br>
-	 * @param st AVStream that the packet belongs to<br>
-	 * Original signature : <code>void av_pkt_dump2(FILE*, AVPacket*, int, AVStream*)</code>
-	 */
-	void av_pkt_dump2(LibavformatLibrary.FILE f, AVPacket pkt, int dump_payload, AVStream st);
-	/**
-	 * Send a nice dump of a packet to the log.<br>
-	 * * @param avcl A pointer to an arbitrary struct of which the first field is a<br>
-	 * pointer to an AVClass struct.<br>
-	 * @param level The importance level of the message, lower values signifying<br>
-	 * higher importance.<br>
-	 * @param pkt packet to dump<br>
-	 * @param dump_payload True if the payload must be displayed, too.<br>
-	 * @param st AVStream that the packet belongs to<br>
-	 * Original signature : <code>void av_pkt_dump_log2(void*, int, AVPacket*, int, AVStream*)</code>
-	 */
-	void av_pkt_dump_log2(Pointer avcl, int level, AVPacket pkt, int dump_payload, AVStream st);
-	/**
-	 * Get the AVCodecID for the given codec tag tag.<br>
-	 * If no codec id is found returns AV_CODEC_ID_NONE.<br>
-	 * * @param tags list of supported codec_id-codec_tag pairs, as stored<br>
-	 * in AVInputFormat.codec_tag and AVOutputFormat.codec_tag<br>
-	 * Original signature : <code>AVCodecID av_codec_get_id(const AVCodecTag**, unsigned int)</code><br>
-	 * @deprecated use the safer method {@link #av_codec_get_id(org.javaavc.ffmpeg.avformat.LibavformatLibrary.AVCodecTag[], int)} instead
-	 */
-	@Deprecated 
-	int av_codec_get_id(PointerByReference tags, int tag);
-	/**
-	 * Get the AVCodecID for the given codec tag tag.<br>
-	 * If no codec id is found returns AV_CODEC_ID_NONE.<br>
-	 * * @param tags list of supported codec_id-codec_tag pairs, as stored<br>
-	 * in AVInputFormat.codec_tag and AVOutputFormat.codec_tag<br>
-	 * Original signature : <code>AVCodecID av_codec_get_id(const AVCodecTag**, unsigned int)</code>
-	 */
-	int av_codec_get_id(LibavformatLibrary.AVCodecTag tags[], int tag);
-	/**
-	 * Get the codec tag for the given codec id id.<br>
-	 * If no codec tag is found returns 0.<br>
-	 * * @param tags list of supported codec_id-codec_tag pairs, as stored<br>
-	 * in AVInputFormat.codec_tag and AVOutputFormat.codec_tag<br>
-	 * Original signature : <code>int av_codec_get_tag(const AVCodecTag**, AVCodecID)</code><br>
-	 * @deprecated use the safer method {@link #av_codec_get_tag(org.javaavc.ffmpeg.avformat.LibavformatLibrary.AVCodecTag[], int)} instead
-	 */
-	@Deprecated 
-	int av_codec_get_tag(PointerByReference tags, int id);
-	/**
-	 * Get the codec tag for the given codec id id.<br>
-	 * If no codec tag is found returns 0.<br>
-	 * * @param tags list of supported codec_id-codec_tag pairs, as stored<br>
-	 * in AVInputFormat.codec_tag and AVOutputFormat.codec_tag<br>
-	 * Original signature : <code>int av_codec_get_tag(const AVCodecTag**, AVCodecID)</code>
-	 */
-	int av_codec_get_tag(LibavformatLibrary.AVCodecTag tags[], int id);
-	/**
-	 * Get the codec tag for the given codec id.<br>
-	 * * @param tags list of supported codec_id - codec_tag pairs, as stored<br>
-	 * in AVInputFormat.codec_tag and AVOutputFormat.codec_tag<br>
-	 * @param id codec id that should be searched for in the list<br>
-	 * @param tag A pointer to the found tag<br>
-	 * @return 0 if id was not found in tags, > 0 if it was found<br>
-	 * Original signature : <code>int av_codec_get_tag2(const AVCodecTag**, AVCodecID, unsigned int*)</code><br>
-	 * @deprecated use the safer methods {@link #av_codec_get_tag2(org.javaavc.ffmpeg.avformat.LibavformatLibrary.AVCodecTag[], int, java.nio.IntBuffer)} and {@link #av_codec_get_tag2(org.javaavc.ffmpeg.avformat.LibavformatLibrary.AVCodecTag[], int, com.sun.jna.ptr.IntByReference)} instead
-	 */
-	@Deprecated 
-	int av_codec_get_tag2(PointerByReference tags, int id, IntByReference tag);
-	/**
-	 * Get the codec tag for the given codec id.<br>
-	 * * @param tags list of supported codec_id - codec_tag pairs, as stored<br>
-	 * in AVInputFormat.codec_tag and AVOutputFormat.codec_tag<br>
-	 * @param id codec id that should be searched for in the list<br>
-	 * @param tag A pointer to the found tag<br>
-	 * @return 0 if id was not found in tags, > 0 if it was found<br>
-	 * Original signature : <code>int av_codec_get_tag2(const AVCodecTag**, AVCodecID, unsigned int*)</code>
-	 */
-	int av_codec_get_tag2(LibavformatLibrary.AVCodecTag tags[], int id, IntBuffer tag);
-	/**
-	 * Get the codec tag for the given codec id.<br>
-	 * * @param tags list of supported codec_id - codec_tag pairs, as stored<br>
-	 * in AVInputFormat.codec_tag and AVOutputFormat.codec_tag<br>
-	 * @param id codec id that should be searched for in the list<br>
-	 * @param tag A pointer to the found tag<br>
-	 * @return 0 if id was not found in tags, > 0 if it was found<br>
-	 * Original signature : <code>int av_codec_get_tag2(const AVCodecTag**, AVCodecID, unsigned int*)</code>
-	 */
-	int av_codec_get_tag2(LibavformatLibrary.AVCodecTag tags[], int id, IntByReference tag);
-	/** Original signature : <code>int av_find_default_stream_index(AVFormatContext*)</code> */
-	int av_find_default_stream_index(AVFormatContext s);
-	/**
-	 * Get the index for a specific timestamp.<br>
-	 * @param flags if AVSEEK_FLAG_BACKWARD then the returned index will correspond<br>
-	 *                 to the timestamp which is <= the requested one, if backward<br>
-	 *                 is 0, then it will be >=<br>
-	 *              if AVSEEK_FLAG_ANY seek to any frame, only keyframes otherwise<br>
-	 * @return < 0 if no such timestamp could be found<br>
-	 * Original signature : <code>int av_index_search_timestamp(AVStream*, int64_t, int)</code>
-	 */
-	int av_index_search_timestamp(AVStream st, long timestamp, int flags);
-	/**
-	 * Add an index entry into a sorted list. Update the entry if the list<br>
-	 * already contains it.<br>
-	 * * @param timestamp timestamp in the time base of the given stream<br>
-	 * Original signature : <code>int av_add_index_entry(AVStream*, int64_t, int64_t, int, int, int)</code>
-	 */
-	int av_add_index_entry(AVStream st, long pos, long timestamp, int size, int distance, int flags);
-	/**
-	 * Split a URL string into components.<br>
-	 * * The pointers to buffers for storing individual components may be null,<br>
-	 * in order to ignore that component. Buffers for components not found are<br>
-	 * set to empty strings. If the port is not found, it is set to a negative<br>
-	 * value.<br>
-	 * * @param proto the buffer for the protocol<br>
-	 * @param proto_size the size of the proto buffer<br>
-	 * @param authorization the buffer for the authorization<br>
-	 * @param authorization_size the size of the authorization buffer<br>
-	 * @param hostname the buffer for the host name<br>
-	 * @param hostname_size the size of the hostname buffer<br>
-	 * @param port_ptr a pointer to store the port number in<br>
-	 * @param path the buffer for the path<br>
-	 * @param path_size the size of the path buffer<br>
-	 * @param url the URL to split<br>
-	 * Original signature : <code>void av_url_split(char*, int, char*, int, char*, int, int*, char*, int, const char*)</code><br>
-	 * @deprecated use the safer methods {@link #av_url_split(java.nio.ByteBuffer, int, java.nio.ByteBuffer, int, java.nio.ByteBuffer, int, java.nio.IntBuffer, java.nio.ByteBuffer, int, java.lang.String)} and {@link #av_url_split(com.sun.jna.Pointer, int, com.sun.jna.Pointer, int, com.sun.jna.Pointer, int, com.sun.jna.ptr.IntByReference, com.sun.jna.Pointer, int, com.sun.jna.Pointer)} instead
-	 */
-	@Deprecated 
-	void av_url_split(Pointer proto, int proto_size, Pointer authorization, int authorization_size, Pointer hostname, int hostname_size, IntByReference port_ptr, Pointer path, int path_size, Pointer url);
-	/**
-	 * Split a URL string into components.<br>
-	 * * The pointers to buffers for storing individual components may be null,<br>
-	 * in order to ignore that component. Buffers for components not found are<br>
-	 * set to empty strings. If the port is not found, it is set to a negative<br>
-	 * value.<br>
-	 * * @param proto the buffer for the protocol<br>
-	 * @param proto_size the size of the proto buffer<br>
-	 * @param authorization the buffer for the authorization<br>
-	 * @param authorization_size the size of the authorization buffer<br>
-	 * @param hostname the buffer for the host name<br>
-	 * @param hostname_size the size of the hostname buffer<br>
-	 * @param port_ptr a pointer to store the port number in<br>
-	 * @param path the buffer for the path<br>
-	 * @param path_size the size of the path buffer<br>
-	 * @param url the URL to split<br>
-	 * Original signature : <code>void av_url_split(char*, int, char*, int, char*, int, int*, char*, int, const char*)</code>
-	 */
-	void av_url_split(ByteBuffer proto, int proto_size, ByteBuffer authorization, int authorization_size, ByteBuffer hostname, int hostname_size, IntBuffer port_ptr, ByteBuffer path, int path_size, String url);
-	/**
-	 * Original signature : <code>void av_dump_format(AVFormatContext*, int, const char*, int)</code><br>
-	 * @deprecated use the safer methods {@link #av_dump_format(org.javaavc.ffmpeg.avformat.AVFormatContext, int, java.lang.String, int)} and {@link #av_dump_format(org.javaavc.ffmpeg.avformat.AVFormatContext, int, com.sun.jna.Pointer, int)} instead
-	 */
-	@Deprecated 
-	void av_dump_format(AVFormatContext ic, int index, Pointer url, int is_output);
-	/** Original signature : <code>void av_dump_format(AVFormatContext*, int, const char*, int)</code> */
-	void av_dump_format(AVFormatContext ic, int index, String url, int is_output);
-	/**
-	 * Return in 'buf' the path with '%d' replaced by a number.<br>
-	 * * Also handles the '%0nd' format where 'n' is the total number<br>
-	 * of digits and '%%'.<br>
-	 * * @param buf destination buffer<br>
-	 * @param buf_size destination buffer size<br>
-	 * @param path numbered sequence string<br>
-	 * @param number frame number<br>
-	 * @return 0 if OK, -1 on format error<br>
-	 * Original signature : <code>int av_get_frame_filename(char*, int, const char*, int)</code><br>
-	 * @deprecated use the safer methods {@link #av_get_frame_filename(java.nio.ByteBuffer, int, java.lang.String, int)} and {@link #av_get_frame_filename(com.sun.jna.Pointer, int, com.sun.jna.Pointer, int)} instead
-	 */
-	@Deprecated 
-	int av_get_frame_filename(Pointer buf, int buf_size, Pointer path, int number);
-	/**
-	 * Return in 'buf' the path with '%d' replaced by a number.<br>
-	 * * Also handles the '%0nd' format where 'n' is the total number<br>
-	 * of digits and '%%'.<br>
-	 * * @param buf destination buffer<br>
-	 * @param buf_size destination buffer size<br>
-	 * @param path numbered sequence string<br>
-	 * @param number frame number<br>
-	 * @return 0 if OK, -1 on format error<br>
-	 * Original signature : <code>int av_get_frame_filename(char*, int, const char*, int)</code>
-	 */
-	int av_get_frame_filename(ByteBuffer buf, int buf_size, String path, int number);
-	/**
-	 * Check whether filename actually is a numbered sequence generator.<br>
-	 * * @param filename possible numbered sequence string<br>
-	 * @return 1 if a valid numbered sequence string, 0 otherwise<br>
-	 * Original signature : <code>int av_filename_number_test(const char*)</code><br>
-	 * @deprecated use the safer methods {@link #av_filename_number_test(java.lang.String)} and {@link #av_filename_number_test(com.sun.jna.Pointer)} instead
-	 */
-	@Deprecated 
-	int av_filename_number_test(Pointer filename);
-	/**
-	 * Check whether filename actually is a numbered sequence generator.<br>
-	 * * @param filename possible numbered sequence string<br>
-	 * @return 1 if a valid numbered sequence string, 0 otherwise<br>
-	 * Original signature : <code>int av_filename_number_test(const char*)</code>
-	 */
-	int av_filename_number_test(String filename);
-	/**
-	 * Generate an SDP for an RTP session.<br>
-	 * * Note, this overwrites the id values of AVStreams in the muxer contexts<br>
-	 * for getting unique dynamic payload types.<br>
-	 * * @param ac array of AVFormatContexts describing the RTP streams. If the<br>
-	 *           array is composed by only one context, such context can contain<br>
-	 *           multiple AVStreams (one AVStream per RTP stream). Otherwise,<br>
-	 *           all the contexts in the array (an AVCodecContext per RTP stream)<br>
-	 *           must contain only one AVStream.<br>
-	 * @param n_files number of AVCodecContexts contained in ac<br>
-	 * @param buf buffer where the SDP will be stored (must be allocated by<br>
-	 *            the caller)<br>
-	 * @param size the size of the buffer<br>
-	 * @return 0 if OK, AVERROR_xxx on error<br>
-	 * Original signature : <code>int av_sdp_create(AVFormatContext*[], int, char*, int)</code><br>
-	 * @deprecated use the safer methods {@link #av_sdp_create(org.javaavc.ffmpeg.avformat.AVFormatContext.ByReference[], int, java.nio.ByteBuffer, int)} and {@link #av_sdp_create(org.javaavc.ffmpeg.avformat.AVFormatContext.ByReference[], int, com.sun.jna.Pointer, int)} instead
-	 */
-	@Deprecated 
-	int av_sdp_create(PointerByReference ac, int n_files, Pointer buf, int size);
-	/**
-	 * Generate an SDP for an RTP session.<br>
-	 * * Note, this overwrites the id values of AVStreams in the muxer contexts<br>
-	 * for getting unique dynamic payload types.<br>
-	 * * @param ac array of AVFormatContexts describing the RTP streams. If the<br>
-	 *           array is composed by only one context, such context can contain<br>
-	 *           multiple AVStreams (one AVStream per RTP stream). Otherwise,<br>
-	 *           all the contexts in the array (an AVCodecContext per RTP stream)<br>
-	 *           must contain only one AVStream.<br>
-	 * @param n_files number of AVCodecContexts contained in ac<br>
-	 * @param buf buffer where the SDP will be stored (must be allocated by<br>
-	 *            the caller)<br>
-	 * @param size the size of the buffer<br>
-	 * @return 0 if OK, AVERROR_xxx on error<br>
-	 * Original signature : <code>int av_sdp_create(AVFormatContext*[], int, char*, int)</code>
-	 */
-	int av_sdp_create(AVFormatContext.ByReference ac[], int n_files, ByteBuffer buf, int size);
-	/**
-	 * Generate an SDP for an RTP session.<br>
-	 * * Note, this overwrites the id values of AVStreams in the muxer contexts<br>
-	 * for getting unique dynamic payload types.<br>
-	 * * @param ac array of AVFormatContexts describing the RTP streams. If the<br>
-	 *           array is composed by only one context, such context can contain<br>
-	 *           multiple AVStreams (one AVStream per RTP stream). Otherwise,<br>
-	 *           all the contexts in the array (an AVCodecContext per RTP stream)<br>
-	 *           must contain only one AVStream.<br>
-	 * @param n_files number of AVCodecContexts contained in ac<br>
-	 * @param buf buffer where the SDP will be stored (must be allocated by<br>
-	 *            the caller)<br>
-	 * @param size the size of the buffer<br>
-	 * @return 0 if OK, AVERROR_xxx on error<br>
-	 * Original signature : <code>int av_sdp_create(AVFormatContext*[], int, char*, int)</code>
-	 */
-	int av_sdp_create(AVFormatContext.ByReference ac[], int n_files, Pointer buf, int size);
-	/**
-	 * Return a positive value if the given filename has one of the given<br>
-	 * extensions, 0 otherwise.<br>
-	 * * @param extensions a comma-separated list of filename extensions<br>
-	 * Original signature : <code>int av_match_ext(const char*, const char*)</code><br>
-	 * @deprecated use the safer methods {@link #av_match_ext(java.lang.String, java.lang.String)} and {@link #av_match_ext(com.sun.jna.Pointer, com.sun.jna.Pointer)} instead
-	 */
-	@Deprecated 
-	int av_match_ext(Pointer filename, Pointer extensions);
-	/**
-	 * Return a positive value if the given filename has one of the given<br>
-	 * extensions, 0 otherwise.<br>
-	 * * @param extensions a comma-separated list of filename extensions<br>
-	 * Original signature : <code>int av_match_ext(const char*, const char*)</code>
-	 */
-	int av_match_ext(String filename, String extensions);
-	/**
-	 * Test if the given container can store a codec.<br>
-	 * * @param std_compliance standards compliance level, one of FF_COMPLIANCE_*<br>
-	 * * @return 1 if codec with ID codec_id can be stored in ofmt, 0 if it cannot.<br>
-	 *         A negative number if this information is not available.<br>
-	 * Original signature : <code>int avformat_query_codec(AVOutputFormat*, AVCodecID, int)</code>
-	 */
-	int avformat_query_codec(AVOutputFormat ofmt, int codec_id, int std_compliance);
-	/**
-	 * @return the table mapping RIFF FourCCs for video to libavcodec AVCodecID.<br>
-	 * Original signature : <code>AVCodecTag* avformat_get_riff_video_tags()</code>
-	 */
-	LibavformatLibrary.AVCodecTag avformat_get_riff_video_tags();
-	/**
-	 * @return the table mapping RIFF FourCCs for audio to AVCodecID.<br>
-	 * Original signature : <code>AVCodecTag* avformat_get_riff_audio_tags()</code>
-	 */
-	LibavformatLibrary.AVCodecTag avformat_get_riff_audio_tags();
-	/**
-	 * Guess the sample aspect ratio of a frame, based on both the stream and the<br>
-	 * frame aspect ratio.<br>
-	 * * Since the frame aspect ratio is set by the codec but the stream aspect ratio<br>
-	 * is set by the demuxer, these two may not be equal. This function tries to<br>
-	 * return the value that you should use if you would like to display the frame.<br>
-	 * * Basic logic is to use the stream aspect ratio if it is set to something sane<br>
-	 * otherwise use the frame aspect ratio. This way a container setting, which is<br>
-	 * usually easy to modify can override the coded value in the frames.<br>
-	 * * @param format the format context which the stream is part of<br>
-	 * @param stream the stream which the frame is part of<br>
-	 * @param frame the frame with the aspect ratio to be determined<br>
-	 * @return the guessed (valid) sample_aspect_ratio, 0/1 if no idea<br>
-	 * Original signature : <code>AVRational av_guess_sample_aspect_ratio(AVFormatContext*, AVStream*, AVFrame*)</code>
-	 */
-	AVRational.ByValue av_guess_sample_aspect_ratio(AVFormatContext format, AVStream stream, AVFrame frame);
-	/**
-	 * Guess the frame rate, based on both the container and codec information.<br>
-	 * * @param ctx the format context which the stream is part of<br>
-	 * @param stream the stream which the frame is part of<br>
-	 * @param frame the frame for which the frame rate should be determined, may be NULL<br>
-	 * @return the guessed (valid) frame rate, 0/1 if no idea<br>
-	 * Original signature : <code>AVRational av_guess_frame_rate(AVFormatContext*, AVStream*, AVFrame*)</code>
-	 */
-	AVRational.ByValue av_guess_frame_rate(AVFormatContext ctx, AVStream stream, AVFrame frame);
-	/**
-	 * Check if the stream st contained in s is matched by the stream specifier<br>
-	 * spec.<br>
-	 * * See the "stream specifiers" chapter in the documentation for the syntax<br>
-	 * of spec.<br>
-	 * * @return  >0 if st is matched by spec;<br>
-	 *          0  if st is not matched by spec;<br>
-	 *          AVERROR code if spec is invalid<br>
-	 * * @note  A stream specifier can match several streams in the format.<br>
-	 * Original signature : <code>int avformat_match_stream_specifier(AVFormatContext*, AVStream*, const char*)</code><br>
-	 * @deprecated use the safer methods {@link #avformat_match_stream_specifier(org.javaavc.ffmpeg.avformat.AVFormatContext, org.javaavc.ffmpeg.avformat.AVStream, java.lang.String)} and {@link #avformat_match_stream_specifier(org.javaavc.ffmpeg.avformat.AVFormatContext, org.javaavc.ffmpeg.avformat.AVStream, com.sun.jna.Pointer)} instead
-	 */
-	@Deprecated 
-	int avformat_match_stream_specifier(AVFormatContext s, AVStream st, Pointer spec);
-	/**
-	 * Check if the stream st contained in s is matched by the stream specifier<br>
-	 * spec.<br>
-	 * * See the "stream specifiers" chapter in the documentation for the syntax<br>
-	 * of spec.<br>
-	 * * @return  >0 if st is matched by spec;<br>
-	 *          0  if st is not matched by spec;<br>
-	 *          AVERROR code if spec is invalid<br>
-	 * * @note  A stream specifier can match several streams in the format.<br>
-	 * Original signature : <code>int avformat_match_stream_specifier(AVFormatContext*, AVStream*, const char*)</code>
-	 */
-	int avformat_match_stream_specifier(AVFormatContext s, AVStream st, String spec);
-	/** Original signature : <code>int avformat_queue_attached_pictures(AVFormatContext*)</code> */
-	int avformat_queue_attached_pictures(AVFormatContext s);
-	public static class AVCodecTag extends PointerType {
-		public AVCodecTag(Pointer address) {
-			super(address);
-		}
-		public AVCodecTag() {
-			super();
-		}
-	};
-	public static class AVCodecInternal extends PointerType {
-		public AVCodecInternal(Pointer address) {
-			super(address);
-		}
-		public AVCodecInternal() {
-			super();
-		}
-	};
-	public static class AVCodecDefault extends PointerType {
-		public AVCodecDefault(Pointer address) {
-			super(address);
-		}
-		public AVCodecDefault() {
-			super();
-		}
-	};
-	public static class AVBuffer extends PointerType {
-		public AVBuffer(Pointer address) {
-			super(address);
-		}
-		public AVBuffer() {
-			super();
-		}
-	};
-	public static class AVBPrint extends PointerType {
-		public AVBPrint(Pointer address) {
-			super(address);
-		}
-		public AVBPrint() {
-			super();
-		}
-	};
-	public static class va_list extends PointerType {
-		public va_list(Pointer address) {
-			super(address);
-		}
-		public va_list() {
-			super();
-		}
-	};
-	public static class AVResampleContext extends PointerType {
-		public AVResampleContext(Pointer address) {
-			super(address);
-		}
-		public AVResampleContext() {
-			super();
-		}
-	};
-	public static class FILE extends PointerType {
-		public FILE(Pointer address) {
-			super(address);
-		}
-		public FILE() {
-			super();
-		}
-	};
-	public static class AVBufferPool extends PointerType {
-		public AVBufferPool(Pointer address) {
-			super(address);
-		}
-		public AVBufferPool() {
-			super();
-		}
-	};
-	public static class AVDictionary extends PointerType {
-		public AVDictionary(Pointer address) {
-			super(address);
-		}
-		public AVDictionary() {
-			super();
-		}
-	};
-	public static class AVOption extends PointerType {
-		public AVOption(Pointer address) {
-			super(address);
-		}
-		public AVOption() {
-			super();
-		}
-	};
-	public static class ReSampleContext extends PointerType {
-		public ReSampleContext(Pointer address) {
-			super(address);
-		}
-		public ReSampleContext() {
-			super();
-		}
-	};
+    /** enum values */
+    public static interface AVMediaType {
+        /** < Usually treated as AVMEDIA_TYPE_DATA */
+        public static final int AVMEDIA_TYPE_UNKNOWN = -1;
+        public static final int AVMEDIA_TYPE_VIDEO = 0;
+        public static final int AVMEDIA_TYPE_AUDIO = 1;
+        /** < Opaque data information usually continuous */
+        public static final int AVMEDIA_TYPE_DATA = 2;
+        public static final int AVMEDIA_TYPE_SUBTITLE = 3;
+        /** < Opaque data information usually sparse */
+        public static final int AVMEDIA_TYPE_ATTACHMENT = 4;
+        public static final int AVMEDIA_TYPE_NB = 5;
+    };
+    /** enum values */
+    public static interface AVPictureType {
+        /** < Undefined */
+        public static final int AV_PICTURE_TYPE_NONE = 0;
+        /** < Intra */
+        public static final int AV_PICTURE_TYPE_I = 1;
+        /** < Predicted */
+        public static final int AV_PICTURE_TYPE_P = 2;
+        /** < Bi-dir predicted */
+        public static final int AV_PICTURE_TYPE_B = 3;
+        /** < S(GMC)-VOP MPEG4 */
+        public static final int AV_PICTURE_TYPE_S = 4;
+        /** < Switching Intra */
+        public static final int AV_PICTURE_TYPE_SI = 5;
+        /** < Switching Predicted */
+        public static final int AV_PICTURE_TYPE_SP = 6;
+        /** < BI type */
+        public static final int AV_PICTURE_TYPE_BI = 7;
+    };
+    /** enum values */
+    public static interface AVRounding {
+        /** < Round toward zero. */
+        public static final int AV_ROUND_ZERO = 0;
+        /** < Round away from zero. */
+        public static final int AV_ROUND_INF = 1;
+        /** < Round toward -infinity. */
+        public static final int AV_ROUND_DOWN = 2;
+        /** < Round toward +infinity. */
+        public static final int AV_ROUND_UP = 3;
+        /** < Round to nearest and halfway cases away from zero. */
+        public static final int AV_ROUND_NEAR_INF = 5;
+        /** < Flag to pass INT64_MIN/MAX through instead of rescaling, this avoids special cases for AV_NOPTS_VALUE */
+        public static final int AV_ROUND_PASS_MINMAX = 8192;
+    };
+    /** enum values */
+    public static interface AVClassCategory {
+        public static final int AV_CLASS_CATEGORY_NA = 0;
+        public static final int AV_CLASS_CATEGORY_INPUT = 1;
+        public static final int AV_CLASS_CATEGORY_OUTPUT = 2;
+        public static final int AV_CLASS_CATEGORY_MUXER = 3;
+        public static final int AV_CLASS_CATEGORY_DEMUXER = 4;
+        public static final int AV_CLASS_CATEGORY_ENCODER = 5;
+        public static final int AV_CLASS_CATEGORY_DECODER = 6;
+        public static final int AV_CLASS_CATEGORY_FILTER = 7;
+        public static final int AV_CLASS_CATEGORY_BITSTREAM_FILTER = 8;
+        public static final int AV_CLASS_CATEGORY_SWSCALER = 9;
+        public static final int AV_CLASS_CATEGORY_SWRESAMPLER = 10;
+        public static final int AV_CLASS_CATEGORY_NB = 11;
+    };
+    /**
+     * Pixel format.<br>
+     * * @note<br>
+     * PIX_FMT_RGB32 is handled in an endian-specific manner. An RGBA<br>
+     * color is put together as:<br>
+     *  (A << 24) | (R << 16) | (G << 8) | B<br>
+     * This is stored as BGRA on little-endian CPU architectures and ARGB on<br>
+     * big-endian CPUs.<br>
+     * * @par<br>
+     * When the pixel format is palettized RGB (PIX_FMT_PAL8), the palettized<br>
+     * image data is stored in AVFrame.data[0]. The palette is transported in<br>
+     * AVFrame.data[1], is 1024 bytes long (256 4-byte entries) and is<br>
+     * formatted the same as in PIX_FMT_RGB32 described above (i.e., it is<br>
+     * also endian-specific). Note also that the individual RGB palette<br>
+     * components stored in AVFrame.data[1] should be in the range 0..255.<br>
+     * This is important as many custom PAL8 video codecs that were designed<br>
+     * to run on the IBM VGA graphics adapter use 6-bit palette components.<br>
+     * * @par<br>
+     * For all the 8bit per pixel formats, an RGB32 palette is in data[1] like<br>
+     * for pal8. This palette is filled in automatically by the function<br>
+     * allocating the picture.<br>
+     * * @note<br>
+     * Make sure that all newly added big-endian formats have pix_fmt & 1 == 1<br>
+     * and that all newly added little-endian formats have pix_fmt & 1 == 0.<br>
+     * This allows simpler detection of big vs little-endian.<br>
+     * enum values
+     */
+    public static interface AVPixelFormat {
+        public static final int AV_PIX_FMT_NONE = -1;
+        /** < planar YUV 4:2:0, 12bpp, (1 Cr & Cb sample per 2x2 Y samples) */
+        public static final int AV_PIX_FMT_YUV420P = 0;
+        /** < packed YUV 4:2:2, 16bpp, Y0 Cb Y1 Cr */
+        public static final int AV_PIX_FMT_YUYV422 = 1;
+        /** < packed RGB 8:8:8, 24bpp, RGBRGB... */
+        public static final int AV_PIX_FMT_RGB24 = 2;
+        /** < packed RGB 8:8:8, 24bpp, BGRBGR... */
+        public static final int AV_PIX_FMT_BGR24 = 3;
+        /** < planar YUV 4:2:2, 16bpp, (1 Cr & Cb sample per 2x1 Y samples) */
+        public static final int AV_PIX_FMT_YUV422P = 4;
+        /** < planar YUV 4:4:4, 24bpp, (1 Cr & Cb sample per 1x1 Y samples) */
+        public static final int AV_PIX_FMT_YUV444P = 5;
+        /** < planar YUV 4:1:0,  9bpp, (1 Cr & Cb sample per 4x4 Y samples) */
+        public static final int AV_PIX_FMT_YUV410P = 6;
+        /** < planar YUV 4:1:1, 12bpp, (1 Cr & Cb sample per 4x1 Y samples) */
+        public static final int AV_PIX_FMT_YUV411P = 7;
+        /** <        Y        ,  8bpp */
+        public static final int AV_PIX_FMT_GRAY8 = 8;
+        /** <        Y        ,  1bpp, 0 is white, 1 is black, in each byte pixels are ordered from the msb to the lsb */
+        public static final int AV_PIX_FMT_MONOWHITE = 9;
+        /** <        Y        ,  1bpp, 0 is black, 1 is white, in each byte pixels are ordered from the msb to the lsb */
+        public static final int AV_PIX_FMT_MONOBLACK = 10;
+        /** < 8 bit with PIX_FMT_RGB32 palette */
+        public static final int AV_PIX_FMT_PAL8 = 11;
+        /** < planar YUV 4:2:0, 12bpp, full scale (JPEG), deprecated in favor of PIX_FMT_YUV420P and setting color_range */
+        public static final int AV_PIX_FMT_YUVJ420P = 12;
+        /** < planar YUV 4:2:2, 16bpp, full scale (JPEG), deprecated in favor of PIX_FMT_YUV422P and setting color_range */
+        public static final int AV_PIX_FMT_YUVJ422P = 13;
+        /** < planar YUV 4:4:4, 24bpp, full scale (JPEG), deprecated in favor of PIX_FMT_YUV444P and setting color_range */
+        public static final int AV_PIX_FMT_YUVJ444P = 14;
+        /** < XVideo Motion Acceleration via common packet passing */
+        public static final int AV_PIX_FMT_XVMC_MPEG2_MC = 15;
+        public static final int AV_PIX_FMT_XVMC_MPEG2_IDCT = 16;
+        /** < packed YUV 4:2:2, 16bpp, Cb Y0 Cr Y1 */
+        public static final int AV_PIX_FMT_UYVY422 = 17;
+        /** < packed YUV 4:1:1, 12bpp, Cb Y0 Y1 Cr Y2 Y3 */
+        public static final int AV_PIX_FMT_UYYVYY411 = 18;
+        /** < packed RGB 3:3:2,  8bpp, (msb)2B 3G 3R(lsb) */
+        public static final int AV_PIX_FMT_BGR8 = 19;
+        /** < packed RGB 1:2:1 bitstream,  4bpp, (msb)1B 2G 1R(lsb), a byte contains two pixels, the first pixel in the byte is the one composed by the 4 msb bits */
+        public static final int AV_PIX_FMT_BGR4 = 20;
+        /** < packed RGB 1:2:1,  8bpp, (msb)1B 2G 1R(lsb) */
+        public static final int AV_PIX_FMT_BGR4_BYTE = 21;
+        /** < packed RGB 3:3:2,  8bpp, (msb)2R 3G 3B(lsb) */
+        public static final int AV_PIX_FMT_RGB8 = 22;
+        /** < packed RGB 1:2:1 bitstream,  4bpp, (msb)1R 2G 1B(lsb), a byte contains two pixels, the first pixel in the byte is the one composed by the 4 msb bits */
+        public static final int AV_PIX_FMT_RGB4 = 23;
+        /** < packed RGB 1:2:1,  8bpp, (msb)1R 2G 1B(lsb) */
+        public static final int AV_PIX_FMT_RGB4_BYTE = 24;
+        /** < planar YUV 4:2:0, 12bpp, 1 plane for Y and 1 plane for the UV components, which are interleaved (first byte U and the following byte V) */
+        public static final int AV_PIX_FMT_NV12 = 25;
+        /** < as above, but U and V bytes are swapped */
+        public static final int AV_PIX_FMT_NV21 = 26;
+        /** < packed ARGB 8:8:8:8, 32bpp, ARGBARGB... */
+        public static final int AV_PIX_FMT_ARGB = 27;
+        /** < packed RGBA 8:8:8:8, 32bpp, RGBARGBA... */
+        public static final int AV_PIX_FMT_RGBA = 28;
+        /** < packed ABGR 8:8:8:8, 32bpp, ABGRABGR... */
+        public static final int AV_PIX_FMT_ABGR = 29;
+        /** < packed BGRA 8:8:8:8, 32bpp, BGRABGRA... */
+        public static final int AV_PIX_FMT_BGRA = 30;
+        /** <        Y        , 16bpp, big-endian */
+        public static final int AV_PIX_FMT_GRAY16BE = 31;
+        /** <        Y        , 16bpp, little-endian */
+        public static final int AV_PIX_FMT_GRAY16LE = 32;
+        /** < planar YUV 4:4:0 (1 Cr & Cb sample per 1x2 Y samples) */
+        public static final int AV_PIX_FMT_YUV440P = 33;
+        /** < planar YUV 4:4:0 full scale (JPEG), deprecated in favor of PIX_FMT_YUV440P and setting color_range */
+        public static final int AV_PIX_FMT_YUVJ440P = 34;
+        /** < planar YUV 4:2:0, 20bpp, (1 Cr & Cb sample per 2x2 Y & A samples) */
+        public static final int AV_PIX_FMT_YUVA420P = 35;
+        /** < H.264 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers */
+        public static final int AV_PIX_FMT_VDPAU_H264 = 36;
+        /** < MPEG-1 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers */
+        public static final int AV_PIX_FMT_VDPAU_MPEG1 = 37;
+        /** < MPEG-2 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers */
+        public static final int AV_PIX_FMT_VDPAU_MPEG2 = 38;
+        /** < WMV3 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers */
+        public static final int AV_PIX_FMT_VDPAU_WMV3 = 39;
+        /** < VC-1 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers */
+        public static final int AV_PIX_FMT_VDPAU_VC1 = 40;
+        /** < packed RGB 16:16:16, 48bpp, 16R, 16G, 16B, the 2-byte value for each R/G/B component is stored as big-endian */
+        public static final int AV_PIX_FMT_RGB48BE = 41;
+        /** < packed RGB 16:16:16, 48bpp, 16R, 16G, 16B, the 2-byte value for each R/G/B component is stored as little-endian */
+        public static final int AV_PIX_FMT_RGB48LE = 42;
+        /** < packed RGB 5:6:5, 16bpp, (msb)   5R 6G 5B(lsb), big-endian */
+        public static final int AV_PIX_FMT_RGB565BE = 43;
+        /** < packed RGB 5:6:5, 16bpp, (msb)   5R 6G 5B(lsb), little-endian */
+        public static final int AV_PIX_FMT_RGB565LE = 44;
+        /** < packed RGB 5:5:5, 16bpp, (msb)1A 5R 5G 5B(lsb), big-endian, most significant bit to 0 */
+        public static final int AV_PIX_FMT_RGB555BE = 45;
+        /** < packed RGB 5:5:5, 16bpp, (msb)1A 5R 5G 5B(lsb), little-endian, most significant bit to 0 */
+        public static final int AV_PIX_FMT_RGB555LE = 46;
+        /** < packed BGR 5:6:5, 16bpp, (msb)   5B 6G 5R(lsb), big-endian */
+        public static final int AV_PIX_FMT_BGR565BE = 47;
+        /** < packed BGR 5:6:5, 16bpp, (msb)   5B 6G 5R(lsb), little-endian */
+        public static final int AV_PIX_FMT_BGR565LE = 48;
+        /** < packed BGR 5:5:5, 16bpp, (msb)1A 5B 5G 5R(lsb), big-endian, most significant bit to 1 */
+        public static final int AV_PIX_FMT_BGR555BE = 49;
+        /** < packed BGR 5:5:5, 16bpp, (msb)1A 5B 5G 5R(lsb), little-endian, most significant bit to 1 */
+        public static final int AV_PIX_FMT_BGR555LE = 50;
+        /** < HW acceleration through VA API at motion compensation entry-point, Picture.data[3] contains a vaapi_render_state struct which contains macroblocks as well as various fields extracted from headers */
+        public static final int AV_PIX_FMT_VAAPI_MOCO = 51;
+        /** < HW acceleration through VA API at IDCT entry-point, Picture.data[3] contains a vaapi_render_state struct which contains fields extracted from headers */
+        public static final int AV_PIX_FMT_VAAPI_IDCT = 52;
+        /** < HW decoding through VA API, Picture.data[3] contains a vaapi_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers */
+        public static final int AV_PIX_FMT_VAAPI_VLD = 53;
+        /** < planar YUV 4:2:0, 24bpp, (1 Cr & Cb sample per 2x2 Y samples), little-endian */
+        public static final int AV_PIX_FMT_YUV420P16LE = 54;
+        /** < planar YUV 4:2:0, 24bpp, (1 Cr & Cb sample per 2x2 Y samples), big-endian */
+        public static final int AV_PIX_FMT_YUV420P16BE = 55;
+        /** < planar YUV 4:2:2, 32bpp, (1 Cr & Cb sample per 2x1 Y samples), little-endian */
+        public static final int AV_PIX_FMT_YUV422P16LE = 56;
+        /** < planar YUV 4:2:2, 32bpp, (1 Cr & Cb sample per 2x1 Y samples), big-endian */
+        public static final int AV_PIX_FMT_YUV422P16BE = 57;
+        /** < planar YUV 4:4:4, 48bpp, (1 Cr & Cb sample per 1x1 Y samples), little-endian */
+        public static final int AV_PIX_FMT_YUV444P16LE = 58;
+        /** < planar YUV 4:4:4, 48bpp, (1 Cr & Cb sample per 1x1 Y samples), big-endian */
+        public static final int AV_PIX_FMT_YUV444P16BE = 59;
+        /** < MPEG4 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers */
+        public static final int AV_PIX_FMT_VDPAU_MPEG4 = 60;
+        /** < HW decoding through DXVA2, Picture.data[3] contains a LPDIRECT3DSURFACE9 pointer */
+        public static final int AV_PIX_FMT_DXVA2_VLD = 61;
+        /** < packed RGB 4:4:4, 16bpp, (msb)4A 4R 4G 4B(lsb), little-endian, most significant bits to 0 */
+        public static final int AV_PIX_FMT_RGB444LE = 62;
+        /** < packed RGB 4:4:4, 16bpp, (msb)4A 4R 4G 4B(lsb), big-endian, most significant bits to 0 */
+        public static final int AV_PIX_FMT_RGB444BE = 63;
+        /** < packed BGR 4:4:4, 16bpp, (msb)4A 4B 4G 4R(lsb), little-endian, most significant bits to 1 */
+        public static final int AV_PIX_FMT_BGR444LE = 64;
+        /** < packed BGR 4:4:4, 16bpp, (msb)4A 4B 4G 4R(lsb), big-endian, most significant bits to 1 */
+        public static final int AV_PIX_FMT_BGR444BE = 65;
+        /** < 8bit gray, 8bit alpha */
+        public static final int AV_PIX_FMT_GRAY8A = 66;
+        /** < packed RGB 16:16:16, 48bpp, 16B, 16G, 16R, the 2-byte value for each R/G/B component is stored as big-endian */
+        public static final int AV_PIX_FMT_BGR48BE = 67;
+        /** < packed RGB 16:16:16, 48bpp, 16B, 16G, 16R, the 2-byte value for each R/G/B component is stored as little-endian */
+        public static final int AV_PIX_FMT_BGR48LE = 68;
+        /**
+         * is better<br>
+         * < planar YUV 4:2:0, 13.5bpp, (1 Cr & Cb sample per 2x2 Y samples), big-endian
+         */
+        public static final int AV_PIX_FMT_YUV420P9BE = 69;
+        /** < planar YUV 4:2:0, 13.5bpp, (1 Cr & Cb sample per 2x2 Y samples), little-endian */
+        public static final int AV_PIX_FMT_YUV420P9LE = 70;
+        /** < planar YUV 4:2:0, 15bpp, (1 Cr & Cb sample per 2x2 Y samples), big-endian */
+        public static final int AV_PIX_FMT_YUV420P10BE = 71;
+        /** < planar YUV 4:2:0, 15bpp, (1 Cr & Cb sample per 2x2 Y samples), little-endian */
+        public static final int AV_PIX_FMT_YUV420P10LE = 72;
+        /** < planar YUV 4:2:2, 20bpp, (1 Cr & Cb sample per 2x1 Y samples), big-endian */
+        public static final int AV_PIX_FMT_YUV422P10BE = 73;
+        /** < planar YUV 4:2:2, 20bpp, (1 Cr & Cb sample per 2x1 Y samples), little-endian */
+        public static final int AV_PIX_FMT_YUV422P10LE = 74;
+        /** < planar YUV 4:4:4, 27bpp, (1 Cr & Cb sample per 1x1 Y samples), big-endian */
+        public static final int AV_PIX_FMT_YUV444P9BE = 75;
+        /** < planar YUV 4:4:4, 27bpp, (1 Cr & Cb sample per 1x1 Y samples), little-endian */
+        public static final int AV_PIX_FMT_YUV444P9LE = 76;
+        /** < planar YUV 4:4:4, 30bpp, (1 Cr & Cb sample per 1x1 Y samples), big-endian */
+        public static final int AV_PIX_FMT_YUV444P10BE = 77;
+        /** < planar YUV 4:4:4, 30bpp, (1 Cr & Cb sample per 1x1 Y samples), little-endian */
+        public static final int AV_PIX_FMT_YUV444P10LE = 78;
+        /** < planar YUV 4:2:2, 18bpp, (1 Cr & Cb sample per 2x1 Y samples), big-endian */
+        public static final int AV_PIX_FMT_YUV422P9BE = 79;
+        /** < planar YUV 4:2:2, 18bpp, (1 Cr & Cb sample per 2x1 Y samples), little-endian */
+        public static final int AV_PIX_FMT_YUV422P9LE = 80;
+        /** < hardware decoding through VDA */
+        public static final int AV_PIX_FMT_VDA_VLD = 81;
+        /** < planar GBR 4:4:4 24bpp */
+        public static final int AV_PIX_FMT_GBRP = 82;
+        /** < planar GBR 4:4:4 27bpp, big-endian */
+        public static final int AV_PIX_FMT_GBRP9BE = 83;
+        /** < planar GBR 4:4:4 27bpp, little-endian */
+        public static final int AV_PIX_FMT_GBRP9LE = 84;
+        /** < planar GBR 4:4:4 30bpp, big-endian */
+        public static final int AV_PIX_FMT_GBRP10BE = 85;
+        /** < planar GBR 4:4:4 30bpp, little-endian */
+        public static final int AV_PIX_FMT_GBRP10LE = 86;
+        /** < planar GBR 4:4:4 48bpp, big-endian */
+        public static final int AV_PIX_FMT_GBRP16BE = 87;
+        /** < planar GBR 4:4:4 48bpp, little-endian */
+        public static final int AV_PIX_FMT_GBRP16LE = 88;
+        /**
+         * duplicated pixel formats for compatibility with libav.<br>
+         * FFmpeg supports these formats since May 8 2012 and Jan 28 2012 (commits f9ca1ac7 and 143a5c55)<br>
+         * Libav added them Oct 12 2012 with incompatible values (commit 6d5600e85)<br>
+         * < planar YUV 4:2:2 24bpp, (1 Cr & Cb sample per 2x1 Y & A samples)
+         */
+        public static final int AV_PIX_FMT_YUVA422P_LIBAV = 89;
+        /** < planar YUV 4:4:4 32bpp, (1 Cr & Cb sample per 1x1 Y & A samples) */
+        public static final int AV_PIX_FMT_YUVA444P_LIBAV = 90;
+        /** < planar YUV 4:2:0 22.5bpp, (1 Cr & Cb sample per 2x2 Y & A samples), big-endian */
+        public static final int AV_PIX_FMT_YUVA420P9BE = 91;
+        /** < planar YUV 4:2:0 22.5bpp, (1 Cr & Cb sample per 2x2 Y & A samples), little-endian */
+        public static final int AV_PIX_FMT_YUVA420P9LE = 92;
+        /** < planar YUV 4:2:2 27bpp, (1 Cr & Cb sample per 2x1 Y & A samples), big-endian */
+        public static final int AV_PIX_FMT_YUVA422P9BE = 93;
+        /** < planar YUV 4:2:2 27bpp, (1 Cr & Cb sample per 2x1 Y & A samples), little-endian */
+        public static final int AV_PIX_FMT_YUVA422P9LE = 94;
+        /** < planar YUV 4:4:4 36bpp, (1 Cr & Cb sample per 1x1 Y & A samples), big-endian */
+        public static final int AV_PIX_FMT_YUVA444P9BE = 95;
+        /** < planar YUV 4:4:4 36bpp, (1 Cr & Cb sample per 1x1 Y & A samples), little-endian */
+        public static final int AV_PIX_FMT_YUVA444P9LE = 96;
+        /** < planar YUV 4:2:0 25bpp, (1 Cr & Cb sample per 2x2 Y & A samples, big-endian) */
+        public static final int AV_PIX_FMT_YUVA420P10BE = 97;
+        /** < planar YUV 4:2:0 25bpp, (1 Cr & Cb sample per 2x2 Y & A samples, little-endian) */
+        public static final int AV_PIX_FMT_YUVA420P10LE = 98;
+        /** < planar YUV 4:2:2 30bpp, (1 Cr & Cb sample per 2x1 Y & A samples, big-endian) */
+        public static final int AV_PIX_FMT_YUVA422P10BE = 99;
+        /** < planar YUV 4:2:2 30bpp, (1 Cr & Cb sample per 2x1 Y & A samples, little-endian) */
+        public static final int AV_PIX_FMT_YUVA422P10LE = 100;
+        /** < planar YUV 4:4:4 40bpp, (1 Cr & Cb sample per 1x1 Y & A samples, big-endian) */
+        public static final int AV_PIX_FMT_YUVA444P10BE = 101;
+        /** < planar YUV 4:4:4 40bpp, (1 Cr & Cb sample per 1x1 Y & A samples, little-endian) */
+        public static final int AV_PIX_FMT_YUVA444P10LE = 102;
+        /** < planar YUV 4:2:0 40bpp, (1 Cr & Cb sample per 2x2 Y & A samples, big-endian) */
+        public static final int AV_PIX_FMT_YUVA420P16BE = 103;
+        /** < planar YUV 4:2:0 40bpp, (1 Cr & Cb sample per 2x2 Y & A samples, little-endian) */
+        public static final int AV_PIX_FMT_YUVA420P16LE = 104;
+        /** < planar YUV 4:2:2 48bpp, (1 Cr & Cb sample per 2x1 Y & A samples, big-endian) */
+        public static final int AV_PIX_FMT_YUVA422P16BE = 105;
+        /** < planar YUV 4:2:2 48bpp, (1 Cr & Cb sample per 2x1 Y & A samples, little-endian) */
+        public static final int AV_PIX_FMT_YUVA422P16LE = 106;
+        /** < planar YUV 4:4:4 64bpp, (1 Cr & Cb sample per 1x1 Y & A samples, big-endian) */
+        public static final int AV_PIX_FMT_YUVA444P16BE = 107;
+        /** < planar YUV 4:4:4 64bpp, (1 Cr & Cb sample per 1x1 Y & A samples, little-endian) */
+        public static final int AV_PIX_FMT_YUVA444P16LE = 108;
+        /** < HW acceleration through VDPAU, Picture.data[3] contains a VdpVideoSurface */
+        public static final int AV_PIX_FMT_VDPAU = 109;
+        /** < packed XYZ 4:4:4, 36 bpp, (msb) 12X, 12Y, 12Z (lsb), the 2-byte value for each X/Y/Z is stored as little-endian, the 4 lower bits are set to 0 */
+        public static final int AV_PIX_FMT_XYZ12LE = 110;
+        /** < packed XYZ 4:4:4, 36 bpp, (msb) 12X, 12Y, 12Z (lsb), the 2-byte value for each X/Y/Z is stored as big-endian, the 4 lower bits are set to 0 */
+        public static final int AV_PIX_FMT_XYZ12BE = 111;
+        /** < packed RGBA 16:16:16:16, 64bpp, 16R, 16G, 16B, 16A, the 2-byte value for each R/G/B/A component is stored as big-endian */
+        public static final int AV_PIX_FMT_RGBA64BE = 0x123;
+        /** < packed RGBA 16:16:16:16, 64bpp, 16R, 16G, 16B, 16A, the 2-byte value for each R/G/B/A component is stored as little-endian */
+        public static final int AV_PIX_FMT_RGBA64LE = (0x123 + 1);
+        /** < packed RGBA 16:16:16:16, 64bpp, 16B, 16G, 16R, 16A, the 2-byte value for each R/G/B/A component is stored as big-endian */
+        public static final int AV_PIX_FMT_BGRA64BE = (0x123 + 2);
+        /** < packed RGBA 16:16:16:16, 64bpp, 16B, 16G, 16R, 16A, the 2-byte value for each R/G/B/A component is stored as little-endian */
+        public static final int AV_PIX_FMT_BGRA64LE = (0x123 + 3);
+        /** < packed RGB 8:8:8, 32bpp, 0RGB0RGB... */
+        public static final int AV_PIX_FMT_0RGB = 0x123 + 4;
+        /** < packed RGB 8:8:8, 32bpp, RGB0RGB0... */
+        public static final int AV_PIX_FMT_RGB0 = (0x123 + 4 + 1);
+        /** < packed BGR 8:8:8, 32bpp, 0BGR0BGR... */
+        public static final int AV_PIX_FMT_0BGR = (0x123 + 4 + 2);
+        /** < packed BGR 8:8:8, 32bpp, BGR0BGR0... */
+        public static final int AV_PIX_FMT_BGR0 = (0x123 + 4 + 3);
+        /** < planar YUV 4:4:4 32bpp, (1 Cr & Cb sample per 1x1 Y & A samples) */
+        public static final int AV_PIX_FMT_YUVA444P = (0x123 + 4 + 4);
+        /** < planar YUV 4:2:2 24bpp, (1 Cr & Cb sample per 2x1 Y & A samples) */
+        public static final int AV_PIX_FMT_YUVA422P = (0x123 + 4 + 5);
+        /** < planar YUV 4:2:0,18bpp, (1 Cr & Cb sample per 2x2 Y samples), big-endian */
+        public static final int AV_PIX_FMT_YUV420P12BE = (0x123 + 4 + 6);
+        /** < planar YUV 4:2:0,18bpp, (1 Cr & Cb sample per 2x2 Y samples), little-endian */
+        public static final int AV_PIX_FMT_YUV420P12LE = (0x123 + 4 + 7);
+        /** < planar YUV 4:2:0,21bpp, (1 Cr & Cb sample per 2x2 Y samples), big-endian */
+        public static final int AV_PIX_FMT_YUV420P14BE = (0x123 + 4 + 8);
+        /** < planar YUV 4:2:0,21bpp, (1 Cr & Cb sample per 2x2 Y samples), little-endian */
+        public static final int AV_PIX_FMT_YUV420P14LE = (0x123 + 4 + 9);
+        /** < planar YUV 4:2:2,24bpp, (1 Cr & Cb sample per 2x1 Y samples), big-endian */
+        public static final int AV_PIX_FMT_YUV422P12BE = (0x123 + 4 + 10);
+        /** < planar YUV 4:2:2,24bpp, (1 Cr & Cb sample per 2x1 Y samples), little-endian */
+        public static final int AV_PIX_FMT_YUV422P12LE = (0x123 + 4 + 11);
+        /** < planar YUV 4:2:2,28bpp, (1 Cr & Cb sample per 2x1 Y samples), big-endian */
+        public static final int AV_PIX_FMT_YUV422P14BE = (0x123 + 4 + 12);
+        /** < planar YUV 4:2:2,28bpp, (1 Cr & Cb sample per 2x1 Y samples), little-endian */
+        public static final int AV_PIX_FMT_YUV422P14LE = (0x123 + 4 + 13);
+        /** < planar YUV 4:4:4,36bpp, (1 Cr & Cb sample per 1x1 Y samples), big-endian */
+        public static final int AV_PIX_FMT_YUV444P12BE = (0x123 + 4 + 14);
+        /** < planar YUV 4:4:4,36bpp, (1 Cr & Cb sample per 1x1 Y samples), little-endian */
+        public static final int AV_PIX_FMT_YUV444P12LE = (0x123 + 4 + 15);
+        /** < planar YUV 4:4:4,42bpp, (1 Cr & Cb sample per 1x1 Y samples), big-endian */
+        public static final int AV_PIX_FMT_YUV444P14BE = (0x123 + 4 + 16);
+        /** < planar YUV 4:4:4,42bpp, (1 Cr & Cb sample per 1x1 Y samples), little-endian */
+        public static final int AV_PIX_FMT_YUV444P14LE = (0x123 + 4 + 17);
+        /** < planar GBR 4:4:4 36bpp, big-endian */
+        public static final int AV_PIX_FMT_GBRP12BE = (0x123 + 4 + 18);
+        /** < planar GBR 4:4:4 36bpp, little-endian */
+        public static final int AV_PIX_FMT_GBRP12LE = (0x123 + 4 + 19);
+        /** < planar GBR 4:4:4 42bpp, big-endian */
+        public static final int AV_PIX_FMT_GBRP14BE = (0x123 + 4 + 20);
+        /** < planar GBR 4:4:4 42bpp, little-endian */
+        public static final int AV_PIX_FMT_GBRP14LE = (0x123 + 4 + 21);
+        /** < planar GBRA 4:4:4:4 32bpp */
+        public static final int AV_PIX_FMT_GBRAP = (0x123 + 4 + 22);
+        /** < planar GBRA 4:4:4:4 64bpp, big-endian */
+        public static final int AV_PIX_FMT_GBRAP16BE = (0x123 + 4 + 23);
+        /** < planar GBRA 4:4:4:4 64bpp, little-endian */
+        public static final int AV_PIX_FMT_GBRAP16LE = (0x123 + 4 + 24);
+        /** < planar YUV 4:1:1, 12bpp, (1 Cr & Cb sample per 4x1 Y samples) full scale (JPEG), deprecated in favor of PIX_FMT_YUV411P and setting color_range */
+        public static final int AV_PIX_FMT_YUVJ411P = (0x123 + 4 + 25);
+        /** < number of pixel formats, DO NOT USE THIS if you want to link with shared libav* because the number of formats might differ between versions */
+        public static final int AV_PIX_FMT_NB = (0x123 + 4 + 26);
+        /**
+         * This header exists to prevent new pixel formats from being accidentally added<br>
+         * to the deprecated list.<br>
+         * Do not include it directly. It will be removed on next major bump<br>
+         * * Do not add new items to this list. Use the AVPixelFormat enum instead.
+         */
+        public static final int PIX_FMT_NONE = (int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE;
+        /** < planar YUV 4:2:0, 12bpp, (1 Cr & Cb sample per 2x2 Y samples) */
+        public static final int PIX_FMT_YUV420P = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 1);
+        /** < packed YUV 4:2:2, 16bpp, Y0 Cb Y1 Cr */
+        public static final int PIX_FMT_YUYV422 = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 2);
+        /** < packed RGB 8:8:8, 24bpp, RGBRGB... */
+        public static final int PIX_FMT_RGB24 = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 3);
+        /** < packed RGB 8:8:8, 24bpp, BGRBGR... */
+        public static final int PIX_FMT_BGR24 = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 4);
+        /** < planar YUV 4:2:2, 16bpp, (1 Cr & Cb sample per 2x1 Y samples) */
+        public static final int PIX_FMT_YUV422P = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 5);
+        /** < planar YUV 4:4:4, 24bpp, (1 Cr & Cb sample per 1x1 Y samples) */
+        public static final int PIX_FMT_YUV444P = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 6);
+        /** < planar YUV 4:1:0,  9bpp, (1 Cr & Cb sample per 4x4 Y samples) */
+        public static final int PIX_FMT_YUV410P = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 7);
+        /** < planar YUV 4:1:1, 12bpp, (1 Cr & Cb sample per 4x1 Y samples) */
+        public static final int PIX_FMT_YUV411P = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 8);
+        /** <        Y        ,  8bpp */
+        public static final int PIX_FMT_GRAY8 = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 9);
+        /** <        Y        ,  1bpp, 0 is white, 1 is black, in each byte pixels are ordered from the msb to the lsb */
+        public static final int PIX_FMT_MONOWHITE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 10);
+        /** <        Y        ,  1bpp, 0 is black, 1 is white, in each byte pixels are ordered from the msb to the lsb */
+        public static final int PIX_FMT_MONOBLACK = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 11);
+        /** < 8 bit with PIX_FMT_RGB32 palette */
+        public static final int PIX_FMT_PAL8 = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 12);
+        /** < planar YUV 4:2:0, 12bpp, full scale (JPEG), deprecated in favor of PIX_FMT_YUV420P and setting color_range */
+        public static final int PIX_FMT_YUVJ420P = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 13);
+        /** < planar YUV 4:2:2, 16bpp, full scale (JPEG), deprecated in favor of PIX_FMT_YUV422P and setting color_range */
+        public static final int PIX_FMT_YUVJ422P = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 14);
+        /** < planar YUV 4:4:4, 24bpp, full scale (JPEG), deprecated in favor of PIX_FMT_YUV444P and setting color_range */
+        public static final int PIX_FMT_YUVJ444P = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 15);
+        /** < XVideo Motion Acceleration via common packet passing */
+        public static final int PIX_FMT_XVMC_MPEG2_MC = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 16);
+        public static final int PIX_FMT_XVMC_MPEG2_IDCT = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 17);
+        /** < packed YUV 4:2:2, 16bpp, Cb Y0 Cr Y1 */
+        public static final int PIX_FMT_UYVY422 = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 18);
+        /** < packed YUV 4:1:1, 12bpp, Cb Y0 Y1 Cr Y2 Y3 */
+        public static final int PIX_FMT_UYYVYY411 = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 19);
+        /** < packed RGB 3:3:2,  8bpp, (msb)2B 3G 3R(lsb) */
+        public static final int PIX_FMT_BGR8 = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 20);
+        /** < packed RGB 1:2:1 bitstream,  4bpp, (msb)1B 2G 1R(lsb), a byte contains two pixels, the first pixel in the byte is the one composed by the 4 msb bits */
+        public static final int PIX_FMT_BGR4 = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 21);
+        /** < packed RGB 1:2:1,  8bpp, (msb)1B 2G 1R(lsb) */
+        public static final int PIX_FMT_BGR4_BYTE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 22);
+        /** < packed RGB 3:3:2,  8bpp, (msb)2R 3G 3B(lsb) */
+        public static final int PIX_FMT_RGB8 = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 23);
+        /** < packed RGB 1:2:1 bitstream,  4bpp, (msb)1R 2G 1B(lsb), a byte contains two pixels, the first pixel in the byte is the one composed by the 4 msb bits */
+        public static final int PIX_FMT_RGB4 = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 24);
+        /** < packed RGB 1:2:1,  8bpp, (msb)1R 2G 1B(lsb) */
+        public static final int PIX_FMT_RGB4_BYTE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 25);
+        /** < planar YUV 4:2:0, 12bpp, 1 plane for Y and 1 plane for the UV components, which are interleaved (first byte U and the following byte V) */
+        public static final int PIX_FMT_NV12 = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 26);
+        /** < as above, but U and V bytes are swapped */
+        public static final int PIX_FMT_NV21 = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 27);
+        /** < packed ARGB 8:8:8:8, 32bpp, ARGBARGB... */
+        public static final int PIX_FMT_ARGB = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 28);
+        /** < packed RGBA 8:8:8:8, 32bpp, RGBARGBA... */
+        public static final int PIX_FMT_RGBA = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 29);
+        /** < packed ABGR 8:8:8:8, 32bpp, ABGRABGR... */
+        public static final int PIX_FMT_ABGR = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 30);
+        /** < packed BGRA 8:8:8:8, 32bpp, BGRABGRA... */
+        public static final int PIX_FMT_BGRA = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 31);
+        /** <        Y        , 16bpp, big-endian */
+        public static final int PIX_FMT_GRAY16BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 32);
+        /** <        Y        , 16bpp, little-endian */
+        public static final int PIX_FMT_GRAY16LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 33);
+        /** < planar YUV 4:4:0 (1 Cr & Cb sample per 1x2 Y samples) */
+        public static final int PIX_FMT_YUV440P = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 34);
+        /** < planar YUV 4:4:0 full scale (JPEG), deprecated in favor of PIX_FMT_YUV440P and setting color_range */
+        public static final int PIX_FMT_YUVJ440P = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 35);
+        /** < planar YUV 4:2:0, 20bpp, (1 Cr & Cb sample per 2x2 Y & A samples) */
+        public static final int PIX_FMT_YUVA420P = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 36);
+        /** < H.264 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers */
+        public static final int PIX_FMT_VDPAU_H264 = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 37);
+        /** < MPEG-1 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers */
+        public static final int PIX_FMT_VDPAU_MPEG1 = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 38);
+        /** < MPEG-2 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers */
+        public static final int PIX_FMT_VDPAU_MPEG2 = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 39);
+        /** < WMV3 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers */
+        public static final int PIX_FMT_VDPAU_WMV3 = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 40);
+        /** < VC-1 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers */
+        public static final int PIX_FMT_VDPAU_VC1 = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 41);
+        /** < packed RGB 16:16:16, 48bpp, 16R, 16G, 16B, the 2-byte value for each R/G/B component is stored as big-endian */
+        public static final int PIX_FMT_RGB48BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 42);
+        /** < packed RGB 16:16:16, 48bpp, 16R, 16G, 16B, the 2-byte value for each R/G/B component is stored as little-endian */
+        public static final int PIX_FMT_RGB48LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 43);
+        /** < packed RGB 5:6:5, 16bpp, (msb)   5R 6G 5B(lsb), big-endian */
+        public static final int PIX_FMT_RGB565BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 44);
+        /** < packed RGB 5:6:5, 16bpp, (msb)   5R 6G 5B(lsb), little-endian */
+        public static final int PIX_FMT_RGB565LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 45);
+        /** < packed RGB 5:5:5, 16bpp, (msb)1A 5R 5G 5B(lsb), big-endian, most significant bit to 0 */
+        public static final int PIX_FMT_RGB555BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 46);
+        /** < packed RGB 5:5:5, 16bpp, (msb)1A 5R 5G 5B(lsb), little-endian, most significant bit to 0 */
+        public static final int PIX_FMT_RGB555LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 47);
+        /** < packed BGR 5:6:5, 16bpp, (msb)   5B 6G 5R(lsb), big-endian */
+        public static final int PIX_FMT_BGR565BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 48);
+        /** < packed BGR 5:6:5, 16bpp, (msb)   5B 6G 5R(lsb), little-endian */
+        public static final int PIX_FMT_BGR565LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 49);
+        /** < packed BGR 5:5:5, 16bpp, (msb)1A 5B 5G 5R(lsb), big-endian, most significant bit to 1 */
+        public static final int PIX_FMT_BGR555BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 50);
+        /** < packed BGR 5:5:5, 16bpp, (msb)1A 5B 5G 5R(lsb), little-endian, most significant bit to 1 */
+        public static final int PIX_FMT_BGR555LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 51);
+        /** < HW acceleration through VA API at motion compensation entry-point, Picture.data[3] contains a vaapi_render_state struct which contains macroblocks as well as various fields extracted from headers */
+        public static final int PIX_FMT_VAAPI_MOCO = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 52);
+        /** < HW acceleration through VA API at IDCT entry-point, Picture.data[3] contains a vaapi_render_state struct which contains fields extracted from headers */
+        public static final int PIX_FMT_VAAPI_IDCT = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 53);
+        /** < HW decoding through VA API, Picture.data[3] contains a vaapi_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers */
+        public static final int PIX_FMT_VAAPI_VLD = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 54);
+        /** < planar YUV 4:2:0, 24bpp, (1 Cr & Cb sample per 2x2 Y samples), little-endian */
+        public static final int PIX_FMT_YUV420P16LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 55);
+        /** < planar YUV 4:2:0, 24bpp, (1 Cr & Cb sample per 2x2 Y samples), big-endian */
+        public static final int PIX_FMT_YUV420P16BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 56);
+        /** < planar YUV 4:2:2, 32bpp, (1 Cr & Cb sample per 2x1 Y samples), little-endian */
+        public static final int PIX_FMT_YUV422P16LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 57);
+        /** < planar YUV 4:2:2, 32bpp, (1 Cr & Cb sample per 2x1 Y samples), big-endian */
+        public static final int PIX_FMT_YUV422P16BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 58);
+        /** < planar YUV 4:4:4, 48bpp, (1 Cr & Cb sample per 1x1 Y samples), little-endian */
+        public static final int PIX_FMT_YUV444P16LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 59);
+        /** < planar YUV 4:4:4, 48bpp, (1 Cr & Cb sample per 1x1 Y samples), big-endian */
+        public static final int PIX_FMT_YUV444P16BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 60);
+        /** < MPEG4 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers */
+        public static final int PIX_FMT_VDPAU_MPEG4 = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 61);
+        /** < HW decoding through DXVA2, Picture.data[3] contains a LPDIRECT3DSURFACE9 pointer */
+        public static final int PIX_FMT_DXVA2_VLD = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 62);
+        /** < packed RGB 4:4:4, 16bpp, (msb)4A 4R 4G 4B(lsb), little-endian, most significant bits to 0 */
+        public static final int PIX_FMT_RGB444LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 63);
+        /** < packed RGB 4:4:4, 16bpp, (msb)4A 4R 4G 4B(lsb), big-endian, most significant bits to 0 */
+        public static final int PIX_FMT_RGB444BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 64);
+        /** < packed BGR 4:4:4, 16bpp, (msb)4A 4B 4G 4R(lsb), little-endian, most significant bits to 1 */
+        public static final int PIX_FMT_BGR444LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 65);
+        /** < packed BGR 4:4:4, 16bpp, (msb)4A 4B 4G 4R(lsb), big-endian, most significant bits to 1 */
+        public static final int PIX_FMT_BGR444BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 66);
+        /** < 8bit gray, 8bit alpha */
+        public static final int PIX_FMT_GRAY8A = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 67);
+        /** < packed RGB 16:16:16, 48bpp, 16B, 16G, 16R, the 2-byte value for each R/G/B component is stored as big-endian */
+        public static final int PIX_FMT_BGR48BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 68);
+        /** < packed RGB 16:16:16, 48bpp, 16B, 16G, 16R, the 2-byte value for each R/G/B component is stored as little-endian */
+        public static final int PIX_FMT_BGR48LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 69);
+        /**
+         * is better<br>
+         * < planar YUV 4:2:0, 13.5bpp, (1 Cr & Cb sample per 2x2 Y samples), big-endian
+         */
+        public static final int PIX_FMT_YUV420P9BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 70);
+        /** < planar YUV 4:2:0, 13.5bpp, (1 Cr & Cb sample per 2x2 Y samples), little-endian */
+        public static final int PIX_FMT_YUV420P9LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 71);
+        /** < planar YUV 4:2:0, 15bpp, (1 Cr & Cb sample per 2x2 Y samples), big-endian */
+        public static final int PIX_FMT_YUV420P10BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 72);
+        /** < planar YUV 4:2:0, 15bpp, (1 Cr & Cb sample per 2x2 Y samples), little-endian */
+        public static final int PIX_FMT_YUV420P10LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 73);
+        /** < planar YUV 4:2:2, 20bpp, (1 Cr & Cb sample per 2x1 Y samples), big-endian */
+        public static final int PIX_FMT_YUV422P10BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 74);
+        /** < planar YUV 4:2:2, 20bpp, (1 Cr & Cb sample per 2x1 Y samples), little-endian */
+        public static final int PIX_FMT_YUV422P10LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 75);
+        /** < planar YUV 4:4:4, 27bpp, (1 Cr & Cb sample per 1x1 Y samples), big-endian */
+        public static final int PIX_FMT_YUV444P9BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 76);
+        /** < planar YUV 4:4:4, 27bpp, (1 Cr & Cb sample per 1x1 Y samples), little-endian */
+        public static final int PIX_FMT_YUV444P9LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 77);
+        /** < planar YUV 4:4:4, 30bpp, (1 Cr & Cb sample per 1x1 Y samples), big-endian */
+        public static final int PIX_FMT_YUV444P10BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 78);
+        /** < planar YUV 4:4:4, 30bpp, (1 Cr & Cb sample per 1x1 Y samples), little-endian */
+        public static final int PIX_FMT_YUV444P10LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 79);
+        /** < planar YUV 4:2:2, 18bpp, (1 Cr & Cb sample per 2x1 Y samples), big-endian */
+        public static final int PIX_FMT_YUV422P9BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 80);
+        /** < planar YUV 4:2:2, 18bpp, (1 Cr & Cb sample per 2x1 Y samples), little-endian */
+        public static final int PIX_FMT_YUV422P9LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 81);
+        /** < hardware decoding through VDA */
+        public static final int PIX_FMT_VDA_VLD = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 82);
+        /** < planar GBR 4:4:4 24bpp */
+        public static final int PIX_FMT_GBRP = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 83);
+        /** < planar GBR 4:4:4 27bpp, big endian */
+        public static final int PIX_FMT_GBRP9BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 84);
+        /** < planar GBR 4:4:4 27bpp, little endian */
+        public static final int PIX_FMT_GBRP9LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 85);
+        /** < planar GBR 4:4:4 30bpp, big endian */
+        public static final int PIX_FMT_GBRP10BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 86);
+        /** < planar GBR 4:4:4 30bpp, little endian */
+        public static final int PIX_FMT_GBRP10LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 87);
+        /** < planar GBR 4:4:4 48bpp, big endian */
+        public static final int PIX_FMT_GBRP16BE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 88);
+        /** < planar GBR 4:4:4 48bpp, little endian */
+        public static final int PIX_FMT_GBRP16LE = ((int)LibavformatLibrary.AVPixelFormat.AV_PIX_FMT_NONE + 89);
+        /** < packed RGBA 16:16:16:16, 64bpp, 16R, 16G, 16B, 16A, the 2-byte value for each R/G/B/A component is stored as big-endian */
+        public static final int PIX_FMT_RGBA64BE = 0x123;
+        /** < packed RGBA 16:16:16:16, 64bpp, 16R, 16G, 16B, 16A, the 2-byte value for each R/G/B/A component is stored as little-endian */
+        public static final int PIX_FMT_RGBA64LE = (0x123 + 1);
+        /** < packed RGBA 16:16:16:16, 64bpp, 16B, 16G, 16R, 16A, the 2-byte value for each R/G/B/A component is stored as big-endian */
+        public static final int PIX_FMT_BGRA64BE = (0x123 + 2);
+        /** < packed RGBA 16:16:16:16, 64bpp, 16B, 16G, 16R, 16A, the 2-byte value for each R/G/B/A component is stored as little-endian */
+        public static final int PIX_FMT_BGRA64LE = (0x123 + 3);
+        /** < packed RGB 8:8:8, 32bpp, 0RGB0RGB... */
+        public static final int PIX_FMT_0RGB = 0x123 + 4;
+        /** < packed RGB 8:8:8, 32bpp, RGB0RGB0... */
+        public static final int PIX_FMT_RGB0 = (0x123 + 4 + 1);
+        /** < packed BGR 8:8:8, 32bpp, 0BGR0BGR... */
+        public static final int PIX_FMT_0BGR = (0x123 + 4 + 2);
+        /** < packed BGR 8:8:8, 32bpp, BGR0BGR0... */
+        public static final int PIX_FMT_BGR0 = (0x123 + 4 + 3);
+        /** < planar YUV 4:4:4 32bpp, (1 Cr & Cb sample per 1x1 Y & A samples) */
+        public static final int PIX_FMT_YUVA444P = (0x123 + 4 + 4);
+        /** < planar YUV 4:2:2 24bpp, (1 Cr & Cb sample per 2x1 Y & A samples) */
+        public static final int PIX_FMT_YUVA422P = (0x123 + 4 + 5);
+        /** < planar YUV 4:2:0,18bpp, (1 Cr & Cb sample per 2x2 Y samples), big-endian */
+        public static final int PIX_FMT_YUV420P12BE = (0x123 + 4 + 6);
+        /** < planar YUV 4:2:0,18bpp, (1 Cr & Cb sample per 2x2 Y samples), little-endian */
+        public static final int PIX_FMT_YUV420P12LE = (0x123 + 4 + 7);
+        /** < planar YUV 4:2:0,21bpp, (1 Cr & Cb sample per 2x2 Y samples), big-endian */
+        public static final int PIX_FMT_YUV420P14BE = (0x123 + 4 + 8);
+        /** < planar YUV 4:2:0,21bpp, (1 Cr & Cb sample per 2x2 Y samples), little-endian */
+        public static final int PIX_FMT_YUV420P14LE = (0x123 + 4 + 9);
+        /** < planar YUV 4:2:2,24bpp, (1 Cr & Cb sample per 2x1 Y samples), big-endian */
+        public static final int PIX_FMT_YUV422P12BE = (0x123 + 4 + 10);
+        /** < planar YUV 4:2:2,24bpp, (1 Cr & Cb sample per 2x1 Y samples), little-endian */
+        public static final int PIX_FMT_YUV422P12LE = (0x123 + 4 + 11);
+        /** < planar YUV 4:2:2,28bpp, (1 Cr & Cb sample per 2x1 Y samples), big-endian */
+        public static final int PIX_FMT_YUV422P14BE = (0x123 + 4 + 12);
+        /** < planar YUV 4:2:2,28bpp, (1 Cr & Cb sample per 2x1 Y samples), little-endian */
+        public static final int PIX_FMT_YUV422P14LE = (0x123 + 4 + 13);
+        /** < planar YUV 4:4:4,36bpp, (1 Cr & Cb sample per 1x1 Y samples), big-endian */
+        public static final int PIX_FMT_YUV444P12BE = (0x123 + 4 + 14);
+        /** < planar YUV 4:4:4,36bpp, (1 Cr & Cb sample per 1x1 Y samples), little-endian */
+        public static final int PIX_FMT_YUV444P12LE = (0x123 + 4 + 15);
+        /** < planar YUV 4:4:4,42bpp, (1 Cr & Cb sample per 1x1 Y samples), big-endian */
+        public static final int PIX_FMT_YUV444P14BE = (0x123 + 4 + 16);
+        /** < planar YUV 4:4:4,42bpp, (1 Cr & Cb sample per 1x1 Y samples), little-endian */
+        public static final int PIX_FMT_YUV444P14LE = (0x123 + 4 + 17);
+        /** < planar GBR 4:4:4 36bpp, big endian */
+        public static final int PIX_FMT_GBRP12BE = (0x123 + 4 + 18);
+        /** < planar GBR 4:4:4 36bpp, little endian */
+        public static final int PIX_FMT_GBRP12LE = (0x123 + 4 + 19);
+        /** < planar GBR 4:4:4 42bpp, big endian */
+        public static final int PIX_FMT_GBRP14BE = (0x123 + 4 + 20);
+        /** < planar GBR 4:4:4 42bpp, little endian */
+        public static final int PIX_FMT_GBRP14LE = (0x123 + 4 + 21);
+        /** < number of pixel formats, DO NOT USE THIS if you want to link with shared libav* because the number of formats might differ between versions */
+        public static final int PIX_FMT_NB = (0x123 + 4 + 22);
+    };
+    /**
+     * Audio Sample Formats<br>
+     * * @par<br>
+     * The data described by the sample format is always in native-endian order.<br>
+     * Sample values can be expressed by native C types, hence the lack of a signed<br>
+     * 24-bit sample format even though it is a common raw audio data format.<br>
+     * * @par<br>
+     * The floating-point formats are based on full volume being in the range<br>
+     * [-1.0, 1.0]. Any values outside this range are beyond full volume level.<br>
+     * * @par<br>
+     * The data layout as used in av_samples_fill_arrays() and elsewhere in FFmpeg<br>
+     * (such as AVFrame in libavcodec) is as follows:<br>
+     * * For planar sample formats, each audio channel is in a separate data plane,<br>
+     * and linesize is the buffer size, in bytes, for a single plane. All data<br>
+     * planes must be the same size. For packed sample formats, only the first data<br>
+     * plane is used, and samples for each channel are interleaved. In this case,<br>
+     * linesize is the buffer size, in bytes, for the 1 plane.<br>
+     * enum values
+     */
+    public static interface AVSampleFormat {
+        public static final int AV_SAMPLE_FMT_NONE = -1;
+        /** < unsigned 8 bits */
+        public static final int AV_SAMPLE_FMT_U8 = 0;
+        /** < signed 16 bits */
+        public static final int AV_SAMPLE_FMT_S16 = 1;
+        /** < signed 32 bits */
+        public static final int AV_SAMPLE_FMT_S32 = 2;
+        /** < float */
+        public static final int AV_SAMPLE_FMT_FLT = 3;
+        /** < double */
+        public static final int AV_SAMPLE_FMT_DBL = 4;
+        /** < unsigned 8 bits, planar */
+        public static final int AV_SAMPLE_FMT_U8P = 5;
+        /** < signed 16 bits, planar */
+        public static final int AV_SAMPLE_FMT_S16P = 6;
+        /** < signed 32 bits, planar */
+        public static final int AV_SAMPLE_FMT_S32P = 7;
+        /** < float, planar */
+        public static final int AV_SAMPLE_FMT_FLTP = 8;
+        /** < double, planar */
+        public static final int AV_SAMPLE_FMT_DBLP = 9;
+        /** < Number of sample formats. DO NOT USE if linking dynamically */
+        public static final int AV_SAMPLE_FMT_NB = 10;
+    };
+    /** enum values */
+    public static interface AVMatrixEncoding {
+        public static final int AV_MATRIX_ENCODING_NONE = 0;
+        public static final int AV_MATRIX_ENCODING_DOLBY = 1;
+        public static final int AV_MATRIX_ENCODING_DPLII = 2;
+        public static final int AV_MATRIX_ENCODING_NB = 3;
+    };
+    /** enum values */
+    public static interface AVFrameSideDataType {
+        /** The data is the AVPanScan struct defined in libavcodec. */
+        public static final int AV_FRAME_DATA_PANSCAN = 0;
+    };
+    /**
+     * Identify the syntax and semantics of the bitstream.<br>
+     * The principle is roughly:<br>
+     * Two decoders with the same ID can decode the same streams.<br>
+     * Two encoders with the same ID can encode compatible streams.<br>
+     * There may be slight deviations from the principle due to implementation<br>
+     * details.<br>
+     * * If you add a codec ID to this list, add it so that<br>
+     * 1. no value of a existing codec ID changes (that would break ABI),<br>
+     * 2. Give it a value which when taken as ASCII is recognized uniquely by a human as this specific codec.<br>
+     *    This ensures that 2 forks can independently add AVCodecIDs without producing conflicts.<br>
+     * * After adding new codec IDs, do not forget to add an entry to the codec<br>
+     * descriptor list and bump libavcodec minor version.<br>
+     * enum values
+     */
+    public static interface AVCodecID {
+        public static final int AV_CODEC_ID_NONE = 0;
+        /** video codecs */
+        public static final int AV_CODEC_ID_MPEG1VIDEO = 1;
+        /** < preferred ID for MPEG-1/2 video decoding */
+        public static final int AV_CODEC_ID_MPEG2VIDEO = 2;
+        public static final int AV_CODEC_ID_MPEG2VIDEO_XVMC = 3;
+        public static final int AV_CODEC_ID_H261 = 4;
+        public static final int AV_CODEC_ID_H263 = 5;
+        public static final int AV_CODEC_ID_RV10 = 6;
+        public static final int AV_CODEC_ID_RV20 = 7;
+        public static final int AV_CODEC_ID_MJPEG = 8;
+        public static final int AV_CODEC_ID_MJPEGB = 9;
+        public static final int AV_CODEC_ID_LJPEG = 10;
+        public static final int AV_CODEC_ID_SP5X = 11;
+        public static final int AV_CODEC_ID_JPEGLS = 12;
+        public static final int AV_CODEC_ID_MPEG4 = 13;
+        public static final int AV_CODEC_ID_RAWVIDEO = 14;
+        public static final int AV_CODEC_ID_MSMPEG4V1 = 15;
+        public static final int AV_CODEC_ID_MSMPEG4V2 = 16;
+        public static final int AV_CODEC_ID_MSMPEG4V3 = 17;
+        public static final int AV_CODEC_ID_WMV1 = 18;
+        public static final int AV_CODEC_ID_WMV2 = 19;
+        public static final int AV_CODEC_ID_H263P = 20;
+        public static final int AV_CODEC_ID_H263I = 21;
+        public static final int AV_CODEC_ID_FLV1 = 22;
+        public static final int AV_CODEC_ID_SVQ1 = 23;
+        public static final int AV_CODEC_ID_SVQ3 = 24;
+        public static final int AV_CODEC_ID_DVVIDEO = 25;
+        public static final int AV_CODEC_ID_HUFFYUV = 26;
+        public static final int AV_CODEC_ID_CYUV = 27;
+        public static final int AV_CODEC_ID_H264 = 28;
+        public static final int AV_CODEC_ID_INDEO3 = 29;
+        public static final int AV_CODEC_ID_VP3 = 30;
+        public static final int AV_CODEC_ID_THEORA = 31;
+        public static final int AV_CODEC_ID_ASV1 = 32;
+        public static final int AV_CODEC_ID_ASV2 = 33;
+        public static final int AV_CODEC_ID_FFV1 = 34;
+        public static final int AV_CODEC_ID_4XM = 35;
+        public static final int AV_CODEC_ID_VCR1 = 36;
+        public static final int AV_CODEC_ID_CLJR = 37;
+        public static final int AV_CODEC_ID_MDEC = 38;
+        public static final int AV_CODEC_ID_ROQ = 39;
+        public static final int AV_CODEC_ID_INTERPLAY_VIDEO = 40;
+        public static final int AV_CODEC_ID_XAN_WC3 = 41;
+        public static final int AV_CODEC_ID_XAN_WC4 = 42;
+        public static final int AV_CODEC_ID_RPZA = 43;
+        public static final int AV_CODEC_ID_CINEPAK = 44;
+        public static final int AV_CODEC_ID_WS_VQA = 45;
+        public static final int AV_CODEC_ID_MSRLE = 46;
+        public static final int AV_CODEC_ID_MSVIDEO1 = 47;
+        public static final int AV_CODEC_ID_IDCIN = 48;
+        public static final int AV_CODEC_ID_8BPS = 49;
+        public static final int AV_CODEC_ID_SMC = 50;
+        public static final int AV_CODEC_ID_FLIC = 51;
+        public static final int AV_CODEC_ID_TRUEMOTION1 = 52;
+        public static final int AV_CODEC_ID_VMDVIDEO = 53;
+        public static final int AV_CODEC_ID_MSZH = 54;
+        public static final int AV_CODEC_ID_ZLIB = 55;
+        public static final int AV_CODEC_ID_QTRLE = 56;
+        public static final int AV_CODEC_ID_TSCC = 57;
+        public static final int AV_CODEC_ID_ULTI = 58;
+        public static final int AV_CODEC_ID_QDRAW = 59;
+        public static final int AV_CODEC_ID_VIXL = 60;
+        public static final int AV_CODEC_ID_QPEG = 61;
+        public static final int AV_CODEC_ID_PNG = 62;
+        public static final int AV_CODEC_ID_PPM = 63;
+        public static final int AV_CODEC_ID_PBM = 64;
+        public static final int AV_CODEC_ID_PGM = 65;
+        public static final int AV_CODEC_ID_PGMYUV = 66;
+        public static final int AV_CODEC_ID_PAM = 67;
+        public static final int AV_CODEC_ID_FFVHUFF = 68;
+        public static final int AV_CODEC_ID_RV30 = 69;
+        public static final int AV_CODEC_ID_RV40 = 70;
+        public static final int AV_CODEC_ID_VC1 = 71;
+        public static final int AV_CODEC_ID_WMV3 = 72;
+        public static final int AV_CODEC_ID_LOCO = 73;
+        public static final int AV_CODEC_ID_WNV1 = 74;
+        public static final int AV_CODEC_ID_AASC = 75;
+        public static final int AV_CODEC_ID_INDEO2 = 76;
+        public static final int AV_CODEC_ID_FRAPS = 77;
+        public static final int AV_CODEC_ID_TRUEMOTION2 = 78;
+        public static final int AV_CODEC_ID_BMP = 79;
+        public static final int AV_CODEC_ID_CSCD = 80;
+        public static final int AV_CODEC_ID_MMVIDEO = 81;
+        public static final int AV_CODEC_ID_ZMBV = 82;
+        public static final int AV_CODEC_ID_AVS = 83;
+        public static final int AV_CODEC_ID_SMACKVIDEO = 84;
+        public static final int AV_CODEC_ID_NUV = 85;
+        public static final int AV_CODEC_ID_KMVC = 86;
+        public static final int AV_CODEC_ID_FLASHSV = 87;
+        public static final int AV_CODEC_ID_CAVS = 88;
+        public static final int AV_CODEC_ID_JPEG2000 = 89;
+        public static final int AV_CODEC_ID_VMNC = 90;
+        public static final int AV_CODEC_ID_VP5 = 91;
+        public static final int AV_CODEC_ID_VP6 = 92;
+        public static final int AV_CODEC_ID_VP6F = 93;
+        public static final int AV_CODEC_ID_TARGA = 94;
+        public static final int AV_CODEC_ID_DSICINVIDEO = 95;
+        public static final int AV_CODEC_ID_TIERTEXSEQVIDEO = 96;
+        public static final int AV_CODEC_ID_TIFF = 97;
+        public static final int AV_CODEC_ID_GIF = 98;
+        public static final int AV_CODEC_ID_DXA = 99;
+        public static final int AV_CODEC_ID_DNXHD = 100;
+        public static final int AV_CODEC_ID_THP = 101;
+        public static final int AV_CODEC_ID_SGI = 102;
+        public static final int AV_CODEC_ID_C93 = 103;
+        public static final int AV_CODEC_ID_BETHSOFTVID = 104;
+        public static final int AV_CODEC_ID_PTX = 105;
+        public static final int AV_CODEC_ID_TXD = 106;
+        public static final int AV_CODEC_ID_VP6A = 107;
+        public static final int AV_CODEC_ID_AMV = 108;
+        public static final int AV_CODEC_ID_VB = 109;
+        public static final int AV_CODEC_ID_PCX = 110;
+        public static final int AV_CODEC_ID_SUNRAST = 111;
+        public static final int AV_CODEC_ID_INDEO4 = 112;
+        public static final int AV_CODEC_ID_INDEO5 = 113;
+        public static final int AV_CODEC_ID_MIMIC = 114;
+        public static final int AV_CODEC_ID_RL2 = 115;
+        public static final int AV_CODEC_ID_ESCAPE124 = 116;
+        public static final int AV_CODEC_ID_DIRAC = 117;
+        public static final int AV_CODEC_ID_BFI = 118;
+        public static final int AV_CODEC_ID_CMV = 119;
+        public static final int AV_CODEC_ID_MOTIONPIXELS = 120;
+        public static final int AV_CODEC_ID_TGV = 121;
+        public static final int AV_CODEC_ID_TGQ = 122;
+        public static final int AV_CODEC_ID_TQI = 123;
+        public static final int AV_CODEC_ID_AURA = 124;
+        public static final int AV_CODEC_ID_AURA2 = 125;
+        public static final int AV_CODEC_ID_V210X = 126;
+        public static final int AV_CODEC_ID_TMV = 127;
+        public static final int AV_CODEC_ID_V210 = 128;
+        public static final int AV_CODEC_ID_DPX = 129;
+        public static final int AV_CODEC_ID_MAD = 130;
+        public static final int AV_CODEC_ID_FRWU = 131;
+        public static final int AV_CODEC_ID_FLASHSV2 = 132;
+        public static final int AV_CODEC_ID_CDGRAPHICS = 133;
+        public static final int AV_CODEC_ID_R210 = 134;
+        public static final int AV_CODEC_ID_ANM = 135;
+        public static final int AV_CODEC_ID_BINKVIDEO = 136;
+        public static final int AV_CODEC_ID_IFF_ILBM = 137;
+        public static final int AV_CODEC_ID_IFF_BYTERUN1 = 138;
+        public static final int AV_CODEC_ID_KGV1 = 139;
+        public static final int AV_CODEC_ID_YOP = 140;
+        public static final int AV_CODEC_ID_VP8 = 141;
+        public static final int AV_CODEC_ID_PICTOR = 142;
+        public static final int AV_CODEC_ID_ANSI = 143;
+        public static final int AV_CODEC_ID_A64_MULTI = 144;
+        public static final int AV_CODEC_ID_A64_MULTI5 = 145;
+        public static final int AV_CODEC_ID_R10K = 146;
+        public static final int AV_CODEC_ID_MXPEG = 147;
+        public static final int AV_CODEC_ID_LAGARITH = 148;
+        public static final int AV_CODEC_ID_PRORES = 149;
+        public static final int AV_CODEC_ID_JV = 150;
+        public static final int AV_CODEC_ID_DFA = 151;
+        public static final int AV_CODEC_ID_WMV3IMAGE = 152;
+        public static final int AV_CODEC_ID_VC1IMAGE = 153;
+        public static final int AV_CODEC_ID_UTVIDEO = 154;
+        public static final int AV_CODEC_ID_BMV_VIDEO = 155;
+        public static final int AV_CODEC_ID_VBLE = 156;
+        public static final int AV_CODEC_ID_DXTORY = 157;
+        public static final int AV_CODEC_ID_V410 = 158;
+        public static final int AV_CODEC_ID_XWD = 159;
+        public static final int AV_CODEC_ID_CDXL = 160;
+        public static final int AV_CODEC_ID_XBM = 161;
+        public static final int AV_CODEC_ID_ZEROCODEC = 162;
+        public static final int AV_CODEC_ID_MSS1 = 163;
+        public static final int AV_CODEC_ID_MSA1 = 164;
+        public static final int AV_CODEC_ID_TSCC2 = 165;
+        public static final int AV_CODEC_ID_MTS2 = 166;
+        public static final int AV_CODEC_ID_CLLC = 167;
+        public static final int AV_CODEC_ID_MSS2 = 168;
+        public static final int AV_CODEC_ID_VP9 = 169;
+        public static final int AV_CODEC_ID_AIC = 170;
+        public static final int AV_CODEC_ID_ESCAPE130_DEPRECATED = 171;
+        public static final int AV_CODEC_ID_G2M_DEPRECATED = 172;
+        public static final int AV_CODEC_ID_BRENDER_PIX = (('X') | (('I') << 8) | (('P') << 16) | (('B') << 24));
+        public static final int AV_CODEC_ID_Y41P = (('P') | (('1') << 8) | (('4') << 16) | (('Y') << 24));
+        public static final int AV_CODEC_ID_ESCAPE130 = (('0') | (('3') << 8) | (('1') << 16) | (('E') << 24));
+        public static final int AV_CODEC_ID_EXR = (('R') | (('X') << 8) | (('E') << 16) | (('0') << 24));
+        public static final int AV_CODEC_ID_AVRP = (('P') | (('R') << 8) | (('V') << 16) | (('A') << 24));
+        public static final int AV_CODEC_ID_012V = (('V') | (('2') << 8) | (('1') << 16) | (('0') << 24));
+        public static final int AV_CODEC_ID_G2M = (('M') | (('2') << 8) | (('G') << 16) | ((0) << 24));
+        public static final int AV_CODEC_ID_AVUI = (('I') | (('U') << 8) | (('V') << 16) | (('A') << 24));
+        public static final int AV_CODEC_ID_AYUV = (('V') | (('U') << 8) | (('Y') << 16) | (('A') << 24));
+        public static final int AV_CODEC_ID_TARGA_Y216 = (('6') | (('1') << 8) | (('2') << 16) | (('T') << 24));
+        public static final int AV_CODEC_ID_V308 = (('8') | (('0') << 8) | (('3') << 16) | (('V') << 24));
+        public static final int AV_CODEC_ID_V408 = (('8') | (('0') << 8) | (('4') << 16) | (('V') << 24));
+        public static final int AV_CODEC_ID_YUV4 = (('4') | (('V') << 8) | (('U') << 16) | (('Y') << 24));
+        public static final int AV_CODEC_ID_SANM = (('M') | (('N') << 8) | (('A') << 16) | (('S') << 24));
+        public static final int AV_CODEC_ID_PAF_VIDEO = (('V') | (('F') << 8) | (('A') << 16) | (('P') << 24));
+        public static final int AV_CODEC_ID_AVRN = (('n') | (('R') << 8) | (('V') << 16) | (('A') << 24));
+        public static final int AV_CODEC_ID_CPIA = (('A') | (('I') << 8) | (('P') << 16) | (('C') << 24));
+        public static final int AV_CODEC_ID_XFACE = (('C') | (('A') << 8) | (('F') << 16) | (('X') << 24));
+        public static final int AV_CODEC_ID_SGIRLE = (('R') | (('I') << 8) | (('G') << 16) | (('S') << 24));
+        public static final int AV_CODEC_ID_MVC1 = (('1') | (('C') << 8) | (('V') << 16) | (('M') << 24));
+        public static final int AV_CODEC_ID_MVC2 = (('2') | (('C') << 8) | (('V') << 16) | (('M') << 24));
+        public static final int AV_CODEC_ID_SNOW = (('W') | (('O') << 8) | (('N') << 16) | (('S') << 24));
+        public static final int AV_CODEC_ID_WEBP = (('P') | (('B') << 8) | (('E') << 16) | (('W') << 24));
+        public static final int AV_CODEC_ID_SMVJPEG = (('J') | (('V') << 8) | (('M') << 16) | (('S') << 24));
+        /**
+         * various PCM "codecs"<br>
+         * < A dummy id pointing at the start of audio codecs
+         */
+        public static final int AV_CODEC_ID_FIRST_AUDIO = 0x10000;
+        public static final int AV_CODEC_ID_PCM_S16LE = 0x10000;
+        public static final int AV_CODEC_ID_PCM_S16BE = (0x10000 + 1);
+        public static final int AV_CODEC_ID_PCM_U16LE = (0x10000 + 2);
+        public static final int AV_CODEC_ID_PCM_U16BE = (0x10000 + 3);
+        public static final int AV_CODEC_ID_PCM_S8 = (0x10000 + 4);
+        public static final int AV_CODEC_ID_PCM_U8 = (0x10000 + 5);
+        public static final int AV_CODEC_ID_PCM_MULAW = (0x10000 + 6);
+        public static final int AV_CODEC_ID_PCM_ALAW = (0x10000 + 7);
+        public static final int AV_CODEC_ID_PCM_S32LE = (0x10000 + 8);
+        public static final int AV_CODEC_ID_PCM_S32BE = (0x10000 + 9);
+        public static final int AV_CODEC_ID_PCM_U32LE = (0x10000 + 10);
+        public static final int AV_CODEC_ID_PCM_U32BE = (0x10000 + 11);
+        public static final int AV_CODEC_ID_PCM_S24LE = (0x10000 + 12);
+        public static final int AV_CODEC_ID_PCM_S24BE = (0x10000 + 13);
+        public static final int AV_CODEC_ID_PCM_U24LE = (0x10000 + 14);
+        public static final int AV_CODEC_ID_PCM_U24BE = (0x10000 + 15);
+        public static final int AV_CODEC_ID_PCM_S24DAUD = (0x10000 + 16);
+        public static final int AV_CODEC_ID_PCM_ZORK = (0x10000 + 17);
+        public static final int AV_CODEC_ID_PCM_S16LE_PLANAR = (0x10000 + 18);
+        public static final int AV_CODEC_ID_PCM_DVD = (0x10000 + 19);
+        public static final int AV_CODEC_ID_PCM_F32BE = (0x10000 + 20);
+        public static final int AV_CODEC_ID_PCM_F32LE = (0x10000 + 21);
+        public static final int AV_CODEC_ID_PCM_F64BE = (0x10000 + 22);
+        public static final int AV_CODEC_ID_PCM_F64LE = (0x10000 + 23);
+        public static final int AV_CODEC_ID_PCM_BLURAY = (0x10000 + 24);
+        public static final int AV_CODEC_ID_PCM_LXF = (0x10000 + 25);
+        public static final int AV_CODEC_ID_S302M = (0x10000 + 26);
+        public static final int AV_CODEC_ID_PCM_S8_PLANAR = (0x10000 + 27);
+        public static final int AV_CODEC_ID_PCM_S24LE_PLANAR = (('P') | (('S') << 8) | (('P') << 16) | ((24) << 24));
+        public static final int AV_CODEC_ID_PCM_S32LE_PLANAR = (('P') | (('S') << 8) | (('P') << 16) | ((32) << 24));
+        public static final int AV_CODEC_ID_PCM_S16BE_PLANAR = ((16) | (('P') << 8) | (('S') << 16) | (('P') << 24));
+        /** various ADPCM codecs */
+        public static final int AV_CODEC_ID_ADPCM_IMA_QT = 0x11000;
+        public static final int AV_CODEC_ID_ADPCM_IMA_WAV = (0x11000 + 1);
+        public static final int AV_CODEC_ID_ADPCM_IMA_DK3 = (0x11000 + 2);
+        public static final int AV_CODEC_ID_ADPCM_IMA_DK4 = (0x11000 + 3);
+        public static final int AV_CODEC_ID_ADPCM_IMA_WS = (0x11000 + 4);
+        public static final int AV_CODEC_ID_ADPCM_IMA_SMJPEG = (0x11000 + 5);
+        public static final int AV_CODEC_ID_ADPCM_MS = (0x11000 + 6);
+        public static final int AV_CODEC_ID_ADPCM_4XM = (0x11000 + 7);
+        public static final int AV_CODEC_ID_ADPCM_XA = (0x11000 + 8);
+        public static final int AV_CODEC_ID_ADPCM_ADX = (0x11000 + 9);
+        public static final int AV_CODEC_ID_ADPCM_EA = (0x11000 + 10);
+        public static final int AV_CODEC_ID_ADPCM_G726 = (0x11000 + 11);
+        public static final int AV_CODEC_ID_ADPCM_CT = (0x11000 + 12);
+        public static final int AV_CODEC_ID_ADPCM_SWF = (0x11000 + 13);
+        public static final int AV_CODEC_ID_ADPCM_YAMAHA = (0x11000 + 14);
+        public static final int AV_CODEC_ID_ADPCM_SBPRO_4 = (0x11000 + 15);
+        public static final int AV_CODEC_ID_ADPCM_SBPRO_3 = (0x11000 + 16);
+        public static final int AV_CODEC_ID_ADPCM_SBPRO_2 = (0x11000 + 17);
+        public static final int AV_CODEC_ID_ADPCM_THP = (0x11000 + 18);
+        public static final int AV_CODEC_ID_ADPCM_IMA_AMV = (0x11000 + 19);
+        public static final int AV_CODEC_ID_ADPCM_EA_R1 = (0x11000 + 20);
+        public static final int AV_CODEC_ID_ADPCM_EA_R3 = (0x11000 + 21);
+        public static final int AV_CODEC_ID_ADPCM_EA_R2 = (0x11000 + 22);
+        public static final int AV_CODEC_ID_ADPCM_IMA_EA_SEAD = (0x11000 + 23);
+        public static final int AV_CODEC_ID_ADPCM_IMA_EA_EACS = (0x11000 + 24);
+        public static final int AV_CODEC_ID_ADPCM_EA_XAS = (0x11000 + 25);
+        public static final int AV_CODEC_ID_ADPCM_EA_MAXIS_XA = (0x11000 + 26);
+        public static final int AV_CODEC_ID_ADPCM_IMA_ISS = (0x11000 + 27);
+        public static final int AV_CODEC_ID_ADPCM_G722 = (0x11000 + 28);
+        public static final int AV_CODEC_ID_ADPCM_IMA_APC = (0x11000 + 29);
+        public static final int AV_CODEC_ID_VIMA = (('A') | (('M') << 8) | (('I') << 16) | (('V') << 24));
+        public static final int AV_CODEC_ID_ADPCM_AFC = ((' ') | (('C') << 8) | (('F') << 16) | (('A') << 24));
+        public static final int AV_CODEC_ID_ADPCM_IMA_OKI = ((' ') | (('I') << 8) | (('K') << 16) | (('O') << 24));
+        public static final int AV_CODEC_ID_ADPCM_DTK = ((' ') | (('K') << 8) | (('T') << 16) | (('D') << 24));
+        public static final int AV_CODEC_ID_ADPCM_IMA_RAD = ((' ') | (('D') << 8) | (('A') << 16) | (('R') << 24));
+        /** AMR */
+        public static final int AV_CODEC_ID_AMR_NB = 0x12000;
+        public static final int AV_CODEC_ID_AMR_WB = (0x12000 + 1);
+        /** RealAudio codecs */
+        public static final int AV_CODEC_ID_RA_144 = 0x13000;
+        public static final int AV_CODEC_ID_RA_288 = (0x13000 + 1);
+        /** various DPCM codecs */
+        public static final int AV_CODEC_ID_ROQ_DPCM = 0x14000;
+        public static final int AV_CODEC_ID_INTERPLAY_DPCM = (0x14000 + 1);
+        public static final int AV_CODEC_ID_XAN_DPCM = (0x14000 + 2);
+        public static final int AV_CODEC_ID_SOL_DPCM = (0x14000 + 3);
+        /** audio codecs */
+        public static final int AV_CODEC_ID_MP2 = 0x15000;
+        /** < preferred ID for decoding MPEG audio layer 1, 2 or 3 */
+        public static final int AV_CODEC_ID_MP3 = (0x15000 + 1);
+        public static final int AV_CODEC_ID_AAC = (0x15000 + 2);
+        public static final int AV_CODEC_ID_AC3 = (0x15000 + 3);
+        public static final int AV_CODEC_ID_DTS = (0x15000 + 4);
+        public static final int AV_CODEC_ID_VORBIS = (0x15000 + 5);
+        public static final int AV_CODEC_ID_DVAUDIO = (0x15000 + 6);
+        public static final int AV_CODEC_ID_WMAV1 = (0x15000 + 7);
+        public static final int AV_CODEC_ID_WMAV2 = (0x15000 + 8);
+        public static final int AV_CODEC_ID_MACE3 = (0x15000 + 9);
+        public static final int AV_CODEC_ID_MACE6 = (0x15000 + 10);
+        public static final int AV_CODEC_ID_VMDAUDIO = (0x15000 + 11);
+        public static final int AV_CODEC_ID_FLAC = (0x15000 + 12);
+        public static final int AV_CODEC_ID_MP3ADU = (0x15000 + 13);
+        public static final int AV_CODEC_ID_MP3ON4 = (0x15000 + 14);
+        public static final int AV_CODEC_ID_SHORTEN = (0x15000 + 15);
+        public static final int AV_CODEC_ID_ALAC = (0x15000 + 16);
+        public static final int AV_CODEC_ID_WESTWOOD_SND1 = (0x15000 + 17);
+        /** < as in Berlin toast format */
+        public static final int AV_CODEC_ID_GSM = (0x15000 + 18);
+        public static final int AV_CODEC_ID_QDM2 = (0x15000 + 19);
+        public static final int AV_CODEC_ID_COOK = (0x15000 + 20);
+        public static final int AV_CODEC_ID_TRUESPEECH = (0x15000 + 21);
+        public static final int AV_CODEC_ID_TTA = (0x15000 + 22);
+        public static final int AV_CODEC_ID_SMACKAUDIO = (0x15000 + 23);
+        public static final int AV_CODEC_ID_QCELP = (0x15000 + 24);
+        public static final int AV_CODEC_ID_WAVPACK = (0x15000 + 25);
+        public static final int AV_CODEC_ID_DSICINAUDIO = (0x15000 + 26);
+        public static final int AV_CODEC_ID_IMC = (0x15000 + 27);
+        public static final int AV_CODEC_ID_MUSEPACK7 = (0x15000 + 28);
+        public static final int AV_CODEC_ID_MLP = (0x15000 + 29);
+        /** as found in WAV */
+        public static final int AV_CODEC_ID_GSM_MS = (0x15000 + 30);
+        public static final int AV_CODEC_ID_ATRAC3 = (0x15000 + 31);
+        public static final int AV_CODEC_ID_VOXWARE = (0x15000 + 32);
+        public static final int AV_CODEC_ID_APE = (0x15000 + 33);
+        public static final int AV_CODEC_ID_NELLYMOSER = (0x15000 + 34);
+        public static final int AV_CODEC_ID_MUSEPACK8 = (0x15000 + 35);
+        public static final int AV_CODEC_ID_SPEEX = (0x15000 + 36);
+        public static final int AV_CODEC_ID_WMAVOICE = (0x15000 + 37);
+        public static final int AV_CODEC_ID_WMAPRO = (0x15000 + 38);
+        public static final int AV_CODEC_ID_WMALOSSLESS = (0x15000 + 39);
+        public static final int AV_CODEC_ID_ATRAC3P = (0x15000 + 40);
+        public static final int AV_CODEC_ID_EAC3 = (0x15000 + 41);
+        public static final int AV_CODEC_ID_SIPR = (0x15000 + 42);
+        public static final int AV_CODEC_ID_MP1 = (0x15000 + 43);
+        public static final int AV_CODEC_ID_TWINVQ = (0x15000 + 44);
+        public static final int AV_CODEC_ID_TRUEHD = (0x15000 + 45);
+        public static final int AV_CODEC_ID_MP4ALS = (0x15000 + 46);
+        public static final int AV_CODEC_ID_ATRAC1 = (0x15000 + 47);
+        public static final int AV_CODEC_ID_BINKAUDIO_RDFT = (0x15000 + 48);
+        public static final int AV_CODEC_ID_BINKAUDIO_DCT = (0x15000 + 49);
+        public static final int AV_CODEC_ID_AAC_LATM = (0x15000 + 50);
+        public static final int AV_CODEC_ID_QDMC = (0x15000 + 51);
+        public static final int AV_CODEC_ID_CELT = (0x15000 + 52);
+        public static final int AV_CODEC_ID_G723_1 = (0x15000 + 53);
+        public static final int AV_CODEC_ID_G729 = (0x15000 + 54);
+        public static final int AV_CODEC_ID_8SVX_EXP = (0x15000 + 55);
+        public static final int AV_CODEC_ID_8SVX_FIB = (0x15000 + 56);
+        public static final int AV_CODEC_ID_BMV_AUDIO = (0x15000 + 57);
+        public static final int AV_CODEC_ID_RALF = (0x15000 + 58);
+        public static final int AV_CODEC_ID_IAC = (0x15000 + 59);
+        public static final int AV_CODEC_ID_ILBC = (0x15000 + 60);
+        public static final int AV_CODEC_ID_OPUS_DEPRECATED = (0x15000 + 61);
+        public static final int AV_CODEC_ID_COMFORT_NOISE = (0x15000 + 62);
+        public static final int AV_CODEC_ID_TAK_DEPRECATED = (0x15000 + 63);
+        public static final int AV_CODEC_ID_FFWAVESYNTH = (('S') | (('W') << 8) | (('F') << 16) | (('F') << 24));
+        public static final int AV_CODEC_ID_SONIC = (('C') | (('N') << 8) | (('O') << 16) | (('S') << 24));
+        public static final int AV_CODEC_ID_SONIC_LS = (('L') | (('N') << 8) | (('O') << 16) | (('S') << 24));
+        public static final int AV_CODEC_ID_PAF_AUDIO = (('A') | (('F') << 8) | (('A') << 16) | (('P') << 24));
+        public static final int AV_CODEC_ID_OPUS = (('S') | (('U') << 8) | (('P') << 16) | (('O') << 24));
+        public static final int AV_CODEC_ID_TAK = (('K') | (('a') << 8) | (('B') << 16) | (('t') << 24));
+        public static final int AV_CODEC_ID_EVRC = (('c') | (('v') << 8) | (('e') << 16) | (('s') << 24));
+        public static final int AV_CODEC_ID_SMV = (('v') | (('m') << 8) | (('s') << 16) | (('s') << 24));
+        /**
+         * subtitle codecs<br>
+         * < A dummy ID pointing at the start of subtitle codecs.
+         */
+        public static final int AV_CODEC_ID_FIRST_SUBTITLE = 0x17000;
+        public static final int AV_CODEC_ID_DVD_SUBTITLE = 0x17000;
+        public static final int AV_CODEC_ID_DVB_SUBTITLE = (0x17000 + 1);
+        /** < raw UTF-8 text */
+        public static final int AV_CODEC_ID_TEXT = (0x17000 + 2);
+        public static final int AV_CODEC_ID_XSUB = (0x17000 + 3);
+        public static final int AV_CODEC_ID_SSA = (0x17000 + 4);
+        public static final int AV_CODEC_ID_MOV_TEXT = (0x17000 + 5);
+        public static final int AV_CODEC_ID_HDMV_PGS_SUBTITLE = (0x17000 + 6);
+        public static final int AV_CODEC_ID_DVB_TELETEXT = (0x17000 + 7);
+        public static final int AV_CODEC_ID_SRT = (0x17000 + 8);
+        public static final int AV_CODEC_ID_MICRODVD = (('D') | (('V') << 8) | (('D') << 16) | (('m') << 24));
+        public static final int AV_CODEC_ID_EIA_608 = (('8') | (('0') << 8) | (('6') << 16) | (('c') << 24));
+        public static final int AV_CODEC_ID_JACOSUB = (('B') | (('U') << 8) | (('S') << 16) | (('J') << 24));
+        public static final int AV_CODEC_ID_SAMI = (('I') | (('M') << 8) | (('A') << 16) | (('S') << 24));
+        public static final int AV_CODEC_ID_REALTEXT = (('T') | (('X') << 8) | (('T') << 16) | (('R') << 24));
+        public static final int AV_CODEC_ID_SUBVIEWER1 = (('1') | (('V') << 8) | (('b') << 16) | (('S') << 24));
+        public static final int AV_CODEC_ID_SUBVIEWER = (('V') | (('b') << 8) | (('u') << 16) | (('S') << 24));
+        public static final int AV_CODEC_ID_SUBRIP = (('p') | (('i') << 8) | (('R') << 16) | (('S') << 24));
+        public static final int AV_CODEC_ID_WEBVTT = (('T') | (('T') << 8) | (('V') << 16) | (('W') << 24));
+        public static final int AV_CODEC_ID_MPL2 = (('2') | (('L') << 8) | (('P') << 16) | (('M') << 24));
+        public static final int AV_CODEC_ID_VPLAYER = (('r') | (('l') << 8) | (('P') << 16) | (('V') << 24));
+        public static final int AV_CODEC_ID_PJS = (('S') | (('J') << 8) | (('h') << 16) | (('P') << 24));
+        /** < ASS as defined in Matroska */
+        public static final int AV_CODEC_ID_ASS = ((' ') | (('S') << 8) | (('S') << 16) | (('A') << 24));
+        /**
+         * other specific kind of codecs (generally used for attachments)<br>
+         * < A dummy ID pointing at the start of various fake codecs.
+         */
+        public static final int AV_CODEC_ID_FIRST_UNKNOWN = 0x18000;
+        public static final int AV_CODEC_ID_TTF = 0x18000;
+        public static final int AV_CODEC_ID_BINTEXT = (('T') | (('X') << 8) | (('T') << 16) | (('B') << 24));
+        public static final int AV_CODEC_ID_XBIN = (('N') | (('I') << 8) | (('B') << 16) | (('X') << 24));
+        public static final int AV_CODEC_ID_IDF = (('F') | (('D') << 8) | (('I') << 16) | ((0) << 24));
+        public static final int AV_CODEC_ID_OTF = (('F') | (('T') << 8) | (('O') << 16) | ((0) << 24));
+        public static final int AV_CODEC_ID_SMPTE_KLV = (('A') | (('V') << 8) | (('L') << 16) | (('K') << 24));
+        public static final int AV_CODEC_ID_DVD_NAV = (('V') | (('A') << 8) | (('N') << 16) | (('D') << 24));
+        /** < codec_id is not known (like AV_CODEC_ID_NONE) but lavf should attempt to identify it */
+        public static final int AV_CODEC_ID_PROBE = 0x19000;
+        /**
+         * < _FAKE_ codec to indicate a raw MPEG-2 TS<br>
+         * stream (only used by libavformat)
+         */
+        public static final int AV_CODEC_ID_MPEG2TS = 0x20000;
+        /**
+         * < _FAKE_ codec to indicate a MPEG-4 Systems<br>
+         * stream (only used by libavformat)
+         */
+        public static final int AV_CODEC_ID_MPEG4SYSTEMS = 0x20001;
+        /** < Dummy codec for streams containing only metadata information. */
+        public static final int AV_CODEC_ID_FFMETADATA = 0x21000;
+        public static final int CODEC_ID_NONE = (int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE;
+        /** video codecs */
+        public static final int CODEC_ID_MPEG1VIDEO = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 1);
+        /** < preferred ID for MPEG-1/2 video decoding */
+        public static final int CODEC_ID_MPEG2VIDEO = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 2);
+        public static final int CODEC_ID_MPEG2VIDEO_XVMC = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 3);
+        public static final int CODEC_ID_H261 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 4);
+        public static final int CODEC_ID_H263 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 5);
+        public static final int CODEC_ID_RV10 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 6);
+        public static final int CODEC_ID_RV20 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 7);
+        public static final int CODEC_ID_MJPEG = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 8);
+        public static final int CODEC_ID_MJPEGB = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 9);
+        public static final int CODEC_ID_LJPEG = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 10);
+        public static final int CODEC_ID_SP5X = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 11);
+        public static final int CODEC_ID_JPEGLS = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 12);
+        public static final int CODEC_ID_MPEG4 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 13);
+        public static final int CODEC_ID_RAWVIDEO = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 14);
+        public static final int CODEC_ID_MSMPEG4V1 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 15);
+        public static final int CODEC_ID_MSMPEG4V2 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 16);
+        public static final int CODEC_ID_MSMPEG4V3 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 17);
+        public static final int CODEC_ID_WMV1 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 18);
+        public static final int CODEC_ID_WMV2 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 19);
+        public static final int CODEC_ID_H263P = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 20);
+        public static final int CODEC_ID_H263I = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 21);
+        public static final int CODEC_ID_FLV1 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 22);
+        public static final int CODEC_ID_SVQ1 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 23);
+        public static final int CODEC_ID_SVQ3 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 24);
+        public static final int CODEC_ID_DVVIDEO = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 25);
+        public static final int CODEC_ID_HUFFYUV = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 26);
+        public static final int CODEC_ID_CYUV = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 27);
+        public static final int CODEC_ID_H264 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 28);
+        public static final int CODEC_ID_INDEO3 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 29);
+        public static final int CODEC_ID_VP3 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 30);
+        public static final int CODEC_ID_THEORA = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 31);
+        public static final int CODEC_ID_ASV1 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 32);
+        public static final int CODEC_ID_ASV2 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 33);
+        public static final int CODEC_ID_FFV1 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 34);
+        public static final int CODEC_ID_4XM = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 35);
+        public static final int CODEC_ID_VCR1 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 36);
+        public static final int CODEC_ID_CLJR = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 37);
+        public static final int CODEC_ID_MDEC = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 38);
+        public static final int CODEC_ID_ROQ = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 39);
+        public static final int CODEC_ID_INTERPLAY_VIDEO = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 40);
+        public static final int CODEC_ID_XAN_WC3 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 41);
+        public static final int CODEC_ID_XAN_WC4 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 42);
+        public static final int CODEC_ID_RPZA = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 43);
+        public static final int CODEC_ID_CINEPAK = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 44);
+        public static final int CODEC_ID_WS_VQA = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 45);
+        public static final int CODEC_ID_MSRLE = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 46);
+        public static final int CODEC_ID_MSVIDEO1 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 47);
+        public static final int CODEC_ID_IDCIN = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 48);
+        public static final int CODEC_ID_8BPS = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 49);
+        public static final int CODEC_ID_SMC = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 50);
+        public static final int CODEC_ID_FLIC = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 51);
+        public static final int CODEC_ID_TRUEMOTION1 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 52);
+        public static final int CODEC_ID_VMDVIDEO = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 53);
+        public static final int CODEC_ID_MSZH = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 54);
+        public static final int CODEC_ID_ZLIB = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 55);
+        public static final int CODEC_ID_QTRLE = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 56);
+        public static final int CODEC_ID_TSCC = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 57);
+        public static final int CODEC_ID_ULTI = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 58);
+        public static final int CODEC_ID_QDRAW = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 59);
+        public static final int CODEC_ID_VIXL = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 60);
+        public static final int CODEC_ID_QPEG = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 61);
+        public static final int CODEC_ID_PNG = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 62);
+        public static final int CODEC_ID_PPM = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 63);
+        public static final int CODEC_ID_PBM = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 64);
+        public static final int CODEC_ID_PGM = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 65);
+        public static final int CODEC_ID_PGMYUV = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 66);
+        public static final int CODEC_ID_PAM = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 67);
+        public static final int CODEC_ID_FFVHUFF = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 68);
+        public static final int CODEC_ID_RV30 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 69);
+        public static final int CODEC_ID_RV40 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 70);
+        public static final int CODEC_ID_VC1 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 71);
+        public static final int CODEC_ID_WMV3 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 72);
+        public static final int CODEC_ID_LOCO = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 73);
+        public static final int CODEC_ID_WNV1 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 74);
+        public static final int CODEC_ID_AASC = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 75);
+        public static final int CODEC_ID_INDEO2 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 76);
+        public static final int CODEC_ID_FRAPS = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 77);
+        public static final int CODEC_ID_TRUEMOTION2 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 78);
+        public static final int CODEC_ID_BMP = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 79);
+        public static final int CODEC_ID_CSCD = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 80);
+        public static final int CODEC_ID_MMVIDEO = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 81);
+        public static final int CODEC_ID_ZMBV = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 82);
+        public static final int CODEC_ID_AVS = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 83);
+        public static final int CODEC_ID_SMACKVIDEO = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 84);
+        public static final int CODEC_ID_NUV = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 85);
+        public static final int CODEC_ID_KMVC = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 86);
+        public static final int CODEC_ID_FLASHSV = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 87);
+        public static final int CODEC_ID_CAVS = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 88);
+        public static final int CODEC_ID_JPEG2000 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 89);
+        public static final int CODEC_ID_VMNC = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 90);
+        public static final int CODEC_ID_VP5 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 91);
+        public static final int CODEC_ID_VP6 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 92);
+        public static final int CODEC_ID_VP6F = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 93);
+        public static final int CODEC_ID_TARGA = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 94);
+        public static final int CODEC_ID_DSICINVIDEO = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 95);
+        public static final int CODEC_ID_TIERTEXSEQVIDEO = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 96);
+        public static final int CODEC_ID_TIFF = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 97);
+        public static final int CODEC_ID_GIF = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 98);
+        public static final int CODEC_ID_DXA = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 99);
+        public static final int CODEC_ID_DNXHD = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 100);
+        public static final int CODEC_ID_THP = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 101);
+        public static final int CODEC_ID_SGI = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 102);
+        public static final int CODEC_ID_C93 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 103);
+        public static final int CODEC_ID_BETHSOFTVID = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 104);
+        public static final int CODEC_ID_PTX = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 105);
+        public static final int CODEC_ID_TXD = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 106);
+        public static final int CODEC_ID_VP6A = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 107);
+        public static final int CODEC_ID_AMV = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 108);
+        public static final int CODEC_ID_VB = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 109);
+        public static final int CODEC_ID_PCX = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 110);
+        public static final int CODEC_ID_SUNRAST = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 111);
+        public static final int CODEC_ID_INDEO4 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 112);
+        public static final int CODEC_ID_INDEO5 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 113);
+        public static final int CODEC_ID_MIMIC = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 114);
+        public static final int CODEC_ID_RL2 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 115);
+        public static final int CODEC_ID_ESCAPE124 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 116);
+        public static final int CODEC_ID_DIRAC = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 117);
+        public static final int CODEC_ID_BFI = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 118);
+        public static final int CODEC_ID_CMV = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 119);
+        public static final int CODEC_ID_MOTIONPIXELS = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 120);
+        public static final int CODEC_ID_TGV = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 121);
+        public static final int CODEC_ID_TGQ = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 122);
+        public static final int CODEC_ID_TQI = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 123);
+        public static final int CODEC_ID_AURA = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 124);
+        public static final int CODEC_ID_AURA2 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 125);
+        public static final int CODEC_ID_V210X = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 126);
+        public static final int CODEC_ID_TMV = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 127);
+        public static final int CODEC_ID_V210 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 128);
+        public static final int CODEC_ID_DPX = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 129);
+        public static final int CODEC_ID_MAD = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 130);
+        public static final int CODEC_ID_FRWU = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 131);
+        public static final int CODEC_ID_FLASHSV2 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 132);
+        public static final int CODEC_ID_CDGRAPHICS = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 133);
+        public static final int CODEC_ID_R210 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 134);
+        public static final int CODEC_ID_ANM = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 135);
+        public static final int CODEC_ID_BINKVIDEO = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 136);
+        public static final int CODEC_ID_IFF_ILBM = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 137);
+        public static final int CODEC_ID_IFF_BYTERUN1 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 138);
+        public static final int CODEC_ID_KGV1 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 139);
+        public static final int CODEC_ID_YOP = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 140);
+        public static final int CODEC_ID_VP8 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 141);
+        public static final int CODEC_ID_PICTOR = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 142);
+        public static final int CODEC_ID_ANSI = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 143);
+        public static final int CODEC_ID_A64_MULTI = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 144);
+        public static final int CODEC_ID_A64_MULTI5 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 145);
+        public static final int CODEC_ID_R10K = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 146);
+        public static final int CODEC_ID_MXPEG = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 147);
+        public static final int CODEC_ID_LAGARITH = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 148);
+        public static final int CODEC_ID_PRORES = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 149);
+        public static final int CODEC_ID_JV = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 150);
+        public static final int CODEC_ID_DFA = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 151);
+        public static final int CODEC_ID_WMV3IMAGE = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 152);
+        public static final int CODEC_ID_VC1IMAGE = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 153);
+        public static final int CODEC_ID_UTVIDEO = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 154);
+        public static final int CODEC_ID_BMV_VIDEO = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 155);
+        public static final int CODEC_ID_VBLE = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 156);
+        public static final int CODEC_ID_DXTORY = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 157);
+        public static final int CODEC_ID_V410 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 158);
+        public static final int CODEC_ID_XWD = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 159);
+        public static final int CODEC_ID_CDXL = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 160);
+        public static final int CODEC_ID_XBM = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 161);
+        public static final int CODEC_ID_ZEROCODEC = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 162);
+        public static final int CODEC_ID_MSS1 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 163);
+        public static final int CODEC_ID_MSA1 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 164);
+        public static final int CODEC_ID_TSCC2 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 165);
+        public static final int CODEC_ID_MTS2 = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 166);
+        public static final int CODEC_ID_CLLC = ((int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_NONE + 167);
+        public static final int CODEC_ID_Y41P = (('P') | (('1') << 8) | (('4') << 16) | (('Y') << 24));
+        public static final int CODEC_ID_ESCAPE130 = (('0') | (('3') << 8) | (('1') << 16) | (('E') << 24));
+        public static final int CODEC_ID_EXR = (('R') | (('X') << 8) | (('E') << 16) | (('0') << 24));
+        public static final int CODEC_ID_AVRP = (('P') | (('R') << 8) | (('V') << 16) | (('A') << 24));
+        public static final int CODEC_ID_G2M = (('M') | (('2') << 8) | (('G') << 16) | ((0) << 24));
+        public static final int CODEC_ID_AVUI = (('I') | (('U') << 8) | (('V') << 16) | (('A') << 24));
+        public static final int CODEC_ID_AYUV = (('V') | (('U') << 8) | (('Y') << 16) | (('A') << 24));
+        public static final int CODEC_ID_V308 = (('8') | (('0') << 8) | (('3') << 16) | (('V') << 24));
+        public static final int CODEC_ID_V408 = (('8') | (('0') << 8) | (('4') << 16) | (('V') << 24));
+        public static final int CODEC_ID_YUV4 = (('4') | (('V') << 8) | (('U') << 16) | (('Y') << 24));
+        public static final int CODEC_ID_SANM = (('M') | (('N') << 8) | (('A') << 16) | (('S') << 24));
+        public static final int CODEC_ID_PAF_VIDEO = (('V') | (('F') << 8) | (('A') << 16) | (('P') << 24));
+        public static final int CODEC_ID_SNOW = (int)LibavformatLibrary.AVCodecID.AV_CODEC_ID_SNOW;
+        /**
+         * various PCM "codecs"<br>
+         * < A dummy id pointing at the start of audio codecs
+         */
+        public static final int CODEC_ID_FIRST_AUDIO = 0x10000;
+        public static final int CODEC_ID_PCM_S16LE = 0x10000;
+        public static final int CODEC_ID_PCM_S16BE = (0x10000 + 1);
+        public static final int CODEC_ID_PCM_U16LE = (0x10000 + 2);
+        public static final int CODEC_ID_PCM_U16BE = (0x10000 + 3);
+        public static final int CODEC_ID_PCM_S8 = (0x10000 + 4);
+        public static final int CODEC_ID_PCM_U8 = (0x10000 + 5);
+        public static final int CODEC_ID_PCM_MULAW = (0x10000 + 6);
+        public static final int CODEC_ID_PCM_ALAW = (0x10000 + 7);
+        public static final int CODEC_ID_PCM_S32LE = (0x10000 + 8);
+        public static final int CODEC_ID_PCM_S32BE = (0x10000 + 9);
+        public static final int CODEC_ID_PCM_U32LE = (0x10000 + 10);
+        public static final int CODEC_ID_PCM_U32BE = (0x10000 + 11);
+        public static final int CODEC_ID_PCM_S24LE = (0x10000 + 12);
+        public static final int CODEC_ID_PCM_S24BE = (0x10000 + 13);
+        public static final int CODEC_ID_PCM_U24LE = (0x10000 + 14);
+        public static final int CODEC_ID_PCM_U24BE = (0x10000 + 15);
+        public static final int CODEC_ID_PCM_S24DAUD = (0x10000 + 16);
+        public static final int CODEC_ID_PCM_ZORK = (0x10000 + 17);
+        public static final int CODEC_ID_PCM_S16LE_PLANAR = (0x10000 + 18);
+        public static final int CODEC_ID_PCM_DVD = (0x10000 + 19);
+        public static final int CODEC_ID_PCM_F32BE = (0x10000 + 20);
+        public static final int CODEC_ID_PCM_F32LE = (0x10000 + 21);
+        public static final int CODEC_ID_PCM_F64BE = (0x10000 + 22);
+        public static final int CODEC_ID_PCM_F64LE = (0x10000 + 23);
+        public static final int CODEC_ID_PCM_BLURAY = (0x10000 + 24);
+        public static final int CODEC_ID_PCM_LXF = (0x10000 + 25);
+        public static final int CODEC_ID_S302M = (0x10000 + 26);
+        public static final int CODEC_ID_PCM_S8_PLANAR = (0x10000 + 27);
+        /** various ADPCM codecs */
+        public static final int CODEC_ID_ADPCM_IMA_QT = 0x11000;
+        public static final int CODEC_ID_ADPCM_IMA_WAV = (0x11000 + 1);
+        public static final int CODEC_ID_ADPCM_IMA_DK3 = (0x11000 + 2);
+        public static final int CODEC_ID_ADPCM_IMA_DK4 = (0x11000 + 3);
+        public static final int CODEC_ID_ADPCM_IMA_WS = (0x11000 + 4);
+        public static final int CODEC_ID_ADPCM_IMA_SMJPEG = (0x11000 + 5);
+        public static final int CODEC_ID_ADPCM_MS = (0x11000 + 6);
+        public static final int CODEC_ID_ADPCM_4XM = (0x11000 + 7);
+        public static final int CODEC_ID_ADPCM_XA = (0x11000 + 8);
+        public static final int CODEC_ID_ADPCM_ADX = (0x11000 + 9);
+        public static final int CODEC_ID_ADPCM_EA = (0x11000 + 10);
+        public static final int CODEC_ID_ADPCM_G726 = (0x11000 + 11);
+        public static final int CODEC_ID_ADPCM_CT = (0x11000 + 12);
+        public static final int CODEC_ID_ADPCM_SWF = (0x11000 + 13);
+        public static final int CODEC_ID_ADPCM_YAMAHA = (0x11000 + 14);
+        public static final int CODEC_ID_ADPCM_SBPRO_4 = (0x11000 + 15);
+        public static final int CODEC_ID_ADPCM_SBPRO_3 = (0x11000 + 16);
+        public static final int CODEC_ID_ADPCM_SBPRO_2 = (0x11000 + 17);
+        public static final int CODEC_ID_ADPCM_THP = (0x11000 + 18);
+        public static final int CODEC_ID_ADPCM_IMA_AMV = (0x11000 + 19);
+        public static final int CODEC_ID_ADPCM_EA_R1 = (0x11000 + 20);
+        public static final int CODEC_ID_ADPCM_EA_R3 = (0x11000 + 21);
+        public static final int CODEC_ID_ADPCM_EA_R2 = (0x11000 + 22);
+        public static final int CODEC_ID_ADPCM_IMA_EA_SEAD = (0x11000 + 23);
+        public static final int CODEC_ID_ADPCM_IMA_EA_EACS = (0x11000 + 24);
+        public static final int CODEC_ID_ADPCM_EA_XAS = (0x11000 + 25);
+        public static final int CODEC_ID_ADPCM_EA_MAXIS_XA = (0x11000 + 26);
+        public static final int CODEC_ID_ADPCM_IMA_ISS = (0x11000 + 27);
+        public static final int CODEC_ID_ADPCM_G722 = (0x11000 + 28);
+        public static final int CODEC_ID_ADPCM_IMA_APC = (0x11000 + 29);
+        public static final int CODEC_ID_VIMA = (('A') | (('M') << 8) | (('I') << 16) | (('V') << 24));
+        /** AMR */
+        public static final int CODEC_ID_AMR_NB = 0x12000;
+        public static final int CODEC_ID_AMR_WB = (0x12000 + 1);
+        /** RealAudio codecs */
+        public static final int CODEC_ID_RA_144 = 0x13000;
+        public static final int CODEC_ID_RA_288 = (0x13000 + 1);
+        /** various DPCM codecs */
+        public static final int CODEC_ID_ROQ_DPCM = 0x14000;
+        public static final int CODEC_ID_INTERPLAY_DPCM = (0x14000 + 1);
+        public static final int CODEC_ID_XAN_DPCM = (0x14000 + 2);
+        public static final int CODEC_ID_SOL_DPCM = (0x14000 + 3);
+        /** audio codecs */
+        public static final int CODEC_ID_MP2 = 0x15000;
+        /** < preferred ID for decoding MPEG audio layer 1, 2 or 3 */
+        public static final int CODEC_ID_MP3 = (0x15000 + 1);
+        public static final int CODEC_ID_AAC = (0x15000 + 2);
+        public static final int CODEC_ID_AC3 = (0x15000 + 3);
+        public static final int CODEC_ID_DTS = (0x15000 + 4);
+        public static final int CODEC_ID_VORBIS = (0x15000 + 5);
+        public static final int CODEC_ID_DVAUDIO = (0x15000 + 6);
+        public static final int CODEC_ID_WMAV1 = (0x15000 + 7);
+        public static final int CODEC_ID_WMAV2 = (0x15000 + 8);
+        public static final int CODEC_ID_MACE3 = (0x15000 + 9);
+        public static final int CODEC_ID_MACE6 = (0x15000 + 10);
+        public static final int CODEC_ID_VMDAUDIO = (0x15000 + 11);
+        public static final int CODEC_ID_FLAC = (0x15000 + 12);
+        public static final int CODEC_ID_MP3ADU = (0x15000 + 13);
+        public static final int CODEC_ID_MP3ON4 = (0x15000 + 14);
+        public static final int CODEC_ID_SHORTEN = (0x15000 + 15);
+        public static final int CODEC_ID_ALAC = (0x15000 + 16);
+        public static final int CODEC_ID_WESTWOOD_SND1 = (0x15000 + 17);
+        /** < as in Berlin toast format */
+        public static final int CODEC_ID_GSM = (0x15000 + 18);
+        public static final int CODEC_ID_QDM2 = (0x15000 + 19);
+        public static final int CODEC_ID_COOK = (0x15000 + 20);
+        public static final int CODEC_ID_TRUESPEECH = (0x15000 + 21);
+        public static final int CODEC_ID_TTA = (0x15000 + 22);
+        public static final int CODEC_ID_SMACKAUDIO = (0x15000 + 23);
+        public static final int CODEC_ID_QCELP = (0x15000 + 24);
+        public static final int CODEC_ID_WAVPACK = (0x15000 + 25);
+        public static final int CODEC_ID_DSICINAUDIO = (0x15000 + 26);
+        public static final int CODEC_ID_IMC = (0x15000 + 27);
+        public static final int CODEC_ID_MUSEPACK7 = (0x15000 + 28);
+        public static final int CODEC_ID_MLP = (0x15000 + 29);
+        /** as found in WAV */
+        public static final int CODEC_ID_GSM_MS = (0x15000 + 30);
+        public static final int CODEC_ID_ATRAC3 = (0x15000 + 31);
+        public static final int CODEC_ID_VOXWARE = (0x15000 + 32);
+        public static final int CODEC_ID_APE = (0x15000 + 33);
+        public static final int CODEC_ID_NELLYMOSER = (0x15000 + 34);
+        public static final int CODEC_ID_MUSEPACK8 = (0x15000 + 35);
+        public static final int CODEC_ID_SPEEX = (0x15000 + 36);
+        public static final int CODEC_ID_WMAVOICE = (0x15000 + 37);
+        public static final int CODEC_ID_WMAPRO = (0x15000 + 38);
+        public static final int CODEC_ID_WMALOSSLESS = (0x15000 + 39);
+        public static final int CODEC_ID_ATRAC3P = (0x15000 + 40);
+        public static final int CODEC_ID_EAC3 = (0x15000 + 41);
+        public static final int CODEC_ID_SIPR = (0x15000 + 42);
+        public static final int CODEC_ID_MP1 = (0x15000 + 43);
+        public static final int CODEC_ID_TWINVQ = (0x15000 + 44);
+        public static final int CODEC_ID_TRUEHD = (0x15000 + 45);
+        public static final int CODEC_ID_MP4ALS = (0x15000 + 46);
+        public static final int CODEC_ID_ATRAC1 = (0x15000 + 47);
+        public static final int CODEC_ID_BINKAUDIO_RDFT = (0x15000 + 48);
+        public static final int CODEC_ID_BINKAUDIO_DCT = (0x15000 + 49);
+        public static final int CODEC_ID_AAC_LATM = (0x15000 + 50);
+        public static final int CODEC_ID_QDMC = (0x15000 + 51);
+        public static final int CODEC_ID_CELT = (0x15000 + 52);
+        public static final int CODEC_ID_G723_1 = (0x15000 + 53);
+        public static final int CODEC_ID_G729 = (0x15000 + 54);
+        public static final int CODEC_ID_8SVX_EXP = (0x15000 + 55);
+        public static final int CODEC_ID_8SVX_FIB = (0x15000 + 56);
+        public static final int CODEC_ID_BMV_AUDIO = (0x15000 + 57);
+        public static final int CODEC_ID_RALF = (0x15000 + 58);
+        public static final int CODEC_ID_IAC = (0x15000 + 59);
+        public static final int CODEC_ID_ILBC = (0x15000 + 60);
+        public static final int CODEC_ID_FFWAVESYNTH = (('S') | (('W') << 8) | (('F') << 16) | (('F') << 24));
+        public static final int CODEC_ID_SONIC = (('C') | (('N') << 8) | (('O') << 16) | (('S') << 24));
+        public static final int CODEC_ID_SONIC_LS = (('L') | (('N') << 8) | (('O') << 16) | (('S') << 24));
+        public static final int CODEC_ID_PAF_AUDIO = (('A') | (('F') << 8) | (('A') << 16) | (('P') << 24));
+        public static final int CODEC_ID_OPUS = (('S') | (('U') << 8) | (('P') << 16) | (('O') << 24));
+        /**
+         * subtitle codecs<br>
+         * < A dummy ID pointing at the start of subtitle codecs.
+         */
+        public static final int CODEC_ID_FIRST_SUBTITLE = 0x17000;
+        public static final int CODEC_ID_DVD_SUBTITLE = 0x17000;
+        public static final int CODEC_ID_DVB_SUBTITLE = (0x17000 + 1);
+        /** < raw UTF-8 text */
+        public static final int CODEC_ID_TEXT = (0x17000 + 2);
+        public static final int CODEC_ID_XSUB = (0x17000 + 3);
+        public static final int CODEC_ID_SSA = (0x17000 + 4);
+        public static final int CODEC_ID_MOV_TEXT = (0x17000 + 5);
+        public static final int CODEC_ID_HDMV_PGS_SUBTITLE = (0x17000 + 6);
+        public static final int CODEC_ID_DVB_TELETEXT = (0x17000 + 7);
+        public static final int CODEC_ID_SRT = (0x17000 + 8);
+        public static final int CODEC_ID_MICRODVD = (('D') | (('V') << 8) | (('D') << 16) | (('m') << 24));
+        public static final int CODEC_ID_EIA_608 = (('8') | (('0') << 8) | (('6') << 16) | (('c') << 24));
+        public static final int CODEC_ID_JACOSUB = (('B') | (('U') << 8) | (('S') << 16) | (('J') << 24));
+        public static final int CODEC_ID_SAMI = (('I') | (('M') << 8) | (('A') << 16) | (('S') << 24));
+        public static final int CODEC_ID_REALTEXT = (('T') | (('X') << 8) | (('T') << 16) | (('R') << 24));
+        public static final int CODEC_ID_SUBVIEWER = (('V') | (('b') << 8) | (('u') << 16) | (('S') << 24));
+        /**
+         * other specific kind of codecs (generally used for attachments)<br>
+         * < A dummy ID pointing at the start of various fake codecs.
+         */
+        public static final int CODEC_ID_FIRST_UNKNOWN = 0x18000;
+        public static final int CODEC_ID_TTF = 0x18000;
+        public static final int CODEC_ID_BINTEXT = (('T') | (('X') << 8) | (('T') << 16) | (('B') << 24));
+        public static final int CODEC_ID_XBIN = (('N') | (('I') << 8) | (('B') << 16) | (('X') << 24));
+        public static final int CODEC_ID_IDF = (('F') | (('D') << 8) | (('I') << 16) | ((0) << 24));
+        public static final int CODEC_ID_OTF = (('F') | (('T') << 8) | (('O') << 16) | ((0) << 24));
+        /** < codec_id is not known (like CODEC_ID_NONE) but lavf should attempt to identify it */
+        public static final int CODEC_ID_PROBE = 0x19000;
+        /**
+         * < _FAKE_ codec to indicate a raw MPEG-2 TS<br>
+         * stream (only used by libavformat)
+         */
+        public static final int CODEC_ID_MPEG2TS = 0x20000;
+        /**
+         * < _FAKE_ codec to indicate a MPEG-4 Systems<br>
+         * stream (only used by libavformat)
+         */
+        public static final int CODEC_ID_MPEG4SYSTEMS = 0x20001;
+        /** < Dummy codec for streams containing only metadata information. */
+        public static final int CODEC_ID_FFMETADATA = 0x21000;
+    };
+    /**
+     * @ingroup lavc_encoding<br>
+     * motion estimation type.<br>
+     * enum values
+     */
+    public static interface Motion_Est_ID {
+        /** < no search, that is use 0,0 vector whenever one is needed */
+        public static final int ME_ZERO = 1;
+        public static final int ME_FULL = 2;
+        public static final int ME_LOG = 3;
+        public static final int ME_PHODS = 4;
+        /** < enhanced predictive zonal search */
+        public static final int ME_EPZS = 5;
+        /** < reserved for experiments */
+        public static final int ME_X1 = 6;
+        /** < hexagon based search */
+        public static final int ME_HEX = 7;
+        /** < uneven multi-hexagon search */
+        public static final int ME_UMH = 8;
+        /** < transformed exhaustive search algorithm */
+        public static final int ME_TESA = 9;
+        /** < iterative search */
+        public static final int ME_ITER = 50;
+    };
+    /**
+     * @ingroup lavc_decoding<br>
+     * enum values
+     */
+    public static interface AVDiscard {
+        /**
+         * We leave some space between them for extensions (drop some<br>
+         * keyframes for intra-only or drop just some bidir frames).<br>
+         * < discard nothing
+         */
+        public static final int AVDISCARD_NONE = -16;
+        /** < discard useless packets like 0 size packets in avi */
+        public static final int AVDISCARD_DEFAULT = 0;
+        /** < discard all non reference */
+        public static final int AVDISCARD_NONREF = 8;
+        /** < discard all bidirectional frames */
+        public static final int AVDISCARD_BIDIR = 16;
+        /** < discard all frames except keyframes */
+        public static final int AVDISCARD_NONKEY = 32;
+        /** < discard all */
+        public static final int AVDISCARD_ALL = 48;
+    };
+    /** enum values */
+    public static interface AVColorPrimaries {
+        /** < also ITU-R BT1361 / IEC 61966-2-4 / SMPTE RP177 Annex B */
+        public static final int AVCOL_PRI_BT709 = 1;
+        public static final int AVCOL_PRI_UNSPECIFIED = 2;
+        public static final int AVCOL_PRI_BT470M = 4;
+        /** < also ITU-R BT601-6 625 / ITU-R BT1358 625 / ITU-R BT1700 625 PAL & SECAM */
+        public static final int AVCOL_PRI_BT470BG = 5;
+        /** < also ITU-R BT601-6 525 / ITU-R BT1358 525 / ITU-R BT1700 NTSC */
+        public static final int AVCOL_PRI_SMPTE170M = 6;
+        /** < functionally identical to above */
+        public static final int AVCOL_PRI_SMPTE240M = 7;
+        public static final int AVCOL_PRI_FILM = 8;
+        /** < Not part of ABI */
+        public static final int AVCOL_PRI_NB = 9;
+    };
+    /** enum values */
+    public static interface AVColorTransferCharacteristic {
+        /** < also ITU-R BT1361 */
+        public static final int AVCOL_TRC_BT709 = 1;
+        public static final int AVCOL_TRC_UNSPECIFIED = 2;
+        /** < also ITU-R BT470M / ITU-R BT1700 625 PAL & SECAM */
+        public static final int AVCOL_TRC_GAMMA22 = 4;
+        /** < also ITU-R BT470BG */
+        public static final int AVCOL_TRC_GAMMA28 = 5;
+        public static final int AVCOL_TRC_SMPTE240M = 7;
+        /** < Not part of ABI */
+        public static final int AVCOL_TRC_NB = 8;
+    };
+    /** enum values */
+    public static interface AVColorSpace {
+        public static final int AVCOL_SPC_RGB = 0;
+        /** < also ITU-R BT1361 / IEC 61966-2-4 xvYCC709 / SMPTE RP177 Annex B */
+        public static final int AVCOL_SPC_BT709 = 1;
+        public static final int AVCOL_SPC_UNSPECIFIED = 2;
+        public static final int AVCOL_SPC_FCC = 4;
+        /** < also ITU-R BT601-6 625 / ITU-R BT1358 625 / ITU-R BT1700 625 PAL & SECAM / IEC 61966-2-4 xvYCC601 */
+        public static final int AVCOL_SPC_BT470BG = 5;
+        /** < also ITU-R BT601-6 525 / ITU-R BT1358 525 / ITU-R BT1700 NTSC / functionally identical to above */
+        public static final int AVCOL_SPC_SMPTE170M = 6;
+        public static final int AVCOL_SPC_SMPTE240M = 7;
+        /** < Used by Dirac / VC-2 and H.264 FRext, see ITU-T SG16 */
+        public static final int AVCOL_SPC_YCOCG = 8;
+        /** < Not part of ABI */
+        public static final int AVCOL_SPC_NB = 9;
+    };
+    /** enum values */
+    public static interface AVColorRange {
+        public static final int AVCOL_RANGE_UNSPECIFIED = 0;
+        /** < the normal 219*2^(n-8) "MPEG" YUV ranges */
+        public static final int AVCOL_RANGE_MPEG = 1;
+        /** < the normal     2^n-1   "JPEG" YUV ranges */
+        public static final int AVCOL_RANGE_JPEG = 2;
+        /** < Not part of ABI */
+        public static final int AVCOL_RANGE_NB = 3;
+    };
+    /**
+     * X   X      3 4 X      X are luma samples,<br>
+     *             1 2        1-6 are possible chroma positions<br>
+     *  X   X      5 6 X      0 is undefined/unknown position<br>
+     * enum values
+     */
+    public static interface AVChromaLocation {
+        public static final int AVCHROMA_LOC_UNSPECIFIED = 0;
+        /** < mpeg2/4, h264 default */
+        public static final int AVCHROMA_LOC_LEFT = 1;
+        /** < mpeg1, jpeg, h263 */
+        public static final int AVCHROMA_LOC_CENTER = 2;
+        /** < DV */
+        public static final int AVCHROMA_LOC_TOPLEFT = 3;
+        public static final int AVCHROMA_LOC_TOP = 4;
+        public static final int AVCHROMA_LOC_BOTTOMLEFT = 5;
+        public static final int AVCHROMA_LOC_BOTTOM = 6;
+        /** < Not part of ABI */
+        public static final int AVCHROMA_LOC_NB = 7;
+    };
+    /** enum values */
+    public static interface AVAudioServiceType {
+        public static final int AV_AUDIO_SERVICE_TYPE_MAIN = 0;
+        public static final int AV_AUDIO_SERVICE_TYPE_EFFECTS = 1;
+        public static final int AV_AUDIO_SERVICE_TYPE_VISUALLY_IMPAIRED = 2;
+        public static final int AV_AUDIO_SERVICE_TYPE_HEARING_IMPAIRED = 3;
+        public static final int AV_AUDIO_SERVICE_TYPE_DIALOGUE = 4;
+        public static final int AV_AUDIO_SERVICE_TYPE_COMMENTARY = 5;
+        public static final int AV_AUDIO_SERVICE_TYPE_EMERGENCY = 6;
+        public static final int AV_AUDIO_SERVICE_TYPE_VOICE_OVER = 7;
+        public static final int AV_AUDIO_SERVICE_TYPE_KARAOKE = 8;
+        /** < Not part of ABI */
+        public static final int AV_AUDIO_SERVICE_TYPE_NB = 9;
+    };
+    /**
+     * @defgroup lavc_packet AVPacket<br>
+     * * Types and functions for working with AVPacket.<br>
+     * @{<br>
+     * enum values
+     */
+    public static interface AVPacketSideDataType {
+        public static final int AV_PKT_DATA_PALETTE = 0;
+        public static final int AV_PKT_DATA_NEW_EXTRADATA = 1;
+        /**
+         * An AV_PKT_DATA_PARAM_CHANGE side data packet is laid out as follows:<br>
+         * @code<br>
+         * u32le param_flags<br>
+         * if (param_flags & AV_SIDE_DATA_PARAM_CHANGE_CHANNEL_COUNT)<br>
+         *     s32le channel_count<br>
+         * if (param_flags & AV_SIDE_DATA_PARAM_CHANGE_CHANNEL_LAYOUT)<br>
+         *     u64le channel_layout<br>
+         * if (param_flags & AV_SIDE_DATA_PARAM_CHANGE_SAMPLE_RATE)<br>
+         *     s32le sample_rate<br>
+         * if (param_flags & AV_SIDE_DATA_PARAM_CHANGE_DIMENSIONS)<br>
+         *     s32le width<br>
+         *     s32le height<br>
+         * @endcode
+         */
+        public static final int AV_PKT_DATA_PARAM_CHANGE = 2;
+        /**
+         * An AV_PKT_DATA_H263_MB_INFO side data packet contains a number of<br>
+         * structures with info about macroblocks relevant to splitting the<br>
+         * packet into smaller packets on macroblock edges (e.g. as for RFC 2190).<br>
+         * That is, it does not necessarily contain info about all macroblocks,<br>
+         * as long as the distance between macroblocks in the info is smaller<br>
+         * than the target payload size.<br>
+         * Each MB info structure is 12 bytes, and is laid out as follows:<br>
+         * @code<br>
+         * u32le bit offset from the start of the packet<br>
+         * u8    current quantizer at the start of the macroblock<br>
+         * u8    GOB number<br>
+         * u16le macroblock address within the GOB<br>
+         * u8    horizontal MV predictor<br>
+         * u8    vertical MV predictor<br>
+         * u8    horizontal MV predictor for block number 3<br>
+         * u8    vertical MV predictor for block number 3<br>
+         * @endcode
+         */
+        public static final int AV_PKT_DATA_H263_MB_INFO = 3;
+        /**
+         * Recommmends skipping the specified number of samples<br>
+         * @code<br>
+         * u32le number of samples to skip from start of this packet<br>
+         * u32le number of samples to skip from end of this packet<br>
+         * u8    reason for start skip<br>
+         * u8    reason for end   skip (0=padding silence, 1=convergence)<br>
+         * @endcode
+         */
+        public static final int AV_PKT_DATA_SKIP_SAMPLES = 70;
+        /**
+         * An AV_PKT_DATA_JP_DUALMONO side data packet indicates that<br>
+         * the packet may contain "dual mono" audio specific to Japanese DTV<br>
+         * and if it is true, recommends only the selected channel to be used.<br>
+         * @code<br>
+         * u8    selected channels (0=mail/left, 1=sub/right, 2=both)<br>
+         * @endcode
+         */
+        public static final int AV_PKT_DATA_JP_DUALMONO = 71;
+        /**
+         * A list of zero terminated key/value strings. There is no end marker for<br>
+         * the list, so it is required to rely on the side data size to stop.
+         */
+        public static final int AV_PKT_DATA_STRINGS_METADATA = 72;
+        /**
+         * Subtitle event position<br>
+         * @code<br>
+         * u32le x1<br>
+         * u32le y1<br>
+         * u32le x2<br>
+         * u32le y2<br>
+         * @endcode
+         */
+        public static final int AV_PKT_DATA_SUBTITLE_POSITION = 73;
+        /**
+         * Data found in BlockAdditional element of matroska container. There is<br>
+         * no end marker for the data, so it is required to rely on the side data<br>
+         * size to recognize the end. 8 byte id (as found in BlockAddId) followed<br>
+         * by data.
+         */
+        public static final int AV_PKT_DATA_MATROSKA_BLOCKADDITIONAL = 74;
+        /** The optional first identifier line of a WebVTT cue. */
+        public static final int AV_PKT_DATA_WEBVTT_IDENTIFIER = 75;
+        /**
+         * The optional settings (rendering instructions) that immediately<br>
+         * follow the timestamp specifier of a WebVTT cue.
+         */
+        public static final int AV_PKT_DATA_WEBVTT_SETTINGS = 76;
+    };
+    /** enum values */
+    public static interface AVSideDataParamChangeFlags {
+        public static final int AV_SIDE_DATA_PARAM_CHANGE_CHANNEL_COUNT = 0x0001;
+        public static final int AV_SIDE_DATA_PARAM_CHANGE_CHANNEL_LAYOUT = 0x0002;
+        public static final int AV_SIDE_DATA_PARAM_CHANGE_SAMPLE_RATE = 0x0004;
+        public static final int AV_SIDE_DATA_PARAM_CHANGE_DIMENSIONS = 0x0008;
+    };
+    /** enum values */
+    public static interface AVFieldOrder {
+        public static final int AV_FIELD_UNKNOWN = 0;
+        public static final int AV_FIELD_PROGRESSIVE = 1;
+        /** < Top coded_first, top displayed first */
+        public static final int AV_FIELD_TT = 2;
+        /** < Bottom coded first, bottom displayed first */
+        public static final int AV_FIELD_BB = 3;
+        /** < Top coded first, bottom displayed first */
+        public static final int AV_FIELD_TB = 4;
+        /** < Bottom coded first, top displayed first */
+        public static final int AV_FIELD_BT = 5;
+    };
+    /** enum values */
+    public static interface AVSubtitleType {
+        public static final int SUBTITLE_NONE = 0;
+        /** < A bitmap, pict will be set */
+        public static final int SUBTITLE_BITMAP = 1;
+        /**
+         * Plain text, the text field must be set by the decoder and is<br>
+         * authoritative. ass and pict fields may contain approximations.
+         */
+        public static final int SUBTITLE_TEXT = 2;
+        /**
+         * Formatted text, the ass field must be set by the decoder and is<br>
+         * authoritative. pict and text fields may contain approximations.
+         */
+        public static final int SUBTITLE_ASS = 3;
+    };
+    /** enum values */
+    public static interface AVPictureStructure {
+        /** < unknown */
+        public static final int AV_PICTURE_STRUCTURE_UNKNOWN = 0;
+        /** < coded as top field */
+        public static final int AV_PICTURE_STRUCTURE_TOP_FIELD = 1;
+        /** < coded as bottom field */
+        public static final int AV_PICTURE_STRUCTURE_BOTTOM_FIELD = 2;
+        /** < coded as frame */
+        public static final int AV_PICTURE_STRUCTURE_FRAME = 3;
+    };
+    /**
+     * Lock operation used by lockmgr<br>
+     * enum values
+     */
+    public static interface AVLockOp {
+        /** < Create a mutex */
+        public static final int AV_LOCK_CREATE = 0;
+        /** < Lock the mutex */
+        public static final int AV_LOCK_OBTAIN = 1;
+        /** < Unlock the mutex */
+        public static final int AV_LOCK_RELEASE = 2;
+        /** < Free mutex resources */
+        public static final int AV_LOCK_DESTROY = 3;
+    };
+    /** enum values */
+    public static interface AVStreamParseType {
+        public static final int AVSTREAM_PARSE_NONE = 0;
+        /** < full parsing and repack */
+        public static final int AVSTREAM_PARSE_FULL = 1;
+        /** < Only parse headers, do not repack. */
+        public static final int AVSTREAM_PARSE_HEADERS = 2;
+        /** < full parsing and interpolation of timestamps for frames not starting on a packet boundary */
+        public static final int AVSTREAM_PARSE_TIMESTAMPS = 3;
+        /** < full parsing and repack of the first frame only, only implemented for H.264 currently */
+        public static final int AVSTREAM_PARSE_FULL_ONCE = 4;
+        /**
+         * < full parsing and repack with timestamp and position generation by parser for raw<br>
+         * this assumes that each packet in the file contains no demuxer level headers and<br>
+         * just codec level data, otherwise position generation would fail
+         */
+        public static final int AVSTREAM_PARSE_FULL_RAW = ((0) | (('R') << 8) | (('A') << 16) | (('W') << 24));
+    };
+    /**
+     * The duration of a video can be estimated through various ways, and this enum can be used<br>
+     * to know how the duration was estimated.<br>
+     * enum values
+     */
+    public static interface AVDurationEstimationMethod {
+        /** < Duration accurately estimated from PTSes */
+        public static final int AVFMT_DURATION_FROM_PTS = 0;
+        /** < Duration estimated from a stream with a known duration */
+        public static final int AVFMT_DURATION_FROM_STREAM = 1;
+        /** < Duration estimated from bitrate (less accurate) */
+        public static final int AVFMT_DURATION_FROM_BITRATE = 2;
+    };
+    public static final int FF_IDCT_SIMPLENEON = 22;
+    public static final int FF_DEBUG_VIS_MV_B_BACK = 0x00000004;
+    public static final int CODEC_FLAG_CLOSED_GOP = 0x80000000;
+    public static final int AVERROR_FILTER_NOT_FOUND = (-((0xF8) | (('F') << 8) | (('I') << 16) | (('L') << 24)));
+    public static final int AVFMT_FLAG_NOBUFFER = 0x0040;
+    public static final int AVIO_FLAG_DIRECT = 0x8000;
+    public static final int AV_HAVE_INCOMPATIBLE_FORK_ABI = 0;
+    public static final int AVFMTCTX_NOHEADER = 0x0001;
+    public static final int AVFMT_FLAG_MP4A_LATM = 0x8000;
+    public static final int CODEC_FLAG_NORMALIZE_AQP = 0x00020000;
+    public static final int FF_PROFILE_MPEG2_SIMPLE = 5;
+    public static final int FF_IDCT_ALTIVEC = 8;
+    public static final int AVERROR_UNKNOWN = (-(('U') | (('N') << 8) | (('K') << 16) | (('N') << 24)));
+    public static final int FF_CMP_CHROMA = 256;
+    public static final boolean FF_API_CONTEXT_SIZE = (52 < 53);
+    public static final int FF_PROFILE_VC1_MAIN = 1;
+    public static final int LIBAVUTIL_VERSION_INT = (52 << 16 | 38 << 8 | 100);
+    public static final int FF_PROFILE_MPEG2_SS = 2;
+    public static final int FF_PROFILE_MPEG4_ADVANCED_REAL_TIME = 9;
+    public static final int FF_DEBUG_BUFFERS = 0x00008000;
+    public static final int FF_ASPECT_EXTENDED = 15;
+    public static final boolean FF_API_OLD_AVOPTIONS = (52 < 53);
+    public static final int FF_MAX_B_FRAMES = 16;
+    public static final int FF_PROFILE_MPEG4_SIMPLE_FACE_ANIMATION = 6;
+    public static final int FF_DEBUG_BUGS = 0x00001000;
+    public static final boolean FF_API_SAMPLES_UTILS_RETURN_ZERO = (52 < 53);
+    public static final int AVERROR_OPTION_NOT_FOUND = (-((0xF8) | (('O') << 8) | (('P') << 16) | (('T') << 24)));
+    public static final int FF_LAMBDA_SCALE = (1 << 7);
+    public static final int LIBAVCODEC_VERSION_MINOR = 18;
+    public static final int FF_BUG_AMV = 32;
+    public static final int AV_HAVE_BIGENDIAN = 0;
+    public static final int FF_MIN_BUFFER_SIZE = 16384;
+    public static final int AV_EF_EXPLODE = (1 << 3);
+    public static final boolean FF_API_SET_PTS_INFO = (55 < 56);
+    public static final int FF_DEBUG_ER = 0x00000400;
+    public static final int FF_SUB_CHARENC_MODE_PRE_DECODER = 1;
+    public static final int AVSEEK_FORCE = 0x20000;
+    public static final int AV_DICT_IGNORE_SUFFIX = 2;
+    public static final int AV_CH_LAYOUT_6POINT0_FRONT = (((0x00000001 | 0x00000002) | 0x00000200 | 0x00000400) | 0x00000040 | 0x00000080);
+    public static final int CODEC_FLAG_GRAY = 0x2000;
+    public static final int MB_TYPE_16x8 = 0x0010;
+    public static final int AV_CH_LAYOUT_STEREO = (0x00000001 | 0x00000002);
+    public static final int FF_CODER_TYPE_RLE = 3;
+    public static final int AVSEEK_FLAG_FRAME = 8;
+    public static final int AVERROR_BUG2 = (-(('B') | (('U') << 8) | (('G') << 16) | ((' ') << 24)));
+    public static final long AV_CH_SURROUND_DIRECT_RIGHT = 0x0000000400000000L;
+    public static final int FF_MB_DECISION_BITS = 1;
+    public static final boolean FF_API_PIX_FMT = (52 < 53);
+    public static final int AV_DISPOSITION_VISUAL_IMPAIRED = 0x0100;
+    public static final int FF_CODER_TYPE_VLC = 0;
+    public static final int FF_MB_DECISION_RD = 2;
+    public static final int FF_BUG_DC_CLIP = 4096;
+    public static final int AVPROBE_SCORE_RETRY = (100 / 4);
+    public static final int AVIO_FLAG_WRITE = 2;
+    public static final int AVPALETTE_SIZE = 1024;
+    public static final int FF_BUG_QPEL_CHROMA2 = 256;
+    public static final int CODEC_FLAG_EMU_EDGE = 0x4000;
+    public static final int FF_CMP_W97 = 12;
+    public static final int FF_PROFILE_AAC_LD = 22;
+    public static final int FF_IDCT_SIMPLEARMV6 = 17;
+    public static final int AVFMT_SEEK_TO_PTS = 0x4000000;
+    public static final int MB_TYPE_8x8 = 0x0040;
+    public static final int AV_CH_FRONT_CENTER = 0x00000004;
+    public static final int AVFMT_NOFILE = 0x0001;
+    public static final double M_LOG2_10 = 3.32192809488736234787;
+    public static final int RAW_PACKET_BUFFER_SIZE = 2500000;
+    public static final int FF_DECODE_ERROR_INVALID_BITSTREAM = 1;
+    public static final int AV_CH_BACK_LEFT = 0x00000010;
+    public static final int AV_CH_SIDE_LEFT = 0x00000200;
+    public static final boolean FF_API_READ_PACKET = (55 < 56);
+    public static final int FF_MB_DECISION_SIMPLE = 0;
+    public static final int AV_DISPOSITION_DUB = 0x0002;
+    public static final int AV_CH_SIDE_RIGHT = 0x00000400;
+    public static final int FF_QP2LAMBDA = 118;
+    public static final int FF_PROFILE_MPEG4_CORE_SCALABLE = 10;
+    public static final int FF_CODER_TYPE_AC = 1;
+    public static final long AV_CH_LAYOUT_NATIVE = 0x8000000000000000L;
+    public static final int AV_DICT_APPEND = 32;
+    public static final int FF_PROFILE_H264_CAVLC_444 = 44;
+    public static final int FF_PROFILE_MPEG4_CORE = 2;
+    public static final int SLICE_FLAG_CODED_ORDER = 0x0001;
+    public static final int AV_HAVE_INCOMPATIBLE_LIBAV_ABI = 0;
+    public static final int AV_CPU_FLAG_AVX = 0x4000;
+    public static final int MB_TYPE_P1L1 = 0x8000;
+    public static final int CODEC_FLAG_UNALIGNED = 0x0001;
+    public static final int AVFMT_GENERIC_INDEX = 0x0100;
+    public static final int AV_EF_COMPLIANT = (1 << 17);
+    public static final int MB_TYPE_P1L0 = 0x2000;
+    public static final int CODEC_FLAG2_IGNORE_CROP = 0x00010000;
+    public static final int FF_PROFILE_VC1_SIMPLE = 0;
+    public static final int LIBAVCODEC_VERSION_INT = (55 << 16 | 18 << 8 | 102);
+    public static final int AV_CODEC_PROP_TEXT_SUB = (1 << 17);
+    public static final boolean FF_API_LOWRES = (55 < 56);
+    public static final int FF_PROFILE_VC1_ADVANCED = 3;
+    public static final int FF_COMPLIANCE_VERY_STRICT = 2;
+    public static final int CODEC_CAP_DR1 = 0x0002;
+    public static final int AV_ERROR_MAX_STRING_SIZE = 64;
+    public static final int FF_LAMBDA_MAX = (256 * 128 - 1);
+    public static final int AV_NUM_DATA_POINTERS = 8;
+    public static final int AVFMT_ALLOW_FLUSH = 0x10000;
+    public static final int FF_PROFILE_H264_HIGH_10 = 110;
+    public static final int FF_DTG_AFD_16_9_SP_14_9 = 14;
+    public static final int FF_BUFFER_TYPE_INTERNAL = 1;
+    public static final int AV_CH_LOW_FREQUENCY = 0x00000008;
+    public static final String LIBAVCODEC_IDENT = "Lavc";
+    public static final int MB_TYPE_P0L1 = 0x4000;
+    public static final long AV_CH_WIDE_LEFT = 0x0000000080000000L;
+    public static final int MB_TYPE_8x16 = 0x0020;
+    public static final int CODEC_FLAG_MV0 = 0x0040;
+    public static final int MB_TYPE_INTERLACED = 0x0080;
+    public static final int FF_PROFILE_H264_HIGH_444 = 144;
+    public static final int FF_PROFILE_H264_HIGH = 100;
+    public static final int AVSEEK_FLAG_BACKWARD = 1;
+    public static final int FF_PROFILE_MPEG4_ADVANCED_CODING = 11;
+    public static final int FF_BUG_QPEL_CHROMA = 64;
+    public static final int AVERROR_EXIT = (-(('E') | (('X') << 8) | (('I') << 16) | (('T') << 24)));
+    public static final boolean FF_API_ASS_SSA = (55 < 56);
+    public static final int FF_COMPLIANCE_UNOFFICIAL = -1;
+    public static final int AVFMT_FLAG_NONBLOCK = 0x0004;
+    public static final int CODEC_FLAG2_SHOW_ALL = 0x00400000;
+    public static final int SLICE_FLAG_ALLOW_PLANE = 0x0004;
+    public static final int FF_PROFILE_DTS_HD_HRA = 50;
+    public static final int FF_LOSS_RESOLUTION = 0x0001;
+    public static final int FF_DEBUG_VIS_MV_B_FOR = 0x00000002;
+    public static final int PARSER_FLAG_FETCHED_OFFSET = 0x0004;
+    public static final int AV_CH_FRONT_LEFT = 0x00000001;
+    public static final int FF_CMP_W53 = 11;
+    public static final int FF_PROFILE_AAC_HE = 4;
+    public static final int FF_CMP_SSE = 1;
+    public static final int CODEC_FLAG_TRUNCATED = 0x00010000;
+    public static final int FF_DEBUG_STARTCODE = 0x00000100;
+    public static final int FF_CMP_PSNR = 4;
+    public static final int FF_BUFFER_HINTS_PRESERVE = 0x04;
+    public static final int FF_SUB_CHARENC_MODE_AUTOMATIC = 0;
+    public static final int FF_PROFILE_DTS = 20;
+    public static final int FF_PROFILE_H264_HIGH_422_INTRA = (122 | (1 << 11));
+    public static final int FF_PROFILE_H264_HIGH_444_INTRA = (244 | (1 << 11));
+    public static final int AV_CPU_FLAG_MMXEXT = 0x0002;
+    public static final int AV_CODEC_PROP_LOSSY = (1 << 1);
+    public static final int FF_PROFILE_H264_HIGH_422 = 122;
+    public static final int LIBAVUTIL_BUILD = (52 << 16 | 38 << 8 | 100);
+    public static final long AV_CH_WIDE_RIGHT = 0x0000000100000000L;
+    public static final int FF_PROFILE_MPEG4_SIMPLE_STUDIO = 14;
+    public static final int CODEC_CAP_INTRA_ONLY = 0x40000000;
+    public static final int FF_LEVEL_UNKNOWN = -99;
+    public static final int FF_DTG_AFD_14_9 = 11;
+    public static final int AV_PKT_FLAG_KEY = 0x0001;
+    public static final int CODEC_CAP_FRAME_THREADS = 0x1000;
+    public static final int CODEC_FLAG2_NO_OUTPUT = 0x00000004;
+    public static final int CODEC_FLAG_BITEXACT = 0x00800000;
+    public static final int FF_PROFILE_MPEG2_AAC_LOW = 128;
+    public static final int FF_IDCT_SH4 = 9;
+    public static final int AVFMT_SHOW_IDS = 0x0008;
+    public static final boolean FF_API_CPU_FLAG_MMX2 = (52 < 53);
+    public static final int FF_BUG_STD_QPEL = 128;
+    public static final int FF_LOSS_CHROMA = 0x0020;
+    public static final int FF_PROFILE_DTS_ES = 30;
+    public static final int AV_DISPOSITION_METADATA = 0x40000;
+    public static final int AVSEEK_SIZE = 0x10000;
+    public static final int FF_IDCT_INT = 1;
+    public static final int FF_INPUT_BUFFER_PADDING_SIZE = 16;
+    public static final int FF_THREAD_FRAME = 1;
+    public static final int FF_DTG_AFD_SP_4_3 = 15;
+    public static final int FF_DTG_AFD_16_9 = 10;
+    public static final int AV_CH_LAYOUT_2POINT1 = ((0x00000001 | 0x00000002) | 0x00000008);
+    public static final int AVFMT_FLAG_DISCARD_CORRUPT = 0x0100;
+    public static final int AVFMT_TS_DISCONT = 0x0200;
+    public static final int CODEC_CAP_VARIABLE_FRAME_SIZE = 0x10000;
+    public static final int FF_DEBUG_MMCO = 0x00000800;
+    public static final int FF_IDCT_AUTO = 0;
+    public static final int LIBAVFORMAT_VERSION_MICRO = 100;
+    public static final int FF_PROFILE_MPEG4_BASIC_ANIMATED_TEXTURE = 7;
+    public static final boolean FF_API_FORMAT_PARAMETERS = (55 < 56);
+    public static final int AV_CH_TOP_FRONT_LEFT = 0x00001000;
+    public static final int CODEC_FLAG_INTERLACED_DCT = 0x00040000;
+    public static final int AV_DISPOSITION_COMMENT = 0x0008;
+    public static final int FF_DECODE_ERROR_MISSING_REFERENCE = 2;
+    public static final int AVFMT_FLAG_NOPARSE = 0x0020;
+    public static final int AVERROR_PATCHWELCOME = (-(('P') | (('A') << 8) | (('W') << 16) | (('E') << 24)));
+    public static final int CODEC_CAP_CHANNEL_CONF = 0x0400;
+    public static final int AVFMT_FLAG_PRIV_OPT = 0x20000;
+    public static final int AVPROBE_SCORE_MAX = 100;
+    public static final int AV_CPU_FLAG_SSSE3 = 0x0080;
+    public static final int FF_FDEBUG_TS = 0x0001;
+    public static final int AV_CODEC_PROP_INTRA_ONLY = (1 << 0);
+    public static final int FF_COMPLIANCE_STRICT = 1;
+    public static final int AV_CH_TOP_BACK_LEFT = 0x00008000;
+    public static final int CODEC_FLAG_LOW_DELAY = 0x00080000;
+    public static final int AVIO_FLAG_READ_WRITE = (1 | 2);
+    public static final int AV_DICT_MATCH_CASE = 1;
+    public static final int AV_CPU_FLAG_ATOM = 0x10000000;
+    public static final int MB_TYPE_L0L1 = ((0x1000 | 0x2000) | (0x4000 | 0x8000));
+    public static final int FF_BUG_HPEL_CHROMA = 2048;
+    public static final int MB_TYPE_INTRA16x16 = 0x0002;
+    public static final int AVFMT_NOSTREAMS = 0x1000;
+    public static final int FF_DEBUG_MV = 32;
+    public static final boolean FF_API_OLD_TIMECODE = (55 < 55);
+    public static final int AV_PTS_WRAP_ADD_OFFSET = 1;
+    public static final int AV_EF_AGGRESSIVE = (1 << 18);
+    public static final int FF_DEBUG_VIS_QP = 0x00002000;
+    public static final int MB_TYPE_P0L0 = 0x1000;
+    public static final int FF_DEBUG_BITSTREAM = 4;
+    public static final int FF_PROFILE_DTS_96_24 = 40;
+    public static final int FF_CMP_DCT264 = 14;
+    public static final int AV_CPU_FLAG_MMX = 0x0001;
+    public static final int FF_EC_DEBLOCK = 2;
+    public static final int AV_DISPOSITION_KARAOKE = 0x0020;
+    public static final long AV_CH_SURROUND_DIRECT_LEFT = 0x0000000200000000L;
+    public static final int LIBAVUTIL_VERSION_MICRO = 100;
+    public static final int AV_CPU_FLAG_NEON = (1 << 5);
+    public static final int LIBAVFORMAT_VERSION_MINOR = 12;
+    public static final int AV_LOG_SKIP_REPEATED = 1;
+    public static final int CODEC_FLAG_INTERLACED_ME = 0x20000000;
+    public static final int FF_PROFILE_RESERVED = -100;
+    public static final int AVSEEK_FLAG_ANY = 4;
+    public static final int AV_DISPOSITION_LYRICS = 0x0010;
+    public static final boolean FF_API_OLD_DECODE_AUDIO = (55 < 56);
+    public static final int CODEC_FLAG_PASS2 = 0x0400;
+    public static final int CODEC_FLAG_PASS1 = 0x0200;
+    public static final int MAX_STD_TIMEBASES = (60 * 12 + 6);
+    public static final int MB_TYPE_16x16 = 0x0008;
+    public static final int AV_EF_CAREFUL = (1 << 16);
+    public static final int FF_PROFILE_DTS_HD_MA = 60;
+    public static final int FF_THREAD_SLICE = 2;
+    public static final int FF_LOSS_DEPTH = 0x0002;
+    public static final int AV_DICT_DONT_OVERWRITE = 16;
+    public static final int FF_PROFILE_AAC_MAIN = 0;
+    public static final int AVERROR_BUG = (-(('B') | (('U') << 8) | (('G') << 16) | (('!') << 24)));
+    public static final int FF_BUG_EDGE = 1024;
+    public static final int AV_PROGRAM_RUNNING = 1;
+    public static final int FF_IDCT_SIMPLEMMX = 3;
+    public static final int FF_PROFILE_MPEG4_ADVANCED_SCALABLE_TEXTURE = 13;
+    public static final int AV_CH_STEREO_LEFT = 0x20000000;
+    public static final int FF_PRED_PLANE = 1;
+    public static final int CODEC_CAP_HWACCEL_VDPAU = 0x0080;
+    public static final int FF_DTG_AFD_SAME = 8;
+    public static final int CODEC_FLAG2_FAST = 0x00000001;
+    public static final int FF_BUFFER_TYPE_USER = 2;
+    public static final boolean FF_API_AUDIOCONVERT = (52 < 53);
+    public static final int CODEC_FLAG2_CHUNKS = 0x00008000;
+    public static final int AV_PKT_FLAG_CORRUPT = 0x0002;
+    public static final int FF_IDCT_SIMPLEALPHA = 23;
+    public static final int AV_CPU_FLAG_SSE42 = 0x0200;
+    public static final int AV_CH_FRONT_RIGHT_OF_CENTER = 0x00000080;
+    public static final int FF_DEBUG_VIS_MB_TYPE = 0x00004000;
+    public static final int FF_BUG_MS = 8192;
+    public static final boolean FF_API_OLD_AVIO = (55 < 55);
+    public static final int AVSEEK_FLAG_BYTE = 2;
+    public static final int FF_PROFILE_AAC_HE_V2 = 28;
+    public static final int CODEC_FLAG_QSCALE = 0x0002;
+    public static final int AV_DISPOSITION_ORIGINAL = 0x0004;
+    public static final int FF_PROFILE_MPEG4_SIMPLE_SCALABLE = 1;
+    public static final int MB_TYPE_ACPRED = 0x0200;
+    public static final int AV_CH_LAYOUT_6POINT0 = ((((0x00000001 | 0x00000002) | 0x00000004) | 0x00000200 | 0x00000400) | 0x00000100);
+    public static final int AV_CH_LAYOUT_6POINT1 = (((((0x00000001 | 0x00000002) | 0x00000004) | 0x00000200 | 0x00000400) | 0x00000008) | 0x00000100);
+    public static final int AVFMT_FLAG_CUSTOM_IO = 0x0080;
+    public static final int FF_CMP_VSSE = 9;
+    public static final int FF_IDCT_SIMPLEARMV5TE = 16;
+    public static final int FF_IDCT_FAAN = 20;
+    public static final int AVFMT_NOGENSEARCH = 0x4000;
+    public static final int AV_CH_LAYOUT_6POINT1_BACK = (((((0x00000001 | 0x00000002) | 0x00000004) | 0x00000010 | 0x00000020) | 0x00000008) | 0x00000100);
+    public static final int FF_CMP_NSSE = 10;
+    public static final int FF_PROFILE_H264_INTRA = (1 << 11);
+    public static final int FF_BUFFER_TYPE_COPY = 8;
+    public static final int FF_DEBUG_QP = 16;
+    public static final int AV_HAVE_FAST_UNALIGNED = 1;
+    public static final int AVFMT_FLAG_IGNDTS = 0x0008;
+    public static final int FF_BUFFER_HINTS_VALID = 0x01;
+    public static final int MB_TYPE_DIRECT2 = 0x0100;
+    public static final int FF_QSCALE_TYPE_MPEG1 = 0;
+    public static final int FF_QSCALE_TYPE_MPEG2 = 1;
+    public static final int FF_IDCT_ARM = 7;
+    public static final boolean FF_API_AVCODEC_OPEN = (55 < 55);
+    public static final int FF_DEBUG_RC = 2;
+    public static final int FF_PRED_LEFT = 0;
+    public static final int FF_IDCT_IPP = 13;
+    public static final int CODEC_FLAG_INPUT_PRESERVED = 0x0100;
+    public static final int AVERROR_INVALIDDATA = (-(('I') | (('N') << 8) | (('D') << 16) | (('A') << 24)));
+    public static final int AVERROR_EOF = (-(('E') | (('O') << 8) | (('F') << 16) | ((' ') << 24)));
+    public static final double M_PHI = 1.61803398874989484820;
+    public static final int FF_DCT_MMX = 3;
+    public static final int AVPALETTE_COUNT = 256;
+    public static final int AV_LOG_PANIC = 0;
+    public static final int __STDC_HOSTED__ = 1;
+    public static final int AVFMT_VARIABLE_FPS = 0x0400;
+    public static final int FF_COMPRESSION_DEFAULT = -1;
+    public static final boolean FF_API_LLS_PRIVATE = (52 < 53);
+    public static final int AVFMT_FLAG_KEEP_SIDE_DATA = 0x40000;
+    public static final int PARSER_FLAG_COMPLETE_FRAMES = 0x0001;
+    public static final int FF_PROFILE_MPEG2_HIGH = 1;
+    public static final int FF_BUFFER_HINTS_READABLE = 0x02;
+    public static final int AVPROBE_PADDING_SIZE = 32;
+    public static final int FF_PROFILE_JPEG2000_CSTREAM_NO_RESTRICTION = 2;
+    public static final int AV_CPU_FLAG_SSE2 = 0x0010;
+    public static final int AV_CH_TOP_BACK_RIGHT = 0x00020000;
+    public static final int FF_PROFILE_MPEG2_422 = 0;
+    public static final int AVERROR_MUXER_NOT_FOUND = (-((0xF8) | (('M') << 8) | (('U') << 16) | (('X') << 24)));
+    public static final boolean FF_API_OLD_ENCODE_AUDIO = (55 < 56);
+    public static final int AVERROR_EXTERNAL = (-(('E') | (('X') << 8) | (('T') << 16) | ((' ') << 24)));
+    public static final int FF_PROFILE_H264_EXTENDED = 88;
+    public static final int CODEC_FLAG_QPEL = 0x0010;
+    public static final int AV_CH_LAYOUT_QUAD = ((0x00000001 | 0x00000002) | 0x00000010 | 0x00000020);
+    public static final int AV_CH_LAYOUT_HEXAGONAL = ((((0x00000001 | 0x00000002) | 0x00000004) | 0x00000010 | 0x00000020) | 0x00000100);
+    public static final int AVFMT_NOTIMESTAMPS = 0x0080;
+    public static final boolean FF_API_NEW_STREAM = (55 < 56);
+    public static final int FF_COMPLIANCE_NORMAL = 0;
+    public static final int AV_DISPOSITION_DEFAULT = 0x0001;
+    public static final int FF_IDCT_XVIDMMX = 14;
+    public static final int MB_TYPE_L0 = (0x1000 | 0x2000);
+    public static final int CODEC_CAP_HWACCEL = 0x0010;
+    public static final int MB_TYPE_QUANT = 0x00010000;
+    public static final int LIBAVFORMAT_VERSION_INT = (55 << 16 | 12 << 8 | 100);
+    public static final int AVERROR_DEMUXER_NOT_FOUND = (-((0xF8) | (('D') << 8) | (('E') << 16) | (('M') << 24)));
+    public static final int AVFMT_NOBINSEARCH = 0x2000;
+    public static final int FF_PROFILE_MPEG2_AAC_HE = 131;
+    public static final int MB_TYPE_L1 = (0x4000 | 0x8000);
+    public static final int AV_EF_BITSTREAM = (1 << 1);
+    public static final int AV_CPU_FLAG_XOP = 0x0400;
+    public static final boolean FF_API_ALLOC_OUTPUT_CONTEXT = (55 < 56);
+    public static final int FF_PROFILE_H264_MAIN = 77;
+    public static final int AV_DISPOSITION_DESCRIPTIONS = 0x20000;
+    public static final int FF_CMP_SATD = 2;
+    public static final int FF_BUFFER_TYPE_SHARED = 4;
+    public static final int CODEC_CAP_DELAY = 0x0020;
+    public static final int AV_CH_LAYOUT_STEREO_DOWNMIX = (0x20000000 | 0x40000000);
+    public static final boolean FF_API_OLD_ENCODE_VIDEO = (55 < 56);
+    public static final int AV_CPU_FLAG_FMA4 = 0x0800;
+    public static final int FF_PROFILE_MPEG4_SCALABLE_TEXTURE = 5;
+    public static final boolean FF_API_PIX_FMT_DESC = (52 < 53);
+    public static final int AV_CPU_FLAG_SSE3 = 0x0040;
+    public static final boolean FF_API_MISSING_SAMPLE = (55 < 56);
+    public static final int AV_CPU_FLAG_SSE4 = 0x0100;
+    public static final int AV_DICT_DONT_STRDUP_KEY = 4;
+    public static final int FF_BUG_AUTODETECT = 1;
+    public static final int FF_CMP_RD = 6;
+    public static final int AV_CPU_FLAG_ARMV5TE = (1 << 0);
+    public static final int AVFMT_FLAG_NOFILLIN = 0x0010;
+    public static final int FF_PROFILE_MPEG2_SNR_SCALABLE = 3;
+    public static final int AV_CH_LAYOUT_5POINT1_BACK = ((((0x00000001 | 0x00000002) | 0x00000004) | 0x00000010 | 0x00000020) | 0x00000008);
+    public static final int AV_CPU_FLAG_3DNOW = 0x0004;
+    public static final int FF_PROFILE_VC1_COMPLEX = 2;
+    public static final int AV_LOG_DEBUG = 48;
+    public static final int AV_CH_LAYOUT_7POINT1_WIDE = (((((0x00000001 | 0x00000002) | 0x00000004) | 0x00000200 | 0x00000400) | 0x00000008) | 0x00000040 | 0x00000080);
+    public static final int AV_CH_LAYOUT_MONO = (0x00000004);
+    public static final int LIBAVFORMAT_BUILD = (55 << 16 | 12 << 8 | 100);
+    public static final boolean FF_API_AV_REVERSE = (52 < 53);
+    public static final String LIBAVFORMAT_IDENT = "Lavf";
+    public static final int CODEC_CAP_DRAW_HORIZ_BAND = 0x0001;
+    public static final int FF_DEBUG_DCT_COEFF = 0x00000040;
+    public static final int AV_DISPOSITION_HEARING_IMPAIRED = 0x0080;
+    public static final int AV_CH_TOP_BACK_CENTER = 0x00010000;
+    public static final int FF_COMPLIANCE_EXPERIMENTAL = -2;
+    public static final int FF_DEBUG_VIS_MV_P_FOR = 0x00000001;
+    public static final int AV_LOG_MAX_OFFSET = (48 - -8);
+    public static final int AVFMT_FLAG_IGNIDX = 0x0002;
+    public static final int FF_CMP_DCT = 3;
+    public static final int AV_CH_LAYOUT_SURROUND = ((0x00000001 | 0x00000002) | 0x00000004);
+    public static final boolean FF_API_DEINTERLACE = (55 < 56);
+    public static final int FF_IDCT_SIMPLEARM = 10;
+    public static final int FF_PROFILE_MPEG4_SIMPLE = 0;
+    public static final int AV_LOG_WARNING = 24;
+    public static final int AV_CH_LAYOUT_6POINT1_FRONT = ((((0x00000001 | 0x00000002) | 0x00000200 | 0x00000400) | 0x00000040 | 0x00000080) | 0x00000008);
+    public static final int AVFMT_NODIMENSIONS = 0x0800;
+    public static final int AV_CPU_FLAG_SSE2SLOW = 0x40000000;
+    public static final int LIBAVCODEC_BUILD = (55 << 16 | 18 << 8 | 102);
+    public static final int FF_SUB_CHARENC_MODE_DO_NOTHING = -1;
+    public static final int AVERROR_PROTOCOL_NOT_FOUND = (-((0xF8) | (('P') << 8) | (('R') << 16) | (('O') << 24)));
+    public static final int AV_CH_FRONT_RIGHT = 0x00000002;
+    public static final int AVPROBE_SCORE_EXTENSION = 50;
+    public static final int FF_CMP_SAD = 0;
+    public static final int AV_CH_TOP_FRONT_CENTER = 0x00002000;
+    public static final int FF_BUG_TRUNCATED = 16384;
+    public static final int FF_PROFILE_MPEG4_MAIN = 3;
+    public static final int FF_PROFILE_AAC_SSR = 2;
+    public static final int AV_DISPOSITION_ATTACHED_PIC = 0x0400;
+    public static final int FF_PROFILE_JPEG2000_DCINEMA_4K = 4;
+    public static final int CODEC_FLAG_GLOBAL_HEADER = 0x00400000;
+    public static final boolean FF_API_DESTRUCT_PACKET = (55 < 56);
+    public static final int LIBAVCODEC_VERSION_MAJOR = 55;
+    public static final int LIBAVFORMAT_VERSION_MAJOR = 55;
+    public static final int CODEC_FLAG_PSNR = 0x8000;
+    public static final int FF_BUG_XVID_ILACE = 4;
+    public static final int FF_LOSS_COLORQUANT = 0x0010;
+    public static final int CODEC_CAP_SMALL_LAST_FRAME = 0x0040;
+    public static final int AV_SUBTITLE_FLAG_FORCED = 0x00000001;
+    public static final int AV_CH_LAYOUT_7POINT0_FRONT = ((((0x00000001 | 0x00000002) | 0x00000004) | 0x00000200 | 0x00000400) | 0x00000040 | 0x00000080);
+    public static final int MB_TYPE_SKIP = 0x0800;
+    public static final int FF_PROFILE_H264_HIGH_10_INTRA = (110 | (1 << 11));
+    public static final int FF_CODER_TYPE_RAW = 2;
+    public static final int SLICE_FLAG_ALLOW_FIELD = 0x0002;
+    public static final int FF_DEBUG_THREADS = 0x00010000;
+    public static final int AV_CPU_FLAG_ARMV6T2 = (1 << 2);
+    public static final int AV_LOG_VERBOSE = 40;
+    public static final int AV_CPU_FLAG_ARMV6 = (1 << 1);
+    public static final int AV_CH_TOP_CENTER = 0x00000800;
+    public static final int AVERROR_EXPERIMENTAL = (0x2bb2afa8);
+    public static final int MAX_PROBE_PACKETS = 2500;
+    public static final boolean FF_API_AVFRAME_LAVC = (52 < 53);
+    public static final int FF_BUFFER_HINTS_REUSABLE = 0x08;
+    public static final int FF_PROFILE_JPEG2000_DCINEMA_2K = 3;
+    public static final int FF_LOSS_COLORSPACE = 0x0004;
+    public static final int AV_EF_CRCCHECK = (1 << 0);
+    public static final int AV_CH_STEREO_RIGHT = 0x40000000;
+    public static final int AV_LOG_ERROR = 16;
+    public static final int FF_PROFILE_H264_HIGH_444_PREDICTIVE = 244;
+    public static final int FF_DEBUG_MB_TYPE = 8;
+    public static final int FF_DCT_FAAN = 6;
+    public static final int FF_DCT_AUTO = 0;
+    public static final int FF_PROFILE_MPEG4_HYBRID = 8;
+    public static final int FF_RC_STRATEGY_XVID = 1;
+    public static final int AV_CH_LAYOUT_5POINT0_BACK = (((0x00000001 | 0x00000002) | 0x00000004) | 0x00000010 | 0x00000020);
+    public static final int MB_TYPE_INTRA4x4 = 0x0001;
+    public static final int AV_CPU_FLAG_FORCE = 0x80000000;
+    public static final int MAX_REORDER_DELAY = 16;
+    public static final int FF_CODER_TYPE_DEFLATE = 4;
+    public static final int FF_PROFILE_AAC_LTP = 3;
+    public static final int AV_CPU_FLAG_SSE3SLOW = 0x20000000;
+    public static final int FF_QUALITY_SCALE = (1 << 7);
+    public static final int MB_TYPE_CBP = 0x00020000;
+    public static final int AV_LOG_INFO = 32;
+    public static final int FF_IDCT_SIMPLEVIS = 18;
+    public static final int AV_CPU_FLAG_SSE = 0x0008;
+    public static final int AV_TIME_BASE = 1000000;
+    public static final int CODEC_CAP_LOSSLESS = 0x80000000;
+    public static final int AV_CPU_FLAG_MMX2 = 0x0002;
+    public static final boolean FF_API_CODEC_ID = (55 < 56);
+    public static final int CODEC_CAP_NEG_LINESIZES = 0x0800;
+    public static final int AV_PTS_WRAP_SUB_OFFSET = -1;
+    public static final int AV_EF_BUFFER = (1 << 2);
+    public static final int AV_CH_LAYOUT_7POINT1 = (((((0x00000001 | 0x00000002) | 0x00000004) | 0x00000200 | 0x00000400) | 0x00000008) | 0x00000010 | 0x00000020);
+    public static final int FF_QSCALE_TYPE_H264 = 2;
+    public static final int AV_CH_LAYOUT_7POINT0 = ((((0x00000001 | 0x00000002) | 0x00000004) | 0x00000200 | 0x00000400) | 0x00000010 | 0x00000020);
+    public static final int AVFMT_NO_BYTE_SEEK = 0x8000;
+    public static final int FF_DEBUG_SKIP = 0x00000080;
+    public static final int FF_PROFILE_H264_CONSTRAINED_BASELINE = (66 | (1 << 9));
+    public static final int CODEC_CAP_TRUNCATED = 0x0008;
+    public static final int AVERROR_BSF_NOT_FOUND = (-((0xF8) | (('B') << 8) | (('S') << 16) | (('F') << 24)));
+    public static final int AVFMT_NEEDNUMBER = 0x0002;
+    public static final int AV_CH_BACK_RIGHT = 0x00000020;
+    public static final int AV_DISPOSITION_CAPTIONS = 0x10000;
+    public static final boolean FF_API_GET_BUFFER = (55 < 56);
+    public static final int AV_CH_TOP_FRONT_RIGHT = 0x00004000;
+    public static final int AV_DISPOSITION_FORCED = 0x0040;
+    public static final int AVIO_FLAG_READ = 1;
+    public static final int FF_PROFILE_MPEG4_ADVANCED_SIMPLE = 15;
+    public static final int FF_DTG_AFD_4_3_SP_14_9 = 13;
+    public static final int FF_DCT_ALTIVEC = 5;
+    public static final int AV_CH_LAYOUT_5POINT0 = (((0x00000001 | 0x00000002) | 0x00000004) | 0x00000200 | 0x00000400);
+    public static final int AV_CH_LAYOUT_5POINT1 = ((((0x00000001 | 0x00000002) | 0x00000004) | 0x00000200 | 0x00000400) | 0x00000008);
+    public static final boolean FF_API_AVCODEC_RESAMPLE = (55 < 56);
+    public static final int FF_CMP_BIT = 5;
+    public static final int FF_BUG_AC_VLC = 0;
+    public static final int AV_PARSER_PTS_NB = 4;
+    public static final int FF_DEBUG_PTS = 0x00000200;
+    public static final int AVFMT_FLAG_GENPTS = 0x0001;
+    public static final int AV_CODEC_PROP_BITMAP_SUB = (1 << 16);
+    public static final int AVFMT_RAWPICTURE = 0x0020;
+    public static final boolean FF_API_GET_BITS_PER_SAMPLE_FMT = (52 < 53);
+    public static final int AVERROR_DECODER_NOT_FOUND = (-((0xF8) | (('D') << 8) | (('E') << 16) | (('C') << 24)));
+    public static final int FF_QSCALE_TYPE_VP56 = 3;
+    public static final int FF_LOSS_ALPHA = 0x0008;
+    public static final int FF_PROFILE_MPEG4_N_BIT = 4;
+    public static final int FF_DTG_AFD_4_3 = 9;
+    public static final int AV_LOG_FATAL = 8;
+    public static final int AV_CPU_FLAG_CMOV = 0x1001000;
+    public static final int FF_BUG_NO_PADDING = 16;
+    public static final int FF_DEFAULT_QUANT_BIAS = 999999;
+    public static final int AV_DICT_DONT_STRDUP_VAL = 8;
+    public static final int AV_CPU_FLAG_3DNOWEXT = 0x0020;
+    public static final int CODEC_FLAG_LOOP_FILTER = 0x00000800;
+    public static final int FF_PROFILE_MPEG2_MAIN = 4;
+    public static final int FF_API_R_FRAME_RATE = 1;
+    public static final int FF_CMP_DCTMAX = 13;
+    public static final int AV_CODEC_PROP_LOSSLESS = (1 << 2);
+    public static final boolean FF_API_CLOSE_INPUT_FILE = (55 < 56);
+    public static final int FF_PROFILE_JPEG2000_CSTREAM_RESTRICTION_0 = 0;
+    public static final int AVERROR_STREAM_NOT_FOUND = (-((0xF8) | (('S') << 8) | (('T') << 16) | (('R') << 24)));
+    public static final int FF_PROFILE_JPEG2000_CSTREAM_RESTRICTION_1 = 1;
+    public static final int FF_PROFILE_AAC_LOW = 1;
+    public static final int AV_LOG_QUIET = -8;
+    public static final int AV_CH_LAYOUT_OCTAGONAL = ((((0x00000001 | 0x00000002) | 0x00000004) | 0x00000200 | 0x00000400) | 0x00000010 | 0x00000100 | 0x00000020);
+    public static final boolean FF_API_PKT_DUMP = (55 < 54);
+    public static final int LIBAVUTIL_VERSION_MINOR = 38;
+    public static final int FF_IDCT_SIMPLE = 2;
+    public static final int FF_PROFILE_UNKNOWN = -99;
+    public static final int AVFMT_TS_NEGATIVE = 0x40000;
+    public static final int FF_CMP_VSAD = 8;
+    public static final int CODEC_CAP_PARAM_CHANGE = 0x4000;
+    public static final int CODEC_CAP_SLICE_THREADS = 0x2000;
+    public static final int FF_PROFILE_H264_BASELINE = 66;
+    public static final boolean FF_API_ALLOC_CONTEXT = (55 < 55);
+    public static final int AV_GET_BUFFER_FLAG_REF = (1 << 0);
+    public static final int MB_TYPE_GMC = 0x0400;
+    public static final int CODEC_CAP_AUTO_THREADS = 0x8000;
+    public static final int CODEC_CAP_SUBFRAMES = 0x0100;
+    public static final int FF_PROFILE_MPEG4_ADVANCED_CORE = 12;
+    public static final int MB_TYPE_INTRA_PCM = 0x0004;
+    public static final int AVIO_FLAG_NONBLOCK = 8;
+    public static final int AVFMT_FLAG_SORT_DTS = 0x10000;
+    public static final int AV_CH_BACK_CENTER = 0x00000100;
+    public static final int CODEC_FLAG2_DROP_FRAME_TIMECODE = 0x00002000;
+    public static final String LIBAVUTIL_IDENT = "Lavu";
+    public static final int FF_DCT_FASTINT = 1;
+    public static final int AV_CPU_FLAG_VFPV3 = (1 << 4);
+    public static final int AV_CH_LAYOUT_4POINT0 = (((0x00000001 | 0x00000002) | 0x00000004) | 0x00000100);
+    public static final int PARSER_FLAG_ONCE = 0x0002;
+    public static final int AV_CH_LAYOUT_7POINT1_WIDE_BACK = (((((0x00000001 | 0x00000002) | 0x00000004) | 0x00000010 | 0x00000020) | 0x00000008) | 0x00000040 | 0x00000080);
+    public static final int AV_PTS_WRAP_IGNORE = 0;
+    public static final int CODEC_FLAG_4MV = 0x0004;
+    public static final int CODEC_FLAG_AC_PRED = 0x01000000;
+    public static final int LIBAVUTIL_VERSION_MAJOR = 52;
+    public static final int FF_BUG_UMP4 = 8;
+    public static final int AVFMT_TS_NONSTRICT = 0x20000;
+    public static final int FF_CMP_ZERO = 7;
+    public static final int AVERROR_ENCODER_NOT_FOUND = (-((0xF8) | (('E') << 8) | (('N') << 16) | (('C') << 24)));
+    public static final int AVERROR_BUFFER_TOO_SMALL = (-(('B') | (('U') << 8) | (('F') << 16) | (('S') << 24)));
+    public static final long AV_CH_LOW_FREQUENCY_2 = 0x0000000800000000L;
+    public static final int AV_CH_LAYOUT_4POINT1 = ((((0x00000001 | 0x00000002) | 0x00000004) | 0x00000100) | 0x00000008);
+    public static final int FF_PRED_MEDIAN = 2;
+    public static final int AV_CH_FRONT_LEFT_OF_CENTER = 0x00000040;
+    public static final int FF_PROFILE_H264_CONSTRAINED = (1 << 9);
+    public static final int CODEC_FLAG2_LOCAL_HEADER = 0x00000008;
+    public static final int AV_CPU_FLAG_VFP = (1 << 3);
+    public static final int AV_CPU_FLAG_ALTIVEC = 0x0001;
+    public static final int CODEC_CAP_EXPERIMENTAL = 0x0200;
+    public static final int FF_LAMBDA_SHIFT = 7;
+    public static final int CODEC_FLAG_GMC = 0x0020;
+    public static final int AV_BUFFER_FLAG_READONLY = (1 << 0);
+    public static final int AV_CH_LAYOUT_2_1 = ((0x00000001 | 0x00000002) | 0x00000100);
+    public static final int FF_BUG_DIRECT_BLOCKSIZE = 512;
+    public static final int PARSER_FLAG_USE_CODEC_TS = 0x1000;
+    public static final int AV_DISPOSITION_CLEAN_EFFECTS = 0x0200;
+    public static final boolean FF_API_FIND_OPT = (52 < 53);
+    public static final int AVFMT_GLOBALHEADER = 0x0040;
+    public static final int FF_EC_GUESS_MVS = 1;
+    public static final int FF_BUG_OLD_MSMPEG4 = 2;
+    public static final int AV_CH_LAYOUT_2_2 = ((0x00000001 | 0x00000002) | 0x00000200 | 0x00000400);
+    public static final int FF_PROFILE_AAC_ELD = 38;
+    public static final boolean FF_API_REQUEST_CHANNELS = (55 < 56);
+    public static final int FF_DEBUG_PICT_INFO = 1;
+    public static final int LIBAVCODEC_VERSION_MICRO = 102;
+    public static final int AVIO_SEEKABLE_NORMAL = 0x0001;
+    public static final int AVINDEX_KEYFRAME = 0x0001;
+    public static final int AV_CH_LAYOUT_3POINT1 = (((0x00000001 | 0x00000002) | 0x00000004) | 0x00000008);
+    public static final int FF_DCT_INT = 2;
+    public interface av_log_set_callback_arg1_callback extends Callback {
+        void apply(Pointer voidPtr1, int int1, Pointer charPtr1, LibavformatLibrary.va_list va_list1);
+    };
+    public interface av_buffer_create_free_callback extends Callback {
+        void apply(Pointer opaque, Pointer data);
+    };
+    public interface av_buffer_pool_init_alloc_callback extends Callback {
+        AVBufferRef apply(int size);
+    };
+    public interface avcodec_default_execute_func_callback extends Callback {
+        int apply(AVCodecContext c2, Pointer arg2);
+    };
+    public interface avcodec_default_execute2_func_callback extends Callback {
+        int apply(AVCodecContext c2, Pointer arg2, int int1, int int2);
+    };
+    public interface av_lockmgr_register_cb_callback extends Callback {
+        int apply(PointerByReference mutex, int op);
+    };
+    public interface avio_alloc_context_read_packet_callback extends Callback {
+        int apply(Pointer opaque, Pointer buf, int buf_size);
+    };
+    public interface avio_alloc_context_write_packet_callback extends Callback {
+        int apply(Pointer opaque, Pointer buf, int buf_size);
+    };
+    public interface avio_alloc_context_seek_callback extends Callback {
+        long apply(Pointer opaque, long offset, int whence);
+    };
+    /**
+     * Return the LIBAVUTIL_VERSION_INT constant.<br>
+     * Original signature : <code>int avutil_version()</code>
+     */
+    int avutil_version();
+    /**
+     * Return the libavutil build-time configuration.<br>
+     * Original signature : <code>char* avutil_configuration()</code>
+     */
+    String avutil_configuration();
+    /**
+     * Return the libavutil license.<br>
+     * Original signature : <code>char* avutil_license()</code>
+     */
+    String avutil_license();
+    /**
+     * Return a string describing the media_type enum, NULL if media_type<br>
+     * is unknown.<br>
+     * Original signature : <code>char* av_get_media_type_string(AVMediaType)</code>
+     */
+    String av_get_media_type_string(int media_type);
+    /**
+     * Return a single letter to describe the given picture type<br>
+     * pict_type.<br>
+     * * @param[in] pict_type the picture type @return a single character<br>
+     * representing the picture type, '?' if pict_type is unknown<br>
+     * Original signature : <code>char av_get_picture_type_char(AVPictureType)</code>
+     */
+    byte av_get_picture_type_char(int pict_type);
+    /** Original signature : <code>int av_log2(unsigned)</code> */
+    int av_log2(int v);
+    /** Original signature : <code>int av_log2_16bit(unsigned)</code> */
+    int av_log2_16bit(int v);
+    /**
+     * Put a description of the AVERROR code errnum in errbuf.<br>
+     * In case of failure the global variable errno is set to indicate the<br>
+     * error. Even in case of failure av_strerror() will print a generic<br>
+     * error message indicating the errnum provided to errbuf.<br>
+     * * @param errnum      error code to describe<br>
+     * @param errbuf      buffer to which description is written<br>
+     * @param errbuf_size the size in bytes of errbuf<br>
+     * @return 0 on success, a negative value if a description for errnum<br>
+     * cannot be found<br>
+     * Original signature : <code>int av_strerror(int, char*, size_t)</code><br>
+     * @deprecated use the safer methods {@link #av_strerror(int, java.nio.ByteBuffer, com.ochafik.lang.jnaerator.runtime.NativeSize)} and {@link #av_strerror(int, com.sun.jna.Pointer, com.ochafik.lang.jnaerator.runtime.NativeSize)} instead
+     */
+    @Deprecated
+    int av_strerror(int errnum, Pointer errbuf, NativeSize errbuf_size);
+    /**
+     * Put a description of the AVERROR code errnum in errbuf.<br>
+     * In case of failure the global variable errno is set to indicate the<br>
+     * error. Even in case of failure av_strerror() will print a generic<br>
+     * error message indicating the errnum provided to errbuf.<br>
+     * * @param errnum      error code to describe<br>
+     * @param errbuf      buffer to which description is written<br>
+     * @param errbuf_size the size in bytes of errbuf<br>
+     * @return 0 on success, a negative value if a description for errnum<br>
+     * cannot be found<br>
+     * Original signature : <code>int av_strerror(int, char*, size_t)</code>
+     */
+    int av_strerror(int errnum, ByteBuffer errbuf, NativeSize errbuf_size);
+    /**
+     * Allocate a block of size bytes with alignment suitable for all<br>
+     * memory accesses (including vectors if available on the CPU).<br>
+     * @param size Size in bytes for the memory block to be allocated.<br>
+     * @return Pointer to the allocated block, NULL if the block cannot<br>
+     * be allocated.<br>
+     * @see av_mallocz()<br>
+     * Original signature : <code>void* av_malloc(size_t)</code>
+     */
+    Pointer av_malloc(NativeSize size);
+    /**
+     * Allocate or reallocate a block of memory.<br>
+     * If ptr is NULL and size > 0, allocate a new block. If<br>
+     * size is zero, free the memory block pointed to by ptr.<br>
+     * @param ptr Pointer to a memory block already allocated with<br>
+     * av_malloc(z)() or av_realloc() or NULL.<br>
+     * @param size Size in bytes for the memory block to be allocated or<br>
+     * reallocated.<br>
+     * @return Pointer to a newly reallocated block or NULL if the block<br>
+     * cannot be reallocated or the function is used to free the memory block.<br>
+     * @see av_fast_realloc()<br>
+     * Original signature : <code>void* av_realloc(void*, size_t)</code>
+     */
+    Pointer av_realloc(Pointer ptr, NativeSize size);
+    /**
+     * Allocate or reallocate a block of memory.<br>
+     * This function does the same thing as av_realloc, except:<br>
+     * - It takes two arguments and checks the result of the multiplication for<br>
+     *   integer overflow.<br>
+     * - It frees the input block in case of failure, thus avoiding the memory<br>
+     *   leak with the classic "buf = realloc(buf); if (!buf) return -1;".<br>
+     * Original signature : <code>void* av_realloc_f(void*, size_t, size_t)</code>
+     */
+    Pointer av_realloc_f(Pointer ptr, NativeSize nelem, NativeSize elsize);
+    /**
+     * Allocate or reallocate an array.<br>
+     * If ptr is NULL and nmemb > 0, allocate a new block. If<br>
+     * nmemb is zero, free the memory block pointed to by ptr.<br>
+     * @param ptr Pointer to a memory block already allocated with<br>
+     * av_malloc(z)() or av_realloc() or NULL.<br>
+     * @param nmemb Number of elements<br>
+     * @param size Size of the single element<br>
+     * @return Pointer to a newly reallocated block or NULL if the block<br>
+     * cannot be reallocated or the function is used to free the memory block.<br>
+     * Original signature : <code>void* av_realloc_array(void*, size_t, size_t)</code>
+     */
+    Pointer av_realloc_array(Pointer ptr, NativeSize nmemb, NativeSize size);
+    /**
+     * Allocate or reallocate an array.<br>
+     * If *ptr is NULL and nmemb > 0, allocate a new block. If<br>
+     * nmemb is zero, free the memory block pointed to by ptr.<br>
+     * @param ptr Pointer to a pointer to a memory block already allocated<br>
+     * with av_malloc(z)() or av_realloc(), or pointer to a pointer to NULL.<br>
+     * The pointer is updated on success, or freed on failure.<br>
+     * @param nmemb Number of elements<br>
+     * @param size Size of the single element<br>
+     * @return Zero on success, an AVERROR error code on failure.<br>
+     * Original signature : <code>int av_reallocp_array(void*, size_t, size_t)</code>
+     */
+    int av_reallocp_array(Pointer ptr, NativeSize nmemb, NativeSize size);
+    /**
+     * Free a memory block which has been allocated with av_malloc(z)() or<br>
+     * av_realloc().<br>
+     * @param ptr Pointer to the memory block which should be freed.<br>
+     * @note ptr = NULL is explicitly allowed.<br>
+     * @note It is recommended that you use av_freep() instead.<br>
+     * @see av_freep()<br>
+     * Original signature : <code>void av_free(void*)</code>
+     */
+    void av_free(Pointer ptr);
+    /**
+     * Allocate a block of size bytes with alignment suitable for all<br>
+     * memory accesses (including vectors if available on the CPU) and<br>
+     * zero all the bytes of the block.<br>
+     * @param size Size in bytes for the memory block to be allocated.<br>
+     * @return Pointer to the allocated block, NULL if it cannot be allocated.<br>
+     * @see av_malloc()<br>
+     * Original signature : <code>void* av_mallocz(size_t)</code>
+     */
+    Pointer av_mallocz(NativeSize size);
+    /**
+     * Allocate a block of nmemb * size bytes with alignment suitable for all<br>
+     * memory accesses (including vectors if available on the CPU) and<br>
+     * zero all the bytes of the block.<br>
+     * The allocation will fail if nmemb * size is greater than or equal<br>
+     * to INT_MAX.<br>
+     * @param nmemb<br>
+     * @param size<br>
+     * @return Pointer to the allocated block, NULL if it cannot be allocated.<br>
+     * Original signature : <code>void* av_calloc(size_t, size_t)</code>
+     */
+    Pointer av_calloc(NativeSize nmemb, NativeSize size);
+    /**
+     * Duplicate the string s.<br>
+     * @param s string to be duplicated<br>
+     * @return Pointer to a newly allocated string containing a<br>
+     * copy of s or NULL if the string cannot be allocated.<br>
+     * Original signature : <code>char* av_strdup(const char*)</code><br>
+     * @deprecated use the safer methods {@link #av_strdup(java.lang.String)} and {@link #av_strdup(com.sun.jna.Pointer)} instead
+     */
+    @Deprecated
+    Pointer av_strdup(Pointer s);
+    /**
+     * Duplicate the string s.<br>
+     * @param s string to be duplicated<br>
+     * @return Pointer to a newly allocated string containing a<br>
+     * copy of s or NULL if the string cannot be allocated.<br>
+     * Original signature : <code>char* av_strdup(const char*)</code>
+     */
+    Pointer av_strdup(String s);
+    /**
+     * Duplicate the buffer p.<br>
+     * @param p buffer to be duplicated<br>
+     * @return Pointer to a newly allocated buffer containing a<br>
+     * copy of p or NULL if the buffer cannot be allocated.<br>
+     * Original signature : <code>void* av_memdup(const void*, size_t)</code>
+     */
+    Pointer av_memdup(Pointer p, NativeSize size);
+    /**
+     * Free a memory block which has been allocated with av_malloc(z)() or<br>
+     * av_realloc() and set the pointer pointing to it to NULL.<br>
+     * @param ptr Pointer to the pointer to the memory block which should<br>
+     * be freed.<br>
+     * @see av_free()<br>
+     * Original signature : <code>void av_freep(void*)</code>
+     */
+    void av_freep(Pointer ptr);
+    /**
+     * Add an element to a dynamic array.<br>
+     * * The array to grow is supposed to be an array of pointers to<br>
+     * structures, and the element to add must be a pointer to an already<br>
+     * allocated structure.<br>
+     * * The array is reallocated when its size reaches powers of 2.<br>
+     * Therefore, the amortized cost of adding an element is constant.<br>
+     * * In case of success, the pointer to the array is updated in order to<br>
+     * point to the new grown array, and the number pointed to by nb_ptr<br>
+     * is incremented.<br>
+     * In case of failure, the array is freed, *tab_ptr is set to NULL and<br>
+     * *nb_ptr is set to 0.<br>
+     * * @param tab_ptr pointer to the array to grow<br>
+     * @param nb_ptr  pointer to the number of elements in the array<br>
+     * @param elem    element to add<br>
+     * @see av_dynarray2_add()<br>
+     * Original signature : <code>void av_dynarray_add(void*, int*, void*)</code><br>
+     * @deprecated use the safer methods {@link #av_dynarray_add(com.sun.jna.Pointer, java.nio.IntBuffer, com.sun.jna.Pointer)} and {@link #av_dynarray_add(com.sun.jna.Pointer, com.sun.jna.ptr.IntByReference, com.sun.jna.Pointer)} instead
+     */
+    @Deprecated
+    void av_dynarray_add(Pointer tab_ptr, IntByReference nb_ptr, Pointer elem);
+    /**
+     * Add an element to a dynamic array.<br>
+     * * The array to grow is supposed to be an array of pointers to<br>
+     * structures, and the element to add must be a pointer to an already<br>
+     * allocated structure.<br>
+     * * The array is reallocated when its size reaches powers of 2.<br>
+     * Therefore, the amortized cost of adding an element is constant.<br>
+     * * In case of success, the pointer to the array is updated in order to<br>
+     * point to the new grown array, and the number pointed to by nb_ptr<br>
+     * is incremented.<br>
+     * In case of failure, the array is freed, *tab_ptr is set to NULL and<br>
+     * *nb_ptr is set to 0.<br>
+     * * @param tab_ptr pointer to the array to grow<br>
+     * @param nb_ptr  pointer to the number of elements in the array<br>
+     * @param elem    element to add<br>
+     * @see av_dynarray2_add()<br>
+     * Original signature : <code>void av_dynarray_add(void*, int*, void*)</code>
+     */
+    void av_dynarray_add(Pointer tab_ptr, IntBuffer nb_ptr, Pointer elem);
+    /**
+     * Add an element of size elem_size to a dynamic array.<br>
+     * * The array is reallocated when its number of elements reaches powers of 2.<br>
+     * Therefore, the amortized cost of adding an element is constant.<br>
+     * * In case of success, the pointer to the array is updated in order to<br>
+     * point to the new grown array, and the number pointed to by nb_ptr<br>
+     * is incremented.<br>
+     * In case of failure, the array is freed, *tab_ptr is set to NULL and<br>
+     * *nb_ptr is set to 0.<br>
+     * * @param tab_ptr   pointer to the array to grow<br>
+     * @param nb_ptr    pointer to the number of elements in the array<br>
+     * @param elem_size size in bytes of the elements in the array<br>
+     * @param elem_data pointer to the data of the element to add. If NULL, the space of<br>
+     *                  the new added element is not filled.<br>
+     * @return          pointer to the data of the element to copy in the new allocated space.<br>
+     *                  If NULL, the new allocated space is left uninitialized."<br>
+     * @see av_dynarray_add()<br>
+     * Original signature : <code>void* av_dynarray2_add(void**, int*, size_t, const uint8_t*)</code><br>
+     * @deprecated use the safer methods {@link #av_dynarray2_add(com.sun.jna.ptr.PointerByReference, java.nio.IntBuffer, com.ochafik.lang.jnaerator.runtime.NativeSize, java.nio.ByteBuffer)} and {@link #av_dynarray2_add(com.sun.jna.ptr.PointerByReference, com.sun.jna.ptr.IntByReference, com.ochafik.lang.jnaerator.runtime.NativeSize, com.sun.jna.Pointer)} instead
+     */
+    @Deprecated
+    Pointer av_dynarray2_add(PointerByReference tab_ptr, IntByReference nb_ptr, NativeSize elem_size, Pointer elem_data);
+    /**
+     * Add an element of size elem_size to a dynamic array.<br>
+     * * The array is reallocated when its number of elements reaches powers of 2.<br>
+     * Therefore, the amortized cost of adding an element is constant.<br>
+     * * In case of success, the pointer to the array is updated in order to<br>
+     * point to the new grown array, and the number pointed to by nb_ptr<br>
+     * is incremented.<br>
+     * In case of failure, the array is freed, *tab_ptr is set to NULL and<br>
+     * *nb_ptr is set to 0.<br>
+     * * @param tab_ptr   pointer to the array to grow<br>
+     * @param nb_ptr    pointer to the number of elements in the array<br>
+     * @param elem_size size in bytes of the elements in the array<br>
+     * @param elem_data pointer to the data of the element to add. If NULL, the space of<br>
+     *                  the new added element is not filled.<br>
+     * @return          pointer to the data of the element to copy in the new allocated space.<br>
+     *                  If NULL, the new allocated space is left uninitialized."<br>
+     * @see av_dynarray_add()<br>
+     * Original signature : <code>void* av_dynarray2_add(void**, int*, size_t, const uint8_t*)</code>
+     */
+    Pointer av_dynarray2_add(PointerByReference tab_ptr, IntBuffer nb_ptr, NativeSize elem_size, ByteBuffer elem_data);
+    /**
+     * Set the maximum size that may me allocated in one block.<br>
+     * Original signature : <code>void av_max_alloc(size_t)</code>
+     */
+    void av_max_alloc(NativeSize max);
+    /**
+     * @brief deliberately overlapping memcpy implementation<br>
+     * @param dst destination buffer<br>
+     * @param back how many bytes back we start (the initial size of the overlapping window), must be > 0<br>
+     * @param cnt number of bytes to copy, must be >= 0<br>
+     * * cnt > back is valid, this will copy the bytes we just copied,<br>
+     * thus creating a repeating pattern with a period length of back.<br>
+     * Original signature : <code>void av_memcpy_backptr(uint8_t*, int, int)</code><br>
+     * @deprecated use the safer methods {@link #av_memcpy_backptr(java.nio.ByteBuffer, int, int)} and {@link #av_memcpy_backptr(com.sun.jna.Pointer, int, int)} instead
+     */
+    @Deprecated
+    void av_memcpy_backptr(Pointer dst, int back, int cnt);
+    /**
+     * @brief deliberately overlapping memcpy implementation<br>
+     * @param dst destination buffer<br>
+     * @param back how many bytes back we start (the initial size of the overlapping window), must be > 0<br>
+     * @param cnt number of bytes to copy, must be >= 0<br>
+     * * cnt > back is valid, this will copy the bytes we just copied,<br>
+     * thus creating a repeating pattern with a period length of back.<br>
+     * Original signature : <code>void av_memcpy_backptr(uint8_t*, int, int)</code>
+     */
+    void av_memcpy_backptr(ByteBuffer dst, int back, int cnt);
+    /**
+     * Reduce a fraction.<br>
+     * This is useful for framerate calculations.<br>
+     * @param dst_num destination numerator<br>
+     * @param dst_den destination denominator<br>
+     * @param num source numerator<br>
+     * @param den source denominator<br>
+     * @param max the maximum allowed for dst_num & dst_den<br>
+     * @return 1 if exact, 0 otherwise<br>
+     * Original signature : <code>int av_reduce(int*, int*, int64_t, int64_t, int64_t)</code><br>
+     * @deprecated use the safer methods {@link #av_reduce(java.nio.IntBuffer, java.nio.IntBuffer, long, long, long)} and {@link #av_reduce(com.sun.jna.ptr.IntByReference, com.sun.jna.ptr.IntByReference, long, long, long)} instead
+     */
+    @Deprecated
+    int av_reduce(IntByReference dst_num, IntByReference dst_den, long num, long den, long max);
+    /**
+     * Reduce a fraction.<br>
+     * This is useful for framerate calculations.<br>
+     * @param dst_num destination numerator<br>
+     * @param dst_den destination denominator<br>
+     * @param num source numerator<br>
+     * @param den source denominator<br>
+     * @param max the maximum allowed for dst_num & dst_den<br>
+     * @return 1 if exact, 0 otherwise<br>
+     * Original signature : <code>int av_reduce(int*, int*, int64_t, int64_t, int64_t)</code>
+     */
+    int av_reduce(IntBuffer dst_num, IntBuffer dst_den, long num, long den, long max);
+    /**
+     * Multiply two rationals.<br>
+     * @param b first rational<br>
+     * @param c second rational<br>
+     * @return b*c<br>
+     * Original signature : <code>AVRational av_mul_q(AVRational, AVRational)</code>
+     */
+    AVRational.ByValue av_mul_q(AVRational.ByValue b, AVRational.ByValue c);
+    /**
+     * Divide one rational by another.<br>
+     * @param b first rational<br>
+     * @param c second rational<br>
+     * @return b/c<br>
+     * Original signature : <code>AVRational av_div_q(AVRational, AVRational)</code>
+     */
+    AVRational.ByValue av_div_q(AVRational.ByValue b, AVRational.ByValue c);
+    /**
+     * Add two rationals.<br>
+     * @param b first rational<br>
+     * @param c second rational<br>
+     * @return b+c<br>
+     * Original signature : <code>AVRational av_add_q(AVRational, AVRational)</code>
+     */
+    AVRational.ByValue av_add_q(AVRational.ByValue b, AVRational.ByValue c);
+    /**
+     * Subtract one rational from another.<br>
+     * @param b first rational<br>
+     * @param c second rational<br>
+     * @return b-c<br>
+     * Original signature : <code>AVRational av_sub_q(AVRational, AVRational)</code>
+     */
+    AVRational.ByValue av_sub_q(AVRational.ByValue b, AVRational.ByValue c);
+    /**
+     * Convert a double precision floating point number to a rational.<br>
+     * inf is expressed as {1,0} or {-1,0} depending on the sign.<br>
+     * * @param d double to convert<br>
+     * @param max the maximum allowed numerator and denominator<br>
+     * @return (AVRational) d<br>
+     * Original signature : <code>AVRational av_d2q(double, int)</code>
+     */
+    AVRational.ByValue av_d2q(double d, int max);
+    /**
+     * @return 1 if q1 is nearer to q than q2, -1 if q2 is nearer<br>
+     * than q1, 0 if they have the same distance.<br>
+     * Original signature : <code>int av_nearer_q(AVRational, AVRational, AVRational)</code>
+     */
+    int av_nearer_q(AVRational.ByValue q, AVRational.ByValue q1, AVRational.ByValue q2);
+    /**
+     * Find the nearest value in q_list to q.<br>
+     * @param q_list an array of rationals terminated by {0, 0}<br>
+     * @return the index of the nearest value found in the array<br>
+     * Original signature : <code>int av_find_nearest_q_idx(AVRational, const AVRational*)</code>
+     */
+    int av_find_nearest_q_idx(AVRational.ByValue q, AVRational q_list);
+    /**
+     * Return the greatest common divisor of a and b.<br>
+     * If both a and b are 0 or either or both are <0 then behavior is<br>
+     * undefined.<br>
+     * Original signature : <code>int64_t av_gcd(int64_t, int64_t)</code>
+     */
+    long av_gcd(long a, long b);
+    /**
+     * Rescale a 64-bit integer with rounding to nearest.<br>
+     * A simple a*b/c isn't possible as it can overflow.<br>
+     * Original signature : <code>int64_t av_rescale(int64_t, int64_t, int64_t)</code>
+     */
+    long av_rescale(long a, long b, long c);
+    /**
+     * Rescale a 64-bit integer with specified rounding.<br>
+     * A simple a*b/c isn't possible as it can overflow.<br>
+     * * @return rescaled value a, or if AV_ROUND_PASS_MINMAX is set and a is<br>
+     *         INT64_MIN or INT64_MAX then a is passed through unchanged.<br>
+     * Original signature : <code>int64_t av_rescale_rnd(int64_t, int64_t, int64_t, AVRounding)</code>
+     */
+    long av_rescale_rnd(long a, long b, long c, int arg1);
+    /**
+     * Rescale a 64-bit integer by 2 rational numbers.<br>
+     * Original signature : <code>int64_t av_rescale_q(int64_t, AVRational, AVRational)</code>
+     */
+    long av_rescale_q(long a, AVRational.ByValue bq, AVRational.ByValue cq);
+    /**
+     * Rescale a 64-bit integer by 2 rational numbers with specified rounding.<br>
+     * * @return rescaled value a, or if AV_ROUND_PASS_MINMAX is set and a is<br>
+     *         INT64_MIN or INT64_MAX then a is passed through unchanged.<br>
+     * Original signature : <code>int64_t av_rescale_q_rnd(int64_t, AVRational, AVRational, AVRounding)</code>
+     */
+    long av_rescale_q_rnd(long a, AVRational.ByValue bq, AVRational.ByValue cq, int arg1);
+    /**
+     * Compare 2 timestamps each in its own timebases.<br>
+     * The result of the function is undefined if one of the timestamps<br>
+     * is outside the int64_t range when represented in the others timebase.<br>
+     * @return -1 if ts_a is before ts_b, 1 if ts_a is after ts_b or 0 if they represent the same position<br>
+     * Original signature : <code>int av_compare_ts(int64_t, AVRational, int64_t, AVRational)</code>
+     */
+    int av_compare_ts(long ts_a, AVRational.ByValue tb_a, long ts_b, AVRational.ByValue tb_b);
+    /**
+     * Compare 2 integers modulo mod.<br>
+     * That is we compare integers a and b for which only the least<br>
+     * significant log2(mod) bits are known.<br>
+     * * @param mod must be a power of 2<br>
+     * @return a negative value if a is smaller than b<br>
+     *         a positive value if a is greater than b<br>
+     *         0                if a equals          b<br>
+     * Original signature : <code>int64_t av_compare_mod(uint64_t, uint64_t, uint64_t)</code>
+     */
+    long av_compare_mod(long a, long b, long mod);
+    /**
+     * Rescale a timestamp while preserving known durations.<br>
+     * * @param in_ts Input timestamp<br>
+     * @param in_tb Input timesbase<br>
+     * @param fs_tb Duration and *last timebase<br>
+     * @param duration duration till the next call<br>
+     * @param out_tb Output timesbase<br>
+     * Original signature : <code>int64_t av_rescale_delta(AVRational, int64_t, AVRational, int, int64_t*, AVRational)</code><br>
+     * @deprecated use the safer methods {@link #av_rescale_delta(org.javaavc.ffmpeg.avformat.AVRational.ByValue, long, org.javaavc.ffmpeg.avformat.AVRational.ByValue, int, java.nio.LongBuffer, org.javaavc.ffmpeg.avformat.AVRational.ByValue)} and {@link #av_rescale_delta(org.javaavc.ffmpeg.avformat.AVRational.ByValue, long, org.javaavc.ffmpeg.avformat.AVRational.ByValue, int, com.sun.jna.ptr.LongByReference, org.javaavc.ffmpeg.avformat.AVRational.ByValue)} instead
+     */
+    @Deprecated
+    long av_rescale_delta(AVRational.ByValue in_tb, long in_ts, AVRational.ByValue fs_tb, int duration, LongByReference last, AVRational.ByValue out_tb);
+    /**
+     * Rescale a timestamp while preserving known durations.<br>
+     * * @param in_ts Input timestamp<br>
+     * @param in_tb Input timesbase<br>
+     * @param fs_tb Duration and *last timebase<br>
+     * @param duration duration till the next call<br>
+     * @param out_tb Output timesbase<br>
+     * Original signature : <code>int64_t av_rescale_delta(AVRational, int64_t, AVRational, int, int64_t*, AVRational)</code>
+     */
+    long av_rescale_delta(AVRational.ByValue in_tb, long in_ts, AVRational.ByValue fs_tb, int duration, LongBuffer last, AVRational.ByValue out_tb);
+    /** Original signature : <code>double av_int2dbl(int64_t)</code> */
+    double av_int2dbl(long v);
+    /** Original signature : <code>float av_int2flt(int32_t)</code> */
+    float av_int2flt(int v);
+    /** Original signature : <code>double av_ext2dbl(const AVExtFloat)</code> */
+    double av_ext2dbl(org.javaavc.ffmpeg.avformat.AVExtFloat.ByValue ext);
+    /** Original signature : <code>int64_t av_dbl2int(double)</code> */
+    long av_dbl2int(double d);
+    /** Original signature : <code>int32_t av_flt2int(float)</code> */
+    int av_flt2int(float d);
+    /** Original signature : <code>AVExtFloat av_dbl2ext(double)</code> */
+    org.javaavc.ffmpeg.avformat.AVExtFloat.ByValue av_dbl2ext(double d);
+    /**
+     * Send the specified message to the log if the level is less than or equal<br>
+     * to the current av_log_level. By default, all logging messages are sent to<br>
+     * stderr. This behavior can be altered by setting a different av_vlog callback<br>
+     * function.<br>
+     * * @param avcl A pointer to an arbitrary struct of which the first field is a<br>
+     * pointer to an AVClass struct.<br>
+     * @param level The importance level of the message, lower values signifying<br>
+     * higher importance.<br>
+     * @param fmt The format string (printf-compatible) that specifies how<br>
+     * subsequent arguments are converted to output.<br>
+     * @see av_vlog<br>
+     * Original signature : <code>void av_log(void*, int, const char*, null)</code><br>
+     * @deprecated use the safer methods {@link #av_log(com.sun.jna.Pointer, int, java.lang.String, java.lang.Object)} and {@link #av_log(com.sun.jna.Pointer, int, com.sun.jna.Pointer, java.lang.Object)} instead
+     */
+    @Deprecated
+    void av_log(Pointer avcl, int level, Pointer fmt, Object... varargs);
+    /**
+     * Send the specified message to the log if the level is less than or equal<br>
+     * to the current av_log_level. By default, all logging messages are sent to<br>
+     * stderr. This behavior can be altered by setting a different av_vlog callback<br>
+     * function.<br>
+     * * @param avcl A pointer to an arbitrary struct of which the first field is a<br>
+     * pointer to an AVClass struct.<br>
+     * @param level The importance level of the message, lower values signifying<br>
+     * higher importance.<br>
+     * @param fmt The format string (printf-compatible) that specifies how<br>
+     * subsequent arguments are converted to output.<br>
+     * @see av_vlog<br>
+     * Original signature : <code>void av_log(void*, int, const char*, null)</code>
+     */
+    void av_log(Pointer avcl, int level, String fmt, Object... varargs);
+    /**
+     * Original signature : <code>void av_vlog(void*, int, const char*, va_list)</code><br>
+     * @deprecated use the safer methods {@link #av_vlog(com.sun.jna.Pointer, int, java.lang.String, org.javaavc.ffmpeg.avformat.LibavformatLibrary.va_list)} and {@link #av_vlog(com.sun.jna.Pointer, int, com.sun.jna.Pointer, org.javaavc.ffmpeg.avformat.LibavformatLibrary.va_list)} instead
+     */
+    @Deprecated
+    void av_vlog(Pointer avcl, int level, Pointer fmt, LibavformatLibrary.va_list va_list1);
+    /** Original signature : <code>void av_vlog(void*, int, const char*, va_list)</code> */
+    void av_vlog(Pointer avcl, int level, String fmt, LibavformatLibrary.va_list va_list1);
+    /** Original signature : <code>int av_log_get_level()</code> */
+    int av_log_get_level();
+    /** Original signature : <code>void av_log_set_level(int)</code> */
+    void av_log_set_level(int int1);
+    /** Original signature : <code>void av_log_set_callback(av_log_set_callback_arg1_callback*)</code> */
+    void av_log_set_callback(LibavformatLibrary.av_log_set_callback_arg1_callback arg1);
+    /**
+     * Original signature : <code>void av_log_default_callback(void*, int, const char*, va_list)</code><br>
+     * @deprecated use the safer methods {@link #av_log_default_callback(com.sun.jna.Pointer, int, java.lang.String, org.javaavc.ffmpeg.avformat.LibavformatLibrary.va_list)} and {@link #av_log_default_callback(com.sun.jna.Pointer, int, com.sun.jna.Pointer, org.javaavc.ffmpeg.avformat.LibavformatLibrary.va_list)} instead
+     */
+    @Deprecated
+    void av_log_default_callback(Pointer ptr, int level, Pointer fmt, LibavformatLibrary.va_list vl);
+    /** Original signature : <code>void av_log_default_callback(void*, int, const char*, va_list)</code> */
+    void av_log_default_callback(Pointer ptr, int level, String fmt, LibavformatLibrary.va_list vl);
+    /** Original signature : <code>char* av_default_item_name(void*)</code> */
+    String av_default_item_name(Pointer ctx);
+    /** Original signature : <code>AVClassCategory av_default_get_category(void*)</code> */
+    int av_default_get_category(Pointer ptr);
+    /**
+     * Format a line of log the same way as the default callback.<br>
+     * @param line          buffer to receive the formated line<br>
+     * @param line_size     size of the buffer<br>
+     * @param print_prefix  used to store whether the prefix must be printed;<br>
+     *                      must point to a persistent integer initially set to 1<br>
+     * Original signature : <code>void av_log_format_line(void*, int, const char*, va_list, char*, int, int*)</code><br>
+     * @deprecated use the safer methods {@link #av_log_format_line(com.sun.jna.Pointer, int, java.lang.String, org.javaavc.ffmpeg.avformat.LibavformatLibrary.va_list, java.nio.ByteBuffer, int, java.nio.IntBuffer)} and {@link #av_log_format_line(com.sun.jna.Pointer, int, com.sun.jna.Pointer, org.javaavc.ffmpeg.avformat.LibavformatLibrary.va_list, com.sun.jna.Pointer, int, com.sun.jna.ptr.IntByReference)} instead
+     */
+    @Deprecated
+    void av_log_format_line(Pointer ptr, int level, Pointer fmt, LibavformatLibrary.va_list vl, Pointer line, int line_size, IntByReference print_prefix);
+    /**
+     * Format a line of log the same way as the default callback.<br>
+     * @param line          buffer to receive the formated line<br>
+     * @param line_size     size of the buffer<br>
+     * @param print_prefix  used to store whether the prefix must be printed;<br>
+     *                      must point to a persistent integer initially set to 1<br>
+     * Original signature : <code>void av_log_format_line(void*, int, const char*, va_list, char*, int, int*)</code>
+     */
+    void av_log_format_line(Pointer ptr, int level, String fmt, LibavformatLibrary.va_list vl, ByteBuffer line, int line_size, IntBuffer print_prefix);
+    /** Original signature : <code>void av_log_set_flags(int)</code> */
+    void av_log_set_flags(int arg);
+    /**
+     * Compute the length of an integer list.<br>
+     * * @param elsize  size in bytes of each list element (only 1, 2, 4 or 8)<br>
+     * @param term    list terminator (usually 0 or -1)<br>
+     * @param list    pointer to the list<br>
+     * @return  length of the list, in elements, not counting the terminator<br>
+     * Original signature : <code>int av_int_list_length_for_size(unsigned, const void*, uint64_t)</code>
+     */
+    int av_int_list_length_for_size(int elsize, Pointer list, long term);
+    /**
+     * Return the name of sample_fmt, or NULL if sample_fmt is not<br>
+     * recognized.<br>
+     * Original signature : <code>char* av_get_sample_fmt_name(AVSampleFormat)</code>
+     */
+    String av_get_sample_fmt_name(int sample_fmt);
+    /**
+     * Return a sample format corresponding to name, or AV_SAMPLE_FMT_NONE<br>
+     * on error.<br>
+     * Original signature : <code>AVSampleFormat av_get_sample_fmt(const char*)</code><br>
+     * @deprecated use the safer methods {@link #av_get_sample_fmt(java.lang.String)} and {@link #av_get_sample_fmt(com.sun.jna.Pointer)} instead
+     */
+    @Deprecated
+    int av_get_sample_fmt(Pointer name);
+    /**
+     * Return a sample format corresponding to name, or AV_SAMPLE_FMT_NONE<br>
+     * on error.<br>
+     * Original signature : <code>AVSampleFormat av_get_sample_fmt(const char*)</code>
+     */
+    int av_get_sample_fmt(String name);
+    /**
+     * Return the planar<->packed alternative form of the given sample format, or<br>
+     * AV_SAMPLE_FMT_NONE on error. If the passed sample_fmt is already in the<br>
+     * requested planar/packed format, the format returned is the same as the<br>
+     * input.<br>
+     * Original signature : <code>AVSampleFormat av_get_alt_sample_fmt(AVSampleFormat, int)</code>
+     */
+    int av_get_alt_sample_fmt(int sample_fmt, int planar);
+    /**
+     * Get the packed alternative form of the given sample format.<br>
+     * * If the passed sample_fmt is already in packed format, the format returned is<br>
+     * the same as the input.<br>
+     * * @return  the packed alternative form of the given sample format or<br>
+     * AV_SAMPLE_FMT_NONE on error.<br>
+     * Original signature : <code>AVSampleFormat av_get_packed_sample_fmt(AVSampleFormat)</code>
+     */
+    int av_get_packed_sample_fmt(int sample_fmt);
+    /**
+     * Get the planar alternative form of the given sample format.<br>
+     * * If the passed sample_fmt is already in planar format, the format returned is<br>
+     * the same as the input.<br>
+     * * @return  the planar alternative form of the given sample format or<br>
+     * AV_SAMPLE_FMT_NONE on error.<br>
+     * Original signature : <code>AVSampleFormat av_get_planar_sample_fmt(AVSampleFormat)</code>
+     */
+    int av_get_planar_sample_fmt(int sample_fmt);
+    /**
+     * Generate a string corresponding to the sample format with<br>
+     * sample_fmt, or a header if sample_fmt is negative.<br>
+     * * @param buf the buffer where to write the string<br>
+     * @param buf_size the size of buf<br>
+     * @param sample_fmt the number of the sample format to print the<br>
+     * corresponding info string, or a negative value to print the<br>
+     * corresponding header.<br>
+     * @return the pointer to the filled buffer or NULL if sample_fmt is<br>
+     * unknown or in case of other errors<br>
+     * Original signature : <code>char* av_get_sample_fmt_string(char*, int, AVSampleFormat)</code><br>
+     * @deprecated use the safer methods {@link #av_get_sample_fmt_string(java.nio.ByteBuffer, int, int)} and {@link #av_get_sample_fmt_string(com.sun.jna.Pointer, int, int)} instead
+     */
+    @Deprecated
+    Pointer av_get_sample_fmt_string(Pointer buf, int buf_size, int sample_fmt);
+    /**
+     * Generate a string corresponding to the sample format with<br>
+     * sample_fmt, or a header if sample_fmt is negative.<br>
+     * * @param buf the buffer where to write the string<br>
+     * @param buf_size the size of buf<br>
+     * @param sample_fmt the number of the sample format to print the<br>
+     * corresponding info string, or a negative value to print the<br>
+     * corresponding header.<br>
+     * @return the pointer to the filled buffer or NULL if sample_fmt is<br>
+     * unknown or in case of other errors<br>
+     * Original signature : <code>char* av_get_sample_fmt_string(char*, int, AVSampleFormat)</code>
+     */
+    Pointer av_get_sample_fmt_string(ByteBuffer buf, int buf_size, int sample_fmt);
+    /** Original signature : <code>int av_get_bits_per_sample_fmt(AVSampleFormat)</code> */
+    int av_get_bits_per_sample_fmt(int sample_fmt);
+    /**
+     * Return number of bytes per sample.<br>
+     * * @param sample_fmt the sample format<br>
+     * @return number of bytes per sample or zero if unknown for the given<br>
+     * sample format<br>
+     * Original signature : <code>int av_get_bytes_per_sample(AVSampleFormat)</code>
+     */
+    int av_get_bytes_per_sample(int sample_fmt);
+    /**
+     * Check if the sample format is planar.<br>
+     * * @param sample_fmt the sample format to inspect<br>
+     * @return 1 if the sample format is planar, 0 if it is interleaved<br>
+     * Original signature : <code>int av_sample_fmt_is_planar(AVSampleFormat)</code>
+     */
+    int av_sample_fmt_is_planar(int sample_fmt);
+    /**
+     * Get the required buffer size for the given audio parameters.<br>
+     * * @param[out] linesize calculated linesize, may be NULL<br>
+     * @param nb_channels   the number of channels<br>
+     * @param nb_samples    the number of samples in a single channel<br>
+     * @param sample_fmt    the sample format<br>
+     * @param align         buffer size alignment (0 = default, 1 = no alignment)<br>
+     * @return              required buffer size, or negative error code on failure<br>
+     * Original signature : <code>int av_samples_get_buffer_size(int*, int, int, AVSampleFormat, int)</code><br>
+     * @deprecated use the safer methods {@link #av_samples_get_buffer_size(java.nio.IntBuffer, int, int, int, int)} and {@link #av_samples_get_buffer_size(com.sun.jna.ptr.IntByReference, int, int, int, int)} instead
+     */
+    @Deprecated
+    int av_samples_get_buffer_size(IntByReference linesize, int nb_channels, int nb_samples, int sample_fmt, int align);
+    /**
+     * Get the required buffer size for the given audio parameters.<br>
+     * * @param[out] linesize calculated linesize, may be NULL<br>
+     * @param nb_channels   the number of channels<br>
+     * @param nb_samples    the number of samples in a single channel<br>
+     * @param sample_fmt    the sample format<br>
+     * @param align         buffer size alignment (0 = default, 1 = no alignment)<br>
+     * @return              required buffer size, or negative error code on failure<br>
+     * Original signature : <code>int av_samples_get_buffer_size(int*, int, int, AVSampleFormat, int)</code>
+     */
+    int av_samples_get_buffer_size(IntBuffer linesize, int nb_channels, int nb_samples, int sample_fmt, int align);
+    /**
+     * Fill plane data pointers and linesize for samples with sample<br>
+     * format sample_fmt.<br>
+     * * The audio_data array is filled with the pointers to the samples data planes:<br>
+     * for planar, set the start point of each channel's data within the buffer,<br>
+     * for packed, set the start point of the entire buffer only.<br>
+     * * The value pointed to by linesize is set to the aligned size of each<br>
+     * channel's data buffer for planar layout, or to the aligned size of the<br>
+     * buffer for all channels for packed layout.<br>
+     * * The buffer in buf must be big enough to contain all the samples<br>
+     * (use av_samples_get_buffer_size() to compute its minimum size),<br>
+     * otherwise the audio_data pointers will point to invalid data.<br>
+     * * @see enum AVSampleFormat<br>
+     * The documentation for AVSampleFormat describes the data layout.<br>
+     * * @param[out] audio_data  array to be filled with the pointer for each channel<br>
+     * @param[out] linesize    calculated linesize, may be NULL<br>
+     * @param buf              the pointer to a buffer containing the samples<br>
+     * @param nb_channels      the number of channels<br>
+     * @param nb_samples       the number of samples in a single channel<br>
+     * @param sample_fmt       the sample format<br>
+     * @param align            buffer size alignment (0 = default, 1 = no alignment)<br>
+     * @return                 >=0 on success or a negative error code on failure<br>
+     * @todo return minimum size in bytes required for the buffer in case<br>
+     * of success at the next bump<br>
+     * Original signature : <code>int av_samples_fill_arrays(uint8_t**, int*, const uint8_t*, int, int, AVSampleFormat, int)</code><br>
+     * @deprecated use the safer methods {@link #av_samples_fill_arrays(com.sun.jna.ptr.PointerByReference, java.nio.IntBuffer, java.nio.ByteBuffer, int, int, int, int)} and {@link #av_samples_fill_arrays(com.sun.jna.ptr.PointerByReference, com.sun.jna.ptr.IntByReference, com.sun.jna.Pointer, int, int, int, int)} instead
+     */
+    @Deprecated
+    int av_samples_fill_arrays(PointerByReference audio_data, IntByReference linesize, Pointer buf, int nb_channels, int nb_samples, int sample_fmt, int align);
+    /**
+     * Fill plane data pointers and linesize for samples with sample<br>
+     * format sample_fmt.<br>
+     * * The audio_data array is filled with the pointers to the samples data planes:<br>
+     * for planar, set the start point of each channel's data within the buffer,<br>
+     * for packed, set the start point of the entire buffer only.<br>
+     * * The value pointed to by linesize is set to the aligned size of each<br>
+     * channel's data buffer for planar layout, or to the aligned size of the<br>
+     * buffer for all channels for packed layout.<br>
+     * * The buffer in buf must be big enough to contain all the samples<br>
+     * (use av_samples_get_buffer_size() to compute its minimum size),<br>
+     * otherwise the audio_data pointers will point to invalid data.<br>
+     * * @see enum AVSampleFormat<br>
+     * The documentation for AVSampleFormat describes the data layout.<br>
+     * * @param[out] audio_data  array to be filled with the pointer for each channel<br>
+     * @param[out] linesize    calculated linesize, may be NULL<br>
+     * @param buf              the pointer to a buffer containing the samples<br>
+     * @param nb_channels      the number of channels<br>
+     * @param nb_samples       the number of samples in a single channel<br>
+     * @param sample_fmt       the sample format<br>
+     * @param align            buffer size alignment (0 = default, 1 = no alignment)<br>
+     * @return                 >=0 on success or a negative error code on failure<br>
+     * @todo return minimum size in bytes required for the buffer in case<br>
+     * of success at the next bump<br>
+     * Original signature : <code>int av_samples_fill_arrays(uint8_t**, int*, const uint8_t*, int, int, AVSampleFormat, int)</code>
+     */
+    int av_samples_fill_arrays(PointerByReference audio_data, IntBuffer linesize, ByteBuffer buf, int nb_channels, int nb_samples, int sample_fmt, int align);
+    /**
+     * Allocate a samples buffer for nb_samples samples, and fill data pointers and<br>
+     * linesize accordingly.<br>
+     * The allocated samples buffer can be freed by using av_freep(&audio_data[0])<br>
+     * Allocated data will be initialized to silence.<br>
+     * * @see enum AVSampleFormat<br>
+     * The documentation for AVSampleFormat describes the data layout.<br>
+     * * @param[out] audio_data  array to be filled with the pointer for each channel<br>
+     * @param[out] linesize    aligned size for audio buffer(s), may be NULL<br>
+     * @param nb_channels      number of audio channels<br>
+     * @param nb_samples       number of samples per channel<br>
+     * @param align            buffer size alignment (0 = default, 1 = no alignment)<br>
+     * @return                 >=0 on success or a negative error code on failure<br>
+     * @todo return the size of the allocated buffer in case of success at the next bump<br>
+     * @see av_samples_fill_arrays()<br>
+     * @see av_samples_alloc_array_and_samples()<br>
+     * Original signature : <code>int av_samples_alloc(uint8_t**, int*, int, int, AVSampleFormat, int)</code><br>
+     * @deprecated use the safer methods {@link #av_samples_alloc(com.sun.jna.ptr.PointerByReference, java.nio.IntBuffer, int, int, int, int)} and {@link #av_samples_alloc(com.sun.jna.ptr.PointerByReference, com.sun.jna.ptr.IntByReference, int, int, int, int)} instead
+     */
+    @Deprecated
+    int av_samples_alloc(PointerByReference audio_data, IntByReference linesize, int nb_channels, int nb_samples, int sample_fmt, int align);
+    /**
+     * Allocate a samples buffer for nb_samples samples, and fill data pointers and<br>
+     * linesize accordingly.<br>
+     * The allocated samples buffer can be freed by using av_freep(&audio_data[0])<br>
+     * Allocated data will be initialized to silence.<br>
+     * * @see enum AVSampleFormat<br>
+     * The documentation for AVSampleFormat describes the data layout.<br>
+     * * @param[out] audio_data  array to be filled with the pointer for each channel<br>
+     * @param[out] linesize    aligned size for audio buffer(s), may be NULL<br>
+     * @param nb_channels      number of audio channels<br>
+     * @param nb_samples       number of samples per channel<br>
+     * @param align            buffer size alignment (0 = default, 1 = no alignment)<br>
+     * @return                 >=0 on success or a negative error code on failure<br>
+     * @todo return the size of the allocated buffer in case of success at the next bump<br>
+     * @see av_samples_fill_arrays()<br>
+     * @see av_samples_alloc_array_and_samples()<br>
+     * Original signature : <code>int av_samples_alloc(uint8_t**, int*, int, int, AVSampleFormat, int)</code>
+     */
+    int av_samples_alloc(PointerByReference audio_data, IntBuffer linesize, int nb_channels, int nb_samples, int sample_fmt, int align);
+    /**
+     * Allocate a data pointers array, samples buffer for nb_samples<br>
+     * samples, and fill data pointers and linesize accordingly.<br>
+     * * This is the same as av_samples_alloc(), but also allocates the data<br>
+     * pointers array.<br>
+     * * @see av_samples_alloc()<br>
+     * Original signature : <code>int av_samples_alloc_array_and_samples(uint8_t***, int*, int, int, AVSampleFormat, int)</code><br>
+     * @deprecated use the safer methods {@link #av_samples_alloc_array_and_samples(com.sun.jna.ptr.PointerByReference, java.nio.IntBuffer, int, int, int, int)} and {@link #av_samples_alloc_array_and_samples(com.sun.jna.ptr.PointerByReference, com.sun.jna.ptr.IntByReference, int, int, int, int)} instead
+     */
+    @Deprecated
+    int av_samples_alloc_array_and_samples(PointerByReference audio_data, IntByReference linesize, int nb_channels, int nb_samples, int sample_fmt, int align);
+    /**
+     * Allocate a data pointers array, samples buffer for nb_samples<br>
+     * samples, and fill data pointers and linesize accordingly.<br>
+     * * This is the same as av_samples_alloc(), but also allocates the data<br>
+     * pointers array.<br>
+     * * @see av_samples_alloc()<br>
+     * Original signature : <code>int av_samples_alloc_array_and_samples(uint8_t***, int*, int, int, AVSampleFormat, int)</code>
+     */
+    int av_samples_alloc_array_and_samples(PointerByReference audio_data, IntBuffer linesize, int nb_channels, int nb_samples, int sample_fmt, int align);
+    /**
+     * Copy samples from src to dst.<br>
+     * * @param dst destination array of pointers to data planes<br>
+     * @param src source array of pointers to data planes<br>
+     * @param dst_offset offset in samples at which the data will be written to dst<br>
+     * @param src_offset offset in samples at which the data will be read from src<br>
+     * @param nb_samples number of samples to be copied<br>
+     * @param nb_channels number of audio channels<br>
+     * @param sample_fmt audio sample format<br>
+     * Original signature : <code>int av_samples_copy(uint8_t**, const uint8_t**, int, int, int, int, AVSampleFormat)</code>
+     */
+    int av_samples_copy(PointerByReference dst, PointerByReference src, int dst_offset, int src_offset, int nb_samples, int nb_channels, int sample_fmt);
+    /**
+     * Fill an audio buffer with silence.<br>
+     * * @param audio_data  array of pointers to data planes<br>
+     * @param offset      offset in samples at which to start filling<br>
+     * @param nb_samples  number of samples to fill<br>
+     * @param nb_channels number of audio channels<br>
+     * @param sample_fmt  audio sample format<br>
+     * Original signature : <code>int av_samples_set_silence(uint8_t**, int, int, int, AVSampleFormat)</code>
+     */
+    int av_samples_set_silence(PointerByReference audio_data, int offset, int nb_samples, int nb_channels, int sample_fmt);
+    /**
+     * Allocate an AVBuffer of the given size using av_malloc().<br>
+     * * @return an AVBufferRef of given size or NULL when out of memory<br>
+     * Original signature : <code>AVBufferRef* av_buffer_alloc(int)</code>
+     */
+    AVBufferRef av_buffer_alloc(int size);
+    /**
+     * Same as av_buffer_alloc(), except the returned buffer will be initialized<br>
+     * to zero.<br>
+     * Original signature : <code>AVBufferRef* av_buffer_allocz(int)</code>
+     */
+    AVBufferRef av_buffer_allocz(int size);
+    /**
+     * Create an AVBuffer from an existing array.<br>
+     * * If this function is successful, data is owned by the AVBuffer. The caller may<br>
+     * only access data through the returned AVBufferRef and references derived from<br>
+     * it.<br>
+     * If this function fails, data is left untouched.<br>
+     * @param data   data array<br>
+     * @param size   size of data in bytes<br>
+     * @param free   a callback for freeing this buffer's data<br>
+     * @param opaque parameter to be got for processing or passed to free<br>
+     * @param flags  a combination of AV_BUFFER_FLAG_*<br>
+     * * @return an AVBufferRef referring to data on success, NULL on failure.<br>
+     * Original signature : <code>AVBufferRef* av_buffer_create(uint8_t*, int, av_buffer_create_free_callback*, void*, int)</code><br>
+     * @deprecated use the safer methods {@link #av_buffer_create(java.nio.ByteBuffer, int, org.javaavc.ffmpeg.avformat.LibavformatLibrary.av_buffer_create_free_callback, com.sun.jna.Pointer, int)} and {@link #av_buffer_create(com.sun.jna.Pointer, int, org.javaavc.ffmpeg.avformat.LibavformatLibrary.av_buffer_create_free_callback, com.sun.jna.Pointer, int)} instead
+     */
+    @Deprecated
+    AVBufferRef av_buffer_create(Pointer data, int size, LibavformatLibrary.av_buffer_create_free_callback free, Pointer opaque, int flags);
+    /**
+     * Create an AVBuffer from an existing array.<br>
+     * * If this function is successful, data is owned by the AVBuffer. The caller may<br>
+     * only access data through the returned AVBufferRef and references derived from<br>
+     * it.<br>
+     * If this function fails, data is left untouched.<br>
+     * @param data   data array<br>
+     * @param size   size of data in bytes<br>
+     * @param free   a callback for freeing this buffer's data<br>
+     * @param opaque parameter to be got for processing or passed to free<br>
+     * @param flags  a combination of AV_BUFFER_FLAG_*<br>
+     * * @return an AVBufferRef referring to data on success, NULL on failure.<br>
+     * Original signature : <code>AVBufferRef* av_buffer_create(uint8_t*, int, av_buffer_create_free_callback*, void*, int)</code>
+     */
+    AVBufferRef av_buffer_create(ByteBuffer data, int size, LibavformatLibrary.av_buffer_create_free_callback free, Pointer opaque, int flags);
+    /**
+     * Default free callback, which calls av_free() on the buffer data.<br>
+     * This function is meant to be passed to av_buffer_create(), not called<br>
+     * directly.<br>
+     * Original signature : <code>void av_buffer_default_free(void*, uint8_t*)</code><br>
+     * @deprecated use the safer methods {@link #av_buffer_default_free(com.sun.jna.Pointer, java.nio.ByteBuffer)} and {@link #av_buffer_default_free(com.sun.jna.Pointer, com.sun.jna.Pointer)} instead
+     */
+    @Deprecated
+    void av_buffer_default_free(Pointer opaque, Pointer data);
+    /**
+     * Default free callback, which calls av_free() on the buffer data.<br>
+     * This function is meant to be passed to av_buffer_create(), not called<br>
+     * directly.<br>
+     * Original signature : <code>void av_buffer_default_free(void*, uint8_t*)</code>
+     */
+    void av_buffer_default_free(Pointer opaque, ByteBuffer data);
+    /**
+     * Create a new reference to an AVBuffer.<br>
+     * * @return a new AVBufferRef referring to the same AVBuffer as buf or NULL on<br>
+     * failure.<br>
+     * Original signature : <code>AVBufferRef* av_buffer_ref(AVBufferRef*)</code>
+     */
+    AVBufferRef av_buffer_ref(AVBufferRef buf);
+    /**
+     * Free a given reference and automatically free the buffer if there are no more<br>
+     * references to it.<br>
+     * * @param buf the reference to be freed. The pointer is set to NULL on return.<br>
+     * Original signature : <code>void av_buffer_unref(AVBufferRef**)</code><br>
+     * @deprecated use the safer method {@link #av_buffer_unref(org.javaavc.ffmpeg.avformat.AVBufferRef.ByReference[])} instead
+     */
+    @Deprecated
+    void av_buffer_unref(PointerByReference buf);
+    /**
+     * Free a given reference and automatically free the buffer if there are no more<br>
+     * references to it.<br>
+     * * @param buf the reference to be freed. The pointer is set to NULL on return.<br>
+     * Original signature : <code>void av_buffer_unref(AVBufferRef**)</code>
+     */
+    void av_buffer_unref(AVBufferRef.ByReference buf[]);
+    /**
+     * @return 1 if the caller may write to the data referred to by buf (which is<br>
+     * true if and only if buf is the only reference to the underlying AVBuffer).<br>
+     * Return 0 otherwise.<br>
+     * A positive answer is valid until av_buffer_ref() is called on buf.<br>
+     * Original signature : <code>int av_buffer_is_writable(const AVBufferRef*)</code>
+     */
+    int av_buffer_is_writable(AVBufferRef buf);
+    /**
+     * @return the opaque parameter set by av_buffer_create.<br>
+     * Original signature : <code>void* av_buffer_get_opaque(const AVBufferRef*)</code>
+     */
+    Pointer av_buffer_get_opaque(AVBufferRef buf);
+    /** Original signature : <code>int av_buffer_get_ref_count(const AVBufferRef*)</code> */
+    int av_buffer_get_ref_count(AVBufferRef buf);
+    /**
+     * Create a writable reference from a given buffer reference, avoiding data copy<br>
+     * if possible.<br>
+     * * @param buf buffer reference to make writable. On success, buf is either left<br>
+     *            untouched, or it is unreferenced and a new writable AVBufferRef is<br>
+     *            written in its place. On failure, buf is left untouched.<br>
+     * @return 0 on success, a negative AVERROR on failure.<br>
+     * Original signature : <code>int av_buffer_make_writable(AVBufferRef**)</code><br>
+     * @deprecated use the safer method {@link #av_buffer_make_writable(org.javaavc.ffmpeg.avformat.AVBufferRef.ByReference[])} instead
+     */
+    @Deprecated
+    int av_buffer_make_writable(PointerByReference buf);
+    /**
+     * Create a writable reference from a given buffer reference, avoiding data copy<br>
+     * if possible.<br>
+     * * @param buf buffer reference to make writable. On success, buf is either left<br>
+     *            untouched, or it is unreferenced and a new writable AVBufferRef is<br>
+     *            written in its place. On failure, buf is left untouched.<br>
+     * @return 0 on success, a negative AVERROR on failure.<br>
+     * Original signature : <code>int av_buffer_make_writable(AVBufferRef**)</code>
+     */
+    int av_buffer_make_writable(AVBufferRef.ByReference buf[]);
+    /**
+     * Reallocate a given buffer.<br>
+     * * @param buf  a buffer reference to reallocate. On success, buf will be<br>
+     *             unreferenced and a new reference with the required size will be<br>
+     *             written in its place. On failure buf will be left untouched. *buf<br>
+     *             may be NULL, then a new buffer is allocated.<br>
+     * @param size required new buffer size.<br>
+     * @return 0 on success, a negative AVERROR on failure.<br>
+     * * @note the buffer is actually reallocated with av_realloc() only if it was<br>
+     * initially allocated through av_buffer_realloc(NULL) and there is only one<br>
+     * reference to it (i.e. the one passed to this function). In all other cases<br>
+     * a new buffer is allocated and the data is copied.<br>
+     * Original signature : <code>int av_buffer_realloc(AVBufferRef**, int)</code><br>
+     * @deprecated use the safer method {@link #av_buffer_realloc(org.javaavc.ffmpeg.avformat.AVBufferRef.ByReference[], int)} instead
+     */
+    @Deprecated
+    int av_buffer_realloc(PointerByReference buf, int size);
+    /**
+     * Reallocate a given buffer.<br>
+     * * @param buf  a buffer reference to reallocate. On success, buf will be<br>
+     *             unreferenced and a new reference with the required size will be<br>
+     *             written in its place. On failure buf will be left untouched. *buf<br>
+     *             may be NULL, then a new buffer is allocated.<br>
+     * @param size required new buffer size.<br>
+     * @return 0 on success, a negative AVERROR on failure.<br>
+     * * @note the buffer is actually reallocated with av_realloc() only if it was<br>
+     * initially allocated through av_buffer_realloc(NULL) and there is only one<br>
+     * reference to it (i.e. the one passed to this function). In all other cases<br>
+     * a new buffer is allocated and the data is copied.<br>
+     * Original signature : <code>int av_buffer_realloc(AVBufferRef**, int)</code>
+     */
+    int av_buffer_realloc(AVBufferRef.ByReference buf[], int size);
+    /**
+     * Allocate and initialize a buffer pool.<br>
+     * * @param size size of each buffer in this pool<br>
+     * @param alloc a function that will be used to allocate new buffers when the<br>
+     * pool is empty. May be NULL, then the default allocator will be used<br>
+     * (av_buffer_alloc()).<br>
+     * @return newly created buffer pool on success, NULL on error.<br>
+     * Original signature : <code>AVBufferPool* av_buffer_pool_init(int, av_buffer_pool_init_alloc_callback*)</code>
+     */
+    PointerByReference av_buffer_pool_init(int size, LibavformatLibrary.av_buffer_pool_init_alloc_callback alloc);
+    /**
+     * Mark the pool as being available for freeing. It will actually be freed only<br>
+     * once all the allocated buffers associated with the pool are released. Thus it<br>
+     * is safe to call this function while some of the allocated buffers are still<br>
+     * in use.<br>
+     * * @param pool pointer to the pool to be freed. It will be set to NULL.<br>
+     * @see av_buffer_pool_can_uninit()<br>
+     * Original signature : <code>void av_buffer_pool_uninit(AVBufferPool**)</code>
+     */
+    void av_buffer_pool_uninit(PointerByReference pool);
+    /**
+     * Allocate a new AVBuffer, reusing an old buffer from the pool when available.<br>
+     * This function may be called simultaneously from multiple threads.<br>
+     * * @return a reference to the new buffer on success, NULL on error.<br>
+     * Original signature : <code>AVBufferRef* av_buffer_pool_get(AVBufferPool*)</code><br>
+     * @deprecated use the safer method {@link #av_buffer_pool_get(com.sun.jna.ptr.PointerByReference)} instead
+     */
+    @Deprecated
+    AVBufferRef av_buffer_pool_get(Pointer pool);
+    /**
+     * Allocate a new AVBuffer, reusing an old buffer from the pool when available.<br>
+     * This function may be called simultaneously from multiple threads.<br>
+     * * @return a reference to the new buffer on success, NULL on error.<br>
+     * Original signature : <code>AVBufferRef* av_buffer_pool_get(AVBufferPool*)</code>
+     */
+    AVBufferRef av_buffer_pool_get(PointerByReference pool);
+    /**
+     * Return the flags which specify extensions supported by the CPU.<br>
+     * The returned value is affected by av_force_cpu_flags() if that was used<br>
+     * before. So av_get_cpu_flags() can easily be used in a application to<br>
+     * detect the enabled cpu flags.<br>
+     * Original signature : <code>int av_get_cpu_flags()</code>
+     */
+    int av_get_cpu_flags();
+    /**
+     * Disables cpu detection and forces the specified flags.<br>
+     * -1 is a special case that disables forcing of specific flags.<br>
+     * Original signature : <code>void av_force_cpu_flags(int)</code>
+     */
+    void av_force_cpu_flags(int flags);
+    /**
+     * Set a mask on flags returned by av_get_cpu_flags().<br>
+     * This function is mainly useful for testing.<br>
+     * Please use av_force_cpu_flags() and av_get_cpu_flags() instead which are more flexible<br>
+     * * @warning this function is not thread safe.<br>
+     * Original signature : <code>void av_set_cpu_flags_mask(int)</code>
+     */
+    void av_set_cpu_flags_mask(int mask);
+    /**
+     * Original signature : <code>int av_parse_cpu_flags(const char*)</code><br>
+     * @deprecated use the safer methods {@link #av_parse_cpu_flags(java.lang.String)} and {@link #av_parse_cpu_flags(com.sun.jna.Pointer)} instead
+     */
+    @Deprecated
+    int av_parse_cpu_flags(Pointer s);
+    /** Original signature : <code>int av_parse_cpu_flags(const char*)</code> */
+    int av_parse_cpu_flags(String s);
+    /**
+     * Parse CPU caps from a string and update the given AV_CPU_* flags based on that.<br>
+     * * @return negative on error.<br>
+     * Original signature : <code>int av_parse_cpu_caps(unsigned*, const char*)</code><br>
+     * @deprecated use the safer methods {@link #av_parse_cpu_caps(java.nio.IntBuffer, java.lang.String)} and {@link #av_parse_cpu_caps(com.sun.jna.ptr.IntByReference, com.sun.jna.Pointer)} instead
+     */
+    @Deprecated
+    int av_parse_cpu_caps(IntByReference flags, Pointer s);
+    /**
+     * Parse CPU caps from a string and update the given AV_CPU_* flags based on that.<br>
+     * * @return negative on error.<br>
+     * Original signature : <code>int av_parse_cpu_caps(unsigned*, const char*)</code>
+     */
+    int av_parse_cpu_caps(IntBuffer flags, String s);
+    /**
+     * @return the number of logical CPU cores present.<br>
+     * Original signature : <code>int av_cpu_count()</code>
+     */
+    int av_cpu_count();
+    /**
+     * The following CPU-specific functions shall not be called directly.<br>
+     * Original signature : <code>int ff_get_cpu_flags_arm()</code>
+     */
+    int ff_get_cpu_flags_arm();
+    /** Original signature : <code>int ff_get_cpu_flags_ppc()</code> */
+    int ff_get_cpu_flags_ppc();
+    /** Original signature : <code>int ff_get_cpu_flags_x86()</code> */
+    int ff_get_cpu_flags_x86();
+    /**
+     * Return a channel layout id that matches name, or 0 if no match is found.<br>
+     * * name can be one or several of the following notations,<br>
+     * separated by '+' or '|':<br>
+     * - the name of an usual channel layout (mono, stereo, 4.0, quad, 5.0,<br>
+     *   5.0(side), 5.1, 5.1(side), 7.1, 7.1(wide), downmix);<br>
+     * - the name of a single channel (FL, FR, FC, LFE, BL, BR, FLC, FRC, BC,<br>
+     *   SL, SR, TC, TFL, TFC, TFR, TBL, TBC, TBR, DL, DR);<br>
+     * - a number of channels, in decimal, optionally followed by 'c', yielding<br>
+     *   the default channel layout for that number of channels (@see<br>
+     *   av_get_default_channel_layout);<br>
+     * - a channel layout mask, in hexadecimal starting with "0x" (see the<br>
+     *   AV_CH_* macros).<br>
+     * * Example: "stereo+FC" = "2+FC" = "2c+1c" = "0x7"<br>
+     * Original signature : <code>uint64_t av_get_channel_layout(const char*)</code><br>
+     * @deprecated use the safer methods {@link #av_get_channel_layout(java.lang.String)} and {@link #av_get_channel_layout(com.sun.jna.Pointer)} instead
+     */
+    @Deprecated
+    long av_get_channel_layout(Pointer name);
+    /**
+     * Return a channel layout id that matches name, or 0 if no match is found.<br>
+     * * name can be one or several of the following notations,<br>
+     * separated by '+' or '|':<br>
+     * - the name of an usual channel layout (mono, stereo, 4.0, quad, 5.0,<br>
+     *   5.0(side), 5.1, 5.1(side), 7.1, 7.1(wide), downmix);<br>
+     * - the name of a single channel (FL, FR, FC, LFE, BL, BR, FLC, FRC, BC,<br>
+     *   SL, SR, TC, TFL, TFC, TFR, TBL, TBC, TBR, DL, DR);<br>
+     * - a number of channels, in decimal, optionally followed by 'c', yielding<br>
+     *   the default channel layout for that number of channels (@see<br>
+     *   av_get_default_channel_layout);<br>
+     * - a channel layout mask, in hexadecimal starting with "0x" (see the<br>
+     *   AV_CH_* macros).<br>
+     * * Example: "stereo+FC" = "2+FC" = "2c+1c" = "0x7"<br>
+     * Original signature : <code>uint64_t av_get_channel_layout(const char*)</code>
+     */
+    long av_get_channel_layout(String name);
+    /**
+     * Return a description of a channel layout.<br>
+     * If nb_channels is <= 0, it is guessed from the channel_layout.<br>
+     * * @param buf put here the string containing the channel layout<br>
+     * @param buf_size size in bytes of the buffer<br>
+     * Original signature : <code>void av_get_channel_layout_string(char*, int, int, uint64_t)</code><br>
+     * @deprecated use the safer methods {@link #av_get_channel_layout_string(java.nio.ByteBuffer, int, int, long)} and {@link #av_get_channel_layout_string(com.sun.jna.Pointer, int, int, long)} instead
+     */
+    @Deprecated
+    void av_get_channel_layout_string(Pointer buf, int buf_size, int nb_channels, long channel_layout);
+    /**
+     * Return a description of a channel layout.<br>
+     * If nb_channels is <= 0, it is guessed from the channel_layout.<br>
+     * * @param buf put here the string containing the channel layout<br>
+     * @param buf_size size in bytes of the buffer<br>
+     * Original signature : <code>void av_get_channel_layout_string(char*, int, int, uint64_t)</code>
+     */
+    void av_get_channel_layout_string(ByteBuffer buf, int buf_size, int nb_channels, long channel_layout);
+    /**
+     * Append a description of a channel layout to a bprint buffer.<br>
+     * Original signature : <code>void av_bprint_channel_layout(AVBPrint*, int, uint64_t)</code>
+     */
+    void av_bprint_channel_layout(LibavformatLibrary.AVBPrint bp, int nb_channels, long channel_layout);
+    /**
+     * Return the number of channels in the channel layout.<br>
+     * Original signature : <code>int av_get_channel_layout_nb_channels(uint64_t)</code>
+     */
+    int av_get_channel_layout_nb_channels(long channel_layout);
+    /**
+     * Return default channel layout for a given number of channels.<br>
+     * Original signature : <code>int64_t av_get_default_channel_layout(int)</code>
+     */
+    long av_get_default_channel_layout(int nb_channels);
+    /**
+     * Get the index of a channel in channel_layout.<br>
+     * * @param channel a channel layout describing exactly one channel which must be<br>
+     *                present in channel_layout.<br>
+     * * @return index of channel in channel_layout on success, a negative AVERROR<br>
+     *         on error.<br>
+     * Original signature : <code>int av_get_channel_layout_channel_index(uint64_t, uint64_t)</code>
+     */
+    int av_get_channel_layout_channel_index(long channel_layout, long channel);
+    /**
+     * Get the channel with the given index in channel_layout.<br>
+     * Original signature : <code>uint64_t av_channel_layout_extract_channel(uint64_t, int)</code>
+     */
+    long av_channel_layout_extract_channel(long channel_layout, int index);
+    /**
+     * Get the name of a given channel.<br>
+     * * @return channel name on success, NULL on error.<br>
+     * Original signature : <code>char* av_get_channel_name(uint64_t)</code>
+     */
+    String av_get_channel_name(long channel);
+    /**
+     * Get the description of a given channel.<br>
+     * * @param channel  a channel layout with a single channel<br>
+     * @return  channel description on success, NULL on error<br>
+     * Original signature : <code>char* av_get_channel_description(uint64_t)</code>
+     */
+    String av_get_channel_description(long channel);
+    /**
+     * Get the value and name of a standard channel layout.<br>
+     * * @param[in]  index   index in an internal list, starting at 0<br>
+     * @param[out] layout  channel layout mask<br>
+     * @param[out] name    name of the layout<br>
+     * @return  0  if the layout exists,<br>
+     *          <0 if index is beyond the limits<br>
+     * Original signature : <code>int av_get_standard_channel_layout(unsigned, uint64_t*, const char**)</code><br>
+     * @deprecated use the safer methods {@link #av_get_standard_channel_layout(int, java.nio.LongBuffer, java.lang.String[])} and {@link #av_get_standard_channel_layout(int, com.sun.jna.ptr.LongByReference, com.sun.jna.ptr.PointerByReference)} instead
+     */
+    @Deprecated
+    int av_get_standard_channel_layout(int index, LongByReference layout, PointerByReference name);
+    /**
+     * Get the value and name of a standard channel layout.<br>
+     * * @param[in]  index   index in an internal list, starting at 0<br>
+     * @param[out] layout  channel layout mask<br>
+     * @param[out] name    name of the layout<br>
+     * @return  0  if the layout exists,<br>
+     *          <0 if index is beyond the limits<br>
+     * Original signature : <code>int av_get_standard_channel_layout(unsigned, uint64_t*, const char**)</code>
+     */
+    int av_get_standard_channel_layout(int index, LongBuffer layout, String name[]);
+    /**
+     * Get a dictionary entry with matching key.<br>
+     * * @param prev Set to the previous matching element to find the next.<br>
+     *             If set to NULL the first matching element is returned.<br>
+     * @param flags Allows case as well as suffix-insensitive comparisons.<br>
+     * @return Found entry or NULL, changing key or value leads to undefined behavior.<br>
+     * Original signature : <code>AVDictionaryEntry* av_dict_get(AVDictionary*, const char*, const AVDictionaryEntry*, int)</code><br>
+     * @deprecated use the safer methods {@link #av_dict_get(com.sun.jna.ptr.PointerByReference, java.lang.String, org.javaavc.ffmpeg.avformat.AVDictionaryEntry, int)} and {@link #av_dict_get(com.sun.jna.ptr.PointerByReference, com.sun.jna.Pointer, org.javaavc.ffmpeg.avformat.AVDictionaryEntry, int)} instead
+     */
+    @Deprecated
+    AVDictionaryEntry av_dict_get(Pointer m, Pointer key, AVDictionaryEntry prev, int flags);
+    /**
+     * Get a dictionary entry with matching key.<br>
+     * * @param prev Set to the previous matching element to find the next.<br>
+     *             If set to NULL the first matching element is returned.<br>
+     * @param flags Allows case as well as suffix-insensitive comparisons.<br>
+     * @return Found entry or NULL, changing key or value leads to undefined behavior.<br>
+     * Original signature : <code>AVDictionaryEntry* av_dict_get(AVDictionary*, const char*, const AVDictionaryEntry*, int)</code>
+     */
+    AVDictionaryEntry av_dict_get(PointerByReference m, String key, AVDictionaryEntry prev, int flags);
+    /**
+     * Get a dictionary entry with matching key.<br>
+     * * @param prev Set to the previous matching element to find the next.<br>
+     *             If set to NULL the first matching element is returned.<br>
+     * @param flags Allows case as well as suffix-insensitive comparisons.<br>
+     * @return Found entry or NULL, changing key or value leads to undefined behavior.<br>
+     * Original signature : <code>AVDictionaryEntry* av_dict_get(AVDictionary*, const char*, const AVDictionaryEntry*, int)</code>
+     */
+    AVDictionaryEntry av_dict_get(PointerByReference m, Pointer key, AVDictionaryEntry prev, int flags);
+    /**
+     * Get number of entries in dictionary.<br>
+     * * @param m dictionary<br>
+     * @return  number of entries in dictionary<br>
+     * Original signature : <code>int av_dict_count(const AVDictionary*)</code><br>
+     * @deprecated use the safer method {@link #av_dict_count(com.sun.jna.ptr.PointerByReference)} instead
+     */
+    @Deprecated
+    int av_dict_count(Pointer m);
+    /**
+     * Get number of entries in dictionary.<br>
+     * * @param m dictionary<br>
+     * @return  number of entries in dictionary<br>
+     * Original signature : <code>int av_dict_count(const AVDictionary*)</code>
+     */
+    int av_dict_count(PointerByReference m);
+    /**
+     * Set the given entry in *pm, overwriting an existing entry.<br>
+     * * @param pm pointer to a pointer to a dictionary struct. If *pm is NULL<br>
+     * a dictionary struct is allocated and put in *pm.<br>
+     * @param key entry key to add to *pm (will be av_strduped depending on flags)<br>
+     * @param value entry value to add to *pm (will be av_strduped depending on flags).<br>
+     *        Passing a NULL value will cause an existing entry to be deleted.<br>
+     * @return >= 0 on success otherwise an error code <0<br>
+     * Original signature : <code>int av_dict_set(AVDictionary**, const char*, const char*, int)</code><br>
+     * @deprecated use the safer methods {@link #av_dict_set(com.sun.jna.ptr.PointerByReference, java.lang.String, java.lang.String, int)} and {@link #av_dict_set(com.sun.jna.ptr.PointerByReference, com.sun.jna.Pointer, com.sun.jna.Pointer, int)} instead
+     */
+    @Deprecated
+    int av_dict_set(PointerByReference pm, Pointer key, Pointer value, int flags);
+    /**
+     * Set the given entry in *pm, overwriting an existing entry.<br>
+     * * @param pm pointer to a pointer to a dictionary struct. If *pm is NULL<br>
+     * a dictionary struct is allocated and put in *pm.<br>
+     * @param key entry key to add to *pm (will be av_strduped depending on flags)<br>
+     * @param value entry value to add to *pm (will be av_strduped depending on flags).<br>
+     *        Passing a NULL value will cause an existing entry to be deleted.<br>
+     * @return >= 0 on success otherwise an error code <0<br>
+     * Original signature : <code>int av_dict_set(AVDictionary**, const char*, const char*, int)</code>
+     */
+    int av_dict_set(PointerByReference pm, String key, String value, int flags);
+    /**
+     * Parse the key/value pairs list and add to a dictionary.<br>
+     * * @param key_val_sep  a 0-terminated list of characters used to separate<br>
+     *                     key from value<br>
+     * @param pairs_sep    a 0-terminated list of characters used to separate<br>
+     *                     two pairs from each other<br>
+     * @param flags        flags to use when adding to dictionary.<br>
+     *                     AV_DICT_DONT_STRDUP_KEY and AV_DICT_DONT_STRDUP_VAL<br>
+     *                     are ignored since the key/value tokens will always<br>
+     *                     be duplicated.<br>
+     * @return             0 on success, negative AVERROR code on failure<br>
+     * Original signature : <code>int av_dict_parse_string(AVDictionary**, const char*, const char*, const char*, int)</code><br>
+     * @deprecated use the safer methods {@link #av_dict_parse_string(com.sun.jna.ptr.PointerByReference, java.lang.String, java.lang.String, java.lang.String, int)} and {@link #av_dict_parse_string(com.sun.jna.ptr.PointerByReference, com.sun.jna.Pointer, com.sun.jna.Pointer, com.sun.jna.Pointer, int)} instead
+     */
+    @Deprecated
+    int av_dict_parse_string(PointerByReference pm, Pointer str, Pointer key_val_sep, Pointer pairs_sep, int flags);
+    /**
+     * Parse the key/value pairs list and add to a dictionary.<br>
+     * * @param key_val_sep  a 0-terminated list of characters used to separate<br>
+     *                     key from value<br>
+     * @param pairs_sep    a 0-terminated list of characters used to separate<br>
+     *                     two pairs from each other<br>
+     * @param flags        flags to use when adding to dictionary.<br>
+     *                     AV_DICT_DONT_STRDUP_KEY and AV_DICT_DONT_STRDUP_VAL<br>
+     *                     are ignored since the key/value tokens will always<br>
+     *                     be duplicated.<br>
+     * @return             0 on success, negative AVERROR code on failure<br>
+     * Original signature : <code>int av_dict_parse_string(AVDictionary**, const char*, const char*, const char*, int)</code>
+     */
+    int av_dict_parse_string(PointerByReference pm, String str, String key_val_sep, String pairs_sep, int flags);
+    /**
+     * Copy entries from one AVDictionary struct into another.<br>
+     * @param dst pointer to a pointer to a AVDictionary struct. If *dst is NULL,<br>
+     *            this function will allocate a struct for you and put it in *dst<br>
+     * @param src pointer to source AVDictionary struct<br>
+     * @param flags flags to use when setting entries in *dst<br>
+     * @note metadata is read using the AV_DICT_IGNORE_SUFFIX flag<br>
+     * Original signature : <code>void av_dict_copy(AVDictionary**, AVDictionary*, int)</code><br>
+     * @deprecated use the safer method {@link #av_dict_copy(com.sun.jna.ptr.PointerByReference, com.sun.jna.ptr.PointerByReference, int)} instead
+     */
+    @Deprecated
+    void av_dict_copy(PointerByReference dst, Pointer src, int flags);
+    /**
+     * Copy entries from one AVDictionary struct into another.<br>
+     * @param dst pointer to a pointer to a AVDictionary struct. If *dst is NULL,<br>
+     *            this function will allocate a struct for you and put it in *dst<br>
+     * @param src pointer to source AVDictionary struct<br>
+     * @param flags flags to use when setting entries in *dst<br>
+     * @note metadata is read using the AV_DICT_IGNORE_SUFFIX flag<br>
+     * Original signature : <code>void av_dict_copy(AVDictionary**, AVDictionary*, int)</code>
+     */
+    void av_dict_copy(PointerByReference dst, PointerByReference src, int flags);
+    /**
+     * Free all the memory allocated for an AVDictionary struct<br>
+     * and all keys and values.<br>
+     * Original signature : <code>void av_dict_free(AVDictionary**)</code>
+     */
+    void av_dict_free(PointerByReference m);
+    /**
+     * Accessors for some AVFrame fields.<br>
+     * The position of these field in the structure is not part of the ABI,<br>
+     * they should not be accessed directly outside libavcodec.<br>
+     * Original signature : <code>int64_t av_frame_get_best_effort_timestamp(const AVFrame*)</code>
+     */
+    long av_frame_get_best_effort_timestamp(AVFrame frame);
+    /** Original signature : <code>void av_frame_set_best_effort_timestamp(AVFrame*, int64_t)</code> */
+    void av_frame_set_best_effort_timestamp(AVFrame frame, long val);
+    /** Original signature : <code>int64_t av_frame_get_pkt_duration(const AVFrame*)</code> */
+    long av_frame_get_pkt_duration(AVFrame frame);
+    /** Original signature : <code>void av_frame_set_pkt_duration(AVFrame*, int64_t)</code> */
+    void av_frame_set_pkt_duration(AVFrame frame, long val);
+    /** Original signature : <code>int64_t av_frame_get_pkt_pos(const AVFrame*)</code> */
+    long av_frame_get_pkt_pos(AVFrame frame);
+    /** Original signature : <code>void av_frame_set_pkt_pos(AVFrame*, int64_t)</code> */
+    void av_frame_set_pkt_pos(AVFrame frame, long val);
+    /** Original signature : <code>int64_t av_frame_get_channel_layout(const AVFrame*)</code> */
+    long av_frame_get_channel_layout(AVFrame frame);
+    /** Original signature : <code>void av_frame_set_channel_layout(AVFrame*, int64_t)</code> */
+    void av_frame_set_channel_layout(AVFrame frame, long val);
+    /** Original signature : <code>int av_frame_get_channels(const AVFrame*)</code> */
+    int av_frame_get_channels(AVFrame frame);
+    /** Original signature : <code>void av_frame_set_channels(AVFrame*, int)</code> */
+    void av_frame_set_channels(AVFrame frame, int val);
+    /** Original signature : <code>int av_frame_get_sample_rate(const AVFrame*)</code> */
+    int av_frame_get_sample_rate(AVFrame frame);
+    /** Original signature : <code>void av_frame_set_sample_rate(AVFrame*, int)</code> */
+    void av_frame_set_sample_rate(AVFrame frame, int val);
+    /** Original signature : <code>AVDictionary* av_frame_get_metadata(const AVFrame*)</code> */
+    PointerByReference av_frame_get_metadata(AVFrame frame);
+    /**
+     * Original signature : <code>void av_frame_set_metadata(AVFrame*, AVDictionary*)</code><br>
+     * @deprecated use the safer method {@link #av_frame_set_metadata(org.javaavc.ffmpeg.avformat.AVFrame, com.sun.jna.ptr.PointerByReference)} instead
+     */
+    @Deprecated
+    void av_frame_set_metadata(AVFrame frame, Pointer val);
+    /** Original signature : <code>void av_frame_set_metadata(AVFrame*, AVDictionary*)</code> */
+    void av_frame_set_metadata(AVFrame frame, PointerByReference val);
+    /** Original signature : <code>int av_frame_get_decode_error_flags(const AVFrame*)</code> */
+    int av_frame_get_decode_error_flags(AVFrame frame);
+    /** Original signature : <code>void av_frame_set_decode_error_flags(AVFrame*, int)</code> */
+    void av_frame_set_decode_error_flags(AVFrame frame, int val);
+    /** Original signature : <code>int av_frame_get_pkt_size(const AVFrame*)</code> */
+    int av_frame_get_pkt_size(AVFrame frame);
+    /** Original signature : <code>void av_frame_set_pkt_size(AVFrame*, int)</code> */
+    void av_frame_set_pkt_size(AVFrame frame, int val);
+    /** Original signature : <code>AVDictionary** avpriv_frame_get_metadatap(AVFrame*)</code> */
+    PointerByReference avpriv_frame_get_metadatap(AVFrame frame);
+    /**
+     * Original signature : <code>int8_t* av_frame_get_qp_table(AVFrame*, int*, int*)</code><br>
+     * @deprecated use the safer methods {@link #av_frame_get_qp_table(org.javaavc.ffmpeg.avformat.AVFrame, java.nio.IntBuffer, java.nio.IntBuffer)} and {@link #av_frame_get_qp_table(org.javaavc.ffmpeg.avformat.AVFrame, com.sun.jna.ptr.IntByReference, com.sun.jna.ptr.IntByReference)} instead
+     */
+    @Deprecated
+    Pointer av_frame_get_qp_table(AVFrame f, IntByReference stride, IntByReference type);
+    /** Original signature : <code>int8_t* av_frame_get_qp_table(AVFrame*, int*, int*)</code> */
+    Pointer av_frame_get_qp_table(AVFrame f, IntBuffer stride, IntBuffer type);
+    /** Original signature : <code>int av_frame_set_qp_table(AVFrame*, AVBufferRef*, int, int)</code> */
+    int av_frame_set_qp_table(AVFrame f, AVBufferRef buf, int stride, int type);
+    /**
+     * Allocate an AVFrame and set its fields to default values.  The resulting<br>
+     * struct must be freed using av_frame_free().<br>
+     * * @return An AVFrame filled with default values or NULL on failure.<br>
+     * * @note this only allocates the AVFrame itself, not the data buffers. Those<br>
+     * must be allocated through other means, e.g. with av_frame_get_buffer() or<br>
+     * manually.<br>
+     * Original signature : <code>AVFrame* av_frame_alloc()</code>
+     */
+    AVFrame av_frame_alloc();
+    /**
+     * Free the frame and any dynamically allocated objects in it,<br>
+     * e.g. extended_data. If the frame is reference counted, it will be<br>
+     * unreferenced first.<br>
+     * * @param frame frame to be freed. The pointer will be set to NULL.<br>
+     * Original signature : <code>void av_frame_free(AVFrame**)</code><br>
+     * @deprecated use the safer method {@link #av_frame_free(org.javaavc.ffmpeg.avformat.AVFrame.ByReference[])} instead
+     */
+    @Deprecated
+    void av_frame_free(PointerByReference frame);
+    /**
+     * Free the frame and any dynamically allocated objects in it,<br>
+     * e.g. extended_data. If the frame is reference counted, it will be<br>
+     * unreferenced first.<br>
+     * * @param frame frame to be freed. The pointer will be set to NULL.<br>
+     * Original signature : <code>void av_frame_free(AVFrame**)</code>
+     */
+    void av_frame_free(AVFrame.ByReference frame[]);
+    /**
+     * Setup a new reference to the data described by an given frame.<br>
+     * * Copy frame properties from src to dst and create a new reference for each<br>
+     * AVBufferRef from src.<br>
+     * * If src is not reference counted, new buffers are allocated and the data is<br>
+     * copied.<br>
+     * * @return 0 on success, a negative AVERROR on error<br>
+     * Original signature : <code>int av_frame_ref(AVFrame*, AVFrame*)</code>
+     */
+    int av_frame_ref(AVFrame dst, AVFrame src);
+    /**
+     * Create a new frame that references the same data as src.<br>
+     * * This is a shortcut for av_frame_alloc()+av_frame_ref().<br>
+     * * @return newly created AVFrame on success, NULL on error.<br>
+     * Original signature : <code>AVFrame* av_frame_clone(AVFrame*)</code>
+     */
+    AVFrame av_frame_clone(AVFrame src);
+    /**
+     * Unreference all the buffers referenced by frame and reset the frame fields.<br>
+     * Original signature : <code>void av_frame_unref(AVFrame*)</code>
+     */
+    void av_frame_unref(AVFrame frame);
+    /**
+     * Move everythnig contained in src to dst and reset src.<br>
+     * Original signature : <code>void av_frame_move_ref(AVFrame*, AVFrame*)</code>
+     */
+    void av_frame_move_ref(AVFrame dst, AVFrame src);
+    /**
+     * Allocate new buffer(s) for audio or video data.<br>
+     * * The following fields must be set on frame before calling this function:<br>
+     * - format (pixel format for video, sample format for audio)<br>
+     * - width and height for video<br>
+     * - nb_samples and channel_layout for audio<br>
+     * * This function will fill AVFrame.data and AVFrame.buf arrays and, if<br>
+     * necessary, allocate and fill AVFrame.extended_data and AVFrame.extended_buf.<br>
+     * For planar formats, one buffer will be allocated for each plane.<br>
+     * * @param frame frame in which to store the new buffers.<br>
+     * @param align required buffer size alignment<br>
+     * * @return 0 on success, a negative AVERROR on error.<br>
+     * Original signature : <code>int av_frame_get_buffer(AVFrame*, int)</code>
+     */
+    int av_frame_get_buffer(AVFrame frame, int align);
+    /**
+     * Check if the frame data is writable.<br>
+     * * @return A positive value if the frame data is writable (which is true if and<br>
+     * only if each of the underlying buffers has only one reference, namely the one<br>
+     * stored in this frame). Return 0 otherwise.<br>
+     * * If 1 is returned the answer is valid until av_buffer_ref() is called on any<br>
+     * of the underlying AVBufferRefs (e.g. through av_frame_ref() or directly).<br>
+     * * @see av_frame_make_writable(), av_buffer_is_writable()<br>
+     * Original signature : <code>int av_frame_is_writable(AVFrame*)</code>
+     */
+    int av_frame_is_writable(AVFrame frame);
+    /**
+     * Ensure that the frame data is writable, avoiding data copy if possible.<br>
+     * * Do nothing if the frame is writable, allocate new buffers and copy the data<br>
+     * if it is not.<br>
+     * * @return 0 on success, a negative AVERROR on error.<br>
+     * * @see av_frame_is_writable(), av_buffer_is_writable(),<br>
+     * av_buffer_make_writable()<br>
+     * Original signature : <code>int av_frame_make_writable(AVFrame*)</code>
+     */
+    int av_frame_make_writable(AVFrame frame);
+    /**
+     * Copy only "metadata" fields from src to dst.<br>
+     * * Metadata for the purpose of this function are those fields that do not affect<br>
+     * the data layout in the buffers.  E.g. pts, sample rate (for audio) or sample<br>
+     * aspect ratio (for video), but not width/height or channel layout.<br>
+     * Side data is also copied.<br>
+     * Original signature : <code>int av_frame_copy_props(AVFrame*, const AVFrame*)</code>
+     */
+    int av_frame_copy_props(AVFrame dst, AVFrame src);
+    /**
+     * Get the buffer reference a given data plane is stored in.<br>
+     * * @param plane index of the data plane of interest in frame->extended_data.<br>
+     * * @return the buffer reference that contains the plane or NULL if the input<br>
+     * frame is not valid.<br>
+     * Original signature : <code>AVBufferRef* av_frame_get_plane_buffer(AVFrame*, int)</code>
+     */
+    AVBufferRef av_frame_get_plane_buffer(AVFrame frame, int plane);
+    /**
+     * Add a new side data to a frame.<br>
+     * * @param frame a frame to which the side data should be added<br>
+     * @param type type of the added side data<br>
+     * @param size size of the side data<br>
+     * * @return newly added side data on success, NULL on error<br>
+     * Original signature : <code>AVFrameSideData* av_frame_new_side_data(AVFrame*, AVFrameSideDataType, int)</code>
+     */
+    AVFrameSideData av_frame_new_side_data(AVFrame frame, int type, int size);
+    /**
+     * @return a pointer to the side data of a given type on success, NULL if there<br>
+     * is no side data with such type in this frame.<br>
+     * Original signature : <code>AVFrameSideData* av_frame_get_side_data(AVFrame*, AVFrameSideDataType)</code>
+     */
+    AVFrameSideData av_frame_get_side_data(AVFrame frame, int type);
+    /** Original signature : <code>AVRational av_codec_get_pkt_timebase(const AVCodecContext*)</code> */
+    AVRational.ByValue av_codec_get_pkt_timebase(AVCodecContext avctx);
+    /** Original signature : <code>void av_codec_set_pkt_timebase(AVCodecContext*, AVRational)</code> */
+    void av_codec_set_pkt_timebase(AVCodecContext avctx, AVRational.ByValue val);
+    /** Original signature : <code>AVCodecDescriptor* av_codec_get_codec_descriptor(const AVCodecContext*)</code> */
+    AVCodecDescriptor av_codec_get_codec_descriptor(AVCodecContext avctx);
+    /** Original signature : <code>void av_codec_set_codec_descriptor(AVCodecContext*, const AVCodecDescriptor*)</code> */
+    void av_codec_set_codec_descriptor(AVCodecContext avctx, AVCodecDescriptor desc);
+    /** Original signature : <code>int av_codec_get_lowres(const AVCodecContext*)</code> */
+    int av_codec_get_lowres(AVCodecContext avctx);
+    /** Original signature : <code>void av_codec_set_lowres(AVCodecContext*, int)</code> */
+    void av_codec_set_lowres(AVCodecContext avctx, int val);
+    /**
+     * If c is NULL, returns the first registered codec,<br>
+     * if c is non-NULL, returns the next registered codec after c,<br>
+     * or NULL if c is the last one.<br>
+     * Original signature : <code>AVCodec* av_codec_next(const AVCodec*)</code>
+     */
+    AVCodec av_codec_next(AVCodec c);
+    /**
+     * Return the LIBAVCODEC_VERSION_INT constant.<br>
+     * Original signature : <code>int avcodec_version()</code>
+     */
+    int avcodec_version();
+    /**
+     * Return the libavcodec build-time configuration.<br>
+     * Original signature : <code>char* avcodec_configuration()</code>
+     */
+    String avcodec_configuration();
+    /**
+     * Return the libavcodec license.<br>
+     * Original signature : <code>char* avcodec_license()</code>
+     */
+    String avcodec_license();
+    /**
+     * Register the codec codec and initialize libavcodec.<br>
+     * * @warning either this function or avcodec_register_all() must be called<br>
+     * before any other libavcodec functions.<br>
+     * * @see avcodec_register_all()<br>
+     * Original signature : <code>void avcodec_register(AVCodec*)</code>
+     */
+    void avcodec_register(AVCodec codec);
+    /**
+     * Register all the codecs, parsers and bitstream filters which were enabled at<br>
+     * configuration time. If you do not call this function you can select exactly<br>
+     * which formats you want to support, by using the individual registration<br>
+     * functions.<br>
+     * * @see avcodec_register<br>
+     * @see av_register_codec_parser<br>
+     * @see av_register_bitstream_filter<br>
+     * Original signature : <code>void avcodec_register_all()</code>
+     */
+    void avcodec_register_all();
+    /**
+     * Allocate an AVCodecContext and set its fields to default values.  The<br>
+     * resulting struct can be deallocated by calling avcodec_close() on it followed<br>
+     * by av_free().<br>
+     * * @param codec if non-NULL, allocate private data and initialize defaults<br>
+     *              for the given codec. It is illegal to then call avcodec_open2()<br>
+     *              with a different codec.<br>
+     *              If NULL, then the codec-specific defaults won't be initialized,<br>
+     *              which may result in suboptimal default settings (this is<br>
+     *              important mainly for encoders, e.g. libx264).<br>
+     * * @return An AVCodecContext filled with default values or NULL on failure.<br>
+     * @see avcodec_get_context_defaults<br>
+     * Original signature : <code>AVCodecContext* avcodec_alloc_context3(const AVCodec*)</code>
+     */
+    AVCodecContext avcodec_alloc_context3(AVCodec codec);
+    /**
+     * Set the fields of the given AVCodecContext to default values corresponding<br>
+     * to the given codec (defaults may be codec-dependent).<br>
+     * * Do not call this function if a non-NULL codec has been passed<br>
+     * to avcodec_alloc_context3() that allocated this AVCodecContext.<br>
+     * If codec is non-NULL, it is illegal to call avcodec_open2() with a<br>
+     * different codec on this AVCodecContext.<br>
+     * Original signature : <code>int avcodec_get_context_defaults3(AVCodecContext*, const AVCodec*)</code>
+     */
+    int avcodec_get_context_defaults3(AVCodecContext s, AVCodec codec);
+    /**
+     * Get the AVClass for AVCodecContext. It can be used in combination with<br>
+     * AV_OPT_SEARCH_FAKE_OBJ for examining options.<br>
+     * * @see av_opt_find().<br>
+     * Original signature : <code>AVClass* avcodec_get_class()</code>
+     */
+    AVClass avcodec_get_class();
+    /**
+     * Get the AVClass for AVFrame. It can be used in combination with<br>
+     * AV_OPT_SEARCH_FAKE_OBJ for examining options.<br>
+     * * @see av_opt_find().<br>
+     * Original signature : <code>AVClass* avcodec_get_frame_class()</code>
+     */
+    AVClass avcodec_get_frame_class();
+    /**
+     * Get the AVClass for AVSubtitleRect. It can be used in combination with<br>
+     * AV_OPT_SEARCH_FAKE_OBJ for examining options.<br>
+     * * @see av_opt_find().<br>
+     * Original signature : <code>AVClass* avcodec_get_subtitle_rect_class()</code>
+     */
+    AVClass avcodec_get_subtitle_rect_class();
+    /**
+     * Copy the settings of the source AVCodecContext into the destination<br>
+     * AVCodecContext. The resulting destination codec context will be<br>
+     * unopened, i.e. you are required to call avcodec_open2() before you<br>
+     * can use this AVCodecContext to decode/encode video/audio data.<br>
+     * * @param dest target codec context, should be initialized with<br>
+     *             avcodec_alloc_context3(), but otherwise uninitialized<br>
+     * @param src source codec context<br>
+     * @return AVERROR() on error (e.g. memory allocation error), 0 on success<br>
+     * Original signature : <code>int avcodec_copy_context(AVCodecContext*, const AVCodecContext*)</code>
+     */
+    int avcodec_copy_context(AVCodecContext dest, AVCodecContext src);
+    /**
+     * Allocate an AVFrame and set its fields to default values.  The resulting<br>
+     * struct must be freed using avcodec_free_frame().<br>
+     * * @return An AVFrame filled with default values or NULL on failure.<br>
+     * @see avcodec_get_frame_defaults<br>
+     * Original signature : <code>AVFrame* avcodec_alloc_frame()</code>
+     */
+    AVFrame avcodec_alloc_frame();
+    /**
+     * Set the fields of the given AVFrame to default values.<br>
+     * * @param frame The AVFrame of which the fields should be set to default values.<br>
+     * Original signature : <code>void avcodec_get_frame_defaults(AVFrame*)</code>
+     */
+    void avcodec_get_frame_defaults(AVFrame frame);
+    /**
+     * Free the frame and any dynamically allocated objects in it,<br>
+     * e.g. extended_data.<br>
+     * * @param frame frame to be freed. The pointer will be set to NULL.<br>
+     * * @warning this function does NOT free the data buffers themselves<br>
+     * (it does not know how, since they might have been allocated with<br>
+     *  a custom get_buffer()).<br>
+     * Original signature : <code>void avcodec_free_frame(AVFrame**)</code><br>
+     * @deprecated use the safer method {@link #avcodec_free_frame(org.javaavc.ffmpeg.avformat.AVFrame.ByReference[])} instead
+     */
+    @Deprecated
+    void avcodec_free_frame(PointerByReference frame);
+    /**
+     * Free the frame and any dynamically allocated objects in it,<br>
+     * e.g. extended_data.<br>
+     * * @param frame frame to be freed. The pointer will be set to NULL.<br>
+     * * @warning this function does NOT free the data buffers themselves<br>
+     * (it does not know how, since they might have been allocated with<br>
+     *  a custom get_buffer()).<br>
+     * Original signature : <code>void avcodec_free_frame(AVFrame**)</code>
+     */
+    void avcodec_free_frame(AVFrame.ByReference frame[]);
+    /**
+     * Initialize the AVCodecContext to use the given AVCodec. Prior to using this<br>
+     * function the context has to be allocated with avcodec_alloc_context3().<br>
+     * * The functions avcodec_find_decoder_by_name(), avcodec_find_encoder_by_name(),<br>
+     * avcodec_find_decoder() and avcodec_find_encoder() provide an easy way for<br>
+     * retrieving a codec.<br>
+     * * @warning This function is not thread safe!<br>
+     * * @code<br>
+     * avcodec_register_all();<br>
+     * av_dict_set(&opts, "b", "2.5M", 0);<br>
+     * codec = avcodec_find_decoder(AV_CODEC_ID_H264);<br>
+     * if (!codec)<br>
+     *     exit(1);<br>
+     * * context = avcodec_alloc_context3(codec);<br>
+     * * if (avcodec_open2(context, codec, opts) < 0)<br>
+     *     exit(1);<br>
+     * @endcode<br>
+     * * @param avctx The context to initialize.<br>
+     * @param codec The codec to open this context for. If a non-NULL codec has been<br>
+     *              previously passed to avcodec_alloc_context3() or<br>
+     *              avcodec_get_context_defaults3() for this context, then this<br>
+     *              parameter MUST be either NULL or equal to the previously passed<br>
+     *              codec.<br>
+     * @param options A dictionary filled with AVCodecContext and codec-private options.<br>
+     *                On return this object will be filled with options that were not found.<br>
+     * * @return zero on success, a negative value on error<br>
+     * @see avcodec_alloc_context3(), avcodec_find_decoder(), avcodec_find_encoder(),<br>
+     *      av_dict_set(), av_opt_find().<br>
+     * Original signature : <code>int avcodec_open2(AVCodecContext*, const AVCodec*, AVDictionary**)</code>
+     */
+    int avcodec_open2(AVCodecContext avctx, AVCodec codec, PointerByReference options);
+    /**
+     * Close a given AVCodecContext and free all the data associated with it<br>
+     * (but not the AVCodecContext itself).<br>
+     * * Calling this function on an AVCodecContext that hasn't been opened will free<br>
+     * the codec-specific data allocated in avcodec_alloc_context3() /<br>
+     * avcodec_get_context_defaults3() with a non-NULL codec. Subsequent calls will<br>
+     * do nothing.<br>
+     * Original signature : <code>int avcodec_close(AVCodecContext*)</code>
+     */
+    int avcodec_close(AVCodecContext avctx);
+    /**
+     * Free all allocated data in the given subtitle struct.<br>
+     * * @param sub AVSubtitle to free.<br>
+     * Original signature : <code>void avsubtitle_free(AVSubtitle*)</code>
+     */
+    void avsubtitle_free(AVSubtitle sub);
+    /** Original signature : <code>void av_destruct_packet(AVPacket*)</code> */
+    void av_destruct_packet(AVPacket pkt);
+    /**
+     * Initialize optional fields of a packet with default values.<br>
+     * * Note, this does not touch the data and size members, which have to be<br>
+     * initialized separately.<br>
+     * * @param pkt packet<br>
+     * Original signature : <code>void av_init_packet(AVPacket*)</code>
+     */
+    void av_init_packet(AVPacket pkt);
+    /**
+     * Allocate the payload of a packet and initialize its fields with<br>
+     * default values.<br>
+     * * @param pkt packet<br>
+     * @param size wanted payload size<br>
+     * @return 0 if OK, AVERROR_xxx otherwise<br>
+     * Original signature : <code>int av_new_packet(AVPacket*, int)</code>
+     */
+    int av_new_packet(AVPacket pkt, int size);
+    /**
+     * Reduce packet size, correctly zeroing padding<br>
+     * * @param pkt packet<br>
+     * @param size new size<br>
+     * Original signature : <code>void av_shrink_packet(AVPacket*, int)</code>
+     */
+    void av_shrink_packet(AVPacket pkt, int size);
+    /**
+     * Increase packet size, correctly zeroing padding<br>
+     * * @param pkt packet<br>
+     * @param grow_by number of bytes by which to increase the size of the packet<br>
+     * Original signature : <code>int av_grow_packet(AVPacket*, int)</code>
+     */
+    int av_grow_packet(AVPacket pkt, int grow_by);
+    /**
+     * Initialize a reference-counted packet from av_malloc()ed data.<br>
+     * * @param pkt packet to be initialized. This function will set the data, size,<br>
+     *        buf and destruct fields, all others are left untouched.<br>
+     * @param data Data allocated by av_malloc() to be used as packet data. If this<br>
+     *        function returns successfully, the data is owned by the underlying AVBuffer.<br>
+     *        The caller may not access the data through other means.<br>
+     * @param size size of data in bytes, without the padding. I.e. the full buffer<br>
+     *        size is assumed to be size + FF_INPUT_BUFFER_PADDING_SIZE.<br>
+     * * @return 0 on success, a negative AVERROR on error<br>
+     * Original signature : <code>int av_packet_from_data(AVPacket*, uint8_t*, int)</code><br>
+     * @deprecated use the safer methods {@link #av_packet_from_data(org.javaavc.ffmpeg.avformat.AVPacket, java.nio.ByteBuffer, int)} and {@link #av_packet_from_data(org.javaavc.ffmpeg.avformat.AVPacket, com.sun.jna.Pointer, int)} instead
+     */
+    @Deprecated
+    int av_packet_from_data(AVPacket pkt, Pointer data, int size);
+    /**
+     * Initialize a reference-counted packet from av_malloc()ed data.<br>
+     * * @param pkt packet to be initialized. This function will set the data, size,<br>
+     *        buf and destruct fields, all others are left untouched.<br>
+     * @param data Data allocated by av_malloc() to be used as packet data. If this<br>
+     *        function returns successfully, the data is owned by the underlying AVBuffer.<br>
+     *        The caller may not access the data through other means.<br>
+     * @param size size of data in bytes, without the padding. I.e. the full buffer<br>
+     *        size is assumed to be size + FF_INPUT_BUFFER_PADDING_SIZE.<br>
+     * * @return 0 on success, a negative AVERROR on error<br>
+     * Original signature : <code>int av_packet_from_data(AVPacket*, uint8_t*, int)</code>
+     */
+    int av_packet_from_data(AVPacket pkt, ByteBuffer data, int size);
+    /**
+     * @warning This is a hack - the packet memory allocation stuff is broken. The<br>
+     * packet is allocated if it was not really allocated.<br>
+     * Original signature : <code>int av_dup_packet(AVPacket*)</code>
+     */
+    int av_dup_packet(AVPacket pkt);
+    /**
+     * Copy packet, including contents<br>
+     * * @return 0 on success, negative AVERROR on fail<br>
+     * Original signature : <code>int av_copy_packet(AVPacket*, AVPacket*)</code>
+     */
+    int av_copy_packet(AVPacket dst, AVPacket src);
+    /**
+     * Copy packet side data<br>
+     * * @return 0 on success, negative AVERROR on fail<br>
+     * Original signature : <code>int av_copy_packet_side_data(AVPacket*, AVPacket*)</code>
+     */
+    int av_copy_packet_side_data(AVPacket dst, AVPacket src);
+    /**
+     * Free a packet.<br>
+     * * @param pkt packet to free<br>
+     * Original signature : <code>void av_free_packet(AVPacket*)</code>
+     */
+    void av_free_packet(AVPacket pkt);
+    /**
+     * Allocate new information of a packet.<br>
+     * * @param pkt packet<br>
+     * @param type side information type<br>
+     * @param size side information size<br>
+     * @return pointer to fresh allocated data or NULL otherwise<br>
+     * Original signature : <code>uint8_t* av_packet_new_side_data(AVPacket*, AVPacketSideDataType, int)</code>
+     */
+    Pointer av_packet_new_side_data(AVPacket pkt, int type, int size);
+    /**
+     * Shrink the already allocated side data buffer<br>
+     * * @param pkt packet<br>
+     * @param type side information type<br>
+     * @param size new side information size<br>
+     * @return 0 on success, < 0 on failure<br>
+     * Original signature : <code>int av_packet_shrink_side_data(AVPacket*, AVPacketSideDataType, int)</code>
+     */
+    int av_packet_shrink_side_data(AVPacket pkt, int type, int size);
+    /**
+     * Get side information from packet.<br>
+     * * @param pkt packet<br>
+     * @param type desired side information type<br>
+     * @param size pointer for side information size to store (optional)<br>
+     * @return pointer to data if present or NULL otherwise<br>
+     * Original signature : <code>uint8_t* av_packet_get_side_data(AVPacket*, AVPacketSideDataType, int*)</code><br>
+     * @deprecated use the safer methods {@link #av_packet_get_side_data(org.javaavc.ffmpeg.avformat.AVPacket, int, java.nio.IntBuffer)} and {@link #av_packet_get_side_data(org.javaavc.ffmpeg.avformat.AVPacket, int, com.sun.jna.ptr.IntByReference)} instead
+     */
+    @Deprecated
+    Pointer av_packet_get_side_data(AVPacket pkt, int type, IntByReference size);
+    /**
+     * Get side information from packet.<br>
+     * * @param pkt packet<br>
+     * @param type desired side information type<br>
+     * @param size pointer for side information size to store (optional)<br>
+     * @return pointer to data if present or NULL otherwise<br>
+     * Original signature : <code>uint8_t* av_packet_get_side_data(AVPacket*, AVPacketSideDataType, int*)</code>
+     */
+    Pointer av_packet_get_side_data(AVPacket pkt, int type, IntBuffer size);
+    /** Original signature : <code>int av_packet_merge_side_data(AVPacket*)</code> */
+    int av_packet_merge_side_data(AVPacket pkt);
+    /** Original signature : <code>int av_packet_split_side_data(AVPacket*)</code> */
+    int av_packet_split_side_data(AVPacket pkt);
+    /**
+     * Find a registered decoder with a matching codec ID.<br>
+     * * @param id AVCodecID of the requested decoder<br>
+     * @return A decoder if one was found, NULL otherwise.<br>
+     * Original signature : <code>AVCodec* avcodec_find_decoder(AVCodecID)</code>
+     */
+    AVCodec avcodec_find_decoder(int id);
+    /**
+     * Find a registered decoder with the specified name.<br>
+     * * @param name name of the requested decoder<br>
+     * @return A decoder if one was found, NULL otherwise.<br>
+     * Original signature : <code>AVCodec* avcodec_find_decoder_by_name(const char*)</code><br>
+     * @deprecated use the safer methods {@link #avcodec_find_decoder_by_name(java.lang.String)} and {@link #avcodec_find_decoder_by_name(com.sun.jna.Pointer)} instead
+     */
+    @Deprecated
+    AVCodec avcodec_find_decoder_by_name(Pointer name);
+    /**
+     * Find a registered decoder with the specified name.<br>
+     * * @param name name of the requested decoder<br>
+     * @return A decoder if one was found, NULL otherwise.<br>
+     * Original signature : <code>AVCodec* avcodec_find_decoder_by_name(const char*)</code>
+     */
+    AVCodec avcodec_find_decoder_by_name(String name);
+    /** Original signature : <code>int avcodec_default_get_buffer(AVCodecContext*, AVFrame*)</code> */
+    int avcodec_default_get_buffer(AVCodecContext s, AVFrame pic);
+    /** Original signature : <code>void avcodec_default_release_buffer(AVCodecContext*, AVFrame*)</code> */
+    void avcodec_default_release_buffer(AVCodecContext s, AVFrame pic);
+    /** Original signature : <code>int avcodec_default_reget_buffer(AVCodecContext*, AVFrame*)</code> */
+    int avcodec_default_reget_buffer(AVCodecContext s, AVFrame pic);
+    /**
+     * The default callback for AVCodecContext.get_buffer2(). It is made public so<br>
+     * it can be called by custom get_buffer2() implementations for decoders without<br>
+     * CODEC_CAP_DR1 set.<br>
+     * Original signature : <code>int avcodec_default_get_buffer2(AVCodecContext*, AVFrame*, int)</code>
+     */
+    int avcodec_default_get_buffer2(AVCodecContext s, AVFrame frame, int flags);
+    /**
+     * Return the amount of padding in pixels which the get_buffer callback must<br>
+     * provide around the edge of the image for codecs which do not have the<br>
+     * CODEC_FLAG_EMU_EDGE flag.<br>
+     * * @return Required padding in pixels.<br>
+     * Original signature : <code>int avcodec_get_edge_width()</code>
+     */
+    int avcodec_get_edge_width();
+    /**
+     * Modify width and height values so that they will result in a memory<br>
+     * buffer that is acceptable for the codec if you do not use any horizontal<br>
+     * padding.<br>
+     * * May only be used if a codec with CODEC_CAP_DR1 has been opened.<br>
+     * If CODEC_FLAG_EMU_EDGE is not set, the dimensions must have been increased<br>
+     * according to avcodec_get_edge_width() before.<br>
+     * Original signature : <code>void avcodec_align_dimensions(AVCodecContext*, int*, int*)</code><br>
+     * @deprecated use the safer methods {@link #avcodec_align_dimensions(org.javaavc.ffmpeg.avformat.AVCodecContext, java.nio.IntBuffer, java.nio.IntBuffer)} and {@link #avcodec_align_dimensions(org.javaavc.ffmpeg.avformat.AVCodecContext, com.sun.jna.ptr.IntByReference, com.sun.jna.ptr.IntByReference)} instead
+     */
+    @Deprecated
+    void avcodec_align_dimensions(AVCodecContext s, IntByReference width, IntByReference height);
+    /**
+     * Modify width and height values so that they will result in a memory<br>
+     * buffer that is acceptable for the codec if you do not use any horizontal<br>
+     * padding.<br>
+     * * May only be used if a codec with CODEC_CAP_DR1 has been opened.<br>
+     * If CODEC_FLAG_EMU_EDGE is not set, the dimensions must have been increased<br>
+     * according to avcodec_get_edge_width() before.<br>
+     * Original signature : <code>void avcodec_align_dimensions(AVCodecContext*, int*, int*)</code>
+     */
+    void avcodec_align_dimensions(AVCodecContext s, IntBuffer width, IntBuffer height);
+    /**
+     * Modify width and height values so that they will result in a memory<br>
+     * buffer that is acceptable for the codec if you also ensure that all<br>
+     * line sizes are a multiple of the respective linesize_align[i].<br>
+     * * May only be used if a codec with CODEC_CAP_DR1 has been opened.<br>
+     * If CODEC_FLAG_EMU_EDGE is not set, the dimensions must have been increased<br>
+     * according to avcodec_get_edge_width() before.<br>
+     * Original signature : <code>void avcodec_align_dimensions2(AVCodecContext*, int*, int*, int[8])</code><br>
+     * @deprecated use the safer methods {@link #avcodec_align_dimensions2(org.javaavc.ffmpeg.avformat.AVCodecContext, java.nio.IntBuffer, java.nio.IntBuffer, java.nio.IntBuffer)} and {@link #avcodec_align_dimensions2(org.javaavc.ffmpeg.avformat.AVCodecContext, com.sun.jna.ptr.IntByReference, com.sun.jna.ptr.IntByReference, com.sun.jna.ptr.IntByReference)} instead
+     */
+    @Deprecated
+    void avcodec_align_dimensions2(AVCodecContext s, IntByReference width, IntByReference height, IntByReference linesize_align);
+    /**
+     * Modify width and height values so that they will result in a memory<br>
+     * buffer that is acceptable for the codec if you also ensure that all<br>
+     * line sizes are a multiple of the respective linesize_align[i].<br>
+     * * May only be used if a codec with CODEC_CAP_DR1 has been opened.<br>
+     * If CODEC_FLAG_EMU_EDGE is not set, the dimensions must have been increased<br>
+     * according to avcodec_get_edge_width() before.<br>
+     * Original signature : <code>void avcodec_align_dimensions2(AVCodecContext*, int*, int*, int[8])</code>
+     */
+    void avcodec_align_dimensions2(AVCodecContext s, IntBuffer width, IntBuffer height, IntBuffer linesize_align);
+    /**
+     * Wrapper function which calls avcodec_decode_audio4.<br>
+     * * @deprecated Use avcodec_decode_audio4 instead.<br>
+     * * Decode the audio frame of size avpkt->size from avpkt->data into samples.<br>
+     * Some decoders may support multiple frames in a single AVPacket, such<br>
+     * decoders would then just decode the first frame. In this case,<br>
+     * avcodec_decode_audio3 has to be called again with an AVPacket that contains<br>
+     * the remaining data in order to decode the second frame etc.<br>
+     * If no frame<br>
+     * could be outputted, frame_size_ptr is zero. Otherwise, it is the<br>
+     * decompressed frame size in bytes.<br>
+     * * @warning You must set frame_size_ptr to the allocated size of the<br>
+     * output buffer before calling avcodec_decode_audio3().<br>
+     * * @warning The input buffer must be FF_INPUT_BUFFER_PADDING_SIZE larger than<br>
+     * the actual read bytes because some optimized bitstream readers read 32 or 64<br>
+     * bits at once and could read over the end.<br>
+     * * @warning The end of the input buffer avpkt->data should be set to 0 to ensure that<br>
+     * no overreading happens for damaged MPEG streams.<br>
+     * * @warning You must not provide a custom get_buffer() when using<br>
+     * avcodec_decode_audio3().  Doing so will override it with<br>
+     * avcodec_default_get_buffer.  Use avcodec_decode_audio4() instead,<br>
+     * which does allow the application to provide a custom get_buffer().<br>
+     * * @note You might have to align the input buffer avpkt->data and output buffer<br>
+     * samples. The alignment requirements depend on the CPU: On some CPUs it isn't<br>
+     * necessary at all, on others it won't work at all if not aligned and on others<br>
+     * it will work but it will have an impact on performance.<br>
+     * * In practice, avpkt->data should have 4 byte alignment at minimum and<br>
+     * samples should be 16 byte aligned unless the CPU doesn't need it<br>
+     * (AltiVec and SSE do).<br>
+     * * @note Codecs which have the CODEC_CAP_DELAY capability set have a delay<br>
+     * between input and output, these need to be fed with avpkt->data=NULL,<br>
+     * avpkt->size=0 at the end to return the remaining frames.<br>
+     * * @param avctx the codec context<br>
+     * @param[out] samples the output buffer, sample type in avctx->sample_fmt<br>
+     *                     If the sample format is planar, each channel plane will<br>
+     *                     be the same size, with no padding between channels.<br>
+     * @param[in,out] frame_size_ptr the output buffer size in bytes<br>
+     * @param[in] avpkt The input AVPacket containing the input buffer.<br>
+     *            You can create such packet with av_init_packet() and by then setting<br>
+     *            data and size, some decoders might in addition need other fields.<br>
+     *            All decoders are designed to use the least fields possible though.<br>
+     * @return On error a negative value is returned, otherwise the number of bytes<br>
+     * used or zero if no frame data was decompressed (used) from the input AVPacket.<br>
+     * Original signature : <code>int avcodec_decode_audio3(AVCodecContext*, int16_t*, int*, AVPacket*)</code><br>
+     * @deprecated use the safer methods {@link #avcodec_decode_audio3(org.javaavc.ffmpeg.avformat.AVCodecContext, java.nio.ShortBuffer, java.nio.IntBuffer, org.javaavc.ffmpeg.avformat.AVPacket)} and {@link #avcodec_decode_audio3(org.javaavc.ffmpeg.avformat.AVCodecContext, com.sun.jna.ptr.ShortByReference, com.sun.jna.ptr.IntByReference, org.javaavc.ffmpeg.avformat.AVPacket)} instead
+     */
+    @Deprecated
+    int avcodec_decode_audio3(AVCodecContext avctx, ShortByReference samples, IntByReference frame_size_ptr, AVPacket avpkt);
+    /**
+     * Wrapper function which calls avcodec_decode_audio4.<br>
+     * * @deprecated Use avcodec_decode_audio4 instead.<br>
+     * * Decode the audio frame of size avpkt->size from avpkt->data into samples.<br>
+     * Some decoders may support multiple frames in a single AVPacket, such<br>
+     * decoders would then just decode the first frame. In this case,<br>
+     * avcodec_decode_audio3 has to be called again with an AVPacket that contains<br>
+     * the remaining data in order to decode the second frame etc.<br>
+     * If no frame<br>
+     * could be outputted, frame_size_ptr is zero. Otherwise, it is the<br>
+     * decompressed frame size in bytes.<br>
+     * * @warning You must set frame_size_ptr to the allocated size of the<br>
+     * output buffer before calling avcodec_decode_audio3().<br>
+     * * @warning The input buffer must be FF_INPUT_BUFFER_PADDING_SIZE larger than<br>
+     * the actual read bytes because some optimized bitstream readers read 32 or 64<br>
+     * bits at once and could read over the end.<br>
+     * * @warning The end of the input buffer avpkt->data should be set to 0 to ensure that<br>
+     * no overreading happens for damaged MPEG streams.<br>
+     * * @warning You must not provide a custom get_buffer() when using<br>
+     * avcodec_decode_audio3().  Doing so will override it with<br>
+     * avcodec_default_get_buffer.  Use avcodec_decode_audio4() instead,<br>
+     * which does allow the application to provide a custom get_buffer().<br>
+     * * @note You might have to align the input buffer avpkt->data and output buffer<br>
+     * samples. The alignment requirements depend on the CPU: On some CPUs it isn't<br>
+     * necessary at all, on others it won't work at all if not aligned and on others<br>
+     * it will work but it will have an impact on performance.<br>
+     * * In practice, avpkt->data should have 4 byte alignment at minimum and<br>
+     * samples should be 16 byte aligned unless the CPU doesn't need it<br>
+     * (AltiVec and SSE do).<br>
+     * * @note Codecs which have the CODEC_CAP_DELAY capability set have a delay<br>
+     * between input and output, these need to be fed with avpkt->data=NULL,<br>
+     * avpkt->size=0 at the end to return the remaining frames.<br>
+     * * @param avctx the codec context<br>
+     * @param[out] samples the output buffer, sample type in avctx->sample_fmt<br>
+     *                     If the sample format is planar, each channel plane will<br>
+     *                     be the same size, with no padding between channels.<br>
+     * @param[in,out] frame_size_ptr the output buffer size in bytes<br>
+     * @param[in] avpkt The input AVPacket containing the input buffer.<br>
+     *            You can create such packet with av_init_packet() and by then setting<br>
+     *            data and size, some decoders might in addition need other fields.<br>
+     *            All decoders are designed to use the least fields possible though.<br>
+     * @return On error a negative value is returned, otherwise the number of bytes<br>
+     * used or zero if no frame data was decompressed (used) from the input AVPacket.<br>
+     * Original signature : <code>int avcodec_decode_audio3(AVCodecContext*, int16_t*, int*, AVPacket*)</code>
+     */
+    int avcodec_decode_audio3(AVCodecContext avctx, ShortBuffer samples, IntBuffer frame_size_ptr, AVPacket avpkt);
+    /**
+     * Decode the audio frame of size avpkt->size from avpkt->data into frame.<br>
+     * * Some decoders may support multiple frames in a single AVPacket. Such<br>
+     * decoders would then just decode the first frame. In this case,<br>
+     * avcodec_decode_audio4 has to be called again with an AVPacket containing<br>
+     * the remaining data in order to decode the second frame, etc...<br>
+     * Even if no frames are returned, the packet needs to be fed to the decoder<br>
+     * with remaining data until it is completely consumed or an error occurs.<br>
+     * * @warning The input buffer, avpkt->data must be FF_INPUT_BUFFER_PADDING_SIZE<br>
+     *          larger than the actual read bytes because some optimized bitstream<br>
+     *          readers read 32 or 64 bits at once and could read over the end.<br>
+     * * @note You might have to align the input buffer. The alignment requirements<br>
+     *       depend on the CPU and the decoder.<br>
+     * * @param      avctx the codec context<br>
+     * @param[out] frame The AVFrame in which to store decoded audio samples.<br>
+     *                   The decoder will allocate a buffer for the decoded frame by<br>
+     *                   calling the AVCodecContext.get_buffer2() callback.<br>
+     *                   When AVCodecContext.refcounted_frames is set to 1, the frame is<br>
+     *                   reference counted and the returned reference belongs to the<br>
+     *                   caller. The caller must release the frame using av_frame_unref()<br>
+     *                   when the frame is no longer needed. The caller may safely write<br>
+     *                   to the frame if av_frame_is_writable() returns 1.<br>
+     *                   When AVCodecContext.refcounted_frames is set to 0, the returned<br>
+     *                   reference belongs to the decoder and is valid only until the<br>
+     *                   next call to this function or until closing the decoder.<br>
+     *                   The caller may not write to it.<br>
+     * @param[out] got_frame_ptr Zero if no frame could be decoded, otherwise it is<br>
+     *                           non-zero.<br>
+     * @param[in]  avpkt The input AVPacket containing the input buffer.<br>
+     *                   At least avpkt->data and avpkt->size should be set. Some<br>
+     *                   decoders might also require additional fields to be set.<br>
+     * @return A negative error code is returned if an error occurred during<br>
+     *         decoding, otherwise the number of bytes consumed from the input<br>
+     *         AVPacket is returned.<br>
+     * Original signature : <code>int avcodec_decode_audio4(AVCodecContext*, AVFrame*, int*, const AVPacket*)</code><br>
+     * @deprecated use the safer methods {@link #avcodec_decode_audio4(org.javaavc.ffmpeg.avformat.AVCodecContext, org.javaavc.ffmpeg.avformat.AVFrame, java.nio.IntBuffer, org.javaavc.ffmpeg.avformat.AVPacket)} and {@link #avcodec_decode_audio4(org.javaavc.ffmpeg.avformat.AVCodecContext, org.javaavc.ffmpeg.avformat.AVFrame, com.sun.jna.ptr.IntByReference, org.javaavc.ffmpeg.avformat.AVPacket)} instead
+     */
+    @Deprecated
+    int avcodec_decode_audio4(AVCodecContext avctx, AVFrame frame, IntByReference got_frame_ptr, AVPacket avpkt);
+    /**
+     * Decode the audio frame of size avpkt->size from avpkt->data into frame.<br>
+     * * Some decoders may support multiple frames in a single AVPacket. Such<br>
+     * decoders would then just decode the first frame. In this case,<br>
+     * avcodec_decode_audio4 has to be called again with an AVPacket containing<br>
+     * the remaining data in order to decode the second frame, etc...<br>
+     * Even if no frames are returned, the packet needs to be fed to the decoder<br>
+     * with remaining data until it is completely consumed or an error occurs.<br>
+     * * @warning The input buffer, avpkt->data must be FF_INPUT_BUFFER_PADDING_SIZE<br>
+     *          larger than the actual read bytes because some optimized bitstream<br>
+     *          readers read 32 or 64 bits at once and could read over the end.<br>
+     * * @note You might have to align the input buffer. The alignment requirements<br>
+     *       depend on the CPU and the decoder.<br>
+     * * @param      avctx the codec context<br>
+     * @param[out] frame The AVFrame in which to store decoded audio samples.<br>
+     *                   The decoder will allocate a buffer for the decoded frame by<br>
+     *                   calling the AVCodecContext.get_buffer2() callback.<br>
+     *                   When AVCodecContext.refcounted_frames is set to 1, the frame is<br>
+     *                   reference counted and the returned reference belongs to the<br>
+     *                   caller. The caller must release the frame using av_frame_unref()<br>
+     *                   when the frame is no longer needed. The caller may safely write<br>
+     *                   to the frame if av_frame_is_writable() returns 1.<br>
+     *                   When AVCodecContext.refcounted_frames is set to 0, the returned<br>
+     *                   reference belongs to the decoder and is valid only until the<br>
+     *                   next call to this function or until closing the decoder.<br>
+     *                   The caller may not write to it.<br>
+     * @param[out] got_frame_ptr Zero if no frame could be decoded, otherwise it is<br>
+     *                           non-zero.<br>
+     * @param[in]  avpkt The input AVPacket containing the input buffer.<br>
+     *                   At least avpkt->data and avpkt->size should be set. Some<br>
+     *                   decoders might also require additional fields to be set.<br>
+     * @return A negative error code is returned if an error occurred during<br>
+     *         decoding, otherwise the number of bytes consumed from the input<br>
+     *         AVPacket is returned.<br>
+     * Original signature : <code>int avcodec_decode_audio4(AVCodecContext*, AVFrame*, int*, const AVPacket*)</code>
+     */
+    int avcodec_decode_audio4(AVCodecContext avctx, AVFrame frame, IntBuffer got_frame_ptr, AVPacket avpkt);
+    /**
+     * Decode the video frame of size avpkt->size from avpkt->data into picture.<br>
+     * Some decoders may support multiple frames in a single AVPacket, such<br>
+     * decoders would then just decode the first frame.<br>
+     * * @warning The input buffer must be FF_INPUT_BUFFER_PADDING_SIZE larger than<br>
+     * the actual read bytes because some optimized bitstream readers read 32 or 64<br>
+     * bits at once and could read over the end.<br>
+     * * @warning The end of the input buffer buf should be set to 0 to ensure that<br>
+     * no overreading happens for damaged MPEG streams.<br>
+     * * @note You might have to align the input buffer avpkt->data.<br>
+     * The alignment requirements depend on the CPU: on some CPUs it isn't<br>
+     * necessary at all, on others it won't work at all if not aligned and on others<br>
+     * it will work but it will have an impact on performance.<br>
+     * * In practice, avpkt->data should have 4 byte alignment at minimum.<br>
+     * * @note Codecs which have the CODEC_CAP_DELAY capability set have a delay<br>
+     * between input and output, these need to be fed with avpkt->data=NULL,<br>
+     * avpkt->size=0 at the end to return the remaining frames.<br>
+     * * @param avctx the codec context<br>
+     * @param[out] picture The AVFrame in which the decoded video frame will be stored.<br>
+     *             Use av_frame_alloc() to get an AVFrame. The codec will<br>
+     *             allocate memory for the actual bitmap by calling the<br>
+     *             AVCodecContext.get_buffer2() callback.<br>
+     *             When AVCodecContext.refcounted_frames is set to 1, the frame is<br>
+     *             reference counted and the returned reference belongs to the<br>
+     *             caller. The caller must release the frame using av_frame_unref()<br>
+     *             when the frame is no longer needed. The caller may safely write<br>
+     *             to the frame if av_frame_is_writable() returns 1.<br>
+     *             When AVCodecContext.refcounted_frames is set to 0, the returned<br>
+     *             reference belongs to the decoder and is valid only until the<br>
+     *             next call to this function or until closing the decoder. The<br>
+     *             caller may not write to it.<br>
+     * * @param[in] avpkt The input AVpacket containing the input buffer.<br>
+     *            You can create such packet with av_init_packet() and by then setting<br>
+     *            data and size, some decoders might in addition need other fields like<br>
+     *            flags&AV_PKT_FLAG_KEY. All decoders are designed to use the least<br>
+     *            fields possible.<br>
+     * @param[in,out] got_picture_ptr Zero if no frame could be decompressed, otherwise, it is nonzero.<br>
+     * @return On error a negative value is returned, otherwise the number of bytes<br>
+     * used or zero if no frame could be decompressed.<br>
+     * Original signature : <code>int avcodec_decode_video2(AVCodecContext*, AVFrame*, int*, const AVPacket*)</code><br>
+     * @deprecated use the safer methods {@link #avcodec_decode_video2(org.javaavc.ffmpeg.avformat.AVCodecContext, org.javaavc.ffmpeg.avformat.AVFrame, java.nio.IntBuffer, org.javaavc.ffmpeg.avformat.AVPacket)} and {@link #avcodec_decode_video2(org.javaavc.ffmpeg.avformat.AVCodecContext, org.javaavc.ffmpeg.avformat.AVFrame, com.sun.jna.ptr.IntByReference, org.javaavc.ffmpeg.avformat.AVPacket)} instead
+     */
+    @Deprecated
+    int avcodec_decode_video2(AVCodecContext avctx, AVFrame picture, IntByReference got_picture_ptr, AVPacket avpkt);
+    /**
+     * Decode the video frame of size avpkt->size from avpkt->data into picture.<br>
+     * Some decoders may support multiple frames in a single AVPacket, such<br>
+     * decoders would then just decode the first frame.<br>
+     * * @warning The input buffer must be FF_INPUT_BUFFER_PADDING_SIZE larger than<br>
+     * the actual read bytes because some optimized bitstream readers read 32 or 64<br>
+     * bits at once and could read over the end.<br>
+     * * @warning The end of the input buffer buf should be set to 0 to ensure that<br>
+     * no overreading happens for damaged MPEG streams.<br>
+     * * @note You might have to align the input buffer avpkt->data.<br>
+     * The alignment requirements depend on the CPU: on some CPUs it isn't<br>
+     * necessary at all, on others it won't work at all if not aligned and on others<br>
+     * it will work but it will have an impact on performance.<br>
+     * * In practice, avpkt->data should have 4 byte alignment at minimum.<br>
+     * * @note Codecs which have the CODEC_CAP_DELAY capability set have a delay<br>
+     * between input and output, these need to be fed with avpkt->data=NULL,<br>
+     * avpkt->size=0 at the end to return the remaining frames.<br>
+     * * @param avctx the codec context<br>
+     * @param[out] picture The AVFrame in which the decoded video frame will be stored.<br>
+     *             Use av_frame_alloc() to get an AVFrame. The codec will<br>
+     *             allocate memory for the actual bitmap by calling the<br>
+     *             AVCodecContext.get_buffer2() callback.<br>
+     *             When AVCodecContext.refcounted_frames is set to 1, the frame is<br>
+     *             reference counted and the returned reference belongs to the<br>
+     *             caller. The caller must release the frame using av_frame_unref()<br>
+     *             when the frame is no longer needed. The caller may safely write<br>
+     *             to the frame if av_frame_is_writable() returns 1.<br>
+     *             When AVCodecContext.refcounted_frames is set to 0, the returned<br>
+     *             reference belongs to the decoder and is valid only until the<br>
+     *             next call to this function or until closing the decoder. The<br>
+     *             caller may not write to it.<br>
+     * * @param[in] avpkt The input AVpacket containing the input buffer.<br>
+     *            You can create such packet with av_init_packet() and by then setting<br>
+     *            data and size, some decoders might in addition need other fields like<br>
+     *            flags&AV_PKT_FLAG_KEY. All decoders are designed to use the least<br>
+     *            fields possible.<br>
+     * @param[in,out] got_picture_ptr Zero if no frame could be decompressed, otherwise, it is nonzero.<br>
+     * @return On error a negative value is returned, otherwise the number of bytes<br>
+     * used or zero if no frame could be decompressed.<br>
+     * Original signature : <code>int avcodec_decode_video2(AVCodecContext*, AVFrame*, int*, const AVPacket*)</code>
+     */
+    int avcodec_decode_video2(AVCodecContext avctx, AVFrame picture, IntBuffer got_picture_ptr, AVPacket avpkt);
+    /**
+     * Decode a subtitle message.<br>
+     * Return a negative value on error, otherwise return the number of bytes used.<br>
+     * If no subtitle could be decompressed, got_sub_ptr is zero.<br>
+     * Otherwise, the subtitle is stored in *sub.<br>
+     * Note that CODEC_CAP_DR1 is not available for subtitle codecs. This is for<br>
+     * simplicity, because the performance difference is expect to be negligible<br>
+     * and reusing a get_buffer written for video codecs would probably perform badly<br>
+     * due to a potentially very different allocation pattern.<br>
+     * * @param avctx the codec context<br>
+     * @param[out] sub The AVSubtitle in which the decoded subtitle will be stored, must be<br>
+     * freed with avsubtitle_free if *got_sub_ptr is set.<br>
+     * @param[in,out] got_sub_ptr Zero if no subtitle could be decompressed, otherwise, it is nonzero.<br>
+     * @param[in] avpkt The input AVPacket containing the input buffer.<br>
+     * Original signature : <code>int avcodec_decode_subtitle2(AVCodecContext*, AVSubtitle*, int*, AVPacket*)</code><br>
+     * @deprecated use the safer methods {@link #avcodec_decode_subtitle2(org.javaavc.ffmpeg.avformat.AVCodecContext, org.javaavc.ffmpeg.avformat.AVSubtitle, java.nio.IntBuffer, org.javaavc.ffmpeg.avformat.AVPacket)} and {@link #avcodec_decode_subtitle2(org.javaavc.ffmpeg.avformat.AVCodecContext, org.javaavc.ffmpeg.avformat.AVSubtitle, com.sun.jna.ptr.IntByReference, org.javaavc.ffmpeg.avformat.AVPacket)} instead
+     */
+    @Deprecated
+    int avcodec_decode_subtitle2(AVCodecContext avctx, AVSubtitle sub, IntByReference got_sub_ptr, AVPacket avpkt);
+    /**
+     * Decode a subtitle message.<br>
+     * Return a negative value on error, otherwise return the number of bytes used.<br>
+     * If no subtitle could be decompressed, got_sub_ptr is zero.<br>
+     * Otherwise, the subtitle is stored in *sub.<br>
+     * Note that CODEC_CAP_DR1 is not available for subtitle codecs. This is for<br>
+     * simplicity, because the performance difference is expect to be negligible<br>
+     * and reusing a get_buffer written for video codecs would probably perform badly<br>
+     * due to a potentially very different allocation pattern.<br>
+     * * @param avctx the codec context<br>
+     * @param[out] sub The AVSubtitle in which the decoded subtitle will be stored, must be<br>
+     * freed with avsubtitle_free if *got_sub_ptr is set.<br>
+     * @param[in,out] got_sub_ptr Zero if no subtitle could be decompressed, otherwise, it is nonzero.<br>
+     * @param[in] avpkt The input AVPacket containing the input buffer.<br>
+     * Original signature : <code>int avcodec_decode_subtitle2(AVCodecContext*, AVSubtitle*, int*, AVPacket*)</code>
+     */
+    int avcodec_decode_subtitle2(AVCodecContext avctx, AVSubtitle sub, IntBuffer got_sub_ptr, AVPacket avpkt);
+    /** Original signature : <code>AVCodecParser* av_parser_next(AVCodecParser*)</code> */
+    AVCodecParser av_parser_next(AVCodecParser c);
+    /** Original signature : <code>void av_register_codec_parser(AVCodecParser*)</code> */
+    void av_register_codec_parser(AVCodecParser parser);
+    /** Original signature : <code>AVCodecParserContext* av_parser_init(int)</code> */
+    AVCodecParserContext av_parser_init(int codec_id);
+    /**
+     * Parse a packet.<br>
+     * * @param s             parser context.<br>
+     * @param avctx         codec context.<br>
+     * @param poutbuf       set to pointer to parsed buffer or NULL if not yet finished.<br>
+     * @param poutbuf_size  set to size of parsed buffer or zero if not yet finished.<br>
+     * @param buf           input buffer.<br>
+     * @param buf_size      input length, to signal EOF, this should be 0 (so that the last frame can be output).<br>
+     * @param pts           input presentation timestamp.<br>
+     * @param dts           input decoding timestamp.<br>
+     * @param pos           input byte position in stream.<br>
+     * @return the number of bytes of the input bitstream used.<br>
+     * * Example:<br>
+     * @code<br>
+     *   while(in_len){<br>
+     *       len = av_parser_parse2(myparser, AVCodecContext, &data, &size,<br>
+     *                                        in_data, in_len,<br>
+     *                                        pts, dts, pos);<br>
+     *       in_data += len;<br>
+     *       in_len  -= len;<br>
+     * *       if(size)<br>
+     *          decode_frame(data, size);<br>
+     *   }<br>
+     * @endcode<br>
+     * Original signature : <code>int av_parser_parse2(AVCodecParserContext*, AVCodecContext*, uint8_t**, int*, const uint8_t*, int, int64_t, int64_t, int64_t)</code><br>
+     * @deprecated use the safer methods {@link #av_parser_parse2(org.javaavc.ffmpeg.avformat.AVCodecParserContext, org.javaavc.ffmpeg.avformat.AVCodecContext, com.sun.jna.ptr.PointerByReference, java.nio.IntBuffer, java.nio.ByteBuffer, int, long, long, long)} and {@link #av_parser_parse2(org.javaavc.ffmpeg.avformat.AVCodecParserContext, org.javaavc.ffmpeg.avformat.AVCodecContext, com.sun.jna.ptr.PointerByReference, com.sun.jna.ptr.IntByReference, com.sun.jna.Pointer, int, long, long, long)} instead
+     */
+    @Deprecated
+    int av_parser_parse2(AVCodecParserContext s, AVCodecContext avctx, PointerByReference poutbuf, IntByReference poutbuf_size, Pointer buf, int buf_size, long pts, long dts, long pos);
+    /**
+     * Parse a packet.<br>
+     * * @param s             parser context.<br>
+     * @param avctx         codec context.<br>
+     * @param poutbuf       set to pointer to parsed buffer or NULL if not yet finished.<br>
+     * @param poutbuf_size  set to size of parsed buffer or zero if not yet finished.<br>
+     * @param buf           input buffer.<br>
+     * @param buf_size      input length, to signal EOF, this should be 0 (so that the last frame can be output).<br>
+     * @param pts           input presentation timestamp.<br>
+     * @param dts           input decoding timestamp.<br>
+     * @param pos           input byte position in stream.<br>
+     * @return the number of bytes of the input bitstream used.<br>
+     * * Example:<br>
+     * @code<br>
+     *   while(in_len){<br>
+     *       len = av_parser_parse2(myparser, AVCodecContext, &data, &size,<br>
+     *                                        in_data, in_len,<br>
+     *                                        pts, dts, pos);<br>
+     *       in_data += len;<br>
+     *       in_len  -= len;<br>
+     * *       if(size)<br>
+     *          decode_frame(data, size);<br>
+     *   }<br>
+     * @endcode<br>
+     * Original signature : <code>int av_parser_parse2(AVCodecParserContext*, AVCodecContext*, uint8_t**, int*, const uint8_t*, int, int64_t, int64_t, int64_t)</code>
+     */
+    int av_parser_parse2(AVCodecParserContext s, AVCodecContext avctx, PointerByReference poutbuf, IntBuffer poutbuf_size, ByteBuffer buf, int buf_size, long pts, long dts, long pos);
+    /**
+     * @return 0 if the output buffer is a subset of the input, 1 if it is allocated and must be freed<br>
+     * @deprecated use AVBitStreamFilter<br>
+     * Original signature : <code>int av_parser_change(AVCodecParserContext*, AVCodecContext*, uint8_t**, int*, const uint8_t*, int, int)</code><br>
+     * @deprecated use the safer methods {@link #av_parser_change(org.javaavc.ffmpeg.avformat.AVCodecParserContext, org.javaavc.ffmpeg.avformat.AVCodecContext, com.sun.jna.ptr.PointerByReference, java.nio.IntBuffer, java.nio.ByteBuffer, int, int)} and {@link #av_parser_change(org.javaavc.ffmpeg.avformat.AVCodecParserContext, org.javaavc.ffmpeg.avformat.AVCodecContext, com.sun.jna.ptr.PointerByReference, com.sun.jna.ptr.IntByReference, com.sun.jna.Pointer, int, int)} instead
+     */
+    @Deprecated
+    int av_parser_change(AVCodecParserContext s, AVCodecContext avctx, PointerByReference poutbuf, IntByReference poutbuf_size, Pointer buf, int buf_size, int keyframe);
+    /**
+     * @return 0 if the output buffer is a subset of the input, 1 if it is allocated and must be freed<br>
+     * @deprecated use AVBitStreamFilter<br>
+     * Original signature : <code>int av_parser_change(AVCodecParserContext*, AVCodecContext*, uint8_t**, int*, const uint8_t*, int, int)</code>
+     */
+    int av_parser_change(AVCodecParserContext s, AVCodecContext avctx, PointerByReference poutbuf, IntBuffer poutbuf_size, ByteBuffer buf, int buf_size, int keyframe);
+    /** Original signature : <code>void av_parser_close(AVCodecParserContext*)</code> */
+    void av_parser_close(AVCodecParserContext s);
+    /**
+     * Find a registered encoder with a matching codec ID.<br>
+     * * @param id AVCodecID of the requested encoder<br>
+     * @return An encoder if one was found, NULL otherwise.<br>
+     * Original signature : <code>AVCodec* avcodec_find_encoder(AVCodecID)</code>
+     */
+    AVCodec avcodec_find_encoder(int id);
+    /**
+     * Find a registered encoder with the specified name.<br>
+     * * @param name name of the requested encoder<br>
+     * @return An encoder if one was found, NULL otherwise.<br>
+     * Original signature : <code>AVCodec* avcodec_find_encoder_by_name(const char*)</code><br>
+     * @deprecated use the safer methods {@link #avcodec_find_encoder_by_name(java.lang.String)} and {@link #avcodec_find_encoder_by_name(com.sun.jna.Pointer)} instead
+     */
+    @Deprecated
+    AVCodec avcodec_find_encoder_by_name(Pointer name);
+    /**
+     * Find a registered encoder with the specified name.<br>
+     * * @param name name of the requested encoder<br>
+     * @return An encoder if one was found, NULL otherwise.<br>
+     * Original signature : <code>AVCodec* avcodec_find_encoder_by_name(const char*)</code>
+     */
+    AVCodec avcodec_find_encoder_by_name(String name);
+    /**
+     * Encode an audio frame from samples into buf.<br>
+     * * @deprecated Use avcodec_encode_audio2 instead.<br>
+     * * @note The output buffer should be at least FF_MIN_BUFFER_SIZE bytes large.<br>
+     * However, for codecs with avctx->frame_size equal to 0 (e.g. PCM) the user<br>
+     * will know how much space is needed because it depends on the value passed<br>
+     * in buf_size as described below. In that case a lower value can be used.<br>
+     * * @param avctx the codec context<br>
+     * @param[out] buf the output buffer<br>
+     * @param[in] buf_size the output buffer size<br>
+     * @param[in] samples the input buffer containing the samples<br>
+     * The number of samples read from this buffer is frame_size*channels,<br>
+     * both of which are defined in avctx.<br>
+     * For codecs which have avctx->frame_size equal to 0 (e.g. PCM) the number of<br>
+     * samples read from samples is equal to:<br>
+     * buf_size * 8 / (avctx->channels * av_get_bits_per_sample(avctx->codec_id))<br>
+     * This also implies that av_get_bits_per_sample() must not return 0 for these<br>
+     * codecs.<br>
+     * @return On error a negative value is returned, on success zero or the number<br>
+     * of bytes used to encode the data read from the input buffer.<br>
+     * Original signature : <code>int avcodec_encode_audio(AVCodecContext*, uint8_t*, int, const short*)</code><br>
+     * @deprecated use the safer methods {@link #avcodec_encode_audio(org.javaavc.ffmpeg.avformat.AVCodecContext, java.nio.ByteBuffer, int, java.nio.ShortBuffer)} and {@link #avcodec_encode_audio(org.javaavc.ffmpeg.avformat.AVCodecContext, com.sun.jna.Pointer, int, com.sun.jna.ptr.ShortByReference)} instead
+     */
+    @Deprecated
+    int avcodec_encode_audio(AVCodecContext avctx, Pointer buf, int buf_size, ShortByReference samples);
+    /**
+     * Encode an audio frame from samples into buf.<br>
+     * * @deprecated Use avcodec_encode_audio2 instead.<br>
+     * * @note The output buffer should be at least FF_MIN_BUFFER_SIZE bytes large.<br>
+     * However, for codecs with avctx->frame_size equal to 0 (e.g. PCM) the user<br>
+     * will know how much space is needed because it depends on the value passed<br>
+     * in buf_size as described below. In that case a lower value can be used.<br>
+     * * @param avctx the codec context<br>
+     * @param[out] buf the output buffer<br>
+     * @param[in] buf_size the output buffer size<br>
+     * @param[in] samples the input buffer containing the samples<br>
+     * The number of samples read from this buffer is frame_size*channels,<br>
+     * both of which are defined in avctx.<br>
+     * For codecs which have avctx->frame_size equal to 0 (e.g. PCM) the number of<br>
+     * samples read from samples is equal to:<br>
+     * buf_size * 8 / (avctx->channels * av_get_bits_per_sample(avctx->codec_id))<br>
+     * This also implies that av_get_bits_per_sample() must not return 0 for these<br>
+     * codecs.<br>
+     * @return On error a negative value is returned, on success zero or the number<br>
+     * of bytes used to encode the data read from the input buffer.<br>
+     * Original signature : <code>int avcodec_encode_audio(AVCodecContext*, uint8_t*, int, const short*)</code>
+     */
+    int avcodec_encode_audio(AVCodecContext avctx, ByteBuffer buf, int buf_size, ShortBuffer samples);
+    /**
+     * Encode a frame of audio.<br>
+     * * Takes input samples from frame and writes the next output packet, if<br>
+     * available, to avpkt. The output packet does not necessarily contain data for<br>
+     * the most recent frame, as encoders can delay, split, and combine input frames<br>
+     * internally as needed.<br>
+     * * @param avctx     codec context<br>
+     * @param avpkt     output AVPacket.<br>
+     *                  The user can supply an output buffer by setting<br>
+     *                  avpkt->data and avpkt->size prior to calling the<br>
+     *                  function, but if the size of the user-provided data is not<br>
+     *                  large enough, encoding will fail. If avpkt->data and<br>
+     *                  avpkt->size are set, avpkt->destruct must also be set. All<br>
+     *                  other AVPacket fields will be reset by the encoder using<br>
+     *                  av_init_packet(). If avpkt->data is NULL, the encoder will<br>
+     *                  allocate it. The encoder will set avpkt->size to the size<br>
+     *                  of the output packet.<br>
+     * *                  If this function fails or produces no output, avpkt will be<br>
+     *                  freed using av_free_packet() (i.e. avpkt->destruct will be<br>
+     *                  called to free the user supplied buffer).<br>
+     * @param[in] frame AVFrame containing the raw audio data to be encoded.<br>
+     *                  May be NULL when flushing an encoder that has the<br>
+     *                  CODEC_CAP_DELAY capability set.<br>
+     *                  If CODEC_CAP_VARIABLE_FRAME_SIZE is set, then each frame<br>
+     *                  can have any number of samples.<br>
+     *                  If it is not set, frame->nb_samples must be equal to<br>
+     *                  avctx->frame_size for all frames except the last.<br>
+     *                  The final frame may be smaller than avctx->frame_size.<br>
+     * @param[out] got_packet_ptr This field is set to 1 by libavcodec if the<br>
+     *                            output packet is non-empty, and to 0 if it is<br>
+     *                            empty. If the function returns an error, the<br>
+     *                            packet can be assumed to be invalid, and the<br>
+     *                            value of got_packet_ptr is undefined and should<br>
+     *                            not be used.<br>
+     * @return          0 on success, negative error code on failure<br>
+     * Original signature : <code>int avcodec_encode_audio2(AVCodecContext*, AVPacket*, const AVFrame*, int*)</code><br>
+     * @deprecated use the safer methods {@link #avcodec_encode_audio2(org.javaavc.ffmpeg.avformat.AVCodecContext, org.javaavc.ffmpeg.avformat.AVPacket, org.javaavc.ffmpeg.avformat.AVFrame, java.nio.IntBuffer)} and {@link #avcodec_encode_audio2(org.javaavc.ffmpeg.avformat.AVCodecContext, org.javaavc.ffmpeg.avformat.AVPacket, org.javaavc.ffmpeg.avformat.AVFrame, com.sun.jna.ptr.IntByReference)} instead
+     */
+    @Deprecated
+    int avcodec_encode_audio2(AVCodecContext avctx, AVPacket avpkt, AVFrame frame, IntByReference got_packet_ptr);
+    /**
+     * Encode a frame of audio.<br>
+     * * Takes input samples from frame and writes the next output packet, if<br>
+     * available, to avpkt. The output packet does not necessarily contain data for<br>
+     * the most recent frame, as encoders can delay, split, and combine input frames<br>
+     * internally as needed.<br>
+     * * @param avctx     codec context<br>
+     * @param avpkt     output AVPacket.<br>
+     *                  The user can supply an output buffer by setting<br>
+     *                  avpkt->data and avpkt->size prior to calling the<br>
+     *                  function, but if the size of the user-provided data is not<br>
+     *                  large enough, encoding will fail. If avpkt->data and<br>
+     *                  avpkt->size are set, avpkt->destruct must also be set. All<br>
+     *                  other AVPacket fields will be reset by the encoder using<br>
+     *                  av_init_packet(). If avpkt->data is NULL, the encoder will<br>
+     *                  allocate it. The encoder will set avpkt->size to the size<br>
+     *                  of the output packet.<br>
+     * *                  If this function fails or produces no output, avpkt will be<br>
+     *                  freed using av_free_packet() (i.e. avpkt->destruct will be<br>
+     *                  called to free the user supplied buffer).<br>
+     * @param[in] frame AVFrame containing the raw audio data to be encoded.<br>
+     *                  May be NULL when flushing an encoder that has the<br>
+     *                  CODEC_CAP_DELAY capability set.<br>
+     *                  If CODEC_CAP_VARIABLE_FRAME_SIZE is set, then each frame<br>
+     *                  can have any number of samples.<br>
+     *                  If it is not set, frame->nb_samples must be equal to<br>
+     *                  avctx->frame_size for all frames except the last.<br>
+     *                  The final frame may be smaller than avctx->frame_size.<br>
+     * @param[out] got_packet_ptr This field is set to 1 by libavcodec if the<br>
+     *                            output packet is non-empty, and to 0 if it is<br>
+     *                            empty. If the function returns an error, the<br>
+     *                            packet can be assumed to be invalid, and the<br>
+     *                            value of got_packet_ptr is undefined and should<br>
+     *                            not be used.<br>
+     * @return          0 on success, negative error code on failure<br>
+     * Original signature : <code>int avcodec_encode_audio2(AVCodecContext*, AVPacket*, const AVFrame*, int*)</code>
+     */
+    int avcodec_encode_audio2(AVCodecContext avctx, AVPacket avpkt, AVFrame frame, IntBuffer got_packet_ptr);
+    /**
+     * Original signature : <code>int avcodec_encode_video(AVCodecContext*, uint8_t*, int, const AVFrame*)</code><br>
+     * @deprecated use the safer methods {@link #avcodec_encode_video(org.javaavc.ffmpeg.avformat.AVCodecContext, java.nio.ByteBuffer, int, org.javaavc.ffmpeg.avformat.AVFrame)} and {@link #avcodec_encode_video(org.javaavc.ffmpeg.avformat.AVCodecContext, com.sun.jna.Pointer, int, org.javaavc.ffmpeg.avformat.AVFrame)} instead
+     */
+    @Deprecated
+    int avcodec_encode_video(AVCodecContext avctx, Pointer buf, int buf_size, AVFrame pict);
+    /** Original signature : <code>int avcodec_encode_video(AVCodecContext*, uint8_t*, int, const AVFrame*)</code> */
+    int avcodec_encode_video(AVCodecContext avctx, ByteBuffer buf, int buf_size, AVFrame pict);
+    /**
+     * Encode a frame of video.<br>
+     * * Takes input raw video data from frame and writes the next output packet, if<br>
+     * available, to avpkt. The output packet does not necessarily contain data for<br>
+     * the most recent frame, as encoders can delay and reorder input frames<br>
+     * internally as needed.<br>
+     * * @param avctx     codec context<br>
+     * @param avpkt     output AVPacket.<br>
+     *                  The user can supply an output buffer by setting<br>
+     *                  avpkt->data and avpkt->size prior to calling the<br>
+     *                  function, but if the size of the user-provided data is not<br>
+     *                  large enough, encoding will fail. All other AVPacket fields<br>
+     *                  will be reset by the encoder using av_init_packet(). If<br>
+     *                  avpkt->data is NULL, the encoder will allocate it.<br>
+     *                  The encoder will set avpkt->size to the size of the<br>
+     *                  output packet. The returned data (if any) belongs to the<br>
+     *                  caller, he is responsible for freeing it.<br>
+     * *                  If this function fails or produces no output, avpkt will be<br>
+     *                  freed using av_free_packet() (i.e. avpkt->destruct will be<br>
+     *                  called to free the user supplied buffer).<br>
+     * @param[in] frame AVFrame containing the raw video data to be encoded.<br>
+     *                  May be NULL when flushing an encoder that has the<br>
+     *                  CODEC_CAP_DELAY capability set.<br>
+     * @param[out] got_packet_ptr This field is set to 1 by libavcodec if the<br>
+     *                            output packet is non-empty, and to 0 if it is<br>
+     *                            empty. If the function returns an error, the<br>
+     *                            packet can be assumed to be invalid, and the<br>
+     *                            value of got_packet_ptr is undefined and should<br>
+     *                            not be used.<br>
+     * @return          0 on success, negative error code on failure<br>
+     * Original signature : <code>int avcodec_encode_video2(AVCodecContext*, AVPacket*, const AVFrame*, int*)</code><br>
+     * @deprecated use the safer methods {@link #avcodec_encode_video2(org.javaavc.ffmpeg.avformat.AVCodecContext, org.javaavc.ffmpeg.avformat.AVPacket, org.javaavc.ffmpeg.avformat.AVFrame, java.nio.IntBuffer)} and {@link #avcodec_encode_video2(org.javaavc.ffmpeg.avformat.AVCodecContext, org.javaavc.ffmpeg.avformat.AVPacket, org.javaavc.ffmpeg.avformat.AVFrame, com.sun.jna.ptr.IntByReference)} instead
+     */
+    @Deprecated
+    int avcodec_encode_video2(AVCodecContext avctx, AVPacket avpkt, AVFrame frame, IntByReference got_packet_ptr);
+    /**
+     * Encode a frame of video.<br>
+     * * Takes input raw video data from frame and writes the next output packet, if<br>
+     * available, to avpkt. The output packet does not necessarily contain data for<br>
+     * the most recent frame, as encoders can delay and reorder input frames<br>
+     * internally as needed.<br>
+     * * @param avctx     codec context<br>
+     * @param avpkt     output AVPacket.<br>
+     *                  The user can supply an output buffer by setting<br>
+     *                  avpkt->data and avpkt->size prior to calling the<br>
+     *                  function, but if the size of the user-provided data is not<br>
+     *                  large enough, encoding will fail. All other AVPacket fields<br>
+     *                  will be reset by the encoder using av_init_packet(). If<br>
+     *                  avpkt->data is NULL, the encoder will allocate it.<br>
+     *                  The encoder will set avpkt->size to the size of the<br>
+     *                  output packet. The returned data (if any) belongs to the<br>
+     *                  caller, he is responsible for freeing it.<br>
+     * *                  If this function fails or produces no output, avpkt will be<br>
+     *                  freed using av_free_packet() (i.e. avpkt->destruct will be<br>
+     *                  called to free the user supplied buffer).<br>
+     * @param[in] frame AVFrame containing the raw video data to be encoded.<br>
+     *                  May be NULL when flushing an encoder that has the<br>
+     *                  CODEC_CAP_DELAY capability set.<br>
+     * @param[out] got_packet_ptr This field is set to 1 by libavcodec if the<br>
+     *                            output packet is non-empty, and to 0 if it is<br>
+     *                            empty. If the function returns an error, the<br>
+     *                            packet can be assumed to be invalid, and the<br>
+     *                            value of got_packet_ptr is undefined and should<br>
+     *                            not be used.<br>
+     * @return          0 on success, negative error code on failure<br>
+     * Original signature : <code>int avcodec_encode_video2(AVCodecContext*, AVPacket*, const AVFrame*, int*)</code>
+     */
+    int avcodec_encode_video2(AVCodecContext avctx, AVPacket avpkt, AVFrame frame, IntBuffer got_packet_ptr);
+    /**
+     * Original signature : <code>int avcodec_encode_subtitle(AVCodecContext*, uint8_t*, int, const AVSubtitle*)</code><br>
+     * @deprecated use the safer methods {@link #avcodec_encode_subtitle(org.javaavc.ffmpeg.avformat.AVCodecContext, java.nio.ByteBuffer, int, org.javaavc.ffmpeg.avformat.AVSubtitle)} and {@link #avcodec_encode_subtitle(org.javaavc.ffmpeg.avformat.AVCodecContext, com.sun.jna.Pointer, int, org.javaavc.ffmpeg.avformat.AVSubtitle)} instead
+     */
+    @Deprecated
+    int avcodec_encode_subtitle(AVCodecContext avctx, Pointer buf, int buf_size, AVSubtitle sub);
+    /** Original signature : <code>int avcodec_encode_subtitle(AVCodecContext*, uint8_t*, int, const AVSubtitle*)</code> */
+    int avcodec_encode_subtitle(AVCodecContext avctx, ByteBuffer buf, int buf_size, AVSubtitle sub);
+    /** Original signature : <code>ReSampleContext* av_audio_resample_init(int, int, int, int, AVSampleFormat, AVSampleFormat, int, int, int, double)</code> */
+    PointerByReference av_audio_resample_init(int output_channels, int input_channels, int output_rate, int input_rate, int sample_fmt_out, int sample_fmt_in, int filter_length, int log2_phase_count, int linear, double cutoff);
+    /**
+     * Original signature : <code>int audio_resample(ReSampleContext*, short*, short*, int)</code><br>
+     * @deprecated use the safer methods {@link #audio_resample(com.sun.jna.ptr.PointerByReference, java.nio.ShortBuffer, java.nio.ShortBuffer, int)} and {@link #audio_resample(com.sun.jna.ptr.PointerByReference, com.sun.jna.ptr.ShortByReference, com.sun.jna.ptr.ShortByReference, int)} instead
+     */
+    @Deprecated
+    int audio_resample(Pointer s, ShortByReference output, ShortByReference input, int nb_samples);
+    /** Original signature : <code>int audio_resample(ReSampleContext*, short*, short*, int)</code> */
+    int audio_resample(PointerByReference s, ShortBuffer output, ShortBuffer input, int nb_samples);
+    /** Original signature : <code>int audio_resample(ReSampleContext*, short*, short*, int)</code> */
+    int audio_resample(PointerByReference s, ShortByReference output, ShortByReference input, int nb_samples);
+    /**
+     * Original signature : <code>void audio_resample_close(ReSampleContext*)</code><br>
+     * @deprecated use the safer method {@link #audio_resample_close(com.sun.jna.ptr.PointerByReference)} instead
+     */
+    @Deprecated
+    void audio_resample_close(Pointer s);
+    /** Original signature : <code>void audio_resample_close(ReSampleContext*)</code> */
+    void audio_resample_close(PointerByReference s);
+    /** Original signature : <code>AVResampleContext* av_resample_init(int, int, int, int, int, double)</code> */
+    LibavformatLibrary.AVResampleContext av_resample_init(int out_rate, int in_rate, int filter_length, int log2_phase_count, int linear, double cutoff);
+    /**
+     * Original signature : <code>int av_resample(AVResampleContext*, short*, short*, int*, int, int, int)</code><br>
+     * @deprecated use the safer methods {@link #av_resample(org.javaavc.ffmpeg.avformat.LibavformatLibrary.AVResampleContext, java.nio.ShortBuffer, java.nio.ShortBuffer, java.nio.IntBuffer, int, int, int)} and {@link #av_resample(org.javaavc.ffmpeg.avformat.LibavformatLibrary.AVResampleContext, com.sun.jna.ptr.ShortByReference, com.sun.jna.ptr.ShortByReference, com.sun.jna.ptr.IntByReference, int, int, int)} instead
+     */
+    @Deprecated
+    int av_resample(LibavformatLibrary.AVResampleContext c, ShortByReference dst, ShortByReference src, IntByReference consumed, int src_size, int dst_size, int update_ctx);
+    /** Original signature : <code>int av_resample(AVResampleContext*, short*, short*, int*, int, int, int)</code> */
+    int av_resample(LibavformatLibrary.AVResampleContext c, ShortBuffer dst, ShortBuffer src, IntBuffer consumed, int src_size, int dst_size, int update_ctx);
+    /** Original signature : <code>void av_resample_compensate(AVResampleContext*, int, int)</code> */
+    void av_resample_compensate(LibavformatLibrary.AVResampleContext c, int sample_delta, int compensation_distance);
+    /** Original signature : <code>void av_resample_close(AVResampleContext*)</code> */
+    void av_resample_close(LibavformatLibrary.AVResampleContext c);
+    /**
+     * Allocate memory for a picture.  Call avpicture_free() to free it.<br>
+     * * @see avpicture_fill()<br>
+     * * @param picture the picture to be filled in<br>
+     * @param pix_fmt the format of the picture<br>
+     * @param width the width of the picture<br>
+     * @param height the height of the picture<br>
+     * @return zero if successful, a negative value if not<br>
+     * Original signature : <code>int avpicture_alloc(AVPicture*, AVPixelFormat, int, int)</code>
+     */
+    int avpicture_alloc(AVPicture picture, int pix_fmt, int width, int height);
+    /**
+     * Free a picture previously allocated by avpicture_alloc().<br>
+     * The data buffer used by the AVPicture is freed, but the AVPicture structure<br>
+     * itself is not.<br>
+     * * @param picture the AVPicture to be freed<br>
+     * Original signature : <code>void avpicture_free(AVPicture*)</code>
+     */
+    void avpicture_free(AVPicture picture);
+    /**
+     * Fill in the AVPicture fields, always assume a linesize alignment of<br>
+     * 1.<br>
+     * * @see av_image_fill_arrays()<br>
+     * Original signature : <code>int avpicture_fill(AVPicture*, const uint8_t*, AVPixelFormat, int, int)</code><br>
+     * @deprecated use the safer methods {@link #avpicture_fill(org.javaavc.ffmpeg.avformat.AVPicture, java.nio.ByteBuffer, int, int, int)} and {@link #avpicture_fill(org.javaavc.ffmpeg.avformat.AVPicture, com.sun.jna.Pointer, int, int, int)} instead
+     */
+    @Deprecated
+    int avpicture_fill(AVPicture picture, Pointer ptr, int pix_fmt, int width, int height);
+    /**
+     * Fill in the AVPicture fields, always assume a linesize alignment of<br>
+     * 1.<br>
+     * * @see av_image_fill_arrays()<br>
+     * Original signature : <code>int avpicture_fill(AVPicture*, const uint8_t*, AVPixelFormat, int, int)</code>
+     */
+    int avpicture_fill(AVPicture picture, ByteBuffer ptr, int pix_fmt, int width, int height);
+    /**
+     * Copy pixel data from an AVPicture into a buffer, always assume a<br>
+     * linesize alignment of 1.<br>
+     * * @see av_image_copy_to_buffer()<br>
+     * Original signature : <code>int avpicture_layout(const AVPicture*, AVPixelFormat, int, int, unsigned char*, int)</code><br>
+     * @deprecated use the safer methods {@link #avpicture_layout(org.javaavc.ffmpeg.avformat.AVPicture, int, int, int, java.nio.ByteBuffer, int)} and {@link #avpicture_layout(org.javaavc.ffmpeg.avformat.AVPicture, int, int, int, com.sun.jna.Pointer, int)} instead
+     */
+    @Deprecated
+    int avpicture_layout(AVPicture src, int pix_fmt, int width, int height, Pointer dest, int dest_size);
+    /**
+     * Copy pixel data from an AVPicture into a buffer, always assume a<br>
+     * linesize alignment of 1.<br>
+     * * @see av_image_copy_to_buffer()<br>
+     * Original signature : <code>int avpicture_layout(const AVPicture*, AVPixelFormat, int, int, unsigned char*, int)</code>
+     */
+    int avpicture_layout(AVPicture src, int pix_fmt, int width, int height, ByteBuffer dest, int dest_size);
+    /**
+     * Calculate the size in bytes that a picture of the given width and height<br>
+     * would occupy if stored in the given picture format.<br>
+     * Always assume a linesize alignment of 1.<br>
+     * * @see av_image_get_buffer_size().<br>
+     * Original signature : <code>int avpicture_get_size(AVPixelFormat, int, int)</code>
+     */
+    int avpicture_get_size(int pix_fmt, int width, int height);
+    /** Original signature : <code>int avpicture_deinterlace(AVPicture*, const AVPicture*, AVPixelFormat, int, int)</code> */
+    int avpicture_deinterlace(AVPicture dst, AVPicture src, int pix_fmt, int width, int height);
+    /**
+     * Copy image src to dst. Wraps av_image_copy().<br>
+     * Original signature : <code>void av_picture_copy(AVPicture*, const AVPicture*, AVPixelFormat, int, int)</code>
+     */
+    void av_picture_copy(AVPicture dst, AVPicture src, int pix_fmt, int width, int height);
+    /**
+     * Crop image top and left side.<br>
+     * Original signature : <code>int av_picture_crop(AVPicture*, const AVPicture*, AVPixelFormat, int, int)</code>
+     */
+    int av_picture_crop(AVPicture dst, AVPicture src, int pix_fmt, int top_band, int left_band);
+    /**
+     * Pad image.<br>
+     * Original signature : <code>int av_picture_pad(AVPicture*, const AVPicture*, int, int, AVPixelFormat, int, int, int, int, int*)</code><br>
+     * @deprecated use the safer methods {@link #av_picture_pad(org.javaavc.ffmpeg.avformat.AVPicture, org.javaavc.ffmpeg.avformat.AVPicture, int, int, int, int, int, int, int, java.nio.IntBuffer)} and {@link #av_picture_pad(org.javaavc.ffmpeg.avformat.AVPicture, org.javaavc.ffmpeg.avformat.AVPicture, int, int, int, int, int, int, int, com.sun.jna.ptr.IntByReference)} instead
+     */
+    @Deprecated
+    int av_picture_pad(AVPicture dst, AVPicture src, int height, int width, int pix_fmt, int padtop, int padbottom, int padleft, int padright, IntByReference color);
+    /**
+     * Pad image.<br>
+     * Original signature : <code>int av_picture_pad(AVPicture*, const AVPicture*, int, int, AVPixelFormat, int, int, int, int, int*)</code>
+     */
+    int av_picture_pad(AVPicture dst, AVPicture src, int height, int width, int pix_fmt, int padtop, int padbottom, int padleft, int padright, IntBuffer color);
+    /**
+     * Original signature : <code>void avcodec_get_chroma_sub_sample(AVPixelFormat, int*, int*)</code><br>
+     * @deprecated use the safer methods {@link #avcodec_get_chroma_sub_sample(int, java.nio.IntBuffer, java.nio.IntBuffer)} and {@link #avcodec_get_chroma_sub_sample(int, com.sun.jna.ptr.IntByReference, com.sun.jna.ptr.IntByReference)} instead
+     */
+    @Deprecated
+    void avcodec_get_chroma_sub_sample(int pix_fmt, IntByReference h_shift, IntByReference v_shift);
+    /** Original signature : <code>void avcodec_get_chroma_sub_sample(AVPixelFormat, int*, int*)</code> */
+    void avcodec_get_chroma_sub_sample(int pix_fmt, IntBuffer h_shift, IntBuffer v_shift);
+    /**
+     * Return a value representing the fourCC code associated to the<br>
+     * pixel format pix_fmt, or 0 if no associated fourCC code can be<br>
+     * found.<br>
+     * Original signature : <code>int avcodec_pix_fmt_to_codec_tag(AVPixelFormat)</code>
+     */
+    int avcodec_pix_fmt_to_codec_tag(int pix_fmt);
+    /**
+     * Compute what kind of losses will occur when converting from one specific<br>
+     * pixel format to another.<br>
+     * When converting from one pixel format to another, information loss may occur.<br>
+     * For example, when converting from RGB24 to GRAY, the color information will<br>
+     * be lost. Similarly, other losses occur when converting from some formats to<br>
+     * other formats. These losses can involve loss of chroma, but also loss of<br>
+     * resolution, loss of color depth, loss due to the color space conversion, loss<br>
+     * of the alpha bits or loss due to color quantization.<br>
+     * avcodec_get_fix_fmt_loss() informs you about the various types of losses<br>
+     * which will occur when converting from one pixel format to another.<br>
+     * * @param[in] dst_pix_fmt destination pixel format<br>
+     * @param[in] src_pix_fmt source pixel format<br>
+     * @param[in] has_alpha Whether the source pixel format alpha channel is used.<br>
+     * @return Combination of flags informing you what kind of losses will occur<br>
+     * (maximum loss for an invalid dst_pix_fmt).<br>
+     * Original signature : <code>int avcodec_get_pix_fmt_loss(AVPixelFormat, AVPixelFormat, int)</code>
+     */
+    int avcodec_get_pix_fmt_loss(int dst_pix_fmt, int src_pix_fmt, int has_alpha);
+    /**
+     * Find the best pixel format to convert to given a certain source pixel<br>
+     * format.  When converting from one pixel format to another, information loss<br>
+     * may occur.  For example, when converting from RGB24 to GRAY, the color<br>
+     * information will be lost. Similarly, other losses occur when converting from<br>
+     * some formats to other formats. avcodec_find_best_pix_fmt_of_2() searches which of<br>
+     * the given pixel formats should be used to suffer the least amount of loss.<br>
+     * The pixel formats from which it chooses one, are determined by the<br>
+     * pix_fmt_list parameter.<br>
+     * *<br>
+     * @param[in] pix_fmt_list AV_PIX_FMT_NONE terminated array of pixel formats to choose from<br>
+     * @param[in] src_pix_fmt source pixel format<br>
+     * @param[in] has_alpha Whether the source pixel format alpha channel is used.<br>
+     * @param[out] loss_ptr Combination of flags informing you what kind of losses will occur.<br>
+     * @return The best pixel format to convert to or -1 if none was found.<br>
+     * Original signature : <code>AVPixelFormat avcodec_find_best_pix_fmt_of_list(AVPixelFormat*, AVPixelFormat, int, int*)</code><br>
+     * @deprecated use the safer methods {@link #avcodec_find_best_pix_fmt_of_list(java.nio.IntBuffer, int, int, java.nio.IntBuffer)} and {@link #avcodec_find_best_pix_fmt_of_list(com.sun.jna.ptr.IntByReference, int, int, com.sun.jna.ptr.IntByReference)} instead
+     */
+    @Deprecated
+    int avcodec_find_best_pix_fmt_of_list(IntByReference pix_fmt_list, int src_pix_fmt, int has_alpha, IntByReference loss_ptr);
+    /**
+     * Find the best pixel format to convert to given a certain source pixel<br>
+     * format.  When converting from one pixel format to another, information loss<br>
+     * may occur.  For example, when converting from RGB24 to GRAY, the color<br>
+     * information will be lost. Similarly, other losses occur when converting from<br>
+     * some formats to other formats. avcodec_find_best_pix_fmt_of_2() searches which of<br>
+     * the given pixel formats should be used to suffer the least amount of loss.<br>
+     * The pixel formats from which it chooses one, are determined by the<br>
+     * pix_fmt_list parameter.<br>
+     * *<br>
+     * @param[in] pix_fmt_list AV_PIX_FMT_NONE terminated array of pixel formats to choose from<br>
+     * @param[in] src_pix_fmt source pixel format<br>
+     * @param[in] has_alpha Whether the source pixel format alpha channel is used.<br>
+     * @param[out] loss_ptr Combination of flags informing you what kind of losses will occur.<br>
+     * @return The best pixel format to convert to or -1 if none was found.<br>
+     * Original signature : <code>AVPixelFormat avcodec_find_best_pix_fmt_of_list(AVPixelFormat*, AVPixelFormat, int, int*)</code>
+     */
+    int avcodec_find_best_pix_fmt_of_list(IntBuffer pix_fmt_list, int src_pix_fmt, int has_alpha, IntBuffer loss_ptr);
+    /**
+     * Find the best pixel format to convert to given a certain source pixel<br>
+     * format and a selection of two destination pixel formats. When converting from<br>
+     * one pixel format to another, information loss may occur.  For example, when converting<br>
+     * from RGB24 to GRAY, the color information will be lost. Similarly, other losses occur when<br>
+     * converting from some formats to other formats. avcodec_find_best_pix_fmt_of_2() selects which of<br>
+     * the given pixel formats should be used to suffer the least amount of loss.<br>
+     * * If one of the destination formats is AV_PIX_FMT_NONE the other pixel format (if valid) will be<br>
+     * returned.<br>
+     * * @code<br>
+     * src_pix_fmt = AV_PIX_FMT_YUV420P;<br>
+     * dst_pix_fmt1= AV_PIX_FMT_RGB24;<br>
+     * dst_pix_fmt2= AV_PIX_FMT_GRAY8;<br>
+     * dst_pix_fmt3= AV_PIX_FMT_RGB8;<br>
+     * loss= FF_LOSS_CHROMA; // don't care about chroma loss, so chroma loss will be ignored.<br>
+     * dst_pix_fmt = avcodec_find_best_pix_fmt_of_2(dst_pix_fmt1, dst_pix_fmt2, src_pix_fmt, alpha, &loss);<br>
+     * dst_pix_fmt = avcodec_find_best_pix_fmt_of_2(dst_pix_fmt, dst_pix_fmt3, src_pix_fmt, alpha, &loss);<br>
+     * @endcode<br>
+     * * @param[in] dst_pix_fmt1 One of the two destination pixel formats to choose from<br>
+     * @param[in] dst_pix_fmt2 The other of the two destination pixel formats to choose from<br>
+     * @param[in] src_pix_fmt Source pixel format<br>
+     * @param[in] has_alpha Whether the source pixel format alpha channel is used.<br>
+     * @param[in, out] loss_ptr Combination of loss flags. In: selects which of the losses to ignore, i.e.<br>
+     *                               NULL or value of zero means we care about all losses. Out: the loss<br>
+     *                               that occurs when converting from src to selected dst pixel format.<br>
+     * @return The best pixel format to convert to or -1 if none was found.<br>
+     * Original signature : <code>AVPixelFormat avcodec_find_best_pix_fmt_of_2(AVPixelFormat, AVPixelFormat, AVPixelFormat, int, int*)</code><br>
+     * @deprecated use the safer methods {@link #avcodec_find_best_pix_fmt_of_2(int, int, int, int, java.nio.IntBuffer)} and {@link #avcodec_find_best_pix_fmt_of_2(int, int, int, int, com.sun.jna.ptr.IntByReference)} instead
+     */
+    @Deprecated
+    int avcodec_find_best_pix_fmt_of_2(int dst_pix_fmt1, int dst_pix_fmt2, int src_pix_fmt, int has_alpha, IntByReference loss_ptr);
+    /**
+     * Find the best pixel format to convert to given a certain source pixel<br>
+     * format and a selection of two destination pixel formats. When converting from<br>
+     * one pixel format to another, information loss may occur.  For example, when converting<br>
+     * from RGB24 to GRAY, the color information will be lost. Similarly, other losses occur when<br>
+     * converting from some formats to other formats. avcodec_find_best_pix_fmt_of_2() selects which of<br>
+     * the given pixel formats should be used to suffer the least amount of loss.<br>
+     * * If one of the destination formats is AV_PIX_FMT_NONE the other pixel format (if valid) will be<br>
+     * returned.<br>
+     * * @code<br>
+     * src_pix_fmt = AV_PIX_FMT_YUV420P;<br>
+     * dst_pix_fmt1= AV_PIX_FMT_RGB24;<br>
+     * dst_pix_fmt2= AV_PIX_FMT_GRAY8;<br>
+     * dst_pix_fmt3= AV_PIX_FMT_RGB8;<br>
+     * loss= FF_LOSS_CHROMA; // don't care about chroma loss, so chroma loss will be ignored.<br>
+     * dst_pix_fmt = avcodec_find_best_pix_fmt_of_2(dst_pix_fmt1, dst_pix_fmt2, src_pix_fmt, alpha, &loss);<br>
+     * dst_pix_fmt = avcodec_find_best_pix_fmt_of_2(dst_pix_fmt, dst_pix_fmt3, src_pix_fmt, alpha, &loss);<br>
+     * @endcode<br>
+     * * @param[in] dst_pix_fmt1 One of the two destination pixel formats to choose from<br>
+     * @param[in] dst_pix_fmt2 The other of the two destination pixel formats to choose from<br>
+     * @param[in] src_pix_fmt Source pixel format<br>
+     * @param[in] has_alpha Whether the source pixel format alpha channel is used.<br>
+     * @param[in, out] loss_ptr Combination of loss flags. In: selects which of the losses to ignore, i.e.<br>
+     *                               NULL or value of zero means we care about all losses. Out: the loss<br>
+     *                               that occurs when converting from src to selected dst pixel format.<br>
+     * @return The best pixel format to convert to or -1 if none was found.<br>
+     * Original signature : <code>AVPixelFormat avcodec_find_best_pix_fmt_of_2(AVPixelFormat, AVPixelFormat, AVPixelFormat, int, int*)</code>
+     */
+    int avcodec_find_best_pix_fmt_of_2(int dst_pix_fmt1, int dst_pix_fmt2, int src_pix_fmt, int has_alpha, IntBuffer loss_ptr);
+    /**
+     * Original signature : <code>AVPixelFormat avcodec_find_best_pix_fmt2(AVPixelFormat, AVPixelFormat, AVPixelFormat, int, int*)</code><br>
+     * @deprecated use the safer methods {@link #avcodec_find_best_pix_fmt2(int, int, int, int, java.nio.IntBuffer)} and {@link #avcodec_find_best_pix_fmt2(int, int, int, int, com.sun.jna.ptr.IntByReference)} instead
+     */
+    @Deprecated
+    int avcodec_find_best_pix_fmt2(int dst_pix_fmt1, int dst_pix_fmt2, int src_pix_fmt, int has_alpha, IntByReference loss_ptr);
+    /** Original signature : <code>AVPixelFormat avcodec_find_best_pix_fmt2(AVPixelFormat, AVPixelFormat, AVPixelFormat, int, int*)</code> */
+    int avcodec_find_best_pix_fmt2(int dst_pix_fmt1, int dst_pix_fmt2, int src_pix_fmt, int has_alpha, IntBuffer loss_ptr);
+    /**
+     * Original signature : <code>AVPixelFormat avcodec_default_get_format(AVCodecContext*, AVPixelFormat*)</code><br>
+     * @deprecated use the safer methods {@link #avcodec_default_get_format(org.javaavc.ffmpeg.avformat.AVCodecContext, java.nio.IntBuffer)} and {@link #avcodec_default_get_format(org.javaavc.ffmpeg.avformat.AVCodecContext, com.sun.jna.ptr.IntByReference)} instead
+     */
+    @Deprecated
+    int avcodec_default_get_format(AVCodecContext s, IntByReference fmt);
+    /** Original signature : <code>AVPixelFormat avcodec_default_get_format(AVCodecContext*, AVPixelFormat*)</code> */
+    int avcodec_default_get_format(AVCodecContext s, IntBuffer fmt);
+    /** Original signature : <code>void avcodec_set_dimensions(AVCodecContext*, int, int)</code> */
+    void avcodec_set_dimensions(AVCodecContext s, int width, int height);
+    /**
+     * Put a string representing the codec tag codec_tag in buf.<br>
+     * * @param buf_size size in bytes of buf<br>
+     * @return the length of the string that would have been generated if<br>
+     * enough space had been available, excluding the trailing null<br>
+     * Original signature : <code>size_t av_get_codec_tag_string(char*, size_t, unsigned int)</code><br>
+     * @deprecated use the safer methods {@link #av_get_codec_tag_string(java.nio.ByteBuffer, com.ochafik.lang.jnaerator.runtime.NativeSize, int)} and {@link #av_get_codec_tag_string(com.sun.jna.Pointer, com.ochafik.lang.jnaerator.runtime.NativeSize, int)} instead
+     */
+    @Deprecated
+    NativeSize av_get_codec_tag_string(Pointer buf, NativeSize buf_size, int codec_tag);
+    /**
+     * Put a string representing the codec tag codec_tag in buf.<br>
+     * * @param buf_size size in bytes of buf<br>
+     * @return the length of the string that would have been generated if<br>
+     * enough space had been available, excluding the trailing null<br>
+     * Original signature : <code>size_t av_get_codec_tag_string(char*, size_t, unsigned int)</code>
+     */
+    NativeSize av_get_codec_tag_string(ByteBuffer buf, NativeSize buf_size, int codec_tag);
+    /**
+     * Original signature : <code>void avcodec_string(char*, int, AVCodecContext*, int)</code><br>
+     * @deprecated use the safer methods {@link #avcodec_string(java.nio.ByteBuffer, int, org.javaavc.ffmpeg.avformat.AVCodecContext, int)} and {@link #avcodec_string(com.sun.jna.Pointer, int, org.javaavc.ffmpeg.avformat.AVCodecContext, int)} instead
+     */
+    @Deprecated
+    void avcodec_string(Pointer buf, int buf_size, AVCodecContext enc, int encode);
+    /** Original signature : <code>void avcodec_string(char*, int, AVCodecContext*, int)</code> */
+    void avcodec_string(ByteBuffer buf, int buf_size, AVCodecContext enc, int encode);
+    /**
+     * Return a name for the specified profile, if available.<br>
+     * * @param codec the codec that is searched for the given profile<br>
+     * @param profile the profile value for which a name is requested<br>
+     * @return A name for the profile if found, NULL otherwise.<br>
+     * Original signature : <code>char* av_get_profile_name(const AVCodec*, int)</code>
+     */
+    String av_get_profile_name(AVCodec codec, int profile);
+    /**
+     * Original signature : <code>int avcodec_default_execute(AVCodecContext*, avcodec_default_execute_func_callback*, void*, int*, int, int)</code><br>
+     * @deprecated use the safer methods {@link #avcodec_default_execute(org.javaavc.ffmpeg.avformat.AVCodecContext, org.javaavc.ffmpeg.avformat.LibavformatLibrary.avcodec_default_execute_func_callback, com.sun.jna.Pointer, java.nio.IntBuffer, int, int)} and {@link #avcodec_default_execute(org.javaavc.ffmpeg.avformat.AVCodecContext, org.javaavc.ffmpeg.avformat.LibavformatLibrary.avcodec_default_execute_func_callback, com.sun.jna.Pointer, com.sun.jna.ptr.IntByReference, int, int)} instead
+     */
+    @Deprecated
+    int avcodec_default_execute(AVCodecContext c, LibavformatLibrary.avcodec_default_execute_func_callback func, Pointer arg, IntByReference ret, int count, int size);
+    /** Original signature : <code>int avcodec_default_execute(AVCodecContext*, avcodec_default_execute_func_callback*, void*, int*, int, int)</code> */
+    int avcodec_default_execute(AVCodecContext c, LibavformatLibrary.avcodec_default_execute_func_callback func, Pointer arg, IntBuffer ret, int count, int size);
+    /**
+     * Original signature : <code>int avcodec_default_execute2(AVCodecContext*, avcodec_default_execute2_func_callback*, void*, int*, int)</code><br>
+     * @deprecated use the safer methods {@link #avcodec_default_execute2(org.javaavc.ffmpeg.avformat.AVCodecContext, org.javaavc.ffmpeg.avformat.LibavformatLibrary.avcodec_default_execute2_func_callback, com.sun.jna.Pointer, java.nio.IntBuffer, int)} and {@link #avcodec_default_execute2(org.javaavc.ffmpeg.avformat.AVCodecContext, org.javaavc.ffmpeg.avformat.LibavformatLibrary.avcodec_default_execute2_func_callback, com.sun.jna.Pointer, com.sun.jna.ptr.IntByReference, int)} instead
+     */
+    @Deprecated
+    int avcodec_default_execute2(AVCodecContext c, LibavformatLibrary.avcodec_default_execute2_func_callback func, Pointer arg, IntByReference ret, int count);
+    /** Original signature : <code>int avcodec_default_execute2(AVCodecContext*, avcodec_default_execute2_func_callback*, void*, int*, int)</code> */
+    int avcodec_default_execute2(AVCodecContext c, LibavformatLibrary.avcodec_default_execute2_func_callback func, Pointer arg, IntBuffer ret, int count);
+    /**
+     * Fill AVFrame audio data and linesize pointers.<br>
+     * * The buffer buf must be a preallocated buffer with a size big enough<br>
+     * to contain the specified samples amount. The filled AVFrame data<br>
+     * pointers will point to this buffer.<br>
+     * * AVFrame extended_data channel pointers are allocated if necessary for<br>
+     * planar audio.<br>
+     * * @param frame       the AVFrame<br>
+     *                    frame->nb_samples must be set prior to calling the<br>
+     *                    function. This function fills in frame->data,<br>
+     *                    frame->extended_data, frame->linesize[0].<br>
+     * @param nb_channels channel count<br>
+     * @param sample_fmt  sample format<br>
+     * @param buf         buffer to use for frame data<br>
+     * @param buf_size    size of buffer<br>
+     * @param align       plane size sample alignment (0 = default)<br>
+     * @return            >=0 on success, negative error code on failure<br>
+     * @todo return the size in bytes required to store the samples in<br>
+     * case of success, at the next libavutil bump<br>
+     * Original signature : <code>int avcodec_fill_audio_frame(AVFrame*, int, AVSampleFormat, const uint8_t*, int, int)</code><br>
+     * @deprecated use the safer methods {@link #avcodec_fill_audio_frame(org.javaavc.ffmpeg.avformat.AVFrame, int, int, java.nio.ByteBuffer, int, int)} and {@link #avcodec_fill_audio_frame(org.javaavc.ffmpeg.avformat.AVFrame, int, int, com.sun.jna.Pointer, int, int)} instead
+     */
+    @Deprecated
+    int avcodec_fill_audio_frame(AVFrame frame, int nb_channels, int sample_fmt, Pointer buf, int buf_size, int align);
+    /**
+     * Fill AVFrame audio data and linesize pointers.<br>
+     * * The buffer buf must be a preallocated buffer with a size big enough<br>
+     * to contain the specified samples amount. The filled AVFrame data<br>
+     * pointers will point to this buffer.<br>
+     * * AVFrame extended_data channel pointers are allocated if necessary for<br>
+     * planar audio.<br>
+     * * @param frame       the AVFrame<br>
+     *                    frame->nb_samples must be set prior to calling the<br>
+     *                    function. This function fills in frame->data,<br>
+     *                    frame->extended_data, frame->linesize[0].<br>
+     * @param nb_channels channel count<br>
+     * @param sample_fmt  sample format<br>
+     * @param buf         buffer to use for frame data<br>
+     * @param buf_size    size of buffer<br>
+     * @param align       plane size sample alignment (0 = default)<br>
+     * @return            >=0 on success, negative error code on failure<br>
+     * @todo return the size in bytes required to store the samples in<br>
+     * case of success, at the next libavutil bump<br>
+     * Original signature : <code>int avcodec_fill_audio_frame(AVFrame*, int, AVSampleFormat, const uint8_t*, int, int)</code>
+     */
+    int avcodec_fill_audio_frame(AVFrame frame, int nb_channels, int sample_fmt, ByteBuffer buf, int buf_size, int align);
+    /**
+     * Flush buffers, should be called when seeking or when switching to a different stream.<br>
+     * Original signature : <code>void avcodec_flush_buffers(AVCodecContext*)</code>
+     */
+    void avcodec_flush_buffers(AVCodecContext avctx);
+    /**
+     * Return codec bits per sample.<br>
+     * * @param[in] codec_id the codec<br>
+     * @return Number of bits per sample or zero if unknown for the given codec.<br>
+     * Original signature : <code>int av_get_bits_per_sample(AVCodecID)</code>
+     */
+    int av_get_bits_per_sample(int codec_id);
+    /**
+     * Return the PCM codec associated with a sample format.<br>
+     * @param be  endianness, 0 for little, 1 for big,<br>
+     *            -1 (or anything else) for native<br>
+     * @return  AV_CODEC_ID_PCM_* or AV_CODEC_ID_NONE<br>
+     * Original signature : <code>AVCodecID av_get_pcm_codec(AVSampleFormat, int)</code>
+     */
+    int av_get_pcm_codec(int fmt, int be);
+    /**
+     * Return codec bits per sample.<br>
+     * Only return non-zero if the bits per sample is exactly correct, not an<br>
+     * approximation.<br>
+     * * @param[in] codec_id the codec<br>
+     * @return Number of bits per sample or zero if unknown for the given codec.<br>
+     * Original signature : <code>int av_get_exact_bits_per_sample(AVCodecID)</code>
+     */
+    int av_get_exact_bits_per_sample(int codec_id);
+    /**
+     * Return audio frame duration.<br>
+     * * @param avctx        codec context<br>
+     * @param frame_bytes  size of the frame, or 0 if unknown<br>
+     * @return             frame duration, in samples, if known. 0 if not able to<br>
+     *                     determine.<br>
+     * Original signature : <code>int av_get_audio_frame_duration(AVCodecContext*, int)</code>
+     */
+    int av_get_audio_frame_duration(AVCodecContext avctx, int frame_bytes);
+    /**
+     * Register a bitstream filter.<br>
+     * * The filter will be accessible to the application code through<br>
+     * av_bitstream_filter_next() or can be directly initialized with<br>
+     * av_bitstream_filter_init().<br>
+     * * @see avcodec_register_all()<br>
+     * Original signature : <code>void av_register_bitstream_filter(AVBitStreamFilter*)</code>
+     */
+    void av_register_bitstream_filter(AVBitStreamFilter bsf);
+    /**
+     * Create and initialize a bitstream filter context given a bitstream<br>
+     * filter name.<br>
+     * * The returned context must be freed with av_bitstream_filter_close().<br>
+     * * @param name    the name of the bitstream filter<br>
+     * @return a bitstream filter context if a matching filter was found<br>
+     * and successfully initialized, NULL otherwise<br>
+     * Original signature : <code>AVBitStreamFilterContext* av_bitstream_filter_init(const char*)</code><br>
+     * @deprecated use the safer methods {@link #av_bitstream_filter_init(java.lang.String)} and {@link #av_bitstream_filter_init(com.sun.jna.Pointer)} instead
+     */
+    @Deprecated
+    AVBitStreamFilterContext av_bitstream_filter_init(Pointer name);
+    /**
+     * Create and initialize a bitstream filter context given a bitstream<br>
+     * filter name.<br>
+     * * The returned context must be freed with av_bitstream_filter_close().<br>
+     * * @param name    the name of the bitstream filter<br>
+     * @return a bitstream filter context if a matching filter was found<br>
+     * and successfully initialized, NULL otherwise<br>
+     * Original signature : <code>AVBitStreamFilterContext* av_bitstream_filter_init(const char*)</code>
+     */
+    AVBitStreamFilterContext av_bitstream_filter_init(String name);
+    /**
+     * Filter bitstream.<br>
+     * * This function filters the buffer buf with size buf_size, and places the<br>
+     * filtered buffer in the buffer pointed to by poutbuf.<br>
+     * * The output buffer must be freed by the caller.<br>
+     * * @param bsfc            bitstream filter context created by av_bitstream_filter_init()<br>
+     * @param avctx           AVCodecContext accessed by the filter, may be NULL.<br>
+     *                        If specified, this must point to the encoder context of the<br>
+     *                        output stream the packet is sent to.<br>
+     * @param args            arguments which specify the filter configuration, may be NULL<br>
+     * @param poutbuf         pointer which is updated to point to the filtered buffer<br>
+     * @param poutbuf_size    pointer which is updated to the filtered buffer size in bytes<br>
+     * @param buf             buffer containing the data to filter<br>
+     * @param buf_size        size in bytes of buf<br>
+     * @param keyframe        set to non-zero if the buffer to filter corresponds to a key-frame packet data<br>
+     * @return >= 0 in case of success, or a negative error code in case of failure<br>
+     * * If the return value is positive, an output buffer is allocated and<br>
+     * is availble in *poutbuf, and is distinct from the input buffer.<br>
+     * * If the return value is 0, the output output buffer is not allocated<br>
+     * and the output buffer should be considered identical to the input<br>
+     * buffer, or in case *poutbuf was set it points to the input buffer<br>
+     * (not necessarily to its starting address).<br>
+     * Original signature : <code>int av_bitstream_filter_filter(AVBitStreamFilterContext*, AVCodecContext*, const char*, uint8_t**, int*, const uint8_t*, int, int)</code><br>
+     * @deprecated use the safer methods {@link #av_bitstream_filter_filter(org.javaavc.ffmpeg.avformat.AVBitStreamFilterContext, org.javaavc.ffmpeg.avformat.AVCodecContext, java.lang.String, com.sun.jna.ptr.PointerByReference, java.nio.IntBuffer, java.nio.ByteBuffer, int, int)} and {@link #av_bitstream_filter_filter(org.javaavc.ffmpeg.avformat.AVBitStreamFilterContext, org.javaavc.ffmpeg.avformat.AVCodecContext, com.sun.jna.Pointer, com.sun.jna.ptr.PointerByReference, com.sun.jna.ptr.IntByReference, com.sun.jna.Pointer, int, int)} instead
+     */
+    @Deprecated
+    int av_bitstream_filter_filter(AVBitStreamFilterContext bsfc, AVCodecContext avctx, Pointer args, PointerByReference poutbuf, IntByReference poutbuf_size, Pointer buf, int buf_size, int keyframe);
+    /**
+     * Filter bitstream.<br>
+     * * This function filters the buffer buf with size buf_size, and places the<br>
+     * filtered buffer in the buffer pointed to by poutbuf.<br>
+     * * The output buffer must be freed by the caller.<br>
+     * * @param bsfc            bitstream filter context created by av_bitstream_filter_init()<br>
+     * @param avctx           AVCodecContext accessed by the filter, may be NULL.<br>
+     *                        If specified, this must point to the encoder context of the<br>
+     *                        output stream the packet is sent to.<br>
+     * @param args            arguments which specify the filter configuration, may be NULL<br>
+     * @param poutbuf         pointer which is updated to point to the filtered buffer<br>
+     * @param poutbuf_size    pointer which is updated to the filtered buffer size in bytes<br>
+     * @param buf             buffer containing the data to filter<br>
+     * @param buf_size        size in bytes of buf<br>
+     * @param keyframe        set to non-zero if the buffer to filter corresponds to a key-frame packet data<br>
+     * @return >= 0 in case of success, or a negative error code in case of failure<br>
+     * * If the return value is positive, an output buffer is allocated and<br>
+     * is availble in *poutbuf, and is distinct from the input buffer.<br>
+     * * If the return value is 0, the output output buffer is not allocated<br>
+     * and the output buffer should be considered identical to the input<br>
+     * buffer, or in case *poutbuf was set it points to the input buffer<br>
+     * (not necessarily to its starting address).<br>
+     * Original signature : <code>int av_bitstream_filter_filter(AVBitStreamFilterContext*, AVCodecContext*, const char*, uint8_t**, int*, const uint8_t*, int, int)</code>
+     */
+    int av_bitstream_filter_filter(AVBitStreamFilterContext bsfc, AVCodecContext avctx, String args, PointerByReference poutbuf, IntBuffer poutbuf_size, ByteBuffer buf, int buf_size, int keyframe);
+    /**
+     * Release bitstream filter context.<br>
+     * * @param bsf the bitstream filter context created with<br>
+     * av_bitstream_filter_init(), can be NULL<br>
+     * Original signature : <code>void av_bitstream_filter_close(AVBitStreamFilterContext*)</code>
+     */
+    void av_bitstream_filter_close(AVBitStreamFilterContext bsf);
+    /**
+     * If f is NULL, return the first registered bitstream filter,<br>
+     * if f is non-NULL, return the next registered bitstream filter<br>
+     * after f, or NULL if f is the last one.<br>
+     * * This function can be used to iterate over all registered bitstream<br>
+     * filters.<br>
+     * Original signature : <code>AVBitStreamFilter* av_bitstream_filter_next(AVBitStreamFilter*)</code>
+     */
+    AVBitStreamFilter av_bitstream_filter_next(AVBitStreamFilter f);
+    /**
+     * Reallocate the given block if it is not large enough, otherwise do nothing.<br>
+     * * @see av_realloc<br>
+     * Original signature : <code>void* av_fast_realloc(void*, unsigned int*, size_t)</code><br>
+     * @deprecated use the safer methods {@link #av_fast_realloc(com.sun.jna.Pointer, java.nio.IntBuffer, com.ochafik.lang.jnaerator.runtime.NativeSize)} and {@link #av_fast_realloc(com.sun.jna.Pointer, com.sun.jna.ptr.IntByReference, com.ochafik.lang.jnaerator.runtime.NativeSize)} instead
+     */
+    @Deprecated
+    Pointer av_fast_realloc(Pointer ptr, IntByReference size, NativeSize min_size);
+    /**
+     * Reallocate the given block if it is not large enough, otherwise do nothing.<br>
+     * * @see av_realloc<br>
+     * Original signature : <code>void* av_fast_realloc(void*, unsigned int*, size_t)</code>
+     */
+    Pointer av_fast_realloc(Pointer ptr, IntBuffer size, NativeSize min_size);
+    /**
+     * Allocate a buffer, reusing the given one if large enough.<br>
+     * * Contrary to av_fast_realloc the current buffer contents might not be<br>
+     * preserved and on error the old buffer is freed, thus no special<br>
+     * handling to avoid memleaks is necessary.<br>
+     * * @param ptr pointer to pointer to already allocated buffer, overwritten with pointer to new buffer<br>
+     * @param size size of the buffer *ptr points to<br>
+     * @param min_size minimum size of *ptr buffer after returning, *ptr will be NULL and<br>
+     *                 *size 0 if an error occurred.<br>
+     * Original signature : <code>void av_fast_malloc(void*, unsigned int*, size_t)</code><br>
+     * @deprecated use the safer methods {@link #av_fast_malloc(com.sun.jna.Pointer, java.nio.IntBuffer, com.ochafik.lang.jnaerator.runtime.NativeSize)} and {@link #av_fast_malloc(com.sun.jna.Pointer, com.sun.jna.ptr.IntByReference, com.ochafik.lang.jnaerator.runtime.NativeSize)} instead
+     */
+    @Deprecated
+    void av_fast_malloc(Pointer ptr, IntByReference size, NativeSize min_size);
+    /**
+     * Allocate a buffer, reusing the given one if large enough.<br>
+     * * Contrary to av_fast_realloc the current buffer contents might not be<br>
+     * preserved and on error the old buffer is freed, thus no special<br>
+     * handling to avoid memleaks is necessary.<br>
+     * * @param ptr pointer to pointer to already allocated buffer, overwritten with pointer to new buffer<br>
+     * @param size size of the buffer *ptr points to<br>
+     * @param min_size minimum size of *ptr buffer after returning, *ptr will be NULL and<br>
+     *                 *size 0 if an error occurred.<br>
+     * Original signature : <code>void av_fast_malloc(void*, unsigned int*, size_t)</code>
+     */
+    void av_fast_malloc(Pointer ptr, IntBuffer size, NativeSize min_size);
+    /**
+     * Same behaviour av_fast_malloc but the buffer has additional<br>
+     * FF_INPUT_BUFFER_PADDING_SIZE at the end which will will always be 0.<br>
+     * * In addition the whole buffer will initially and after resizes<br>
+     * be 0-initialized so that no uninitialized data will ever appear.<br>
+     * Original signature : <code>void av_fast_padded_malloc(void*, unsigned int*, size_t)</code><br>
+     * @deprecated use the safer methods {@link #av_fast_padded_malloc(com.sun.jna.Pointer, java.nio.IntBuffer, com.ochafik.lang.jnaerator.runtime.NativeSize)} and {@link #av_fast_padded_malloc(com.sun.jna.Pointer, com.sun.jna.ptr.IntByReference, com.ochafik.lang.jnaerator.runtime.NativeSize)} instead
+     */
+    @Deprecated
+    void av_fast_padded_malloc(Pointer ptr, IntByReference size, NativeSize min_size);
+    /**
+     * Same behaviour av_fast_malloc but the buffer has additional<br>
+     * FF_INPUT_BUFFER_PADDING_SIZE at the end which will will always be 0.<br>
+     * * In addition the whole buffer will initially and after resizes<br>
+     * be 0-initialized so that no uninitialized data will ever appear.<br>
+     * Original signature : <code>void av_fast_padded_malloc(void*, unsigned int*, size_t)</code>
+     */
+    void av_fast_padded_malloc(Pointer ptr, IntBuffer size, NativeSize min_size);
+    /**
+     * Same behaviour av_fast_padded_malloc except that buffer will always<br>
+     * be 0-initialized after call.<br>
+     * Original signature : <code>void av_fast_padded_mallocz(void*, unsigned int*, size_t)</code><br>
+     * @deprecated use the safer methods {@link #av_fast_padded_mallocz(com.sun.jna.Pointer, java.nio.IntBuffer, com.ochafik.lang.jnaerator.runtime.NativeSize)} and {@link #av_fast_padded_mallocz(com.sun.jna.Pointer, com.sun.jna.ptr.IntByReference, com.ochafik.lang.jnaerator.runtime.NativeSize)} instead
+     */
+    @Deprecated
+    void av_fast_padded_mallocz(Pointer ptr, IntByReference size, NativeSize min_size);
+    /**
+     * Same behaviour av_fast_padded_malloc except that buffer will always<br>
+     * be 0-initialized after call.<br>
+     * Original signature : <code>void av_fast_padded_mallocz(void*, unsigned int*, size_t)</code>
+     */
+    void av_fast_padded_mallocz(Pointer ptr, IntBuffer size, NativeSize min_size);
+    /**
+     * Encode extradata length to a buffer. Used by xiph codecs.<br>
+     * * @param s buffer to write to; must be at least (v/255+1) bytes long<br>
+     * @param v size of extradata in bytes<br>
+     * @return number of bytes written to the buffer.<br>
+     * Original signature : <code>int av_xiphlacing(unsigned char*, unsigned int)</code><br>
+     * @deprecated use the safer methods {@link #av_xiphlacing(java.nio.ByteBuffer, int)} and {@link #av_xiphlacing(com.sun.jna.Pointer, int)} instead
+     */
+    @Deprecated
+    int av_xiphlacing(Pointer s, int v);
+    /**
+     * Encode extradata length to a buffer. Used by xiph codecs.<br>
+     * * @param s buffer to write to; must be at least (v/255+1) bytes long<br>
+     * @param v size of extradata in bytes<br>
+     * @return number of bytes written to the buffer.<br>
+     * Original signature : <code>int av_xiphlacing(unsigned char*, unsigned int)</code>
+     */
+    int av_xiphlacing(ByteBuffer s, int v);
+    /**
+     * Original signature : <code>void av_log_missing_feature(void*, const char*, int)</code><br>
+     * @deprecated use the safer methods {@link #av_log_missing_feature(com.sun.jna.Pointer, java.lang.String, int)} and {@link #av_log_missing_feature(com.sun.jna.Pointer, com.sun.jna.Pointer, int)} instead
+     */
+    @Deprecated
+    void av_log_missing_feature(Pointer avc, Pointer feature, int want_sample);
+    /** Original signature : <code>void av_log_missing_feature(void*, const char*, int)</code> */
+    void av_log_missing_feature(Pointer avc, String feature, int want_sample);
+    /**
+     * Original signature : <code>void av_log_ask_for_sample(void*, const char*, null)</code><br>
+     * @deprecated use the safer methods {@link #av_log_ask_for_sample(com.sun.jna.Pointer, java.lang.String, java.lang.Object)} and {@link #av_log_ask_for_sample(com.sun.jna.Pointer, com.sun.jna.Pointer, java.lang.Object)} instead
+     */
+    @Deprecated
+    void av_log_ask_for_sample(Pointer avc, Pointer msg, Object... varargs);
+    /** Original signature : <code>void av_log_ask_for_sample(void*, const char*, null)</code> */
+    void av_log_ask_for_sample(Pointer avc, String msg, Object... varargs);
+    /**
+     * Register the hardware accelerator hwaccel.<br>
+     * Original signature : <code>void av_register_hwaccel(AVHWAccel*)</code>
+     */
+    void av_register_hwaccel(AVHWAccel hwaccel);
+    /**
+     * If hwaccel is NULL, returns the first registered hardware accelerator,<br>
+     * if hwaccel is non-NULL, returns the next registered hardware accelerator<br>
+     * after hwaccel, or NULL if hwaccel is the last one.<br>
+     * Original signature : <code>AVHWAccel* av_hwaccel_next(AVHWAccel*)</code>
+     */
+    AVHWAccel av_hwaccel_next(AVHWAccel hwaccel);
+    /**
+     * Register a user provided lock manager supporting the operations<br>
+     * specified by AVLockOp. mutex points to a (void *) where the<br>
+     * lockmgr should store/get a pointer to a user allocated mutex. It's<br>
+     * NULL upon AV_LOCK_CREATE and != NULL for all other ops.<br>
+     * * @param cb User defined callback. Note: FFmpeg may invoke calls to this<br>
+     *           callback during the call to av_lockmgr_register().<br>
+     *           Thus, the application must be prepared to handle that.<br>
+     *           If cb is set to NULL the lockmgr will be unregistered.<br>
+     *           Also note that during unregistration the previously registered<br>
+     *           lockmgr callback may also be invoked.<br>
+     * Original signature : <code>int av_lockmgr_register(av_lockmgr_register_cb_callback*)</code>
+     */
+    int av_lockmgr_register(LibavformatLibrary.av_lockmgr_register_cb_callback cb);
+    /**
+     * Get the type of the given codec.<br>
+     * Original signature : <code>AVMediaType avcodec_get_type(AVCodecID)</code>
+     */
+    int avcodec_get_type(int codec_id);
+    /**
+     * Get the name of a codec.<br>
+     * @return  a static string identifying the codec; never NULL<br>
+     * Original signature : <code>char* avcodec_get_name(AVCodecID)</code>
+     */
+    String avcodec_get_name(int id);
+    /**
+     * @return a positive value if s is open (i.e. avcodec_open2() was called on it<br>
+     * with no corresponding avcodec_close()), 0 otherwise.<br>
+     * Original signature : <code>int avcodec_is_open(AVCodecContext*)</code>
+     */
+    int avcodec_is_open(AVCodecContext s);
+    /**
+     * @return a non-zero number if codec is an encoder, zero otherwise<br>
+     * Original signature : <code>int av_codec_is_encoder(const AVCodec*)</code>
+     */
+    int av_codec_is_encoder(AVCodec codec);
+    /**
+     * @return a non-zero number if codec is a decoder, zero otherwise<br>
+     * Original signature : <code>int av_codec_is_decoder(const AVCodec*)</code>
+     */
+    int av_codec_is_decoder(AVCodec codec);
+    /**
+     * @return descriptor for given codec ID or NULL if no descriptor exists.<br>
+     * Original signature : <code>AVCodecDescriptor* avcodec_descriptor_get(AVCodecID)</code>
+     */
+    AVCodecDescriptor avcodec_descriptor_get(int id);
+    /**
+     * Iterate over all codec descriptors known to libavcodec.<br>
+     * * @param prev previous descriptor. NULL to get the first descriptor.<br>
+     * * @return next descriptor or NULL after the last descriptor<br>
+     * Original signature : <code>AVCodecDescriptor* avcodec_descriptor_next(const AVCodecDescriptor*)</code>
+     */
+    AVCodecDescriptor avcodec_descriptor_next(AVCodecDescriptor prev);
+    /**
+     * @return codec descriptor with the given name or NULL if no such descriptor<br>
+     *         exists.<br>
+     * Original signature : <code>AVCodecDescriptor* avcodec_descriptor_get_by_name(const char*)</code><br>
+     * @deprecated use the safer methods {@link #avcodec_descriptor_get_by_name(java.lang.String)} and {@link #avcodec_descriptor_get_by_name(com.sun.jna.Pointer)} instead
+     */
+    @Deprecated
+    AVCodecDescriptor avcodec_descriptor_get_by_name(Pointer name);
+    /**
+     * @return codec descriptor with the given name or NULL if no such descriptor<br>
+     *         exists.<br>
+     * Original signature : <code>AVCodecDescriptor* avcodec_descriptor_get_by_name(const char*)</code>
+     */
+    AVCodecDescriptor avcodec_descriptor_get_by_name(String name);
+    /**
+     * Return AVIO_FLAG_* access flags corresponding to the access permissions<br>
+     * of the resource in url, or a negative value corresponding to an<br>
+     * AVERROR code in case of failure. The returned access flags are<br>
+     * masked by the value in flags.<br>
+     * * @note This function is intrinsically unsafe, in the sense that the<br>
+     * checked resource may change its existence or permission status from<br>
+     * one call to another. Thus you should not trust the returned value,<br>
+     * unless you are sure that no other processes are accessing the<br>
+     * checked resource.<br>
+     * Original signature : <code>int avio_check(const char*, int)</code><br>
+     * @deprecated use the safer methods {@link #avio_check(java.lang.String, int)} and {@link #avio_check(com.sun.jna.Pointer, int)} instead
+     */
+    @Deprecated
+    int avio_check(Pointer url, int flags);
+    /**
+     * Return AVIO_FLAG_* access flags corresponding to the access permissions<br>
+     * of the resource in url, or a negative value corresponding to an<br>
+     * AVERROR code in case of failure. The returned access flags are<br>
+     * masked by the value in flags.<br>
+     * * @note This function is intrinsically unsafe, in the sense that the<br>
+     * checked resource may change its existence or permission status from<br>
+     * one call to another. Thus you should not trust the returned value,<br>
+     * unless you are sure that no other processes are accessing the<br>
+     * checked resource.<br>
+     * Original signature : <code>int avio_check(const char*, int)</code>
+     */
+    int avio_check(String url, int flags);
+    /**
+     * Allocate and initialize an AVIOContext for buffered I/O. It must be later<br>
+     * freed with av_free().<br>
+     * * @param buffer Memory block for input/output operations via AVIOContext.<br>
+     *        The buffer must be allocated with av_malloc() and friends.<br>
+     * @param buffer_size The buffer size is very important for performance.<br>
+     *        For protocols with fixed blocksize it should be set to this blocksize.<br>
+     *        For others a typical size is a cache page, e.g. 4kb.<br>
+     * @param write_flag Set to 1 if the buffer should be writable, 0 otherwise.<br>
+     * @param opaque An opaque pointer to user-specific data.<br>
+     * @param read_packet  A function for refilling the buffer, may be NULL.<br>
+     * @param write_packet A function for writing the buffer contents, may be NULL.<br>
+     *        The function may not change the input buffers content.<br>
+     * @param seek A function for seeking to specified byte position, may be NULL.<br>
+     * * @return Allocated AVIOContext or NULL on failure.<br>
+     * Original signature : <code>AVIOContext* avio_alloc_context(unsigned char*, int, int, void*, avio_alloc_context_read_packet_callback*, avio_alloc_context_write_packet_callback*, avio_alloc_context_seek_callback*)</code><br>
+     * @deprecated use the safer methods {@link #avio_alloc_context(java.nio.ByteBuffer, int, int, com.sun.jna.Pointer, org.javaavc.ffmpeg.avformat.LibavformatLibrary.avio_alloc_context_read_packet_callback, org.javaavc.ffmpeg.avformat.LibavformatLibrary.avio_alloc_context_write_packet_callback, org.javaavc.ffmpeg.avformat.LibavformatLibrary.avio_alloc_context_seek_callback)} and {@link #avio_alloc_context(com.sun.jna.Pointer, int, int, com.sun.jna.Pointer, org.javaavc.ffmpeg.avformat.LibavformatLibrary.avio_alloc_context_read_packet_callback, org.javaavc.ffmpeg.avformat.LibavformatLibrary.avio_alloc_context_write_packet_callback, org.javaavc.ffmpeg.avformat.LibavformatLibrary.avio_alloc_context_seek_callback)} instead
+     */
+    @Deprecated
+    AVIOContext avio_alloc_context(Pointer buffer, int buffer_size, int write_flag, Pointer opaque, LibavformatLibrary.avio_alloc_context_read_packet_callback read_packet, LibavformatLibrary.avio_alloc_context_write_packet_callback write_packet, LibavformatLibrary.avio_alloc_context_seek_callback seek);
+    /**
+     * Allocate and initialize an AVIOContext for buffered I/O. It must be later<br>
+     * freed with av_free().<br>
+     * * @param buffer Memory block for input/output operations via AVIOContext.<br>
+     *        The buffer must be allocated with av_malloc() and friends.<br>
+     * @param buffer_size The buffer size is very important for performance.<br>
+     *        For protocols with fixed blocksize it should be set to this blocksize.<br>
+     *        For others a typical size is a cache page, e.g. 4kb.<br>
+     * @param write_flag Set to 1 if the buffer should be writable, 0 otherwise.<br>
+     * @param opaque An opaque pointer to user-specific data.<br>
+     * @param read_packet  A function for refilling the buffer, may be NULL.<br>
+     * @param write_packet A function for writing the buffer contents, may be NULL.<br>
+     *        The function may not change the input buffers content.<br>
+     * @param seek A function for seeking to specified byte position, may be NULL.<br>
+     * * @return Allocated AVIOContext or NULL on failure.<br>
+     * Original signature : <code>AVIOContext* avio_alloc_context(unsigned char*, int, int, void*, avio_alloc_context_read_packet_callback*, avio_alloc_context_write_packet_callback*, avio_alloc_context_seek_callback*)</code>
+     */
+    AVIOContext avio_alloc_context(ByteBuffer buffer, int buffer_size, int write_flag, Pointer opaque, LibavformatLibrary.avio_alloc_context_read_packet_callback read_packet, LibavformatLibrary.avio_alloc_context_write_packet_callback write_packet, LibavformatLibrary.avio_alloc_context_seek_callback seek);
+    /** Original signature : <code>void avio_w8(AVIOContext*, int)</code> */
+    void avio_w8(AVIOContext s, int b);
+    /**
+     * Original signature : <code>void avio_write(AVIOContext*, const unsigned char*, int)</code><br>
+     * @deprecated use the safer methods {@link #avio_write(org.javaavc.ffmpeg.avformat.AVIOContext, java.nio.ByteBuffer, int)} and {@link #avio_write(org.javaavc.ffmpeg.avformat.AVIOContext, com.sun.jna.Pointer, int)} instead
+     */
+    @Deprecated
+    void avio_write(AVIOContext s, Pointer buf, int size);
+    /** Original signature : <code>void avio_write(AVIOContext*, const unsigned char*, int)</code> */
+    void avio_write(AVIOContext s, ByteBuffer buf, int size);
+    /** Original signature : <code>void avio_wl64(AVIOContext*, uint64_t)</code> */
+    void avio_wl64(AVIOContext s, long val);
+    /** Original signature : <code>void avio_wb64(AVIOContext*, uint64_t)</code> */
+    void avio_wb64(AVIOContext s, long val);
+    /** Original signature : <code>void avio_wl32(AVIOContext*, unsigned int)</code> */
+    void avio_wl32(AVIOContext s, int val);
+    /** Original signature : <code>void avio_wb32(AVIOContext*, unsigned int)</code> */
+    void avio_wb32(AVIOContext s, int val);
+    /** Original signature : <code>void avio_wl24(AVIOContext*, unsigned int)</code> */
+    void avio_wl24(AVIOContext s, int val);
+    /** Original signature : <code>void avio_wb24(AVIOContext*, unsigned int)</code> */
+    void avio_wb24(AVIOContext s, int val);
+    /** Original signature : <code>void avio_wl16(AVIOContext*, unsigned int)</code> */
+    void avio_wl16(AVIOContext s, int val);
+    /** Original signature : <code>void avio_wb16(AVIOContext*, unsigned int)</code> */
+    void avio_wb16(AVIOContext s, int val);
+    /**
+     * Write a NULL-terminated string.<br>
+     * @return number of bytes written.<br>
+     * Original signature : <code>int avio_put_str(AVIOContext*, const char*)</code><br>
+     * @deprecated use the safer methods {@link #avio_put_str(org.javaavc.ffmpeg.avformat.AVIOContext, java.lang.String)} and {@link #avio_put_str(org.javaavc.ffmpeg.avformat.AVIOContext, com.sun.jna.Pointer)} instead
+     */
+    @Deprecated
+    int avio_put_str(AVIOContext s, Pointer str);
+    /**
+     * Write a NULL-terminated string.<br>
+     * @return number of bytes written.<br>
+     * Original signature : <code>int avio_put_str(AVIOContext*, const char*)</code>
+     */
+    int avio_put_str(AVIOContext s, String str);
+    /**
+     * Convert an UTF-8 string to UTF-16LE and write it.<br>
+     * @return number of bytes written.<br>
+     * Original signature : <code>int avio_put_str16le(AVIOContext*, const char*)</code><br>
+     * @deprecated use the safer methods {@link #avio_put_str16le(org.javaavc.ffmpeg.avformat.AVIOContext, java.lang.String)} and {@link #avio_put_str16le(org.javaavc.ffmpeg.avformat.AVIOContext, com.sun.jna.Pointer)} instead
+     */
+    @Deprecated
+    int avio_put_str16le(AVIOContext s, Pointer str);
+    /**
+     * Convert an UTF-8 string to UTF-16LE and write it.<br>
+     * @return number of bytes written.<br>
+     * Original signature : <code>int avio_put_str16le(AVIOContext*, const char*)</code>
+     */
+    int avio_put_str16le(AVIOContext s, String str);
+    /**
+     * fseek() equivalent for AVIOContext.<br>
+     * @return new position or AVERROR.<br>
+     * Original signature : <code>int64_t avio_seek(AVIOContext*, int64_t, int)</code>
+     */
+    long avio_seek(AVIOContext s, long offset, int whence);
+    /**
+     * Skip given number of bytes forward<br>
+     * @return new position or AVERROR.<br>
+     * Original signature : <code>int64_t avio_skip(AVIOContext*, int64_t)</code>
+     */
+    long avio_skip(AVIOContext s, long offset);
+    /**
+     * Get the filesize.<br>
+     * @return filesize or AVERROR<br>
+     * Original signature : <code>int64_t avio_size(AVIOContext*)</code>
+     */
+    long avio_size(AVIOContext s);
+    /**
+     * feof() equivalent for AVIOContext.<br>
+     * @return non zero if and only if end of file<br>
+     * Original signature : <code>int url_feof(AVIOContext*)</code>
+     */
+    int url_feof(AVIOContext s);
+    /**
+     * @warning currently size is limited<br>
+     * Original signature : <code>int avio_printf(AVIOContext*, const char*, null)</code><br>
+     * @deprecated use the safer methods {@link #avio_printf(org.javaavc.ffmpeg.avformat.AVIOContext, java.lang.String, java.lang.Object)} and {@link #avio_printf(org.javaavc.ffmpeg.avformat.AVIOContext, com.sun.jna.Pointer, java.lang.Object)} instead
+     */
+    @Deprecated
+    int avio_printf(AVIOContext s, Pointer fmt, Object... varargs);
+    /**
+     * @warning currently size is limited<br>
+     * Original signature : <code>int avio_printf(AVIOContext*, const char*, null)</code>
+     */
+    int avio_printf(AVIOContext s, String fmt, Object... varargs);
+    /**
+     * Force flushing of buffered data to the output s.<br>
+     * * Force the buffered data to be immediately written to the output,<br>
+     * without to wait to fill the internal buffer.<br>
+     * Original signature : <code>void avio_flush(AVIOContext*)</code>
+     */
+    void avio_flush(AVIOContext s);
+    /**
+     * Read size bytes from AVIOContext into buf.<br>
+     * @return number of bytes read or AVERROR<br>
+     * Original signature : <code>int avio_read(AVIOContext*, unsigned char*, int)</code><br>
+     * @deprecated use the safer methods {@link #avio_read(org.javaavc.ffmpeg.avformat.AVIOContext, java.nio.ByteBuffer, int)} and {@link #avio_read(org.javaavc.ffmpeg.avformat.AVIOContext, com.sun.jna.Pointer, int)} instead
+     */
+    @Deprecated
+    int avio_read(AVIOContext s, Pointer buf, int size);
+    /**
+     * Read size bytes from AVIOContext into buf.<br>
+     * @return number of bytes read or AVERROR<br>
+     * Original signature : <code>int avio_read(AVIOContext*, unsigned char*, int)</code>
+     */
+    int avio_read(AVIOContext s, ByteBuffer buf, int size);
+    /**
+     * @name Functions for reading from AVIOContext<br>
+     * @{<br>
+     * * @note return 0 if EOF, so you cannot use it if EOF handling is<br>
+     *       necessary<br>
+     * Original signature : <code>int avio_r8(AVIOContext*)</code>
+     */
+    int avio_r8(AVIOContext s);
+    /** Original signature : <code>int avio_rl16(AVIOContext*)</code> */
+    int avio_rl16(AVIOContext s);
+    /** Original signature : <code>int avio_rl24(AVIOContext*)</code> */
+    int avio_rl24(AVIOContext s);
+    /** Original signature : <code>int avio_rl32(AVIOContext*)</code> */
+    int avio_rl32(AVIOContext s);
+    /** Original signature : <code>uint64_t avio_rl64(AVIOContext*)</code> */
+    long avio_rl64(AVIOContext s);
+    /** Original signature : <code>int avio_rb16(AVIOContext*)</code> */
+    int avio_rb16(AVIOContext s);
+    /** Original signature : <code>int avio_rb24(AVIOContext*)</code> */
+    int avio_rb24(AVIOContext s);
+    /** Original signature : <code>int avio_rb32(AVIOContext*)</code> */
+    int avio_rb32(AVIOContext s);
+    /** Original signature : <code>uint64_t avio_rb64(AVIOContext*)</code> */
+    long avio_rb64(AVIOContext s);
+    /**
+     * Read a string from pb into buf. The reading will terminate when either<br>
+     * a NULL character was encountered, maxlen bytes have been read, or nothing<br>
+     * more can be read from pb. The result is guaranteed to be NULL-terminated, it<br>
+     * will be truncated if buf is too small.<br>
+     * Note that the string is not interpreted or validated in any way, it<br>
+     * might get truncated in the middle of a sequence for multi-byte encodings.<br>
+     * * @return number of bytes read (is always <= maxlen).<br>
+     * If reading ends on EOF or error, the return value will be one more than<br>
+     * bytes actually read.<br>
+     * Original signature : <code>int avio_get_str(AVIOContext*, int, char*, int)</code><br>
+     * @deprecated use the safer methods {@link #avio_get_str(org.javaavc.ffmpeg.avformat.AVIOContext, int, java.nio.ByteBuffer, int)} and {@link #avio_get_str(org.javaavc.ffmpeg.avformat.AVIOContext, int, com.sun.jna.Pointer, int)} instead
+     */
+    @Deprecated
+    int avio_get_str(AVIOContext pb, int maxlen, Pointer buf, int buflen);
+    /**
+     * Read a string from pb into buf. The reading will terminate when either<br>
+     * a NULL character was encountered, maxlen bytes have been read, or nothing<br>
+     * more can be read from pb. The result is guaranteed to be NULL-terminated, it<br>
+     * will be truncated if buf is too small.<br>
+     * Note that the string is not interpreted or validated in any way, it<br>
+     * might get truncated in the middle of a sequence for multi-byte encodings.<br>
+     * * @return number of bytes read (is always <= maxlen).<br>
+     * If reading ends on EOF or error, the return value will be one more than<br>
+     * bytes actually read.<br>
+     * Original signature : <code>int avio_get_str(AVIOContext*, int, char*, int)</code>
+     */
+    int avio_get_str(AVIOContext pb, int maxlen, ByteBuffer buf, int buflen);
+    /**
+     * Read a UTF-16 string from pb and convert it to UTF-8.<br>
+     * The reading will terminate when either a null or invalid character was<br>
+     * encountered or maxlen bytes have been read.<br>
+     * @return number of bytes read (is always <= maxlen)<br>
+     * Original signature : <code>int avio_get_str16le(AVIOContext*, int, char*, int)</code><br>
+     * @deprecated use the safer methods {@link #avio_get_str16le(org.javaavc.ffmpeg.avformat.AVIOContext, int, java.nio.ByteBuffer, int)} and {@link #avio_get_str16le(org.javaavc.ffmpeg.avformat.AVIOContext, int, com.sun.jna.Pointer, int)} instead
+     */
+    @Deprecated
+    int avio_get_str16le(AVIOContext pb, int maxlen, Pointer buf, int buflen);
+    /**
+     * Read a UTF-16 string from pb and convert it to UTF-8.<br>
+     * The reading will terminate when either a null or invalid character was<br>
+     * encountered or maxlen bytes have been read.<br>
+     * @return number of bytes read (is always <= maxlen)<br>
+     * Original signature : <code>int avio_get_str16le(AVIOContext*, int, char*, int)</code>
+     */
+    int avio_get_str16le(AVIOContext pb, int maxlen, ByteBuffer buf, int buflen);
+    /**
+     * Original signature : <code>int avio_get_str16be(AVIOContext*, int, char*, int)</code><br>
+     * @deprecated use the safer methods {@link #avio_get_str16be(org.javaavc.ffmpeg.avformat.AVIOContext, int, java.nio.ByteBuffer, int)} and {@link #avio_get_str16be(org.javaavc.ffmpeg.avformat.AVIOContext, int, com.sun.jna.Pointer, int)} instead
+     */
+    @Deprecated
+    int avio_get_str16be(AVIOContext pb, int maxlen, Pointer buf, int buflen);
+    /** Original signature : <code>int avio_get_str16be(AVIOContext*, int, char*, int)</code> */
+    int avio_get_str16be(AVIOContext pb, int maxlen, ByteBuffer buf, int buflen);
+    /**
+     * Create and initialize a AVIOContext for accessing the<br>
+     * resource indicated by url.<br>
+     * @note When the resource indicated by url has been opened in<br>
+     * read+write mode, the AVIOContext can be used only for writing.<br>
+     * * @param s Used to return the pointer to the created AVIOContext.<br>
+     * In case of failure the pointed to value is set to NULL.<br>
+     * @param flags flags which control how the resource indicated by url<br>
+     * is to be opened<br>
+     * @return 0 in case of success, a negative value corresponding to an<br>
+     * AVERROR code in case of failure<br>
+     * Original signature : <code>int avio_open(AVIOContext**, const char*, int)</code><br>
+     * @deprecated use the safer methods {@link #avio_open(org.javaavc.ffmpeg.avformat.AVIOContext.ByReference[], java.lang.String, int)} and {@link #avio_open(org.javaavc.ffmpeg.avformat.AVIOContext.ByReference[], com.sun.jna.Pointer, int)} instead
+     */
+    @Deprecated
+    int avio_open(PointerByReference s, Pointer url, int flags);
+    /**
+     * Create and initialize a AVIOContext for accessing the<br>
+     * resource indicated by url.<br>
+     * @note When the resource indicated by url has been opened in<br>
+     * read+write mode, the AVIOContext can be used only for writing.<br>
+     * * @param s Used to return the pointer to the created AVIOContext.<br>
+     * In case of failure the pointed to value is set to NULL.<br>
+     * @param flags flags which control how the resource indicated by url<br>
+     * is to be opened<br>
+     * @return 0 in case of success, a negative value corresponding to an<br>
+     * AVERROR code in case of failure<br>
+     * Original signature : <code>int avio_open(AVIOContext**, const char*, int)</code>
+     */
+    int avio_open(AVIOContext.ByReference s[], String url, int flags);
+    /**
+     * Create and initialize a AVIOContext for accessing the<br>
+     * resource indicated by url.<br>
+     * @note When the resource indicated by url has been opened in<br>
+     * read+write mode, the AVIOContext can be used only for writing.<br>
+     * * @param s Used to return the pointer to the created AVIOContext.<br>
+     * In case of failure the pointed to value is set to NULL.<br>
+     * @param flags flags which control how the resource indicated by url<br>
+     * is to be opened<br>
+     * @return 0 in case of success, a negative value corresponding to an<br>
+     * AVERROR code in case of failure<br>
+     * Original signature : <code>int avio_open(AVIOContext**, const char*, int)</code>
+     */
+    int avio_open(AVIOContext.ByReference s[], Pointer url, int flags);
+    /**
+     * Create and initialize a AVIOContext for accessing the<br>
+     * resource indicated by url.<br>
+     * @note When the resource indicated by url has been opened in<br>
+     * read+write mode, the AVIOContext can be used only for writing.<br>
+     * * @param s Used to return the pointer to the created AVIOContext.<br>
+     * In case of failure the pointed to value is set to NULL.<br>
+     * @param flags flags which control how the resource indicated by url<br>
+     * is to be opened<br>
+     * @param int_cb an interrupt callback to be used at the protocols level<br>
+     * @param options  A dictionary filled with protocol-private options. On return<br>
+     * this parameter will be destroyed and replaced with a dict containing options<br>
+     * that were not found. May be NULL.<br>
+     * @return 0 in case of success, a negative value corresponding to an<br>
+     * AVERROR code in case of failure<br>
+     * Original signature : <code>int avio_open2(AVIOContext**, const char*, int, const AVIOInterruptCB*, AVDictionary**)</code><br>
+     * @deprecated use the safer methods {@link #avio_open2(org.javaavc.ffmpeg.avformat.AVIOContext.ByReference[], java.lang.String, int, org.javaavc.ffmpeg.avformat.AVIOInterruptCB, com.sun.jna.ptr.PointerByReference)} and {@link #avio_open2(org.javaavc.ffmpeg.avformat.AVIOContext.ByReference[], com.sun.jna.Pointer, int, org.javaavc.ffmpeg.avformat.AVIOInterruptCB, com.sun.jna.ptr.PointerByReference)} instead
+     */
+    @Deprecated
+    int avio_open2(PointerByReference s, Pointer url, int flags, AVIOInterruptCB int_cb, PointerByReference options);
+    /**
+     * Create and initialize a AVIOContext for accessing the<br>
+     * resource indicated by url.<br>
+     * @note When the resource indicated by url has been opened in<br>
+     * read+write mode, the AVIOContext can be used only for writing.<br>
+     * * @param s Used to return the pointer to the created AVIOContext.<br>
+     * In case of failure the pointed to value is set to NULL.<br>
+     * @param flags flags which control how the resource indicated by url<br>
+     * is to be opened<br>
+     * @param int_cb an interrupt callback to be used at the protocols level<br>
+     * @param options  A dictionary filled with protocol-private options. On return<br>
+     * this parameter will be destroyed and replaced with a dict containing options<br>
+     * that were not found. May be NULL.<br>
+     * @return 0 in case of success, a negative value corresponding to an<br>
+     * AVERROR code in case of failure<br>
+     * Original signature : <code>int avio_open2(AVIOContext**, const char*, int, const AVIOInterruptCB*, AVDictionary**)</code>
+     */
+    int avio_open2(AVIOContext.ByReference s[], String url, int flags, AVIOInterruptCB int_cb, PointerByReference options);
+    /**
+     * Create and initialize a AVIOContext for accessing the<br>
+     * resource indicated by url.<br>
+     * @note When the resource indicated by url has been opened in<br>
+     * read+write mode, the AVIOContext can be used only for writing.<br>
+     * * @param s Used to return the pointer to the created AVIOContext.<br>
+     * In case of failure the pointed to value is set to NULL.<br>
+     * @param flags flags which control how the resource indicated by url<br>
+     * is to be opened<br>
+     * @param int_cb an interrupt callback to be used at the protocols level<br>
+     * @param options  A dictionary filled with protocol-private options. On return<br>
+     * this parameter will be destroyed and replaced with a dict containing options<br>
+     * that were not found. May be NULL.<br>
+     * @return 0 in case of success, a negative value corresponding to an<br>
+     * AVERROR code in case of failure<br>
+     * Original signature : <code>int avio_open2(AVIOContext**, const char*, int, const AVIOInterruptCB*, AVDictionary**)</code>
+     */
+    int avio_open2(AVIOContext.ByReference s[], Pointer url, int flags, AVIOInterruptCB int_cb, PointerByReference options);
+    /**
+     * Close the resource accessed by the AVIOContext s and free it.<br>
+     * This function can only be used if s was opened by avio_open().<br>
+     * * The internal buffer is automatically flushed before closing the<br>
+     * resource.<br>
+     * * @return 0 on success, an AVERROR < 0 on error.<br>
+     * @see avio_closep<br>
+     * Original signature : <code>int avio_close(AVIOContext*)</code>
+     */
+    int avio_close(AVIOContext s);
+    /**
+     * Close the resource accessed by the AVIOContext *s, free it<br>
+     * and set the pointer pointing to it to NULL.<br>
+     * This function can only be used if s was opened by avio_open().<br>
+     * * The internal buffer is automatically flushed before closing the<br>
+     * resource.<br>
+     * * @return 0 on success, an AVERROR < 0 on error.<br>
+     * @see avio_close<br>
+     * Original signature : <code>int avio_closep(AVIOContext**)</code><br>
+     * @deprecated use the safer method {@link #avio_closep(org.javaavc.ffmpeg.avformat.AVIOContext.ByReference[])} instead
+     */
+    @Deprecated
+    int avio_closep(PointerByReference s);
+    /**
+     * Close the resource accessed by the AVIOContext *s, free it<br>
+     * and set the pointer pointing to it to NULL.<br>
+     * This function can only be used if s was opened by avio_open().<br>
+     * * The internal buffer is automatically flushed before closing the<br>
+     * resource.<br>
+     * * @return 0 on success, an AVERROR < 0 on error.<br>
+     * @see avio_close<br>
+     * Original signature : <code>int avio_closep(AVIOContext**)</code>
+     */
+    int avio_closep(AVIOContext.ByReference s[]);
+    /**
+     * Open a write only memory stream.<br>
+     * * @param s new IO context<br>
+     * @return zero if no error.<br>
+     * Original signature : <code>int avio_open_dyn_buf(AVIOContext**)</code><br>
+     * @deprecated use the safer method {@link #avio_open_dyn_buf(org.javaavc.ffmpeg.avformat.AVIOContext.ByReference[])} instead
+     */
+    @Deprecated
+    int avio_open_dyn_buf(PointerByReference s);
+    /**
+     * Open a write only memory stream.<br>
+     * * @param s new IO context<br>
+     * @return zero if no error.<br>
+     * Original signature : <code>int avio_open_dyn_buf(AVIOContext**)</code>
+     */
+    int avio_open_dyn_buf(AVIOContext.ByReference s[]);
+    /**
+     * Return the written size and a pointer to the buffer. The buffer<br>
+     * must be freed with av_free().<br>
+     * Padding of FF_INPUT_BUFFER_PADDING_SIZE is added to the buffer.<br>
+     * * @param s IO context<br>
+     * @param pbuffer pointer to a byte buffer<br>
+     * @return the length of the byte buffer<br>
+     * Original signature : <code>int avio_close_dyn_buf(AVIOContext*, uint8_t**)</code>
+     */
+    int avio_close_dyn_buf(AVIOContext s, PointerByReference pbuffer);
+    /**
+     * Iterate through names of available protocols.<br>
+     * * @param opaque A private pointer representing current protocol.<br>
+     *        It must be a pointer to NULL on first iteration and will<br>
+     *        be updated by successive calls to avio_enum_protocols.<br>
+     * @param output If set to 1, iterate over output protocols,<br>
+     *               otherwise over input protocols.<br>
+     * * @return A static string containing the name of current protocol or NULL<br>
+     * Original signature : <code>char* avio_enum_protocols(void**, int)</code>
+     */
+    String avio_enum_protocols(PointerByReference opaque, int output);
+    /**
+     * Pause and resume playing - only meaningful if using a network streaming<br>
+     * protocol (e.g. MMS).<br>
+     * @param pause 1 for pause, 0 for resume<br>
+     * Original signature : <code>int avio_pause(AVIOContext*, int)</code>
+     */
+    int avio_pause(AVIOContext h, int pause);
+    /**
+     * Seek to a given timestamp relative to some component stream.<br>
+     * Only meaningful if using a network streaming protocol (e.g. MMS.).<br>
+     * @param stream_index The stream index that the timestamp is relative to.<br>
+     *        If stream_index is (-1) the timestamp should be in AV_TIME_BASE<br>
+     *        units from the beginning of the presentation.<br>
+     *        If a stream_index >= 0 is used and the protocol does not support<br>
+     *        seeking based on component streams, the call will fail.<br>
+     * @param timestamp timestamp in AVStream.time_base units<br>
+     *        or if there is no stream specified then in AV_TIME_BASE units.<br>
+     * @param flags Optional combination of AVSEEK_FLAG_BACKWARD, AVSEEK_FLAG_BYTE<br>
+     *        and AVSEEK_FLAG_ANY. The protocol may silently ignore<br>
+     *        AVSEEK_FLAG_BACKWARD and AVSEEK_FLAG_ANY, but AVSEEK_FLAG_BYTE will<br>
+     *        fail if used and not supported.<br>
+     * @return >= 0 on success<br>
+     * @see AVInputFormat::read_seek<br>
+     * Original signature : <code>int64_t avio_seek_time(AVIOContext*, int, int64_t, int)</code>
+     */
+    long avio_seek_time(AVIOContext h, int stream_index, long timestamp, int flags);
+    /**
+     * Allocate and read the payload of a packet and initialize its<br>
+     * fields with default values.<br>
+     * * @param pkt packet<br>
+     * @param size desired payload size<br>
+     * @return >0 (read size) if OK, AVERROR_xxx otherwise<br>
+     * Original signature : <code>int av_get_packet(AVIOContext*, AVPacket*, int)</code>
+     */
+    int av_get_packet(AVIOContext s, AVPacket pkt, int size);
+    /**
+     * Read data and append it to the current content of the AVPacket.<br>
+     * If pkt->size is 0 this is identical to av_get_packet.<br>
+     * Note that this uses av_grow_packet and thus involves a realloc<br>
+     * which is inefficient. Thus this function should only be used<br>
+     * when there is no reasonable way to know (an upper bound of)<br>
+     * the final size.<br>
+     * * @param pkt packet<br>
+     * @param size amount of data to read<br>
+     * @return >0 (read size) if OK, AVERROR_xxx otherwise, previous data<br>
+     *         will not be lost even if an error occurs.<br>
+     * Original signature : <code>int av_append_packet(AVIOContext*, AVPacket*, int)</code>
+     */
+    int av_append_packet(AVIOContext s, AVPacket pkt, int size);
+    /** Original signature : <code>AVRational av_stream_get_r_frame_rate(const AVStream*)</code> */
+    AVRational.ByValue av_stream_get_r_frame_rate(AVStream s);
+    /** Original signature : <code>void av_stream_set_r_frame_rate(AVStream*, AVRational)</code> */
+    void av_stream_set_r_frame_rate(AVStream s, AVRational.ByValue r);
+    /**
+     * Returns the method used to set ctx->duration.<br>
+     * * @return AVFMT_DURATION_FROM_PTS, AVFMT_DURATION_FROM_STREAM, or AVFMT_DURATION_FROM_BITRATE.<br>
+     * Original signature : <code>AVDurationEstimationMethod av_fmt_ctx_get_duration_estimation_method(const AVFormatContext*)</code>
+     */
+    int av_fmt_ctx_get_duration_estimation_method(AVFormatContext ctx);
+    /**
+     * Return the LIBAVFORMAT_VERSION_INT constant.<br>
+     * Original signature : <code>int avformat_version()</code>
+     */
+    int avformat_version();
+    /**
+     * Return the libavformat build-time configuration.<br>
+     * Original signature : <code>char* avformat_configuration()</code>
+     */
+    String avformat_configuration();
+    /**
+     * Return the libavformat license.<br>
+     * Original signature : <code>char* avformat_license()</code>
+     */
+    String avformat_license();
+    /**
+     * Initialize libavformat and register all the muxers, demuxers and<br>
+     * protocols. If you do not call this function, then you can select<br>
+     * exactly which formats you want to support.<br>
+     * * @see av_register_input_format()<br>
+     * @see av_register_output_format()<br>
+     * Original signature : <code>void av_register_all()</code>
+     */
+    void av_register_all();
+    /** Original signature : <code>void av_register_input_format(AVInputFormat*)</code> */
+    void av_register_input_format(AVInputFormat format);
+    /** Original signature : <code>void av_register_output_format(AVOutputFormat*)</code> */
+    void av_register_output_format(AVOutputFormat format);
+    /**
+     * Do global initialization of network components. This is optional,<br>
+     * but recommended, since it avoids the overhead of implicitly<br>
+     * doing the setup for each session.<br>
+     * * Calling this function will become mandatory if using network<br>
+     * protocols at some major version bump.<br>
+     * Original signature : <code>int avformat_network_init()</code>
+     */
+    int avformat_network_init();
+    /**
+     * Undo the initialization done by avformat_network_init.<br>
+     * Original signature : <code>int avformat_network_deinit()</code>
+     */
+    int avformat_network_deinit();
+    /**
+     * If f is NULL, returns the first registered input format,<br>
+     * if f is non-NULL, returns the next registered input format after f<br>
+     * or NULL if f is the last one.<br>
+     * Original signature : <code>AVInputFormat* av_iformat_next(AVInputFormat*)</code>
+     */
+    AVInputFormat av_iformat_next(AVInputFormat f);
+    /**
+     * If f is NULL, returns the first registered output format,<br>
+     * if f is non-NULL, returns the next registered output format after f<br>
+     * or NULL if f is the last one.<br>
+     * Original signature : <code>AVOutputFormat* av_oformat_next(AVOutputFormat*)</code>
+     */
+    AVOutputFormat av_oformat_next(AVOutputFormat f);
+    /**
+     * Allocate an AVFormatContext.<br>
+     * avformat_free_context() can be used to free the context and everything<br>
+     * allocated by the framework within it.<br>
+     * Original signature : <code>AVFormatContext* avformat_alloc_context()</code>
+     */
+    AVFormatContext avformat_alloc_context();
+    /**
+     * Free an AVFormatContext and all its streams.<br>
+     * @param s context to free<br>
+     * Original signature : <code>void avformat_free_context(AVFormatContext*)</code>
+     */
+    void avformat_free_context(AVFormatContext s);
+    /**
+     * Get the AVClass for AVFormatContext. It can be used in combination with<br>
+     * AV_OPT_SEARCH_FAKE_OBJ for examining options.<br>
+     * * @see av_opt_find().<br>
+     * Original signature : <code>AVClass* avformat_get_class()</code>
+     */
+    AVClass avformat_get_class();
+    /**
+     * Add a new stream to a media file.<br>
+     * * When demuxing, it is called by the demuxer in read_header(). If the<br>
+     * flag AVFMTCTX_NOHEADER is set in s.ctx_flags, then it may also<br>
+     * be called in read_packet().<br>
+     * * When muxing, should be called by the user before avformat_write_header().<br>
+     * * @param c If non-NULL, the AVCodecContext corresponding to the new stream<br>
+     * will be initialized to use this codec. This is needed for e.g. codec-specific<br>
+     * defaults to be set, so codec should be provided if it is known.<br>
+     * * @return newly created stream or NULL on error.<br>
+     * Original signature : <code>AVStream* avformat_new_stream(AVFormatContext*, const AVCodec*)</code>
+     */
+    AVStream avformat_new_stream(AVFormatContext s, AVCodec c);
+    /** Original signature : <code>AVProgram* av_new_program(AVFormatContext*, int)</code> */
+    AVProgram av_new_program(AVFormatContext s, int id);
+    /**
+     * Original signature : <code>AVFormatContext* avformat_alloc_output_context(const char*, AVOutputFormat*, const char*)</code><br>
+     * @deprecated use the safer methods {@link #avformat_alloc_output_context(java.lang.String, org.javaavc.ffmpeg.avformat.AVOutputFormat, java.lang.String)} and {@link #avformat_alloc_output_context(com.sun.jna.Pointer, org.javaavc.ffmpeg.avformat.AVOutputFormat, com.sun.jna.Pointer)} instead
+     */
+    @Deprecated
+    AVFormatContext avformat_alloc_output_context(Pointer format, AVOutputFormat oformat, Pointer filename);
+    /** Original signature : <code>AVFormatContext* avformat_alloc_output_context(const char*, AVOutputFormat*, const char*)</code> */
+    AVFormatContext avformat_alloc_output_context(String format, AVOutputFormat oformat, String filename);
+    /**
+     * Allocate an AVFormatContext for an output format.<br>
+     * avformat_free_context() can be used to free the context and<br>
+     * everything allocated by the framework within it.<br>
+     * * @param *ctx is set to the created format context, or to NULL in<br>
+     * case of failure<br>
+     * @param oformat format to use for allocating the context, if NULL<br>
+     * format_name and filename are used instead<br>
+     * @param format_name the name of output format to use for allocating the<br>
+     * context, if NULL filename is used instead<br>
+     * @param filename the name of the filename to use for allocating the<br>
+     * context, may be NULL<br>
+     * @return >= 0 in case of success, a negative AVERROR code in case of<br>
+     * failure<br>
+     * Original signature : <code>int avformat_alloc_output_context2(AVFormatContext**, AVOutputFormat*, const char*, const char*)</code><br>
+     * @deprecated use the safer methods {@link #avformat_alloc_output_context2(org.javaavc.ffmpeg.avformat.AVFormatContext.ByReference[], org.javaavc.ffmpeg.avformat.AVOutputFormat, java.lang.String, java.lang.String)} and {@link #avformat_alloc_output_context2(org.javaavc.ffmpeg.avformat.AVFormatContext.ByReference[], org.javaavc.ffmpeg.avformat.AVOutputFormat, com.sun.jna.Pointer, com.sun.jna.Pointer)} instead
+     */
+    @Deprecated
+    int avformat_alloc_output_context2(PointerByReference ctx, AVOutputFormat oformat, Pointer format_name, Pointer filename);
+    /**
+     * Allocate an AVFormatContext for an output format.<br>
+     * avformat_free_context() can be used to free the context and<br>
+     * everything allocated by the framework within it.<br>
+     * * @param *ctx is set to the created format context, or to NULL in<br>
+     * case of failure<br>
+     * @param oformat format to use for allocating the context, if NULL<br>
+     * format_name and filename are used instead<br>
+     * @param format_name the name of output format to use for allocating the<br>
+     * context, if NULL filename is used instead<br>
+     * @param filename the name of the filename to use for allocating the<br>
+     * context, may be NULL<br>
+     * @return >= 0 in case of success, a negative AVERROR code in case of<br>
+     * failure<br>
+     * Original signature : <code>int avformat_alloc_output_context2(AVFormatContext**, AVOutputFormat*, const char*, const char*)</code>
+     */
+    int avformat_alloc_output_context2(AVFormatContext.ByReference ctx[], AVOutputFormat oformat, String format_name, String filename);
+    /**
+     * Allocate an AVFormatContext for an output format.<br>
+     * avformat_free_context() can be used to free the context and<br>
+     * everything allocated by the framework within it.<br>
+     * * @param *ctx is set to the created format context, or to NULL in<br>
+     * case of failure<br>
+     * @param oformat format to use for allocating the context, if NULL<br>
+     * format_name and filename are used instead<br>
+     * @param format_name the name of output format to use for allocating the<br>
+     * context, if NULL filename is used instead<br>
+     * @param filename the name of the filename to use for allocating the<br>
+     * context, may be NULL<br>
+     * @return >= 0 in case of success, a negative AVERROR code in case of<br>
+     * failure<br>
+     * Original signature : <code>int avformat_alloc_output_context2(AVFormatContext**, AVOutputFormat*, const char*, const char*)</code>
+     */
+    int avformat_alloc_output_context2(AVFormatContext.ByReference ctx[], AVOutputFormat oformat, Pointer format_name, Pointer filename);
+    /**
+     * Find AVInputFormat based on the short name of the input format.<br>
+     * Original signature : <code>AVInputFormat* av_find_input_format(const char*)</code><br>
+     * @deprecated use the safer methods {@link #av_find_input_format(java.lang.String)} and {@link #av_find_input_format(com.sun.jna.Pointer)} instead
+     */
+    @Deprecated
+    AVInputFormat av_find_input_format(Pointer short_name);
+    /**
+     * Find AVInputFormat based on the short name of the input format.<br>
+     * Original signature : <code>AVInputFormat* av_find_input_format(const char*)</code>
+     */
+    AVInputFormat av_find_input_format(String short_name);
+    /**
+     * Guess the file format.<br>
+     * * @param is_opened Whether the file is already opened; determines whether<br>
+     *                  demuxers with or without AVFMT_NOFILE are probed.<br>
+     * Original signature : <code>AVInputFormat* av_probe_input_format(AVProbeData*, int)</code>
+     */
+    AVInputFormat av_probe_input_format(AVProbeData pd, int is_opened);
+    /**
+     * Guess the file format.<br>
+     * * @param is_opened Whether the file is already opened; determines whether<br>
+     *                  demuxers with or without AVFMT_NOFILE are probed.<br>
+     * @param score_max A probe score larger that this is required to accept a<br>
+     *                  detection, the variable is set to the actual detection<br>
+     *                  score afterwards.<br>
+     *                  If the score is <= AVPROBE_SCORE_MAX / 4 it is recommended<br>
+     *                  to retry with a larger probe buffer.<br>
+     * Original signature : <code>AVInputFormat* av_probe_input_format2(AVProbeData*, int, int*)</code><br>
+     * @deprecated use the safer methods {@link #av_probe_input_format2(org.javaavc.ffmpeg.avformat.AVProbeData, int, java.nio.IntBuffer)} and {@link #av_probe_input_format2(org.javaavc.ffmpeg.avformat.AVProbeData, int, com.sun.jna.ptr.IntByReference)} instead
+     */
+    @Deprecated
+    AVInputFormat av_probe_input_format2(AVProbeData pd, int is_opened, IntByReference score_max);
+    /**
+     * Guess the file format.<br>
+     * * @param is_opened Whether the file is already opened; determines whether<br>
+     *                  demuxers with or without AVFMT_NOFILE are probed.<br>
+     * @param score_max A probe score larger that this is required to accept a<br>
+     *                  detection, the variable is set to the actual detection<br>
+     *                  score afterwards.<br>
+     *                  If the score is <= AVPROBE_SCORE_MAX / 4 it is recommended<br>
+     *                  to retry with a larger probe buffer.<br>
+     * Original signature : <code>AVInputFormat* av_probe_input_format2(AVProbeData*, int, int*)</code>
+     */
+    AVInputFormat av_probe_input_format2(AVProbeData pd, int is_opened, IntBuffer score_max);
+    /**
+     * Guess the file format.<br>
+     * * @param is_opened Whether the file is already opened; determines whether<br>
+     *                  demuxers with or without AVFMT_NOFILE are probed.<br>
+     * @param score_ret The score of the best detection.<br>
+     * Original signature : <code>AVInputFormat* av_probe_input_format3(AVProbeData*, int, int*)</code><br>
+     * @deprecated use the safer methods {@link #av_probe_input_format3(org.javaavc.ffmpeg.avformat.AVProbeData, int, java.nio.IntBuffer)} and {@link #av_probe_input_format3(org.javaavc.ffmpeg.avformat.AVProbeData, int, com.sun.jna.ptr.IntByReference)} instead
+     */
+    @Deprecated
+    AVInputFormat av_probe_input_format3(AVProbeData pd, int is_opened, IntByReference score_ret);
+    /**
+     * Guess the file format.<br>
+     * * @param is_opened Whether the file is already opened; determines whether<br>
+     *                  demuxers with or without AVFMT_NOFILE are probed.<br>
+     * @param score_ret The score of the best detection.<br>
+     * Original signature : <code>AVInputFormat* av_probe_input_format3(AVProbeData*, int, int*)</code>
+     */
+    AVInputFormat av_probe_input_format3(AVProbeData pd, int is_opened, IntBuffer score_ret);
+    /**
+     * Probe a bytestream to determine the input format. Each time a probe returns<br>
+     * with a score that is too low, the probe buffer size is increased and another<br>
+     * attempt is made. When the maximum probe size is reached, the input format<br>
+     * with the highest score is returned.<br>
+     * * @param pb the bytestream to probe<br>
+     * @param fmt the input format is put here<br>
+     * @param filename the filename of the stream<br>
+     * @param logctx the log context<br>
+     * @param offset the offset within the bytestream to probe from<br>
+     * @param max_probe_size the maximum probe buffer size (zero for default)<br>
+     * @return 0 in case of success, a negative value corresponding to an<br>
+     * AVERROR code otherwise<br>
+     * Original signature : <code>int av_probe_input_buffer(AVIOContext*, AVInputFormat**, const char*, void*, unsigned int, unsigned int)</code><br>
+     * @deprecated use the safer methods {@link #av_probe_input_buffer(org.javaavc.ffmpeg.avformat.AVIOContext, org.javaavc.ffmpeg.avformat.AVInputFormat.ByReference[], java.lang.String, com.sun.jna.Pointer, int, int)} and {@link #av_probe_input_buffer(org.javaavc.ffmpeg.avformat.AVIOContext, org.javaavc.ffmpeg.avformat.AVInputFormat.ByReference[], com.sun.jna.Pointer, com.sun.jna.Pointer, int, int)} instead
+     */
+    @Deprecated
+    int av_probe_input_buffer(AVIOContext pb, PointerByReference fmt, Pointer filename, Pointer logctx, int offset, int max_probe_size);
+    /**
+     * Probe a bytestream to determine the input format. Each time a probe returns<br>
+     * with a score that is too low, the probe buffer size is increased and another<br>
+     * attempt is made. When the maximum probe size is reached, the input format<br>
+     * with the highest score is returned.<br>
+     * * @param pb the bytestream to probe<br>
+     * @param fmt the input format is put here<br>
+     * @param filename the filename of the stream<br>
+     * @param logctx the log context<br>
+     * @param offset the offset within the bytestream to probe from<br>
+     * @param max_probe_size the maximum probe buffer size (zero for default)<br>
+     * @return 0 in case of success, a negative value corresponding to an<br>
+     * AVERROR code otherwise<br>
+     * Original signature : <code>int av_probe_input_buffer(AVIOContext*, AVInputFormat**, const char*, void*, unsigned int, unsigned int)</code>
+     */
+    int av_probe_input_buffer(AVIOContext pb, AVInputFormat.ByReference fmt[], String filename, Pointer logctx, int offset, int max_probe_size);
+    /**
+     * Probe a bytestream to determine the input format. Each time a probe returns<br>
+     * with a score that is too low, the probe buffer size is increased and another<br>
+     * attempt is made. When the maximum probe size is reached, the input format<br>
+     * with the highest score is returned.<br>
+     * * @param pb the bytestream to probe<br>
+     * @param fmt the input format is put here<br>
+     * @param filename the filename of the stream<br>
+     * @param logctx the log context<br>
+     * @param offset the offset within the bytestream to probe from<br>
+     * @param max_probe_size the maximum probe buffer size (zero for default)<br>
+     * @return 0 in case of success, a negative value corresponding to an<br>
+     * AVERROR code otherwise<br>
+     * Original signature : <code>int av_probe_input_buffer(AVIOContext*, AVInputFormat**, const char*, void*, unsigned int, unsigned int)</code>
+     */
+    int av_probe_input_buffer(AVIOContext pb, AVInputFormat.ByReference fmt[], Pointer filename, Pointer logctx, int offset, int max_probe_size);
+    /**
+     * Open an input stream and read the header. The codecs are not opened.<br>
+     * The stream must be closed with av_close_input_file().<br>
+     * * @param ps Pointer to user-supplied AVFormatContext (allocated by avformat_alloc_context).<br>
+     *           May be a pointer to NULL, in which case an AVFormatContext is allocated by this<br>
+     *           function and written into ps.<br>
+     *           Note that a user-supplied AVFormatContext will be freed on failure.<br>
+     * @param filename Name of the stream to open.<br>
+     * @param fmt If non-NULL, this parameter forces a specific input format.<br>
+     *            Otherwise the format is autodetected.<br>
+     * @param options  A dictionary filled with AVFormatContext and demuxer-private options.<br>
+     *                 On return this parameter will be destroyed and replaced with a dict containing<br>
+     *                 options that were not found. May be NULL.<br>
+     * * @return 0 on success, a negative AVERROR on failure.<br>
+     * * @note If you want to use custom IO, preallocate the format context and set its pb field.<br>
+     * Original signature : <code>int avformat_open_input(AVFormatContext**, const char*, AVInputFormat*, AVDictionary**)</code><br>
+     * @deprecated use the safer methods {@link #avformat_open_input(org.javaavc.ffmpeg.avformat.AVFormatContext.ByReference[], java.lang.String, org.javaavc.ffmpeg.avformat.AVInputFormat, com.sun.jna.ptr.PointerByReference)} and {@link #avformat_open_input(org.javaavc.ffmpeg.avformat.AVFormatContext.ByReference[], com.sun.jna.Pointer, org.javaavc.ffmpeg.avformat.AVInputFormat, com.sun.jna.ptr.PointerByReference)} instead
+     */
+    @Deprecated
+    int avformat_open_input(PointerByReference ps, Pointer filename, AVInputFormat fmt, PointerByReference options);
+    /**
+     * Open an input stream and read the header. The codecs are not opened.<br>
+     * The stream must be closed with av_close_input_file().<br>
+     * * @param ps Pointer to user-supplied AVFormatContext (allocated by avformat_alloc_context).<br>
+     *           May be a pointer to NULL, in which case an AVFormatContext is allocated by this<br>
+     *           function and written into ps.<br>
+     *           Note that a user-supplied AVFormatContext will be freed on failure.<br>
+     * @param filename Name of the stream to open.<br>
+     * @param fmt If non-NULL, this parameter forces a specific input format.<br>
+     *            Otherwise the format is autodetected.<br>
+     * @param options  A dictionary filled with AVFormatContext and demuxer-private options.<br>
+     *                 On return this parameter will be destroyed and replaced with a dict containing<br>
+     *                 options that were not found. May be NULL.<br>
+     * * @return 0 on success, a negative AVERROR on failure.<br>
+     * * @note If you want to use custom IO, preallocate the format context and set its pb field.<br>
+     * Original signature : <code>int avformat_open_input(AVFormatContext**, const char*, AVInputFormat*, AVDictionary**)</code>
+     */
+    int avformat_open_input(AVFormatContext.ByReference ps[], String filename, AVInputFormat fmt, PointerByReference options);
+    /**
+     * Open an input stream and read the header. The codecs are not opened.<br>
+     * The stream must be closed with av_close_input_file().<br>
+     * * @param ps Pointer to user-supplied AVFormatContext (allocated by avformat_alloc_context).<br>
+     *           May be a pointer to NULL, in which case an AVFormatContext is allocated by this<br>
+     *           function and written into ps.<br>
+     *           Note that a user-supplied AVFormatContext will be freed on failure.<br>
+     * @param filename Name of the stream to open.<br>
+     * @param fmt If non-NULL, this parameter forces a specific input format.<br>
+     *            Otherwise the format is autodetected.<br>
+     * @param options  A dictionary filled with AVFormatContext and demuxer-private options.<br>
+     *                 On return this parameter will be destroyed and replaced with a dict containing<br>
+     *                 options that were not found. May be NULL.<br>
+     * * @return 0 on success, a negative AVERROR on failure.<br>
+     * * @note If you want to use custom IO, preallocate the format context and set its pb field.<br>
+     * Original signature : <code>int avformat_open_input(AVFormatContext**, const char*, AVInputFormat*, AVDictionary**)</code>
+     */
+    int avformat_open_input(AVFormatContext.ByReference ps[], Pointer filename, AVInputFormat fmt, PointerByReference options);
+    /** Original signature : <code>int av_demuxer_open(AVFormatContext*)</code> */
+    int av_demuxer_open(AVFormatContext ic);
+    /** Original signature : <code>int av_find_stream_info(AVFormatContext*)</code> */
+    int av_find_stream_info(AVFormatContext ic);
+    /**
+     * Read packets of a media file to get stream information. This<br>
+     * is useful for file formats with no headers such as MPEG. This<br>
+     * function also computes the real framerate in case of MPEG-2 repeat<br>
+     * frame mode.<br>
+     * The logical file position is not changed by this function;<br>
+     * examined packets may be buffered for later processing.<br>
+     * * @param ic media file handle<br>
+     * @param options  If non-NULL, an ic.nb_streams long array of pointers to<br>
+     *                 dictionaries, where i-th member contains options for<br>
+     *                 codec corresponding to i-th stream.<br>
+     *                 On return each dictionary will be filled with options that were not found.<br>
+     * @return >=0 if OK, AVERROR_xxx on error<br>
+     * * @note this function isn't guaranteed to open all the codecs, so<br>
+     *       options being non-empty at return is a perfectly normal behavior.<br>
+     * * @todo Let the user decide somehow what information is needed so that<br>
+     *       we do not waste time getting stuff the user does not need.<br>
+     * Original signature : <code>int avformat_find_stream_info(AVFormatContext*, AVDictionary**)</code>
+     */
+    int avformat_find_stream_info(AVFormatContext ic, PointerByReference options);
+    /**
+     * Find the programs which belong to a given stream.<br>
+     * * @param ic    media file handle<br>
+     * @param last  the last found program, the search will start after this<br>
+     *              program, or from the beginning if it is NULL<br>
+     * @param s     stream index<br>
+     * @return the next program which belongs to s, NULL if no program is found or<br>
+     *         the last program is not among the programs of ic.<br>
+     * Original signature : <code>AVProgram* av_find_program_from_stream(AVFormatContext*, AVProgram*, int)</code>
+     */
+    AVProgram av_find_program_from_stream(AVFormatContext ic, AVProgram last, int s);
+    /**
+     * Find the "best" stream in the file.<br>
+     * The best stream is determined according to various heuristics as the most<br>
+     * likely to be what the user expects.<br>
+     * If the decoder parameter is non-NULL, av_find_best_stream will find the<br>
+     * default decoder for the stream's codec; streams for which no decoder can<br>
+     * be found are ignored.<br>
+     * * @param ic                media file handle<br>
+     * @param type              stream type: video, audio, subtitles, etc.<br>
+     * @param wanted_stream_nb  user-requested stream number,<br>
+     *                          or -1 for automatic selection<br>
+     * @param related_stream    try to find a stream related (eg. in the same<br>
+     *                          program) to this one, or -1 if none<br>
+     * @param decoder_ret       if non-NULL, returns the decoder for the<br>
+     *                          selected stream<br>
+     * @param flags             flags; none are currently defined<br>
+     * @return  the non-negative stream number in case of success,<br>
+     *          AVERROR_STREAM_NOT_FOUND if no stream with the requested type<br>
+     *          could be found,<br>
+     *          AVERROR_DECODER_NOT_FOUND if streams were found but no decoder<br>
+     * @note  If av_find_best_stream returns successfully and decoder_ret is not<br>
+     *        NULL, then *decoder_ret is guaranteed to be set to a valid AVCodec.<br>
+     * Original signature : <code>int av_find_best_stream(AVFormatContext*, AVMediaType, int, int, AVCodec**, int)</code><br>
+     * @deprecated use the safer method {@link #av_find_best_stream(org.javaavc.ffmpeg.avformat.AVFormatContext, int, int, int, org.javaavc.ffmpeg.avformat.AVCodec.ByReference[], int)} instead
+     */
+    @Deprecated
+    int av_find_best_stream(AVFormatContext ic, int type, int wanted_stream_nb, int related_stream, PointerByReference decoder_ret, int flags);
+    /**
+     * Find the "best" stream in the file.<br>
+     * The best stream is determined according to various heuristics as the most<br>
+     * likely to be what the user expects.<br>
+     * If the decoder parameter is non-NULL, av_find_best_stream will find the<br>
+     * default decoder for the stream's codec; streams for which no decoder can<br>
+     * be found are ignored.<br>
+     * * @param ic                media file handle<br>
+     * @param type              stream type: video, audio, subtitles, etc.<br>
+     * @param wanted_stream_nb  user-requested stream number,<br>
+     *                          or -1 for automatic selection<br>
+     * @param related_stream    try to find a stream related (eg. in the same<br>
+     *                          program) to this one, or -1 if none<br>
+     * @param decoder_ret       if non-NULL, returns the decoder for the<br>
+     *                          selected stream<br>
+     * @param flags             flags; none are currently defined<br>
+     * @return  the non-negative stream number in case of success,<br>
+     *          AVERROR_STREAM_NOT_FOUND if no stream with the requested type<br>
+     *          could be found,<br>
+     *          AVERROR_DECODER_NOT_FOUND if streams were found but no decoder<br>
+     * @note  If av_find_best_stream returns successfully and decoder_ret is not<br>
+     *        NULL, then *decoder_ret is guaranteed to be set to a valid AVCodec.<br>
+     * Original signature : <code>int av_find_best_stream(AVFormatContext*, AVMediaType, int, int, AVCodec**, int)</code>
+     */
+    int av_find_best_stream(AVFormatContext ic, int type, int wanted_stream_nb, int related_stream, AVCodec.ByReference decoder_ret[], int flags);
+    /** Original signature : <code>int av_read_packet(AVFormatContext*, AVPacket*)</code> */
+    int av_read_packet(AVFormatContext s, AVPacket pkt);
+    /**
+     * Return the next frame of a stream.<br>
+     * This function returns what is stored in the file, and does not validate<br>
+     * that what is there are valid frames for the decoder. It will split what is<br>
+     * stored in the file into frames and return one for each call. It will not<br>
+     * omit invalid data between valid frames so as to give the decoder the maximum<br>
+     * information possible for decoding.<br>
+     * * If pkt->buf is NULL, then the packet is valid until the next<br>
+     * av_read_frame() or until av_close_input_file(). Otherwise the packet is valid<br>
+     * indefinitely. In both cases the packet must be freed with<br>
+     * av_free_packet when it is no longer needed. For video, the packet contains<br>
+     * exactly one frame. For audio, it contains an integer number of frames if each<br>
+     * frame has a known fixed size (e.g. PCM or ADPCM data). If the audio frames<br>
+     * have a variable size (e.g. MPEG audio), then it contains one frame.<br>
+     * * pkt->pts, pkt->dts and pkt->duration are always set to correct<br>
+     * values in AVStream.time_base units (and guessed if the format cannot<br>
+     * provide them). pkt->pts can be AV_NOPTS_VALUE if the video format<br>
+     * has B-frames, so it is better to rely on pkt->dts if you do not<br>
+     * decompress the payload.<br>
+     * * @return 0 if OK, < 0 on error or end of file<br>
+     * Original signature : <code>int av_read_frame(AVFormatContext*, AVPacket*)</code>
+     */
+    int av_read_frame(AVFormatContext s, AVPacket pkt);
+    /**
+     * Seek to the keyframe at timestamp.<br>
+     * 'timestamp' in 'stream_index'.<br>
+     * @param stream_index If stream_index is (-1), a default<br>
+     * stream is selected, and timestamp is automatically converted<br>
+     * from AV_TIME_BASE units to the stream specific time_base.<br>
+     * @param timestamp Timestamp in AVStream.time_base units<br>
+     *        or, if no stream is specified, in AV_TIME_BASE units.<br>
+     * @param flags flags which select direction and seeking mode<br>
+     * @return >= 0 on success<br>
+     * Original signature : <code>int av_seek_frame(AVFormatContext*, int, int64_t, int)</code>
+     */
+    int av_seek_frame(AVFormatContext s, int stream_index, long timestamp, int flags);
+    /**
+     * Seek to timestamp ts.<br>
+     * Seeking will be done so that the point from which all active streams<br>
+     * can be presented successfully will be closest to ts and within min/max_ts.<br>
+     * Active streams are all streams that have AVStream.discard < AVDISCARD_ALL.<br>
+     * * If flags contain AVSEEK_FLAG_BYTE, then all timestamps are in bytes and<br>
+     * are the file position (this may not be supported by all demuxers).<br>
+     * If flags contain AVSEEK_FLAG_FRAME, then all timestamps are in frames<br>
+     * in the stream with stream_index (this may not be supported by all demuxers).<br>
+     * Otherwise all timestamps are in units of the stream selected by stream_index<br>
+     * or if stream_index is -1, in AV_TIME_BASE units.<br>
+     * If flags contain AVSEEK_FLAG_ANY, then non-keyframes are treated as<br>
+     * keyframes (this may not be supported by all demuxers).<br>
+     * If flags contain AVSEEK_FLAG_BACKWARD, it is ignored.<br>
+     * * @param stream_index index of the stream which is used as time base reference<br>
+     * @param min_ts smallest acceptable timestamp<br>
+     * @param ts target timestamp<br>
+     * @param max_ts largest acceptable timestamp<br>
+     * @param flags flags<br>
+     * @return >=0 on success, error code otherwise<br>
+     * * @note This is part of the new seek API which is still under construction.<br>
+     *       Thus do not use this yet. It may change at any time, do not expect<br>
+     *       ABI compatibility yet!<br>
+     * Original signature : <code>int avformat_seek_file(AVFormatContext*, int, int64_t, int64_t, int64_t, int)</code>
+     */
+    int avformat_seek_file(AVFormatContext s, int stream_index, long min_ts, long ts, long max_ts, int flags);
+    /**
+     * Start playing a network-based stream (e.g. RTSP stream) at the<br>
+     * current position.<br>
+     * Original signature : <code>int av_read_play(AVFormatContext*)</code>
+     */
+    int av_read_play(AVFormatContext s);
+    /**
+     * Pause a network-based stream (e.g. RTSP stream).<br>
+     * * Use av_read_play() to resume it.<br>
+     * Original signature : <code>int av_read_pause(AVFormatContext*)</code>
+     */
+    int av_read_pause(AVFormatContext s);
+    /** Original signature : <code>void av_close_input_file(AVFormatContext*)</code> */
+    void av_close_input_file(AVFormatContext s);
+    /**
+     * Close an opened input AVFormatContext. Free it and all its contents<br>
+     * and set *s to NULL.<br>
+     * Original signature : <code>void avformat_close_input(AVFormatContext**)</code><br>
+     * @deprecated use the safer method {@link #avformat_close_input(org.javaavc.ffmpeg.avformat.AVFormatContext.ByReference[])} instead
+     */
+    @Deprecated
+    void avformat_close_input(PointerByReference s);
+    /**
+     * Close an opened input AVFormatContext. Free it and all its contents<br>
+     * and set *s to NULL.<br>
+     * Original signature : <code>void avformat_close_input(AVFormatContext**)</code>
+     */
+    void avformat_close_input(AVFormatContext.ByReference s[]);
+    /** Original signature : <code>AVStream* av_new_stream(AVFormatContext*, int)</code> */
+    AVStream av_new_stream(AVFormatContext s, int id);
+    /** Original signature : <code>void av_set_pts_info(AVStream*, int, unsigned int, unsigned int)</code> */
+    void av_set_pts_info(AVStream s, int pts_wrap_bits, int pts_num, int pts_den);
+    /**
+     * Allocate the stream private data and write the stream header to<br>
+     * an output media file.<br>
+     * * @param s Media file handle, must be allocated with avformat_alloc_context().<br>
+     *          Its oformat field must be set to the desired output format;<br>
+     *          Its pb field must be set to an already opened AVIOContext.<br>
+     * @param options  An AVDictionary filled with AVFormatContext and muxer-private options.<br>
+     *                 On return this parameter will be destroyed and replaced with a dict containing<br>
+     *                 options that were not found. May be NULL.<br>
+     * * @return 0 on success, negative AVERROR on failure.<br>
+     * * @see av_opt_find, av_dict_set, avio_open, av_oformat_next.<br>
+     * Original signature : <code>int avformat_write_header(AVFormatContext*, AVDictionary**)</code>
+     */
+    int avformat_write_header(AVFormatContext s, PointerByReference options);
+    /**
+     * Write a packet to an output media file.<br>
+     * * The packet shall contain one audio or video frame.<br>
+     * The packet must be correctly interleaved according to the container<br>
+     * specification, if not then av_interleaved_write_frame must be used.<br>
+     * * @param s media file handle<br>
+     * @param pkt The packet, which contains the stream_index, buf/buf_size,<br>
+     *            dts/pts, ...<br>
+     *            This can be NULL (at any time, not just at the end), in<br>
+     *            order to immediately flush data buffered within the muxer,<br>
+     *            for muxers that buffer up data internally before writing it<br>
+     *            to the output.<br>
+     * @return < 0 on error, = 0 if OK, 1 if flushed and there is no more data to flush<br>
+     * Original signature : <code>int av_write_frame(AVFormatContext*, AVPacket*)</code>
+     */
+    int av_write_frame(AVFormatContext s, AVPacket pkt);
+    /**
+     * Write a packet to an output media file ensuring correct interleaving.<br>
+     * * The packet must contain one audio or video frame.<br>
+     * If the packets are already correctly interleaved, the application should<br>
+     * call av_write_frame() instead as it is slightly faster. It is also important<br>
+     * to keep in mind that completely non-interleaved input will need huge amounts<br>
+     * of memory to interleave with this, so it is preferable to interleave at the<br>
+     * demuxer level.<br>
+     * * @param s media file handle<br>
+     * @param pkt The packet containing the data to be written. pkt->buf must be set<br>
+     * to a valid AVBufferRef describing the packet data. Libavformat takes<br>
+     * ownership of this reference and will unref it when it sees fit. The caller<br>
+     * must not access the data through this reference after this function returns.<br>
+     * This can be NULL (at any time, not just at the end), to flush the<br>
+     * interleaving queues.<br>
+     * Packet's @ref AVPacket.stream_index "stream_index" field must be set to the<br>
+     * index of the corresponding stream in @ref AVFormatContext.streams<br>
+     * "s.streams".<br>
+     * It is very strongly recommended that timing information (@ref AVPacket.pts<br>
+     * "pts", @ref AVPacket.dts "dts" @ref AVPacket.duration "duration") is set to<br>
+     * correct values.<br>
+     * * @return 0 on success, a negative AVERROR on error.<br>
+     * Original signature : <code>int av_interleaved_write_frame(AVFormatContext*, AVPacket*)</code>
+     */
+    int av_interleaved_write_frame(AVFormatContext s, AVPacket pkt);
+    /**
+     * Write the stream trailer to an output media file and free the<br>
+     * file private data.<br>
+     * * May only be called after a successful call to avformat_write_header.<br>
+     * * @param s media file handle<br>
+     * @return 0 if OK, AVERROR_xxx on error<br>
+     * Original signature : <code>int av_write_trailer(AVFormatContext*)</code>
+     */
+    int av_write_trailer(AVFormatContext s);
+    /**
+     * Return the output format in the list of registered output formats<br>
+     * which best matches the provided parameters, or return NULL if<br>
+     * there is no match.<br>
+     * * @param short_name if non-NULL checks if short_name matches with the<br>
+     * names of the registered formats<br>
+     * @param filename if non-NULL checks if filename terminates with the<br>
+     * extensions of the registered formats<br>
+     * @param mime_type if non-NULL checks if mime_type matches with the<br>
+     * MIME type of the registered formats<br>
+     * Original signature : <code>AVOutputFormat* av_guess_format(const char*, const char*, const char*)</code><br>
+     * @deprecated use the safer methods {@link #av_guess_format(java.lang.String, java.lang.String, java.lang.String)} and {@link #av_guess_format(com.sun.jna.Pointer, com.sun.jna.Pointer, com.sun.jna.Pointer)} instead
+     */
+    @Deprecated
+    AVOutputFormat av_guess_format(Pointer short_name, Pointer filename, Pointer mime_type);
+    /**
+     * Return the output format in the list of registered output formats<br>
+     * which best matches the provided parameters, or return NULL if<br>
+     * there is no match.<br>
+     * * @param short_name if non-NULL checks if short_name matches with the<br>
+     * names of the registered formats<br>
+     * @param filename if non-NULL checks if filename terminates with the<br>
+     * extensions of the registered formats<br>
+     * @param mime_type if non-NULL checks if mime_type matches with the<br>
+     * MIME type of the registered formats<br>
+     * Original signature : <code>AVOutputFormat* av_guess_format(const char*, const char*, const char*)</code>
+     */
+    AVOutputFormat av_guess_format(String short_name, String filename, String mime_type);
+    /**
+     * Guess the codec ID based upon muxer and filename.<br>
+     * Original signature : <code>AVCodecID av_guess_codec(AVOutputFormat*, const char*, const char*, const char*, AVMediaType)</code><br>
+     * @deprecated use the safer methods {@link #av_guess_codec(org.javaavc.ffmpeg.avformat.AVOutputFormat, java.lang.String, java.lang.String, java.lang.String, int)} and {@link #av_guess_codec(org.javaavc.ffmpeg.avformat.AVOutputFormat, com.sun.jna.Pointer, com.sun.jna.Pointer, com.sun.jna.Pointer, int)} instead
+     */
+    @Deprecated
+    int av_guess_codec(AVOutputFormat fmt, Pointer short_name, Pointer filename, Pointer mime_type, int type);
+    /**
+     * Guess the codec ID based upon muxer and filename.<br>
+     * Original signature : <code>AVCodecID av_guess_codec(AVOutputFormat*, const char*, const char*, const char*, AVMediaType)</code>
+     */
+    int av_guess_codec(AVOutputFormat fmt, String short_name, String filename, String mime_type, int type);
+    /**
+     * Get timing information for the data currently output.<br>
+     * The exact meaning of "currently output" depends on the format.<br>
+     * It is mostly relevant for devices that have an internal buffer and/or<br>
+     * work in real time.<br>
+     * @param s          media file handle<br>
+     * @param stream     stream in the media file<br>
+     * @param[out] dts   DTS of the last packet output for the stream, in stream<br>
+     *                   time_base units<br>
+     * @param[out] wall  absolute time when that packet whas output,<br>
+     *                   in microsecond<br>
+     * @return  0 if OK, AVERROR(ENOSYS) if the format does not support it<br>
+     * Note: some formats or devices may not allow to measure dts and wall<br>
+     * atomically.<br>
+     * Original signature : <code>int av_get_output_timestamp(AVFormatContext*, int, int64_t*, int64_t*)</code><br>
+     * @deprecated use the safer methods {@link #av_get_output_timestamp(org.javaavc.ffmpeg.avformat.AVFormatContext, int, java.nio.LongBuffer, java.nio.LongBuffer)} and {@link #av_get_output_timestamp(org.javaavc.ffmpeg.avformat.AVFormatContext, int, com.sun.jna.ptr.LongByReference, com.sun.jna.ptr.LongByReference)} instead
+     */
+    @Deprecated
+    int av_get_output_timestamp(AVFormatContext s, int stream, LongByReference dts, LongByReference wall);
+    /**
+     * Get timing information for the data currently output.<br>
+     * The exact meaning of "currently output" depends on the format.<br>
+     * It is mostly relevant for devices that have an internal buffer and/or<br>
+     * work in real time.<br>
+     * @param s          media file handle<br>
+     * @param stream     stream in the media file<br>
+     * @param[out] dts   DTS of the last packet output for the stream, in stream<br>
+     *                   time_base units<br>
+     * @param[out] wall  absolute time when that packet whas output,<br>
+     *                   in microsecond<br>
+     * @return  0 if OK, AVERROR(ENOSYS) if the format does not support it<br>
+     * Note: some formats or devices may not allow to measure dts and wall<br>
+     * atomically.<br>
+     * Original signature : <code>int av_get_output_timestamp(AVFormatContext*, int, int64_t*, int64_t*)</code>
+     */
+    int av_get_output_timestamp(AVFormatContext s, int stream, LongBuffer dts, LongBuffer wall);
+    /**
+     * Send a nice hexadecimal dump of a buffer to the specified file stream.<br>
+     * * @param f The file stream pointer where the dump should be sent to.<br>
+     * @param buf buffer<br>
+     * @param size buffer size<br>
+     * * @see av_hex_dump_log, av_pkt_dump2, av_pkt_dump_log2<br>
+     * Original signature : <code>void av_hex_dump(FILE*, const uint8_t*, int)</code><br>
+     * @deprecated use the safer methods {@link #av_hex_dump(org.javaavc.ffmpeg.avformat.LibavformatLibrary.FILE, java.nio.ByteBuffer, int)} and {@link #av_hex_dump(org.javaavc.ffmpeg.avformat.LibavformatLibrary.FILE, com.sun.jna.Pointer, int)} instead
+     */
+    @Deprecated
+    void av_hex_dump(LibavformatLibrary.FILE f, Pointer buf, int size);
+    /**
+     * Send a nice hexadecimal dump of a buffer to the specified file stream.<br>
+     * * @param f The file stream pointer where the dump should be sent to.<br>
+     * @param buf buffer<br>
+     * @param size buffer size<br>
+     * * @see av_hex_dump_log, av_pkt_dump2, av_pkt_dump_log2<br>
+     * Original signature : <code>void av_hex_dump(FILE*, const uint8_t*, int)</code>
+     */
+    void av_hex_dump(LibavformatLibrary.FILE f, ByteBuffer buf, int size);
+    /**
+     * Send a nice hexadecimal dump of a buffer to the log.<br>
+     * * @param avcl A pointer to an arbitrary struct of which the first field is a<br>
+     * pointer to an AVClass struct.<br>
+     * @param level The importance level of the message, lower values signifying<br>
+     * higher importance.<br>
+     * @param buf buffer<br>
+     * @param size buffer size<br>
+     * * @see av_hex_dump, av_pkt_dump2, av_pkt_dump_log2<br>
+     * Original signature : <code>void av_hex_dump_log(void*, int, const uint8_t*, int)</code><br>
+     * @deprecated use the safer methods {@link #av_hex_dump_log(com.sun.jna.Pointer, int, java.nio.ByteBuffer, int)} and {@link #av_hex_dump_log(com.sun.jna.Pointer, int, com.sun.jna.Pointer, int)} instead
+     */
+    @Deprecated
+    void av_hex_dump_log(Pointer avcl, int level, Pointer buf, int size);
+    /**
+     * Send a nice hexadecimal dump of a buffer to the log.<br>
+     * * @param avcl A pointer to an arbitrary struct of which the first field is a<br>
+     * pointer to an AVClass struct.<br>
+     * @param level The importance level of the message, lower values signifying<br>
+     * higher importance.<br>
+     * @param buf buffer<br>
+     * @param size buffer size<br>
+     * * @see av_hex_dump, av_pkt_dump2, av_pkt_dump_log2<br>
+     * Original signature : <code>void av_hex_dump_log(void*, int, const uint8_t*, int)</code>
+     */
+    void av_hex_dump_log(Pointer avcl, int level, ByteBuffer buf, int size);
+    /**
+     * Send a nice dump of a packet to the specified file stream.<br>
+     * * @param f The file stream pointer where the dump should be sent to.<br>
+     * @param pkt packet to dump<br>
+     * @param dump_payload True if the payload must be displayed, too.<br>
+     * @param st AVStream that the packet belongs to<br>
+     * Original signature : <code>void av_pkt_dump2(FILE*, AVPacket*, int, AVStream*)</code>
+     */
+    void av_pkt_dump2(LibavformatLibrary.FILE f, AVPacket pkt, int dump_payload, AVStream st);
+    /**
+     * Send a nice dump of a packet to the log.<br>
+     * * @param avcl A pointer to an arbitrary struct of which the first field is a<br>
+     * pointer to an AVClass struct.<br>
+     * @param level The importance level of the message, lower values signifying<br>
+     * higher importance.<br>
+     * @param pkt packet to dump<br>
+     * @param dump_payload True if the payload must be displayed, too.<br>
+     * @param st AVStream that the packet belongs to<br>
+     * Original signature : <code>void av_pkt_dump_log2(void*, int, AVPacket*, int, AVStream*)</code>
+     */
+    void av_pkt_dump_log2(Pointer avcl, int level, AVPacket pkt, int dump_payload, AVStream st);
+    /**
+     * Get the AVCodecID for the given codec tag tag.<br>
+     * If no codec id is found returns AV_CODEC_ID_NONE.<br>
+     * * @param tags list of supported codec_id-codec_tag pairs, as stored<br>
+     * in AVInputFormat.codec_tag and AVOutputFormat.codec_tag<br>
+     * Original signature : <code>AVCodecID av_codec_get_id(const AVCodecTag**, unsigned int)</code><br>
+     * @deprecated use the safer method {@link #av_codec_get_id(org.javaavc.ffmpeg.avformat.LibavformatLibrary.AVCodecTag[], int)} instead
+     */
+    @Deprecated
+    int av_codec_get_id(PointerByReference tags, int tag);
+    /**
+     * Get the AVCodecID for the given codec tag tag.<br>
+     * If no codec id is found returns AV_CODEC_ID_NONE.<br>
+     * * @param tags list of supported codec_id-codec_tag pairs, as stored<br>
+     * in AVInputFormat.codec_tag and AVOutputFormat.codec_tag<br>
+     * Original signature : <code>AVCodecID av_codec_get_id(const AVCodecTag**, unsigned int)</code>
+     */
+    int av_codec_get_id(LibavformatLibrary.AVCodecTag tags[], int tag);
+    /**
+     * Get the codec tag for the given codec id id.<br>
+     * If no codec tag is found returns 0.<br>
+     * * @param tags list of supported codec_id-codec_tag pairs, as stored<br>
+     * in AVInputFormat.codec_tag and AVOutputFormat.codec_tag<br>
+     * Original signature : <code>int av_codec_get_tag(const AVCodecTag**, AVCodecID)</code><br>
+     * @deprecated use the safer method {@link #av_codec_get_tag(org.javaavc.ffmpeg.avformat.LibavformatLibrary.AVCodecTag[], int)} instead
+     */
+    @Deprecated
+    int av_codec_get_tag(PointerByReference tags, int id);
+    /**
+     * Get the codec tag for the given codec id id.<br>
+     * If no codec tag is found returns 0.<br>
+     * * @param tags list of supported codec_id-codec_tag pairs, as stored<br>
+     * in AVInputFormat.codec_tag and AVOutputFormat.codec_tag<br>
+     * Original signature : <code>int av_codec_get_tag(const AVCodecTag**, AVCodecID)</code>
+     */
+    int av_codec_get_tag(LibavformatLibrary.AVCodecTag tags[], int id);
+    /**
+     * Get the codec tag for the given codec id.<br>
+     * * @param tags list of supported codec_id - codec_tag pairs, as stored<br>
+     * in AVInputFormat.codec_tag and AVOutputFormat.codec_tag<br>
+     * @param id codec id that should be searched for in the list<br>
+     * @param tag A pointer to the found tag<br>
+     * @return 0 if id was not found in tags, > 0 if it was found<br>
+     * Original signature : <code>int av_codec_get_tag2(const AVCodecTag**, AVCodecID, unsigned int*)</code><br>
+     * @deprecated use the safer methods {@link #av_codec_get_tag2(org.javaavc.ffmpeg.avformat.LibavformatLibrary.AVCodecTag[], int, java.nio.IntBuffer)} and {@link #av_codec_get_tag2(org.javaavc.ffmpeg.avformat.LibavformatLibrary.AVCodecTag[], int, com.sun.jna.ptr.IntByReference)} instead
+     */
+    @Deprecated
+    int av_codec_get_tag2(PointerByReference tags, int id, IntByReference tag);
+    /**
+     * Get the codec tag for the given codec id.<br>
+     * * @param tags list of supported codec_id - codec_tag pairs, as stored<br>
+     * in AVInputFormat.codec_tag and AVOutputFormat.codec_tag<br>
+     * @param id codec id that should be searched for in the list<br>
+     * @param tag A pointer to the found tag<br>
+     * @return 0 if id was not found in tags, > 0 if it was found<br>
+     * Original signature : <code>int av_codec_get_tag2(const AVCodecTag**, AVCodecID, unsigned int*)</code>
+     */
+    int av_codec_get_tag2(LibavformatLibrary.AVCodecTag tags[], int id, IntBuffer tag);
+    /**
+     * Get the codec tag for the given codec id.<br>
+     * * @param tags list of supported codec_id - codec_tag pairs, as stored<br>
+     * in AVInputFormat.codec_tag and AVOutputFormat.codec_tag<br>
+     * @param id codec id that should be searched for in the list<br>
+     * @param tag A pointer to the found tag<br>
+     * @return 0 if id was not found in tags, > 0 if it was found<br>
+     * Original signature : <code>int av_codec_get_tag2(const AVCodecTag**, AVCodecID, unsigned int*)</code>
+     */
+    int av_codec_get_tag2(LibavformatLibrary.AVCodecTag tags[], int id, IntByReference tag);
+    /** Original signature : <code>int av_find_default_stream_index(AVFormatContext*)</code> */
+    int av_find_default_stream_index(AVFormatContext s);
+    /**
+     * Get the index for a specific timestamp.<br>
+     * @param flags if AVSEEK_FLAG_BACKWARD then the returned index will correspond<br>
+     *                 to the timestamp which is <= the requested one, if backward<br>
+     *                 is 0, then it will be >=<br>
+     *              if AVSEEK_FLAG_ANY seek to any frame, only keyframes otherwise<br>
+     * @return < 0 if no such timestamp could be found<br>
+     * Original signature : <code>int av_index_search_timestamp(AVStream*, int64_t, int)</code>
+     */
+    int av_index_search_timestamp(AVStream st, long timestamp, int flags);
+    /**
+     * Add an index entry into a sorted list. Update the entry if the list<br>
+     * already contains it.<br>
+     * * @param timestamp timestamp in the time base of the given stream<br>
+     * Original signature : <code>int av_add_index_entry(AVStream*, int64_t, int64_t, int, int, int)</code>
+     */
+    int av_add_index_entry(AVStream st, long pos, long timestamp, int size, int distance, int flags);
+    /**
+     * Split a URL string into components.<br>
+     * * The pointers to buffers for storing individual components may be null,<br>
+     * in order to ignore that component. Buffers for components not found are<br>
+     * set to empty strings. If the port is not found, it is set to a negative<br>
+     * value.<br>
+     * * @param proto the buffer for the protocol<br>
+     * @param proto_size the size of the proto buffer<br>
+     * @param authorization the buffer for the authorization<br>
+     * @param authorization_size the size of the authorization buffer<br>
+     * @param hostname the buffer for the host name<br>
+     * @param hostname_size the size of the hostname buffer<br>
+     * @param port_ptr a pointer to store the port number in<br>
+     * @param path the buffer for the path<br>
+     * @param path_size the size of the path buffer<br>
+     * @param url the URL to split<br>
+     * Original signature : <code>void av_url_split(char*, int, char*, int, char*, int, int*, char*, int, const char*)</code><br>
+     * @deprecated use the safer methods {@link #av_url_split(java.nio.ByteBuffer, int, java.nio.ByteBuffer, int, java.nio.ByteBuffer, int, java.nio.IntBuffer, java.nio.ByteBuffer, int, java.lang.String)} and {@link #av_url_split(com.sun.jna.Pointer, int, com.sun.jna.Pointer, int, com.sun.jna.Pointer, int, com.sun.jna.ptr.IntByReference, com.sun.jna.Pointer, int, com.sun.jna.Pointer)} instead
+     */
+    @Deprecated
+    void av_url_split(Pointer proto, int proto_size, Pointer authorization, int authorization_size, Pointer hostname, int hostname_size, IntByReference port_ptr, Pointer path, int path_size, Pointer url);
+    /**
+     * Split a URL string into components.<br>
+     * * The pointers to buffers for storing individual components may be null,<br>
+     * in order to ignore that component. Buffers for components not found are<br>
+     * set to empty strings. If the port is not found, it is set to a negative<br>
+     * value.<br>
+     * * @param proto the buffer for the protocol<br>
+     * @param proto_size the size of the proto buffer<br>
+     * @param authorization the buffer for the authorization<br>
+     * @param authorization_size the size of the authorization buffer<br>
+     * @param hostname the buffer for the host name<br>
+     * @param hostname_size the size of the hostname buffer<br>
+     * @param port_ptr a pointer to store the port number in<br>
+     * @param path the buffer for the path<br>
+     * @param path_size the size of the path buffer<br>
+     * @param url the URL to split<br>
+     * Original signature : <code>void av_url_split(char*, int, char*, int, char*, int, int*, char*, int, const char*)</code>
+     */
+    void av_url_split(ByteBuffer proto, int proto_size, ByteBuffer authorization, int authorization_size, ByteBuffer hostname, int hostname_size, IntBuffer port_ptr, ByteBuffer path, int path_size, String url);
+    /**
+     * Original signature : <code>void av_dump_format(AVFormatContext*, int, const char*, int)</code><br>
+     * @deprecated use the safer methods {@link #av_dump_format(org.javaavc.ffmpeg.avformat.AVFormatContext, int, java.lang.String, int)} and {@link #av_dump_format(org.javaavc.ffmpeg.avformat.AVFormatContext, int, com.sun.jna.Pointer, int)} instead
+     */
+    @Deprecated
+    void av_dump_format(AVFormatContext ic, int index, Pointer url, int is_output);
+    /** Original signature : <code>void av_dump_format(AVFormatContext*, int, const char*, int)</code> */
+    void av_dump_format(AVFormatContext ic, int index, String url, int is_output);
+    /**
+     * Return in 'buf' the path with '%d' replaced by a number.<br>
+     * * Also handles the '%0nd' format where 'n' is the total number<br>
+     * of digits and '%%'.<br>
+     * * @param buf destination buffer<br>
+     * @param buf_size destination buffer size<br>
+     * @param path numbered sequence string<br>
+     * @param number frame number<br>
+     * @return 0 if OK, -1 on format error<br>
+     * Original signature : <code>int av_get_frame_filename(char*, int, const char*, int)</code><br>
+     * @deprecated use the safer methods {@link #av_get_frame_filename(java.nio.ByteBuffer, int, java.lang.String, int)} and {@link #av_get_frame_filename(com.sun.jna.Pointer, int, com.sun.jna.Pointer, int)} instead
+     */
+    @Deprecated
+    int av_get_frame_filename(Pointer buf, int buf_size, Pointer path, int number);
+    /**
+     * Return in 'buf' the path with '%d' replaced by a number.<br>
+     * * Also handles the '%0nd' format where 'n' is the total number<br>
+     * of digits and '%%'.<br>
+     * * @param buf destination buffer<br>
+     * @param buf_size destination buffer size<br>
+     * @param path numbered sequence string<br>
+     * @param number frame number<br>
+     * @return 0 if OK, -1 on format error<br>
+     * Original signature : <code>int av_get_frame_filename(char*, int, const char*, int)</code>
+     */
+    int av_get_frame_filename(ByteBuffer buf, int buf_size, String path, int number);
+    /**
+     * Check whether filename actually is a numbered sequence generator.<br>
+     * * @param filename possible numbered sequence string<br>
+     * @return 1 if a valid numbered sequence string, 0 otherwise<br>
+     * Original signature : <code>int av_filename_number_test(const char*)</code><br>
+     * @deprecated use the safer methods {@link #av_filename_number_test(java.lang.String)} and {@link #av_filename_number_test(com.sun.jna.Pointer)} instead
+     */
+    @Deprecated
+    int av_filename_number_test(Pointer filename);
+    /**
+     * Check whether filename actually is a numbered sequence generator.<br>
+     * * @param filename possible numbered sequence string<br>
+     * @return 1 if a valid numbered sequence string, 0 otherwise<br>
+     * Original signature : <code>int av_filename_number_test(const char*)</code>
+     */
+    int av_filename_number_test(String filename);
+    /**
+     * Generate an SDP for an RTP session.<br>
+     * * Note, this overwrites the id values of AVStreams in the muxer contexts<br>
+     * for getting unique dynamic payload types.<br>
+     * * @param ac array of AVFormatContexts describing the RTP streams. If the<br>
+     *           array is composed by only one context, such context can contain<br>
+     *           multiple AVStreams (one AVStream per RTP stream). Otherwise,<br>
+     *           all the contexts in the array (an AVCodecContext per RTP stream)<br>
+     *           must contain only one AVStream.<br>
+     * @param n_files number of AVCodecContexts contained in ac<br>
+     * @param buf buffer where the SDP will be stored (must be allocated by<br>
+     *            the caller)<br>
+     * @param size the size of the buffer<br>
+     * @return 0 if OK, AVERROR_xxx on error<br>
+     * Original signature : <code>int av_sdp_create(AVFormatContext*[], int, char*, int)</code><br>
+     * @deprecated use the safer methods {@link #av_sdp_create(org.javaavc.ffmpeg.avformat.AVFormatContext.ByReference[], int, java.nio.ByteBuffer, int)} and {@link #av_sdp_create(org.javaavc.ffmpeg.avformat.AVFormatContext.ByReference[], int, com.sun.jna.Pointer, int)} instead
+     */
+    @Deprecated
+    int av_sdp_create(PointerByReference ac, int n_files, Pointer buf, int size);
+    /**
+     * Generate an SDP for an RTP session.<br>
+     * * Note, this overwrites the id values of AVStreams in the muxer contexts<br>
+     * for getting unique dynamic payload types.<br>
+     * * @param ac array of AVFormatContexts describing the RTP streams. If the<br>
+     *           array is composed by only one context, such context can contain<br>
+     *           multiple AVStreams (one AVStream per RTP stream). Otherwise,<br>
+     *           all the contexts in the array (an AVCodecContext per RTP stream)<br>
+     *           must contain only one AVStream.<br>
+     * @param n_files number of AVCodecContexts contained in ac<br>
+     * @param buf buffer where the SDP will be stored (must be allocated by<br>
+     *            the caller)<br>
+     * @param size the size of the buffer<br>
+     * @return 0 if OK, AVERROR_xxx on error<br>
+     * Original signature : <code>int av_sdp_create(AVFormatContext*[], int, char*, int)</code>
+     */
+    int av_sdp_create(AVFormatContext.ByReference ac[], int n_files, ByteBuffer buf, int size);
+    /**
+     * Generate an SDP for an RTP session.<br>
+     * * Note, this overwrites the id values of AVStreams in the muxer contexts<br>
+     * for getting unique dynamic payload types.<br>
+     * * @param ac array of AVFormatContexts describing the RTP streams. If the<br>
+     *           array is composed by only one context, such context can contain<br>
+     *           multiple AVStreams (one AVStream per RTP stream). Otherwise,<br>
+     *           all the contexts in the array (an AVCodecContext per RTP stream)<br>
+     *           must contain only one AVStream.<br>
+     * @param n_files number of AVCodecContexts contained in ac<br>
+     * @param buf buffer where the SDP will be stored (must be allocated by<br>
+     *            the caller)<br>
+     * @param size the size of the buffer<br>
+     * @return 0 if OK, AVERROR_xxx on error<br>
+     * Original signature : <code>int av_sdp_create(AVFormatContext*[], int, char*, int)</code>
+     */
+    int av_sdp_create(AVFormatContext.ByReference ac[], int n_files, Pointer buf, int size);
+    /**
+     * Return a positive value if the given filename has one of the given<br>
+     * extensions, 0 otherwise.<br>
+     * * @param extensions a comma-separated list of filename extensions<br>
+     * Original signature : <code>int av_match_ext(const char*, const char*)</code><br>
+     * @deprecated use the safer methods {@link #av_match_ext(java.lang.String, java.lang.String)} and {@link #av_match_ext(com.sun.jna.Pointer, com.sun.jna.Pointer)} instead
+     */
+    @Deprecated
+    int av_match_ext(Pointer filename, Pointer extensions);
+    /**
+     * Return a positive value if the given filename has one of the given<br>
+     * extensions, 0 otherwise.<br>
+     * * @param extensions a comma-separated list of filename extensions<br>
+     * Original signature : <code>int av_match_ext(const char*, const char*)</code>
+     */
+    int av_match_ext(String filename, String extensions);
+    /**
+     * Test if the given container can store a codec.<br>
+     * * @param std_compliance standards compliance level, one of FF_COMPLIANCE_*<br>
+     * * @return 1 if codec with ID codec_id can be stored in ofmt, 0 if it cannot.<br>
+     *         A negative number if this information is not available.<br>
+     * Original signature : <code>int avformat_query_codec(AVOutputFormat*, AVCodecID, int)</code>
+     */
+    int avformat_query_codec(AVOutputFormat ofmt, int codec_id, int std_compliance);
+    /**
+     * @return the table mapping RIFF FourCCs for video to libavcodec AVCodecID.<br>
+     * Original signature : <code>AVCodecTag* avformat_get_riff_video_tags()</code>
+     */
+    LibavformatLibrary.AVCodecTag avformat_get_riff_video_tags();
+    /**
+     * @return the table mapping RIFF FourCCs for audio to AVCodecID.<br>
+     * Original signature : <code>AVCodecTag* avformat_get_riff_audio_tags()</code>
+     */
+    LibavformatLibrary.AVCodecTag avformat_get_riff_audio_tags();
+    /**
+     * Guess the sample aspect ratio of a frame, based on both the stream and the<br>
+     * frame aspect ratio.<br>
+     * * Since the frame aspect ratio is set by the codec but the stream aspect ratio<br>
+     * is set by the demuxer, these two may not be equal. This function tries to<br>
+     * return the value that you should use if you would like to display the frame.<br>
+     * * Basic logic is to use the stream aspect ratio if it is set to something sane<br>
+     * otherwise use the frame aspect ratio. This way a container setting, which is<br>
+     * usually easy to modify can override the coded value in the frames.<br>
+     * * @param format the format context which the stream is part of<br>
+     * @param stream the stream which the frame is part of<br>
+     * @param frame the frame with the aspect ratio to be determined<br>
+     * @return the guessed (valid) sample_aspect_ratio, 0/1 if no idea<br>
+     * Original signature : <code>AVRational av_guess_sample_aspect_ratio(AVFormatContext*, AVStream*, AVFrame*)</code>
+     */
+    AVRational.ByValue av_guess_sample_aspect_ratio(AVFormatContext format, AVStream stream, AVFrame frame);
+    /**
+     * Guess the frame rate, based on both the container and codec information.<br>
+     * * @param ctx the format context which the stream is part of<br>
+     * @param stream the stream which the frame is part of<br>
+     * @param frame the frame for which the frame rate should be determined, may be NULL<br>
+     * @return the guessed (valid) frame rate, 0/1 if no idea<br>
+     * Original signature : <code>AVRational av_guess_frame_rate(AVFormatContext*, AVStream*, AVFrame*)</code>
+     */
+    AVRational.ByValue av_guess_frame_rate(AVFormatContext ctx, AVStream stream, AVFrame frame);
+    /**
+     * Check if the stream st contained in s is matched by the stream specifier<br>
+     * spec.<br>
+     * * See the "stream specifiers" chapter in the documentation for the syntax<br>
+     * of spec.<br>
+     * * @return  >0 if st is matched by spec;<br>
+     *          0  if st is not matched by spec;<br>
+     *          AVERROR code if spec is invalid<br>
+     * * @note  A stream specifier can match several streams in the format.<br>
+     * Original signature : <code>int avformat_match_stream_specifier(AVFormatContext*, AVStream*, const char*)</code><br>
+     * @deprecated use the safer methods {@link #avformat_match_stream_specifier(org.javaavc.ffmpeg.avformat.AVFormatContext, org.javaavc.ffmpeg.avformat.AVStream, java.lang.String)} and {@link #avformat_match_stream_specifier(org.javaavc.ffmpeg.avformat.AVFormatContext, org.javaavc.ffmpeg.avformat.AVStream, com.sun.jna.Pointer)} instead
+     */
+    @Deprecated
+    int avformat_match_stream_specifier(AVFormatContext s, AVStream st, Pointer spec);
+    /**
+     * Check if the stream st contained in s is matched by the stream specifier<br>
+     * spec.<br>
+     * * See the "stream specifiers" chapter in the documentation for the syntax<br>
+     * of spec.<br>
+     * * @return  >0 if st is matched by spec;<br>
+     *          0  if st is not matched by spec;<br>
+     *          AVERROR code if spec is invalid<br>
+     * * @note  A stream specifier can match several streams in the format.<br>
+     * Original signature : <code>int avformat_match_stream_specifier(AVFormatContext*, AVStream*, const char*)</code>
+     */
+    int avformat_match_stream_specifier(AVFormatContext s, AVStream st, String spec);
+    /** Original signature : <code>int avformat_queue_attached_pictures(AVFormatContext*)</code> */
+    int avformat_queue_attached_pictures(AVFormatContext s);
+    public static class AVCodecTag extends PointerType {
+        public AVCodecTag(Pointer address) {
+            super(address);
+        }
+        public AVCodecTag() {
+            super();
+        }
+    };
+    public static class AVCodecInternal extends PointerType {
+        public AVCodecInternal(Pointer address) {
+            super(address);
+        }
+        public AVCodecInternal() {
+            super();
+        }
+    };
+    public static class AVCodecDefault extends PointerType {
+        public AVCodecDefault(Pointer address) {
+            super(address);
+        }
+        public AVCodecDefault() {
+            super();
+        }
+    };
+    public static class AVBuffer extends PointerType {
+        public AVBuffer(Pointer address) {
+            super(address);
+        }
+        public AVBuffer() {
+            super();
+        }
+    };
+    public static class AVBPrint extends PointerType {
+        public AVBPrint(Pointer address) {
+            super(address);
+        }
+        public AVBPrint() {
+            super();
+        }
+    };
+    public static class va_list extends PointerType {
+        public va_list(Pointer address) {
+            super(address);
+        }
+        public va_list() {
+            super();
+        }
+    };
+    public static class AVResampleContext extends PointerType {
+        public AVResampleContext(Pointer address) {
+            super(address);
+        }
+        public AVResampleContext() {
+            super();
+        }
+    };
+    public static class FILE extends PointerType {
+        public FILE(Pointer address) {
+            super(address);
+        }
+        public FILE() {
+            super();
+        }
+    };
+    public static class AVBufferPool extends PointerType {
+        public AVBufferPool(Pointer address) {
+            super(address);
+        }
+        public AVBufferPool() {
+            super();
+        }
+    };
+    public static class AVDictionary extends PointerType {
+        public AVDictionary(Pointer address) {
+            super(address);
+        }
+        public AVDictionary() {
+            super();
+        }
+    };
+    public static class AVOption extends PointerType {
+        public AVOption(Pointer address) {
+            super(address);
+        }
+        public AVOption() {
+            super();
+        }
+    };
+    public static class ReSampleContext extends PointerType {
+        public ReSampleContext(Pointer address) {
+            super(address);
+        }
+        public ReSampleContext() {
+            super();
+        }
+    };
 }
