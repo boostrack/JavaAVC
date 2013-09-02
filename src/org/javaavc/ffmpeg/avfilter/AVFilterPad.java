@@ -4,6 +4,7 @@ import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
 import java.util.Arrays;
 import java.util.List;
+import org.javaavc.ffmpeg.avfilter.LibavfilterLibrary.AVFrame;
 /**
  * A filter pad used for either input or output.<br>
  * * See doc/filter_design.txt for details on how to implement the methods.<br>

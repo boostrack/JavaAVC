@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import org.javaavc.ffmpeg.avfilter.LibavfilterLibrary.AVFilterChannelLayouts;
 import org.javaavc.ffmpeg.avfilter.LibavfilterLibrary.AVFilterPool;
+import org.javaavc.ffmpeg.avfilter.LibavfilterLibrary.AVFrame;
+import org.javaavc.ffmpeg.avfilter.LibavfilterLibrary.AVRational;
 /**
  * A link between two filters. This contains pointers to the source and<br>
  * destination filters between which this link exists, and the indexes of<br>
@@ -137,7 +139,7 @@ public class AVFilterLink extends Structure {
 	 * Buffer partially filled with samples to achieve a fixed/minimum size.<br>
 	 * C type : AVFrame*
 	 */
-	public org.javaavc.ffmpeg.avfilter.AVFrame.ByReference partial_buf;
+	public AVFrame partial_buf;
 	/**
 	 * Size of the partial buffer to allocate.<br>
 	 * Must be between min_samples and max_samples.

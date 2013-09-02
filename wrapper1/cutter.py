@@ -53,7 +53,7 @@ import re
 # If current variable is "True", only lines from root header file will be 
 # printed. Otherwise, will be prented all lines from all headers EXCEPT 
 # system headers!
-ONLY_ROOT = False
+ONLY_ROOT = True
 
 
 # Format of linemarkers.

@@ -5,6 +5,7 @@ import com.sun.jna.ptr.DoubleByReference;
 import com.sun.jna.ptr.PointerByReference;
 import java.util.Arrays;
 import java.util.List;
+import org.javaavc.ffmpeg.avfilter.LibavfilterLibrary.AVClass;
 import org.javaavc.ffmpeg.avfilter.LibavfilterLibrary.AVFilterCommand;
 /**
  * An instance of a filter<br>
@@ -17,7 +18,7 @@ public class AVFilterContext extends Structure {
 	 * < needed for av_log() and filters common options<br>
 	 * C type : const AVClass*
 	 */
-	public org.javaavc.ffmpeg.avfilter.AVClass.ByReference av_class;
+	public AVClass av_class;
 	/**
 	 * < the AVFilter of which this is an instance<br>
 	 * C type : const AVFilter*
