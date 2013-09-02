@@ -38,6 +38,28 @@ import com.sun.jna.Native;
 /**
  * The main class of wrapper.
  *
+ * <P>
+ * <H6>Links:</H6>
+ * <OL>
+ * <LI><A href="http://ffmpeg.org/">FFmpeg</A>.</LI>
+ * <LI><A href="http://www.ffmpeg.org/faq.html">FFmpeg FAQ</A>.</LI>
+ * <LI><A href="http://www.ffmpeg.org/general.html#Supported-File-Formats_002c-Codecs-or-Features">Supported File Formats,
+ *     Codecs or Features</A> -- FFmpeg Documentation.</LI>
+ * <LI><A href="http://ffmpeg.gusari.org/">FFmpeg Support Forum</A>.</LI>
+ * <LI><A href="http://ffmpeg.zeranoe.com/">Zeranoe FFmpeg</A>.</LI>
+ * <LI><A href="http://trac.ffmpeg.org/wiki">Official FFmpeg Wiki</A>.</LI>
+ * <LI><A href="http://www.ffmpeg.org/doxygen/2.0/index.html">FFmpeg 2.0 API Doxygen</A>.</LI>
+ * <LI><A href="http://www.ffmpeg.org/doxygen/2.0/examples.html">FFmpeg 2.0 Examples</A>.</LI>
+ * <LI><A href="http://dranger.com/ffmpeg/">An FFmpeg and SDL Tutorial</A> by Stephen Dranger, explains how to write a video
+ *     player based on FFmpeg (<A href="https://github.com/chelyaev/ffmpeg-tutorial">updated source code</A>).</LI>
+ * <LI><A href="http://ffmpeg.tv/">FFmpeg Basics</A> by Frantisek Korbel, describes various FFmpeg features and common tasks.</LI>
+ *
+ * <LI><A href="http://wiki.multimedia.cx/index.php?title=FFmpeg_codec_HOWTO">FFmpeg Codec HOWTO</A> -- MultimediaWiki.</LI>
+ * <LI><A href="http://wiki.multimedia.cx/index.php?title=FFmpeg_filter_HOWTO">FFmpeg Filter HOWTO</A> -- MultimediaWiki.</LI>
+ * <LI><A href="http://wiki.multimedia.cx/index.php?title=FFmpeg_technical">FFmpeg Technical</A> -- MultimediaWiki.</LI>
+ * </OL>
+ * </P>
+ *
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class JavaAVC {

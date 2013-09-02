@@ -266,20 +266,6 @@ char av_get_picture_type_char(enum AVPictureType pict_type);
  * @}
  */
 
-// --------------------------------[ include/libavutil/common.h ]--------------------------------
-// --------------------------------[ include/libavutil/attributes.h ]--------------------------------
-// ================================[ include/libavutil/attributes.h ]================================
-// --------------------------------[ include/libavutil/version.h ]--------------------------------
-// ================================[ include/libavutil/version.h ]================================
-// --------------------------------[ include/libavutil/avconfig.h ]--------------------------------
-// ================================[ include/libavutil/avconfig.h ]================================
-// --------------------------------[ include/libavutil/common.h ]--------------------------------
-// --------------------------------[ include/libavutil/mem.h ]--------------------------------
-// --------------------------------[ include/libavutil/attributes.h ]--------------------------------
-// ================================[ include/libavutil/attributes.h ]================================
-// --------------------------------[ include/libavutil/error.h ]--------------------------------
-// ================================[ include/libavutil/error.h ]================================
-// --------------------------------[ include/libavutil/avutil.h ]--------------------------------
 /*
  * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
  *
@@ -299,33 +285,6 @@ char av_get_picture_type_char(enum AVPictureType pict_type);
  * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
-// ================================[ include/libavutil/avutil.h ]================================
-// ================================[ include/libavutil/mem.h ]================================
-// ================================[ include/libavutil/common.h ]================================
-// --------------------------------[ include/libavutil/error.h ]--------------------------------
-// ================================[ include/libavutil/error.h ]================================
-// --------------------------------[ include/libavutil/version.h ]--------------------------------
-// ================================[ include/libavutil/version.h ]================================
-// --------------------------------[ include/libavutil/mathematics.h ]--------------------------------
-// --------------------------------[ include/libavutil/attributes.h ]--------------------------------
-// ================================[ include/libavutil/attributes.h ]================================
-// --------------------------------[ include/libavutil/rational.h ]--------------------------------
-// --------------------------------[ include/libavutil/attributes.h ]--------------------------------
-// ================================[ include/libavutil/attributes.h ]================================
-// ================================[ include/libavutil/rational.h ]================================
-// --------------------------------[ include/libavutil/intfloat.h ]--------------------------------
-// --------------------------------[ include/libavutil/attributes.h ]--------------------------------
-// ================================[ include/libavutil/attributes.h ]================================
-// ================================[ include/libavutil/intfloat.h ]================================
-// ================================[ include/libavutil/mathematics.h ]================================
-// --------------------------------[ include/libavutil/rational.h ]--------------------------------
-// ================================[ include/libavutil/rational.h ]================================
-// --------------------------------[ include/libavutil/intfloat_readwrite.h ]--------------------------------
-// --------------------------------[ include/libavutil/attributes.h ]--------------------------------
-// ================================[ include/libavutil/attributes.h ]================================
-// ================================[ include/libavutil/intfloat_readwrite.h ]================================
-// --------------------------------[ include/libavutil/log.h ]--------------------------------
-// --------------------------------[ include/libavutil/avutil.h ]--------------------------------
 /*
  * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
  *
@@ -345,18 +304,6 @@ char av_get_picture_type_char(enum AVPictureType pict_type);
  * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
-// ================================[ include/libavutil/avutil.h ]================================
-// --------------------------------[ include/libavutil/attributes.h ]--------------------------------
-// ================================[ include/libavutil/attributes.h ]================================
-// ================================[ include/libavutil/log.h ]================================
-// --------------------------------[ include/libavutil/pixfmt.h ]--------------------------------
-// --------------------------------[ include/libavutil/avconfig.h ]--------------------------------
-// ================================[ include/libavutil/avconfig.h ]================================
-// --------------------------------[ include/libavutil/version.h ]--------------------------------
-// ================================[ include/libavutil/version.h ]================================
-// --------------------------------[ include/libavutil/old_pix_fmts.h ]--------------------------------
-// ================================[ include/libavutil/old_pix_fmts.h ]================================
-// ================================[ include/libavutil/pixfmt.h ]================================
 
 /**
  * Return x default pointer in case p is NULL.

@@ -20,12 +20,9 @@ package org.javaavc.test.ffmpeg;
 
 import static org.junit.Assert.*;
 
-import java.io.File;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 import org.javaavc.ffmpeg.JavaAVC;
 import org.junit.Test;
@@ -40,7 +37,7 @@ public class JavaAvcTest {
      * Test method for {@link JavaAVC}.
      */
     @Test
-    public void test1() {
+    public void testInfo() {
         try {
             final JavaAVC avc = new JavaAVC();
             assertNotNull(avc);
@@ -88,46 +85,27 @@ public class JavaAvcTest {
         }
     }
 
-    private static File getFile(final String name) {
-        return new File("test" + File.separatorChar + name);
-    }
-
-    private static File getEmptyFile(final String name) {
-        final File f = getFile(name);
-        if (f.exists()) {
-            f.delete();
-        }
-        return f;
-    }
-
-    private static String loadFile(final String name) throws IOException {
-        final File f = getFile(name);
-        final StringBuilder sb = new StringBuilder();
-
-        if (f.exists()) {
-            for (String str : Files.readAllLines(Paths.get(f.getAbsolutePath()), StandardCharsets.UTF_8)) {
-                sb.append(str);
-            }
-        }
-
-        return sb.toString();
-    }
-
     @Test
-    public void test2() {
+    public void testCmdVersion() {
         try {
-            final String outFile = "out.txt";
-            final String errFile = "err.txt";
+            final ByteArrayOutputStream baosOut = new ByteArrayOutputStream();
+            final ByteArrayOutputStream baosErr = new ByteArrayOutputStream();
 
-            System.setOut(new PrintStream(getEmptyFile(outFile)));
-            System.setErr(new PrintStream(getEmptyFile(errFile)));
+            System.setOut(new PrintStream(baosOut));
+            System.setErr(new PrintStream(baosErr));
 
             JavaAVC.commandLineExecute(JavaAVC.BIN_FFMPEG, "-version");
 
-            assertTrue(loadFile(outFile).length() > "ffmpeg version".length());
-            assertTrue(loadFile(errFile).length() == 0);
+            assertTrue(baosOut.toString().length() > "ffmpeg version".length());
+            assertTrue(baosErr.toString().length() == 0);
         } catch (Exception e) {
             fail(e.getMessage());
         }
+    }
+
+    @Test
+    public void testCmdFormatsAndCodecs() {
+        JavaAVC.commandLineExecute(JavaAVC.BIN_FFMPEG, "-formats");
+        JavaAVC.commandLineExecute(JavaAVC.BIN_FFMPEG, "-codecs");
     }
 }

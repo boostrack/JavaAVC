@@ -42,7 +42,7 @@
 # http://gcc.gnu.org/onlinedocs/cpp/Preprocessor-Output.html
 # 
 # Author:   Zavodnikov Dmitriy (d.zavodnikov@gmail.com)
-# Version:  3.3.1
+# Version:  3.3.3
 # ==============================================================================
 
 import sys
@@ -80,7 +80,7 @@ endMark = "// " + end + "[ {0} ]" + end
 
 
 # Parse GCC linemarkers.
-# Return tuple: (linenum filename [flags])
+# Return tuple (linenum filename [flags]) if current line is linemark or None.
 def parse(line):
     res = lm.match(line)
     if res == None:
@@ -118,18 +118,20 @@ def cut(fileName, targetName):
                 out = res[1] == targetName
             else:
                 out = not(3 in res[2])
-            # Output header file markers.
+            # Process header file markers.
             if not(3 in res[2]):
                 if 1 in res[2]:
                     # Header file is started.
-                    print beginMark.format(res[1])
                     pHead.append(res[1])
-                if 2 in res[2]:
+                    line = beginMark.format(res[1])
+                elif 2 in res[2]:
                     # Header file is ended.
                     if len(pHead) > 0:
                         if pHead[-1] != res[1]:
-                            print endMark.format(pHead.pop())
-        # If current line is NOT linemarkers
+                            line = endMark.format(pHead.pop())
+                if not ONLY_ROOT:
+                    print line
+        # If current line is NOT linemarker.
         elif out:
             # Remove markers.
             if mk.match(line) != None:
