@@ -23,47 +23,24 @@
 # peoples and for tools.
 #
 # Author    Zavodnikov Dmitriy (d.zavodnikov@gmail.com)
-# Version   1.1.5
 #
 # ==============================================================================
 
+from optparse import OptionParser
 import sys
 import os
 import re
 
+
+VERSION="1.2.1"
+
+
 # Temporary file for preprocessing results.
 tmp_fname = "TMP.h"
 
-gcc_params = "gcc -E"
 
-# Do not predefine any system-specific or GCC-specific macros. The standard 
-# predefined macros remain defined. See Standard Predefined Macros: 
-# http://gcc.gnu.org/onlinedocs/cpp/Standard-Predefined-Macros.html#Standard-Predefined-Macros
-gcc_params += " -undef"
-
-# Turns on all optional warnings which are desirable for normal code. 
-# At present this is "-Wcomment", "-Wtrigraphs", "-Wmultichar" and a warning 
-# about integer promotion causing a change of sign in "#if" expressions. 
-# Note that many of the preprocessor's warnings are on by default and 
-# have no options to control them.
-gcc_params += " -Wall"
-
-# Include the predefined macros, and it outputs both the "#define" directives
-# and the result of preprocessing. Both kinds of output go to the standard
-# output file.
-gcc_params += " -dD"
-
-# Do not discard comments, including during macro expansion. This is like
-# "-C", except that comments contained within macros are also passed through
-# to the output file where the macro is expanded.
-#
-# In addition to the side-effects of the "-C" option, the "-CC" option causes
-# all C++-style comments inside a macro to be converted to C-style comments.
-# This is to prevent later use of that macro from inadvertently commenting
-# out the remainder of the source line.
-#
-# The "-CC" option is generally used to support lint comments. 
-gcc_params += " -CC"
+# Strings to remove.
+to_remove = [ "#define __STDC__ 1\n", "#define __STDC_HOSTED__ 1\n" ]
 
 
 # Call GCC to perform C Preprocessor.
@@ -71,30 +48,29 @@ gcc_params += " -CC"
 # Uses:
 #   source file name to define perprocessed header-file and
 #   result file name as output file.
-def perprocessor_execute(src_fname, res_fname):
-    print "Execute C Preprocessor..."
+def preproc(src_fname, res_fname, includes):
+    # See: http://gcc.gnu.org/onlinedocs/gcc/Preprocessor-Options.html
+    gcc_params = "gcc -E -undef -Wall -dD -CC"
+    gcc_params += "".join([" -I " + i for i in includes])
+    gcc_params += " -o {0}".format(res_fname)
+    gcc_params += " " + src_fname
     
-    params = gcc_params + " -o {0}".format(res_fname)
-    params = params + " " + src_fname
-    
-    print "    " + params
-    os.system(params)
-
-
-# Format of linemarkers: "# linenum filename [flags]".
-# See: http://gcc.gnu.org/onlinedocs/cpp/Preprocessor-Output.html
-lnum = "(\d+)"
-fname = "\"(.+)\""
-flags = "(( \d{1})*)"
-lmark = re.compile("^\s*# {0} {1}{2}\s*$".format(lnum, fname, flags))
+    print gcc_params
+    os.system(gcc_params)
 
 
 # Parse GCC linemarkers.
 #
 # Uses:
 #   source string and 
-#   return tuple (linenum filename [flags]) if current line is linemark or None.
-def lmark_parse(line):
+#   return tuple (fname, is_start, is_comeback, is_system, is_extern) if current line is linemark or None.
+def parse(line):
+    # See: http://gcc.gnu.org/onlinedocs/cpp/Preprocessor-Output.html
+    lnum = "(\d+)"
+    fname = "\"(.+)\""
+    flags = "(( \d{1})*)"
+    lmark = re.compile("^\s*# {0} {1}{2}\s*$".format(lnum, fname, flags))
+    
     res = lmark.match(line)
     if res == None:
         return None
@@ -106,26 +82,25 @@ def lmark_parse(line):
             if n != "":
                 flags += [int(n)]
     
-    return (int(res.group(1)), res.group(2), flags)
+    # See: http://gcc.gnu.org/onlinedocs/cpp/Preprocessor-Output.html
+    return (res.group(2), 1 in flags, 2 in flags, 3 in flags, 4 in flags)
 
 
 # Clean given file by linemarks.
 #
 # Uses:
 #   source file name to define perprocessed header-file, 
-#   root file name to define lines only from root header, 
 #   clean level number to define clean strategy: 
 #       0 -- nothing to cut;
 #       1 -- cut only system headers;
 #       2 -- cut everything except given root header-file;
-#   result file name as output file.
-def file_cleaning(src_fname, root_fname, clean_level, res_fname):
-    print "Clean C Preprocessor result file..."
-    
-    head = [ root_fname ]
+#   result output source.
+def clean(src_fname, clean_level, res_fname):
+    head   = [ src_fname ]
     system = [ False ]
     extern = [ False ]
     
+    level = [ True, True, True ]
     out = False
     
     # Input file.
@@ -134,66 +109,59 @@ def file_cleaning(src_fname, root_fname, clean_level, res_fname):
     except IOError:
         print "Problem on preprecessing step probably..."
         exit(0)
-    # Output file.
-    fout = open(res_fname, "w")
     
-    # Start processing.
+    # Outputi file.
+    fout = sys.stdout
+    if res_fname != None:
+        fout = open(res_fname, "w")
+    
+    # Start cleaning.
     line = fin.readline()
-    while line:
-        # Check if current line is linemarker.
-        res = lmark_parse(line)
+    for line in fin:
+        if line in to_remove:
+            continue
         
-        # If current line is linemarker.
-        if res != None:
-            # Start a new file.
-            if 1 in res[2]:
+        res = parse(line)
+        if res != None: # If current line is linemarker.
+            (hname, is_start, is_comeback, is_system, is_extern) = res
+            if is_start:
                 head.append(res[1])
-                
-                # System header file.
-                if 3 in res[2]:
-                    system.append(True)
-                else:
-                    system.append(False)
-                # Extern "C" block.
-                if 4 in res[2]:
-                    extern.append(True)
-                else:
-                    extern.append(False)
-            
-            # Return to file.
-            if 2 in res[2]:
+                system.append(is_system)
+                extern.append(is_extern)
+            if is_comeback:
                 head.pop()
                 system.pop()
                 extern.pop()
             
-            level = []
-            # Output everything except extern code.
-            level += [ not(extern[-1]) ]
-            # Output everything except system header.
-            level += [ level[0] and not(system[-1]) ]
-            # Output only root herader.
-            level += [ level[1] and (head[-1] == root_fname) ]
-            
-            # Next lines.
-            line = fin.readline()
-            continue
-        
-        # Output header file.
-        if level[clean_level]:
-            fout.write(line)
-        
-        line = fin.readline()
+            level[0] = not(extern[-1])                      # Output everything except extern code.
+            level[1] = level[0] and not(system[-1])         # Output everything except system header.
+            level[2] = level[1] and (head[-1] == src_fname) # Output only root herader.
+        elif level[clean_level]:
+            fout.write(line)    # Print to output source.
     
     fin.close()
     fout.close()
 
 
-if __name__ == "__main__":
-    if len(sys.argv) == 7 and sys.argv[1] == "-level" and sys.argv[3] == "-in" and sys.argv[5] == "-out":
-        print "Start program..."
-        perprocessor_execute(sys.argv[4], tmp_fname)
-        file_cleaning(tmp_fname, sys.argv[4], int(sys.argv[2]), sys.argv[6])
-        os.remove(tmp_fname)
+def main():
+    # See: http://docs.python.org/2/library/optparse.html
+    parser = OptionParser(version="%prog " + VERSION)
+    parser.add_option("-I", "--include", dest="include", action="append", 
+                        default=[], help="include directory for preprocessior")
+    parser.add_option("-l", "--level",   dest="level", 
+                        default="2", help="level of header-file cleaning")
+    parser.add_option("-o", "--output",  dest="output", 
+                        help="output file name (if not seleted console will be used)")
+    
+    (opts, args) = parser.parse_args()
+    if len(args) != 1 or not(int(opts.level) in [0, 1, 2]):
+        parser.error("incorrect number of arguments")
     else:
-        print "Usage:\n\n $ python {0} -level [0-2] -in file.h -out out.h\n".format(sys.argv[0])
+        preproc(args[0], tmp_fname, opts.include)
+        clean(tmp_fname, int(opts.level), opts.output)
+
+
+if __name__ == "__main__":
+    main()
+
 

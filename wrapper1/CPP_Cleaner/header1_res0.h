@@ -1,6 +1,3 @@
-#define __STDC__ 1
-#define __STDC_HOSTED__ 1
-#define unix 1
 // Begin header1.h.
 
 // Begin header2.h.
