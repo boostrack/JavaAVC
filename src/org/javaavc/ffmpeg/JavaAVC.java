@@ -75,6 +75,17 @@ public class JavaAVC {
     public static final String LIB_VER = Integer.toString(LIB_VER_MAJOR) + "." + Integer.toString(LIB_VER_MINOR) + "."
                     + Integer.toString(LIB_VER_PATCH);
 
+    public static final String NATIVE_NAME = LIB_NAME.toLowerCase();
+
+    public static final int NATIVE_VER_MAJOR = 2;
+
+    public static final int NATIVE_VER_MINOR = 0;
+
+    public static final int NATIVE_VER_PATCH = 1;
+
+    public static final String NATIVE_VER = Integer.toString(NATIVE_VER_MAJOR) + "." + Integer.toString(NATIVE_VER_MINOR) + "."
+                    + Integer.toString(NATIVE_VER_PATCH);
+
     public LibavutilLibrary avutil;
 
     public LibavcodecLibrary avcodec;
@@ -131,7 +142,7 @@ public class JavaAVC {
 
     private static File getNativeDir() throws IOException {
         if (nativeDir == null || !nativeDir.exists()) {
-            nativeDir = NativeUtils.unpackNative("javaavc");
+            nativeDir = NativeUtils.unpackNative(NATIVE_NAME + "-" + NATIVE_VER);
         }
         return nativeDir;
     }
@@ -183,7 +194,7 @@ public class JavaAVC {
      * @param command
      *            Command to execute.
      */
-    public static void commandLineExecute(final String bin, final String command) {
+    public static void commandLineExecute(final String bin, final String command, final boolean outputError) {
         /*
          * (non-Javadoc)
          * See:
@@ -203,15 +214,24 @@ public class JavaAVC {
             input.close();
 
             // Print error output.
-            final BufferedReader error = new BufferedReader(new InputStreamReader(run.getErrorStream()));
-            while ((line = error.readLine()) != null) {
-                System.err.println(line);
+            if (outputError) {
+                final BufferedReader error = new BufferedReader(new InputStreamReader(run.getErrorStream()));
+                while ((line = error.readLine()) != null) {
+                    System.err.println(line);
+                }
+                error.close();
             }
-            error.close();
 
             run.waitFor();
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
+    }
+
+    /**
+     * Same as {@link #commandLineExecute(String, String, boolean)}, but use <CODE>true</CODE> as output error values.
+     */
+    public static void commandLineExecute(final String bin, final String command) {
+        commandLineExecute(bin, command, true);
     }
 }
