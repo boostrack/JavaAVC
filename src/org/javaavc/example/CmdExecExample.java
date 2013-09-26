@@ -18,6 +18,8 @@
  */
 package org.javaavc.example;
 
+import java.io.IOException;
+
 import org.javaavc.ffmpeg.JavaAVC;
 
 /**
@@ -25,7 +27,8 @@ import org.javaavc.ffmpeg.JavaAVC;
  */
 public class CmdExecExample {
 
-    public static void main(String[] args) {
-        JavaAVC.commandLineExecute(JavaAVC.BIN_FFMPEG, "-version");
+    public static void main(String[] args) throws IOException {
+        final JavaAVC avc = JavaAVC.getInstance();
+        avc.commandLineExecute(JavaAVC.BIN_FFMPEG, "-version");
     }
 }

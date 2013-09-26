@@ -22,8 +22,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.List;
-import java.util.regex.Pattern;
 
 import org.javaavc.ffmpeg.avcodec.LibavcodecLibrary;
 import org.javaavc.ffmpeg.avdevice.LibavdeviceLibrary;
@@ -86,21 +84,23 @@ public class JavaAVC {
     public static final String NATIVE_VER = Integer.toString(NATIVE_VER_MAJOR) + "." + Integer.toString(NATIVE_VER_MINOR) + "."
                     + Integer.toString(NATIVE_VER_PATCH);
 
-    public LibavutilLibrary avutil;
+    private static volatile JavaAVC INSTANCE = null;
 
-    public LibavcodecLibrary avcodec;
+    public final LibavutilLibrary avutil;
 
-    public LibavformatLibrary avformat;
+    public final LibavcodecLibrary avcodec;
 
-    public LibswresampleLibrary swresample;
+    public final LibavformatLibrary avformat;
 
-    public LibswscaleLibrary swscale;
+    public final LibswresampleLibrary swresample;
 
-    public LibavfilterLibrary avfilter;
+    public final LibswscaleLibrary swscale;
 
-    public LibavdeviceLibrary avdevice;
+    public final LibavfilterLibrary avfilter;
 
-    private static File nativeDir;
+    public final LibavdeviceLibrary avdevice;
+
+    public final File nativeDir;
 
     /**
      * ffmpeg is a very fast video and audio converter that can also grab from a live audio/video source.
@@ -140,50 +140,45 @@ public class JavaAVC {
      */
     public static final String BIN_PROBE = "ffprobe";
 
-    private static File getNativeDir() throws IOException {
-        if (nativeDir == null || !nativeDir.exists()) {
-            nativeDir = NativeUtils.unpackNative(NATIVE_NAME + "-" + NATIVE_VER);
+    public static JavaAVC getInstance() throws IOException {
+        JavaAVC localInstance = INSTANCE;
+        if (localInstance == null) {
+            synchronized (JavaAVC.class) {
+                localInstance = INSTANCE;
+                if (localInstance == null) {
+                    INSTANCE = localInstance = new JavaAVC();
+                }
+            }
         }
-        return nativeDir;
-    }
-
-    private static File getFileByName(final String libName) throws IOException {
-        final List<File> files = NativeUtils.getFilesByNamePattern(getNativeDir(), Pattern.compile(".*" + libName + ".*"));
-        if (files.size() != 0) {
-            return files.get(0);
-        } else {
-            throw new RuntimeException("Can not find defined library into native directory!");
-        }
-    }
-
-    private static String getPathByName(final String libName) throws IOException {
-        return getFileByName(libName).getAbsolutePath();
+        return localInstance;
     }
 
     /**
      * Load FFmpeg libraries into wrapper.
      */
-    public JavaAVC() throws IOException {
+    private JavaAVC() throws IOException {
+        this.nativeDir = NativeHelper.unpackNativeLibrary(NATIVE_NAME + "-" + NATIVE_VER);
+
         // Load "avutil". Require: nothing.
-        this.avutil = (LibavutilLibrary) Native.loadLibrary(JavaAVC.getPathByName("avutil"), LibavutilLibrary.class);
+        this.avutil = (LibavutilLibrary) Native.loadLibrary("avutil", LibavutilLibrary.class);
 
         // Load "avcodec". Require: "avutil".
-        this.avcodec = (LibavcodecLibrary) Native.loadLibrary(JavaAVC.getPathByName("avcodec"), LibavcodecLibrary.class);
+        this.avcodec = (LibavcodecLibrary) Native.loadLibrary("avcodec", LibavcodecLibrary.class);
 
         // Load "avformat". Require: "avcodec".
-        this.avformat = (LibavformatLibrary) Native.loadLibrary(JavaAVC.getPathByName("avformat"), LibavformatLibrary.class);
+        this.avformat = (LibavformatLibrary) Native.loadLibrary("avformat", LibavformatLibrary.class);
 
         // Load "swresample". Require: "avutil".
-        this.swresample = (LibswresampleLibrary) Native.loadLibrary(JavaAVC.getPathByName("swresample"), LibswresampleLibrary.class);
+        this.swresample = (LibswresampleLibrary) Native.loadLibrary("swresample", LibswresampleLibrary.class);
 
         // Load "swscale". Require: "avutil".
-        this.swscale = (LibswscaleLibrary) Native.loadLibrary(JavaAVC.getPathByName("swscale"), LibswscaleLibrary.class);
+        this.swscale = (LibswscaleLibrary) Native.loadLibrary("swscale", LibswscaleLibrary.class);
 
         // Load "avfilter". Require: "swresample", "swscale", "avformat", "avcodec", "avutil".
-        this.avfilter = (LibavfilterLibrary) Native.loadLibrary(JavaAVC.getPathByName("avfilter"), LibavfilterLibrary.class);
+        this.avfilter = (LibavfilterLibrary) Native.loadLibrary("avfilter", LibavfilterLibrary.class);
 
         // Load "avdevice". Require: "avfilter", "avformat".
-        this.avdevice = (LibavdeviceLibrary) Native.loadLibrary(JavaAVC.getPathByName("avdevice"), LibavdeviceLibrary.class);
+        this.avdevice = (LibavdeviceLibrary) Native.loadLibrary("avdevice", LibavdeviceLibrary.class);
     }
 
     /**
@@ -194,7 +189,7 @@ public class JavaAVC {
      * @param command
      *            Command to execute.
      */
-    public static void commandLineExecute(final String bin, final String command, final boolean outputError) {
+    public void commandLineExecute(final String binName, final String command, final boolean outputError) {
         /*
          * (non-Javadoc)
          * See:
@@ -204,7 +199,8 @@ public class JavaAVC {
             String line;
 
             // Run FFmpeg.
-            final Process run = NativeUtils.runProcess(getFileByName(bin), command);
+            final File binFile = new File(this.nativeDir.getCanonicalPath() + File.separatorChar + binName);
+            final Process run = NativeHelper.getOS().getNativeProcess(binFile, command);
 
             // Print standard output.
             final BufferedReader input = new BufferedReader(new InputStreamReader(run.getInputStream()));
@@ -231,7 +227,7 @@ public class JavaAVC {
     /**
      * Same as {@link #commandLineExecute(String, String, boolean)}, but use <CODE>true</CODE> as output error values.
      */
-    public static void commandLineExecute(final String bin, final String command) {
-        commandLineExecute(bin, command, true);
+    public void commandLineExecute(final String binName, final String command) {
+        commandLineExecute(binName, command, true);
     }
 }

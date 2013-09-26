@@ -33,68 +33,71 @@ import org.junit.Test;
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class JavaAvcTest {
+
     /**
      * Test method for {@link JavaAVC}.
      */
     @Test
-    public void testInfo() {
-        try {
-            final JavaAVC avc = new JavaAVC();
-            assertNotNull(avc);
+    public void testInfo() throws IOException {
+        final JavaAVC avc = JavaAVC.getInstance();
+        assertNotNull(avc);
 
-            // AVCodec.
-            assertNotNull(avc.avcodec);
+        // AVCodec.
+        assertNotNull(avc.avcodec);
+        assertNotNull(avc.avcodec.avcodec_version());
+        assertNotNull(avc.avcodec.avcodec_license());
+        assertNotNull(avc.avcodec.avcodec_configuration());
 
-            // AVDevice.
-            assertNotNull(avc.avdevice);
-            assertNotNull(avc.avdevice.avdevice_version());
-            assertNotNull(avc.avdevice.avdevice_license());
-            assertNotNull(avc.avdevice.avdevice_configuration());
+        // AVDevice.
+        assertNotNull(avc.avdevice);
+        assertNotNull(avc.avdevice.avdevice_version());
+        assertNotNull(avc.avdevice.avdevice_license());
+        assertNotNull(avc.avdevice.avdevice_configuration());
 
-            // AVFilter.
-            assertNotNull(avc.avfilter);
-            assertNotNull(avc.avfilter.avfilter_version());
-            assertNotNull(avc.avfilter.avfilter_license());
-            assertNotNull(avc.avfilter.avfilter_configuration());
+        // AVFilter.
+        assertNotNull(avc.avfilter);
+        assertNotNull(avc.avfilter.avfilter_version());
+        assertNotNull(avc.avfilter.avfilter_license());
+        assertNotNull(avc.avfilter.avfilter_configuration());
 
-            // AVFormat.
-            assertNotNull(avc.avformat);
-            assertNotNull(avc.avformat.avformat_version());
-            assertNotNull(avc.avformat.avformat_license());
-            assertNotNull(avc.avformat.avformat_configuration());
+        // AVFormat.
+        assertNotNull(avc.avformat);
+        assertNotNull(avc.avformat.avformat_version());
+        assertNotNull(avc.avformat.avformat_license());
+        assertNotNull(avc.avformat.avformat_configuration());
 
-            // AVUtil.
-            assertNotNull(avc.avutil);
-            assertNotNull(avc.avutil.avutil_version());
-            assertNotNull(avc.avutil.avutil_license());
-            assertNotNull(avc.avutil.avutil_configuration());
+        // AVUtil.
+        assertNotNull(avc.avutil);
+        assertNotNull(avc.avutil.avutil_version());
+        assertNotNull(avc.avutil.avutil_license());
+        assertNotNull(avc.avutil.avutil_configuration());
 
-            // SWResample.
-            assertNotNull(avc.swresample);
-            assertNotNull(avc.swresample.swresample_version());
-            assertNotNull(avc.swresample.swresample_license());
-            assertNotNull(avc.swresample.swresample_configuration());
+        // SWResample.
+        assertNotNull(avc.swresample);
+        assertNotNull(avc.swresample.swresample_version());
+        assertNotNull(avc.swresample.swresample_license());
+        assertNotNull(avc.swresample.swresample_configuration());
 
-            // SWScale.
-            assertNotNull(avc.swscale);
-            assertNotNull(avc.swscale.swscale_version());
-            assertNotNull(avc.swscale.swscale_license());
-            assertNotNull(avc.swscale.swscale_configuration());
-        } catch (IOException e) {
-            fail(e.getMessage());
-        }
+        // SWScale.
+        assertNotNull(avc.swscale);
+        assertNotNull(avc.swscale.swscale_version());
+        assertNotNull(avc.swscale.swscale_license());
+        assertNotNull(avc.swscale.swscale_configuration());
     }
 
     @Test
     public void testCmdVersion() {
         try {
+            final JavaAVC avc = JavaAVC.getInstance();
+            assertNotNull(avc);
+
             final ByteArrayOutputStream baosOut = new ByteArrayOutputStream();
             final ByteArrayOutputStream baosErr = new ByteArrayOutputStream();
 
             System.setOut(new PrintStream(baosOut));
             System.setErr(new PrintStream(baosErr));
 
-            JavaAVC.commandLineExecute(JavaAVC.BIN_FFMPEG, "-version");
+            avc.commandLineExecute(JavaAVC.BIN_FFMPEG, "-version");
 
             assertTrue(baosOut.toString().length() > "ffmpeg version".length());
             assertTrue(baosErr.toString().length() == 0);
@@ -104,8 +107,9 @@ public class JavaAvcTest {
     }
 
     @Test
-    public void testCmdFormatsAndCodecs() {
-        JavaAVC.commandLineExecute(JavaAVC.BIN_FFMPEG, "-formats");
-        JavaAVC.commandLineExecute(JavaAVC.BIN_FFMPEG, "-codecs");
+    public void testCmdFormatsAndCodecs() throws IOException {
+        final JavaAVC avc = JavaAVC.getInstance();
+        avc.commandLineExecute(JavaAVC.BIN_FFMPEG, "-formats");
+        avc.commandLineExecute(JavaAVC.BIN_FFMPEG, "-codecs");
     }
 }
