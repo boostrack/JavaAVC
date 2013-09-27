@@ -43,7 +43,7 @@ import java.util.jar.JarInputStream;
  * </P>
  *
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
- * @version 5.1.2
+ * @version 5.2.1
  */
 public class NativeHelper {
 
@@ -507,10 +507,13 @@ public class NativeHelper {
             final OS os = getOS();
             for (File dir : getJnaPathFiles()) {
                 for (File f : dir.listFiles()) {
-                    if (f.getName().indexOf(os.getSharedLibExtension()) >= 0) {
-                        if (f.getName().indexOf(libName) >= 0) {
-                            result.add(f.getCanonicalFile());
-                        }
+                    final String fileName = f.getName();
+
+                    final int nameIdx = fileName.indexOf(libName);
+                    final int extIdx = fileName.indexOf(os.getSharedLibExtension());
+
+                    if (nameIdx >= 0 && extIdx >= 0 && nameIdx + fileName.length() > extIdx) {
+                        result.add(f.getCanonicalFile());
                     }
                 }
             }
