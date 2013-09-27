@@ -31,7 +31,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
-import java.util.regex.Pattern;
 
 /**
  * Contains useful methods to work with Java and native platform.
@@ -44,9 +43,30 @@ import java.util.regex.Pattern;
  * </P>
  *
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
- * @version 4.3.5
+ * @version 5.1.2
  */
 public class NativeHelper {
+
+    protected static final String PATH_SEPARATOR = "path.separator";
+
+    protected static final String JAVA_CLASS_PATH = "java.class.path";
+
+    protected static final String JAVA_LIBRARY_PATH = "java.library.path";
+
+    protected static final String JNA_LIBRARY_PATH = "jna.library.path";
+
+    protected static final String JAVA_HOME_DIR = "java.home";
+
+    protected static final String JAVA_TEMP_DIR = "java.io.tmpdir";
+
+    protected static final String JAVA_VENDOR_NAME = "java.vendor";
+
+    protected static final String JAVA_VENDOR_VERSION = "java.version";
+
+    protected static final String USER_WORK_DIR = "user.dir";
+
+    protected static final String USER_HOME_DIR = "user.home";
+
     /**
      * Check if property with defined key is exists.
      */
@@ -64,7 +84,6 @@ public class NativeHelper {
         } else {
             throw new IllegalArgumentException("Property '" + propertyName + "' is not exists!");
         }
-
     }
 
     /**
@@ -85,31 +104,34 @@ public class NativeHelper {
      * Return current path separator (":" on UNIX).
      */
     public static String getPathSeparator() {
-        return getSystemProperty("path.separator");
+        return getSystemProperty(PATH_SEPARATOR);
     }
 
     /**
      * Return list of files and directories of some path from system property.
      */
-    public static List<File> getPathFile(final String propertyName) {
-        final String[] paths = getSystemProperty(propertyName).split(getPathSeparator());
-
+    protected static List<File> getPathFiles(final String propertyName) {
         final Map<String, File> result = new HashMap<String, File>();
-        for (String s : paths) {
-            final File f = new File(s);
-            try {
-                result.put(f.getCanonicalPath(), f.getCanonicalFile());
-            } catch (IOException e) {
-                throw new RuntimeException(e.getMessage());
+
+        final String value = System.getProperty(propertyName);
+        if (value != null && !value.isEmpty()) {
+            for (String s : value.split(getPathSeparator())) {
+                final File f = new File(s);
+                try {
+                    result.put(f.getCanonicalPath(), f.getCanonicalFile());
+                } catch (IOException e) {
+                    throw new RuntimeException(e.getMessage());
+                }
             }
         }
+
         return new LinkedList<File>(result.values());
     }
 
     /**
      * Add new path to some path from system property.
      */
-    public static void addPathFile(final String propertyName, final File newPath) {
+    protected static void addPathFile(final String propertyName, final File newPath) {
         if (newPath == null) {
             return;
         }
@@ -117,7 +139,7 @@ public class NativeHelper {
         try {
             final String separator = getPathSeparator();
             final StringBuilder sb = new StringBuilder();
-            final List<File> pathFiles = getPathFile(propertyName);
+            final List<File> pathFiles = getPathFiles(propertyName);
             pathFiles.add(newPath);
             for (File f : pathFiles) {
                 sb.append(f.getCanonicalPath());
@@ -132,85 +154,86 @@ public class NativeHelper {
     /**
      * Return list of files and directories for Java class search (based on "java.class.path" system property).
      */
-    public static List<File> getJavaClassPathFile() {
-        return getPathFile("java.class.path");
+    public static List<File> getJavaClassPathFiles() {
+        return getPathFiles(JAVA_CLASS_PATH);
     }
 
     /**
      * Add new path to Java class search (based on "java.class.path" system property).
      */
     public static void addJavaClassPathFile(final File newClassPath) {
-        addPathFile("java.class.path", newClassPath);
+        addPathFile(JAVA_CLASS_PATH, newClassPath);
     }
 
     /**
      * Return list of directories for search Java classes (based on "java.library.path" system property).
      */
-    public static List<File> getJavaLibraryPathFile() {
-        return getPathFile("java.library.path");
+    public static List<File> getJavaLibraryPathFiles() {
+        return getPathFiles(JAVA_LIBRARY_PATH);
     }
 
     /**
      * Add new path to Java class search (based on "java.class.path" system property).
      */
     public static void addJavaLibraryPathFile(final File newClassPath) {
-        addPathFile("java.library.path", newClassPath);
+        addPathFile(JAVA_LIBRARY_PATH, newClassPath);
     }
 
     /**
      * Return list of directories for search JNA native code (based on "jna.library.path" system property).
      */
-    public static List<File> getJnaPathFile() {
-        return getPathFile("jna.library.path");
+    public static List<File> getJnaPathFiles() {
+        return getPathFiles(JNA_LIBRARY_PATH);
     }
 
     /**
-     * Add new path to  JNA native code search (based on "jna.library.path" system property).
+     * Add new path to JNA native code search (based on "jna.library.path" system property).
      */
     public static void addJnaPathFile(final File newClassPath) {
-        final String JNA_PROPERTY_KEY = "jna.library.path";
-        System.setProperty(JNA_PROPERTY_KEY, "aaa");
-        addPathFile(JNA_PROPERTY_KEY, newClassPath);
+        addPathFile(JNA_LIBRARY_PATH, newClassPath);
+    }
+
+    protected static File getFileProperty(final String propertyName) {
+        final String value = System.getProperty(propertyName);
+        if (value != null && !value.isEmpty()) {
+            final File f = new File(value);
+            try {
+                return f.getCanonicalFile();
+            } catch (IOException e) {
+                throw new RuntimeException(e.getMessage());
+            }
+        }
+
+        return null;
     }
 
     /**
      * Return installation directory file object for Java Runtime Environment (JRE).
      */
     public static File getJavaHomeFile() {
-        final File f = new File(getSystemProperty("java.home"));
-        if (f.exists() && f.isDirectory()) {
-            return f;
-        } else {
-            throw new RuntimeException("Can not access to java home directory!");
-        }
+        return getFileProperty(JAVA_HOME_DIR);
     }
 
     /**
      * Return file object for system temporary directory.
      */
     public static File getJavaTempDirectoryFile() {
-        final File f = new File(getSystemProperty("java.io.tmpdir"));
-        if (f.exists() && f.isDirectory()) {
-            return f;
-        } else {
-            throw new RuntimeException("Can not access to temporary directory!");
-        }
+        return getFileProperty(JAVA_TEMP_DIR);
     }
 
     /**
      * JRE vendor name.
      */
     public static String getJavaVendorName() {
-        return getSystemProperty("java.vendor");
+        return getSystemProperty(JAVA_VENDOR_NAME);
     }
 
     /**
      * JRE version number.
      */
     public static String getJavaVersion() {
-        return getSystemProperty("java.version");
+        return getSystemProperty(JAVA_VENDOR_VERSION);
     }
-
 
     /**
      * JRE architecture.
@@ -221,7 +244,7 @@ public class NativeHelper {
          * See:
          * * http://lopica.sourceforge.net/os.html
          */
-        final String name = getSystemProperty("os.arch");
+        final String name = getSystemProperty(Arch.NAME_SYSTEM_PROPPERTY);
 
         Arch arch = null;
 
@@ -251,7 +274,7 @@ public class NativeHelper {
          * See:
          * * http://lopica.sourceforge.net/os.html
          */
-        final String name = getSystemProperty("os.name");
+        final String name = getSystemProperty(OS.NAME_SYSTEM_PROPPERTY);
 
         OS os = null;
 
@@ -268,7 +291,7 @@ public class NativeHelper {
         }
 
         os.setName(name);
-        os.setVersion(getSystemProperty("os.version"));
+        os.setVersion(getSystemProperty(OS.VERSION_SYSTEM_PROPPERTY));
 
         return os;
     }
@@ -277,24 +300,14 @@ public class NativeHelper {
      * User working directory.
      */
     public static File getUserWorkingDirectoryFile() {
-        final File f = new File(getSystemProperty("user.dir"));
-        if (f.exists() && f.isDirectory()) {
-            return f;
-        } else {
-            throw new RuntimeException("Can not access to user working directory!");
-        }
+        return getFileProperty(USER_WORK_DIR);
     }
 
     /**
      * User home directory.
      */
     public static File getUserHomeDirectoryFile() {
-        final File f = new File(getSystemProperty("user.home"));
-        if (f.exists() && f.isDirectory()) {
-            return f;
-        } else {
-            throw new RuntimeException("Can not access to user home directory!");
-        }
+        return getFileProperty(USER_HOME_DIR);
     }
 
     public static String getNativeInfo() {
@@ -310,7 +323,7 @@ public class NativeHelper {
 
         sb.append("Java class paths:    ");
         sb.append("\n");
-        for (File f : getJavaClassPathFile()) {
+        for (File f : getJavaClassPathFiles()) {
             sb.append("    ");
             sb.append(f.getAbsolutePath());
             sb.append("\n");
@@ -318,7 +331,15 @@ public class NativeHelper {
 
         sb.append("Java library paths:  ");
         sb.append("\n");
-        for (File f : getJavaLibraryPathFile()) {
+        for (File f : getJavaLibraryPathFiles()) {
+            sb.append("    ");
+            sb.append(f.getAbsolutePath());
+            sb.append("\n");
+        }
+
+        sb.append("JNA paths:           ");
+        sb.append("\n");
+        for (File f : getJnaPathFiles()) {
             sb.append("    ");
             sb.append(f.getAbsolutePath());
             sb.append("\n");
@@ -395,7 +416,7 @@ public class NativeHelper {
             throw new IllegalArgumentException("JAR-file URL can not be null!");
         }
         if (outputDir == null || !outputDir.exists() || outputDir.isFile()) {
-            throw new IllegalArgumentException("Incorrect output directory!");
+            throw new IllegalArgumentException("Incorrect output directory '" + outputDir + "'!");
         }
 
         /*
@@ -455,7 +476,13 @@ public class NativeHelper {
          * See:
          *  * http://docs.oracle.com/javase/tutorial/deployment/jar/jarclassloader.html
          */
-        unpackJarToDir(Class.class.getResource("/" + nativeLibDirName), tempDirFile);
+        final String resName = "/" + nativeLibDirName;
+        final URL url = Class.class.getResource(resName);
+        if (url != null) {
+            unpackJarToDir(url, tempDirFile);
+        } else {
+            throw new IOException("Can not find JAR-file with resource '" + resName + "'!");
+        }
 
         final File newPathFile = new File(tempDirFile.getCanonicalPath() + File.separatorChar + nativeLibDirName);
         addJnaPathFile(newPathFile);
@@ -463,22 +490,37 @@ public class NativeHelper {
         return newPathFile;
     }
 
-    /**
-     * Return list of all files with name that matches on given pattern.
-     */
-    public static List<File> getFilesByNamePattern(File parentDir, Pattern fileNamePattern) {
-        if (parentDir == null || !parentDir.exists() || parentDir.isFile()) {
-            throw new IllegalArgumentException("");
-        }
-        if (fileNamePattern == null) {
-            throw new IllegalArgumentException("");
+    public static List<File> findSharedLibs(final String libName) throws IOException {
+        /*
+         * Check values.
+         */
+        if (libName == null || libName.isEmpty()) {
+            throw new IllegalArgumentException("Incorrect library name '" + libName + "'!");
         }
 
-        List<File> result = new LinkedList<File>();
-        for (File f : parentDir.listFiles()) {
-            if (f.isFile() && fileNamePattern.matcher(f.getName()).matches()) {
-                result.add(f);
+        /*
+         * Find results.
+         */
+        final List<File> result = new LinkedList<File>();
+
+        try {
+            final OS os = getOS();
+            for (File dir : getJnaPathFiles()) {
+                for (File f : dir.listFiles()) {
+                    if (f.getName().indexOf(os.getSharedLibExtension()) >= 0) {
+                        if (f.getName().indexOf(libName) >= 0) {
+                            result.add(f.getCanonicalFile());
+                        }
+                    }
+                }
             }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+
+        if (result.size() == 0) {
+            throw new IOException("Library '" + libName + "' in JNA library path!");
         }
 
         return result;
@@ -488,6 +530,8 @@ public class NativeHelper {
         x32("32", "i[2-6]{1}86"),
         x64("64", "amd64"),
         UnsuportedArch("unsupported_arch", ".*");
+
+        public static final String NAME_SYSTEM_PROPPERTY = "os.arch";
 
         private final String id;
 
@@ -508,19 +552,23 @@ public class NativeHelper {
             return this.namePattern;
         }
 
-        public void setName(final String name) {
-            this.name = name;
-        }
-
         public String getName() {
             return this.name;
+        }
+
+        public void setName(final String name) {
+            this.name = name;
         }
     }
 
     public enum OS {
-        Linux("linux", "Linux"),
-        Windows("win", "Windows.*"),
-        UnsuportedOS("unsupported_os", ".*");
+        Linux("linux", "Linux", "so"),
+        Windows("windows", "Windows.*", "dll"),
+        UnsuportedOS("unsupported_os", ".*", "");
+
+        public static final String NAME_SYSTEM_PROPPERTY = "os.name";
+
+        public static final String VERSION_SYSTEM_PROPPERTY = "os.version";
 
         private final String id;
 
@@ -530,9 +578,12 @@ public class NativeHelper {
 
         private String version;
 
-        private OS(final String id, final String namePattern) {
+        private final String sharedLibExtension;
+
+        private OS(final String id, final String namePattern, final String sharedLibExtension) {
             this.id = id;
             this.namePattern = namePattern;
+            this.sharedLibExtension = sharedLibExtension;
         }
 
         public String getId() {
@@ -543,20 +594,25 @@ public class NativeHelper {
             return this.namePattern;
         }
 
+
+        public String getName() {
+            return this.name;
+        }
+
         public void setName(final String name) {
             this.name = name;
         }
 
-        public String getName() {
-            return this.name;
+        public String getVersion() {
+            return this.version;
         }
 
         public void setVersion(final String version) {
             this.version = version;
         }
 
-        public String getVersion() {
-            return this.version;
+        public String getSharedLibExtension() {
+            return this.sharedLibExtension;
         }
 
         /**
