@@ -171,19 +171,19 @@ public class JavaAVC {
         this.avcodec = (LibavcodecLibrary) Native.loadLibrary(findLib("avcodec"), LibavcodecLibrary.class);
 
         // Load "avformat". Require: "avcodec".
-        this.avformat = (LibavformatLibrary) Native.loadLibrary(findLib("avformat-55"), LibavformatLibrary.class);
+        this.avformat = (LibavformatLibrary) Native.loadLibrary(findLib("avformat"), LibavformatLibrary.class);
 
         // Load "swresample". Require: "avutil".
-        this.swresample = (LibswresampleLibrary) Native.loadLibrary(findLib("swresample-0"), LibswresampleLibrary.class);
+        this.swresample = (LibswresampleLibrary) Native.loadLibrary(findLib("swresample"), LibswresampleLibrary.class);
 
         // Load "swscale". Require: "avutil".
-        this.swscale = (LibswscaleLibrary) Native.loadLibrary(findLib("swscale-2"), LibswscaleLibrary.class);
+        this.swscale = (LibswscaleLibrary) Native.loadLibrary(findLib("swscale"), LibswscaleLibrary.class);
 
         // Load "avfilter". Require: "swresample", "swscale", "avformat", "avcodec", "avutil".
-        this.avfilter = (LibavfilterLibrary) Native.loadLibrary(findLib("avfilter-3"), LibavfilterLibrary.class);
+        this.avfilter = (LibavfilterLibrary) Native.loadLibrary(findLib("avfilter"), LibavfilterLibrary.class);
 
         // Load "avdevice". Require: "avfilter", "avformat".
-        this.avdevice = (LibavdeviceLibrary) Native.loadLibrary(findLib("avdevice-55"), LibavdeviceLibrary.class);
+        this.avdevice = (LibavdeviceLibrary) Native.loadLibrary(findLib("avdevice"), LibavdeviceLibrary.class);
     }
 
     /**
