@@ -20,7 +20,7 @@ package org.javaavc.example;
 
 import java.io.IOException;
 
-import org.javaavc.ffmpeg.JavaAVC;
+import org.javaavc.JavaAVC;
 
 /**
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)

@@ -24,7 +24,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 
-import org.javaavc.ffmpeg.JavaAVC;
+import org.javaavc.JavaAVC;
 import org.junit.Test;
 
 /**

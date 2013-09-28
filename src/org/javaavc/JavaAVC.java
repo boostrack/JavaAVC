@@ -16,7 +16,7 @@
 /*
  * This class is part of Java Java Audio/Video Codec (JavaAVC) Library.
  */
-package org.javaavc.ffmpeg;
+package org.javaavc;
 
 import java.io.BufferedReader;
 import java.io.File;
