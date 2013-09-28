@@ -29,7 +29,7 @@ public class Windows extends Platform {
 
     public static final String NAME_PATTERN = "Windows.*";
 
-    public Windows() {
+    protected Windows() {
         super(ID);
     }
 

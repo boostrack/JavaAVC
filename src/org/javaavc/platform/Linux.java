@@ -29,7 +29,7 @@ public class Linux extends Platform {
 
     public static final String NAME_PATTERN = "Linux";
 
-    public Linux() {
+    protected Linux() {
         super(ID);
     }
 

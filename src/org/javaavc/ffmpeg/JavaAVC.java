@@ -161,6 +161,12 @@ public class JavaAVC {
         return this.platform.findSharedLibs(name).get(0).getCanonicalPath();
     }
 
+    private void checkLib(final Object library, final String name) throws IOException {
+        if (library == null) {
+            throw new IOException("Library '" + name + "' was not loaded!");
+        }
+    }
+
     /**
      * Load FFmpeg libraries into wrapper.
      */
@@ -170,24 +176,31 @@ public class JavaAVC {
 
         // Load "avutil". Require: nothing.
         this.avutil = (LibavutilLibrary) Native.loadLibrary(findLib("avutil"), LibavutilLibrary.class);
+        this.checkLib(this.avutil, "avutil");
 
         // Load "avcodec". Require: "avutil".
         this.avcodec = (LibavcodecLibrary) Native.loadLibrary(findLib("avcodec"), LibavcodecLibrary.class);
+        this.checkLib(this.avcodec, "avcodec");
 
         // Load "avformat". Require: "avcodec".
         this.avformat = (LibavformatLibrary) Native.loadLibrary(findLib("avformat"), LibavformatLibrary.class);
+        this.checkLib(this.avformat, "avformat");
 
         // Load "swresample". Require: "avutil".
         this.swresample = (LibswresampleLibrary) Native.loadLibrary(findLib("swresample"), LibswresampleLibrary.class);
+        this.checkLib(this.swresample, "swresample");
 
         // Load "swscale". Require: "avutil".
         this.swscale = (LibswscaleLibrary) Native.loadLibrary(findLib("swscale"), LibswscaleLibrary.class);
+        this.checkLib(this.swscale, "swscale");
 
         // Load "avfilter". Require: "swresample", "swscale", "avformat", "avcodec", "avutil".
         this.avfilter = (LibavfilterLibrary) Native.loadLibrary(findLib("avfilter"), LibavfilterLibrary.class);
+        this.checkLib(this.avfilter, "avfilter");
 
         // Load "avdevice". Require: "avfilter", "avformat".
         this.avdevice = (LibavdeviceLibrary) Native.loadLibrary(findLib("avdevice"), LibavdeviceLibrary.class);
+        this.checkLib(this.avdevice, "avdevice");
     }
 
     /**
