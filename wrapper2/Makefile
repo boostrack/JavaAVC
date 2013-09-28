@@ -7,7 +7,7 @@ PACK_PREF=org.javaavc.ffmpeg
 # ============
 # Header path.
 # Ver. 1: User original headers.
-#HEADER=include/lib$@/$@.h
+#HEADER=../wrapper1/include/lib$@/$@.h
 # Ver. 2: Use preprocessed headers.
 HEADER=../wrapper1/$@.h
 
