@@ -12,7 +12,7 @@ import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 
-import org.javaavc.ffmpeg.NativeSize;
+import org.javaavc.platform.NativeSize;
 
 /**
  * Encoding/decoding library.
@@ -2352,7 +2352,7 @@ public interface LibavcodecLibrary extends Library {
      * @return the length of the string that would have been generated if<br>
      * enough space had been available, excluding the trailing null<br>
      * Original signature : <code>size_t av_get_codec_tag_string(char*, size_t, unsigned int)</code><br>
-     * @deprecated use the safer methods {@link #av_get_codec_tag_string(java.nio.ByteBuffer, com.ochafik.lang.jnaerator.runtime.NativeSize, int)} and {@link #av_get_codec_tag_string(com.sun.jna.Pointer, com.ochafik.lang.jnaerator.runtime.NativeSize, int)} instead
+     * @deprecated use the safer methods {@link #av_get_codec_tag_string(java.nio.ByteBuffer, org.javaavc.platform.ochafik.lang.jnaerator.runtime.NativeSize, int)} and {@link #av_get_codec_tag_string(com.sun.jna.Pointer, org.javaavc.platform.ochafik.lang.jnaerator.runtime.NativeSize, int)} instead
      */
     @Deprecated
     NativeSize av_get_codec_tag_string(Pointer buf, NativeSize buf_size, int codec_tag);
@@ -2583,7 +2583,7 @@ public interface LibavcodecLibrary extends Library {
      * Reallocate the given block if it is not large enough, otherwise do nothing.<br>
      * * @see av_realloc<br>
      * Original signature : <code>void* av_fast_realloc(void*, unsigned int*, size_t)</code><br>
-     * @deprecated use the safer methods {@link #av_fast_realloc(com.sun.jna.Pointer, java.nio.IntBuffer, com.ochafik.lang.jnaerator.runtime.NativeSize)} and {@link #av_fast_realloc(com.sun.jna.Pointer, com.sun.jna.ptr.IntByReference, com.ochafik.lang.jnaerator.runtime.NativeSize)} instead
+     * @deprecated use the safer methods {@link #av_fast_realloc(com.sun.jna.Pointer, java.nio.IntBuffer, org.javaavc.platform.ochafik.lang.jnaerator.runtime.NativeSize)} and {@link #av_fast_realloc(com.sun.jna.Pointer, com.sun.jna.ptr.IntByReference, org.javaavc.platform.ochafik.lang.jnaerator.runtime.NativeSize)} instead
      */
     @Deprecated
     Pointer av_fast_realloc(Pointer ptr, IntByReference size, NativeSize min_size);
@@ -2603,7 +2603,7 @@ public interface LibavcodecLibrary extends Library {
      * @param min_size minimum size of *ptr buffer after returning, *ptr will be NULL and<br>
      *                 *size 0 if an error occurred.<br>
      * Original signature : <code>void av_fast_malloc(void*, unsigned int*, size_t)</code><br>
-     * @deprecated use the safer methods {@link #av_fast_malloc(com.sun.jna.Pointer, java.nio.IntBuffer, com.ochafik.lang.jnaerator.runtime.NativeSize)} and {@link #av_fast_malloc(com.sun.jna.Pointer, com.sun.jna.ptr.IntByReference, com.ochafik.lang.jnaerator.runtime.NativeSize)} instead
+     * @deprecated use the safer methods {@link #av_fast_malloc(com.sun.jna.Pointer, java.nio.IntBuffer, org.javaavc.platform.ochafik.lang.jnaerator.runtime.NativeSize)} and {@link #av_fast_malloc(com.sun.jna.Pointer, com.sun.jna.ptr.IntByReference, org.javaavc.platform.ochafik.lang.jnaerator.runtime.NativeSize)} instead
      */
     @Deprecated
     void av_fast_malloc(Pointer ptr, IntByReference size, NativeSize min_size);
@@ -2625,7 +2625,7 @@ public interface LibavcodecLibrary extends Library {
      * * In addition the whole buffer will initially and after resizes<br>
      * be 0-initialized so that no uninitialized data will ever appear.<br>
      * Original signature : <code>void av_fast_padded_malloc(void*, unsigned int*, size_t)</code><br>
-     * @deprecated use the safer methods {@link #av_fast_padded_malloc(com.sun.jna.Pointer, java.nio.IntBuffer, com.ochafik.lang.jnaerator.runtime.NativeSize)} and {@link #av_fast_padded_malloc(com.sun.jna.Pointer, com.sun.jna.ptr.IntByReference, com.ochafik.lang.jnaerator.runtime.NativeSize)} instead
+     * @deprecated use the safer methods {@link #av_fast_padded_malloc(com.sun.jna.Pointer, java.nio.IntBuffer, org.javaavc.platform.ochafik.lang.jnaerator.runtime.NativeSize)} and {@link #av_fast_padded_malloc(com.sun.jna.Pointer, com.sun.jna.ptr.IntByReference, org.javaavc.platform.ochafik.lang.jnaerator.runtime.NativeSize)} instead
      */
     @Deprecated
     void av_fast_padded_malloc(Pointer ptr, IntByReference size, NativeSize min_size);
@@ -2641,7 +2641,7 @@ public interface LibavcodecLibrary extends Library {
      * Same behaviour av_fast_padded_malloc except that buffer will always<br>
      * be 0-initialized after call.<br>
      * Original signature : <code>void av_fast_padded_mallocz(void*, unsigned int*, size_t)</code><br>
-     * @deprecated use the safer methods {@link #av_fast_padded_mallocz(com.sun.jna.Pointer, java.nio.IntBuffer, com.ochafik.lang.jnaerator.runtime.NativeSize)} and {@link #av_fast_padded_mallocz(com.sun.jna.Pointer, com.sun.jna.ptr.IntByReference, com.ochafik.lang.jnaerator.runtime.NativeSize)} instead
+     * @deprecated use the safer methods {@link #av_fast_padded_mallocz(com.sun.jna.Pointer, java.nio.IntBuffer, org.javaavc.platform.ochafik.lang.jnaerator.runtime.NativeSize)} and {@link #av_fast_padded_mallocz(com.sun.jna.Pointer, com.sun.jna.ptr.IntByReference, org.javaavc.platform.ochafik.lang.jnaerator.runtime.NativeSize)} instead
      */
     @Deprecated
     void av_fast_padded_mallocz(Pointer ptr, IntByReference size, NativeSize min_size);

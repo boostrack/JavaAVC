@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.javaavc.ffmpeg;
+package org.javaavc.platform;
 
 import com.sun.jna.IntegerType;
 import com.sun.jna.Native;
@@ -22,7 +22,6 @@ import com.sun.jna.Native;
  * This class implement <CODE>size_t</CODE> C-type, that can be 32-bit or 64-bit integer.
  *
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
- * @version 1.1.1
  */
 /*
  * Based on:

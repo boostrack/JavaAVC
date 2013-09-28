@@ -30,6 +30,7 @@ import org.javaavc.ffmpeg.avformat.LibavformatLibrary;
 import org.javaavc.ffmpeg.avutil.LibavutilLibrary;
 import org.javaavc.ffmpeg.swresample.LibswresampleLibrary;
 import org.javaavc.ffmpeg.swscale.LibswscaleLibrary;
+import org.javaavc.platform.Platform;
 
 import com.sun.jna.Native;
 
@@ -100,6 +101,8 @@ public class JavaAVC {
 
     public final LibavdeviceLibrary avdevice;
 
+    private final Platform platform;
+
     public final File nativeDir;
 
     /**
@@ -155,14 +158,15 @@ public class JavaAVC {
     }
 
     private String findLib(final String name) throws IOException {
-        return NativeHelper.findSharedLibs(name).get(0).getCanonicalPath();
+        return this.platform.findSharedLibs(name).get(0).getCanonicalPath();
     }
 
     /**
      * Load FFmpeg libraries into wrapper.
      */
     private JavaAVC() throws IOException {
-        this.nativeDir = NativeHelper.unpackNativeLibrary(NATIVE_NAME + "-" + NATIVE_VER);
+        this.platform = Platform.getPlatform();
+        this.nativeDir = platform.unpackNativeLibrary(NATIVE_NAME + "-" + NATIVE_VER);
 
         // Load "avutil". Require: nothing.
         this.avutil = (LibavutilLibrary) Native.loadLibrary(findLib("avutil"), LibavutilLibrary.class);
@@ -205,7 +209,7 @@ public class JavaAVC {
 
             // Run FFmpeg.
             final File binFile = new File(this.nativeDir.getCanonicalPath() + File.separatorChar + binName);
-            final Process run = NativeHelper.getOS().getNativeProcess(binFile, command);
+            final Process run = this.platform.getNativeProcess(binFile, command);
 
             // Print standard output.
             final BufferedReader input = new BufferedReader(new InputStreamReader(run.getInputStream()));
