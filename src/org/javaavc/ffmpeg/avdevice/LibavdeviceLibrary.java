@@ -27,10 +27,12 @@ import com.sun.jna.Library;
  *
  * <P>
  * It provides various "special" platform-specific muxers and demuxers, e.g. for grabbing devices, audio capture and playback etc.
- * As a consequence, the (de)muxers in {@link LibavdeviceLibrary} are of the AVFMT_NOFILE type (they use their own I/O functions).
- * The filename passed to {@link LibavformatLibrary#avformat_open_input(org.javaavc.ffmpeg.avformat.AVFormatContext.ByReference[],
+ * As a consequence, the (de)muxers in {@link LibavdeviceLibrary} are of the <CODE>AVFMT_NOFILE</CODE> type (they use their own I/O
+ * functions). The filename passed to
+ * {@link LibavformatLibrary#avformat_open_input(org.javaavc.ffmpeg.avformat.AVFormatContext.ByReference[],
  * String, org.javaavc.ffmpeg.avformat.AVInputFormat, org.javaavc.ffmpeg.avformat.LibavformatLibrary.AVDictionary[])} often does
- * not refer to an actually existing file, but has some special device-specific meaning -- e.g. for x11grab it is the display name.
+ * not refer to an actually existing file, but has some special device-specific meaning -- e.g. for <CODE>x11grab</CODE> it is the
+ * display name.
  * </P>
  *
  * <P>
@@ -52,7 +54,7 @@ public interface LibavdeviceLibrary extends Library {
      * Return the <CODE>LIBAVDEVICE_VERSION_INT</CODE> constant.
      *
      * <P>
-     * Original signature: <CODE>int avdevice_version()</CODE>
+     * Original signature: <CODE>int avdevice_version()</CODE>.
      * </P>
      */
     public int avdevice_version();
@@ -61,7 +63,7 @@ public interface LibavdeviceLibrary extends Library {
      * Return the {@link LibavdeviceLibrary} build-time configuration.
      *
      * <P>
-     * Original signature: <CODE>char* avdevice_configuration()</CODE>
+     * Original signature: <CODE>char* avdevice_configuration()</CODE>.
      * </P>
      */
     public String avdevice_configuration();
@@ -70,7 +72,7 @@ public interface LibavdeviceLibrary extends Library {
      * Return the {@link LibavdeviceLibrary} license.
      *
      * <P>
-     * Original signature: <CODE>char* avdevice_license()</CODE>
+     * Original signature: <CODE>char* avdevice_license()</CODE>.
      * </P>
      */
     public String avdevice_license();
@@ -85,7 +87,7 @@ public interface LibavdeviceLibrary extends Library {
      * </P>
      *
      * <P>
-     * Original signature: <CODE>void avdevice_register_all()</CODE>
+     * Original signature: <CODE>void avdevice_register_all()</CODE>.
      * </P>
      */
     public void avdevice_register_all();
