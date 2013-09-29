@@ -1071,17 +1071,32 @@ public interface LibavcodecLibrary extends Library {
      * Original signature : <code>void avcodec_register(AVCodec*)</code>
      */
     void avcodec_register(AVCodec codec);
+
     /**
-     * Register all the codecs, parsers and bitstream filters which were enabled at<br>
-     * configuration time. If you do not call this function you can select exactly<br>
-     * which formats you want to support, by using the individual registration<br>
-     * functions.<br>
-     * * @see avcodec_register<br>
-     * @see av_register_codec_parser<br>
-     * @see av_register_bitstream_filter<br>
-     * Original signature : <code>void avcodec_register_all()</code>
+     * Register all the codecs, parsers and bitstream filters which were enabled at configuration time. If you do not call
+     * this function you can select exactly which formats you want to support, by using the individual registration functions.
+     *
+     * <P>
+     * See:
+     * <UL>
+     * <LI>{@link #avcodec_register(AVCodec)}</LI>
+     * <LI>{@link #av_register_codec_parser(AVCodecParser)}</LI>
+     * <LI>{@link #av_register_bitstream_filter(AVBitStreamFilter)}</LI>
+     * </UL>
+     * </P>
+     *
+     * <P>
+     * <STRONG>
+     * This already called into constructor -- no needed to call!
+     * </STRONG>
+     * </P>
+     *
+     * <P>
+     * Original signature: <CODE>void avcodec_register_all()</CODE>.
+     * </P>
      */
-    void avcodec_register_all();
+    public void avcodec_register_all();
+
     /**
      * Allocate an AVCodecContext and set its fields to default values.  The<br>
      * resulting struct can be deallocated by calling avcodec_close() on it followed<br>

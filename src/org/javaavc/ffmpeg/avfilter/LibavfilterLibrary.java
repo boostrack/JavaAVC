@@ -127,11 +127,22 @@ public interface LibavfilterLibrary extends Library {
      * Original signature : <code>int avfilter_process_command(AVFilterContext*, const char*, const char*, char*, int, int)</code>
      */
     int avfilter_process_command(AVFilterContext filter, String cmd, String arg, ByteBuffer res, int res_len, int flags);
+
     /**
-     * Initialize the filter system. Register all builtin filters.<br>
-     * Original signature : <code>void avfilter_register_all()</code>
+     * Initialize the filter system. Register all builtin filters.
+     *
+     * <P>
+     * <STRONG>
+     * This already called into constructor -- no needed to call!
+     * </STRONG>
+     * </P>
+     *
+     * <P>
+     * Original signature: <CODE>void avfilter_register_all()</CODE>.
+     * </P>
      */
-    void avfilter_register_all();
+    public void avfilter_register_all();
+
     /** Original signature : <code>void avfilter_uninit()</code> */
     void avfilter_uninit();
     /**

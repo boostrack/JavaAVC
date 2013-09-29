@@ -1,3 +1,21 @@
+/*
+ * Copyright 2013 JavaAVC Team
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/*
+ * This class is part of Java Java Audio/Video Codec (JavaAVC) Library.
+ */
 package org.javaavc.ffmpeg.swresample;
 
 import com.sun.jna.Library;
@@ -10,6 +28,18 @@ import com.sun.jna.ptr.PointerByReference;
 import java.nio.DoubleBuffer;
 import java.nio.IntBuffer;
 
+/**
+ * {@link LibswresampleLibrary} is a library that handles audio resampling, sample format conversion and mixing.
+ *
+ * <P>
+ * <H6>Links:</H6>
+ * <OL>
+ * <LI><A href="http://www.ffmpeg.org/doxygen/2.0/group__lswr.html">Libswresample</A>.</LI>
+ * </OL>
+ * </P>
+ *
+ * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
+ */
 public interface LibswresampleLibrary extends Library {
 
     public static interface SwrDitherType {
@@ -17,8 +47,12 @@ public interface LibswresampleLibrary extends Library {
         public static final int SWR_DITHER_RECTANGULAR = 1;
         public static final int SWR_DITHER_TRIANGULAR = 2;
         public static final int SWR_DITHER_TRIANGULAR_HIGHPASS = 3;
-        /** < not part of API/ABI */
+
+        /**
+         * Not part of API/ABI.
+         */
         public static final int SWR_DITHER_NS = 64;
+
         public static final int SWR_DITHER_NS_LIPSHITZ = 65;
         public static final int SWR_DITHER_NS_F_WEIGHTED = 66;
         public static final int SWR_DITHER_NS_MODIFIED_E_WEIGHTED = 67;
@@ -26,31 +60,50 @@ public interface LibswresampleLibrary extends Library {
         public static final int SWR_DITHER_NS_SHIBATA = 69;
         public static final int SWR_DITHER_NS_LOW_SHIBATA = 70;
         public static final int SWR_DITHER_NS_HIGH_SHIBATA = 71;
-        /** < not part of API/ABI */
+
+        /**
+         * Not part of API/ABI.
+         */
         public static final int SWR_DITHER_NB = 72;
     };
 
     /**
-     * Resampling Engines
+     * Resampling Engines.
      */
     public static interface SwrEngine {
-        /** < SW Resampler */
+        /**
+         * SW Resampler.
+         */
         public static final int SWR_ENGINE_SWR = 0;
-        /** < SoX Resampler */
+
+        /**
+         * SoX Resampler.
+         */
         public static final int SWR_ENGINE_SOXR = 1;
-        /** < not part of API/ABI */
+
+        /**
+         * Not part of API/ABI.
+         */
         public static final int SWR_ENGINE_NB = 2;
     };
 
     /**
-     * Resampling Filter Types
+     * Resampling Filter Types.
      */
     public static interface SwrFilterType {
-        /** < Cubic */
+        /**
+         * Cubic.
+         */
         public static final int SWR_FILTER_TYPE_CUBIC = 0;
-        /** < Blackman Nuttall Windowed Sinc */
+
+        /**
+         * Blackman Nuttall Windowed Sinc.
+         */
         public static final int SWR_FILTER_TYPE_BLACKMAN_NUTTALL = 1;
-        /** < Kaiser Windowed Sinc */
+
+        /**
+         * Kaiser Windowed Sinc.
+         */
         public static final int SWR_FILTER_TYPE_KAISER = 2;
     };
 
@@ -73,7 +126,7 @@ public interface LibswresampleLibrary extends Library {
 
     /**
      * Initialize context after user parameters have been set.<br>
-     * * @return AVERROR error code in case of failure.<br>
+     * @return AVERROR error code in case of failure.<br>
      * Original signature : <code>int swr_init(SwrContext*)</code>
      */
     int swr_init(PointerByReference s);
@@ -83,7 +136,7 @@ public interface LibswresampleLibrary extends Library {
      * * This function does not require s to be allocated with swr_alloc(). On the<br>
      * other hand, swr_alloc() can use swr_alloc_set_opts() to set the parameters<br>
      * on the allocated context.<br>
-     * * @param s               Swr context, can be NULL<br>
+     * @param s               Swr context, can be NULL<br>
      * @param out_ch_layout   output channel layout (AV_CH_LAYOUT_*)<br>
      * @param out_sample_fmt  output sample format (AV_SAMPLE_FMT_*).<br>
      * @param out_sample_rate output sample rate (frequency in Hz)<br>
@@ -92,30 +145,31 @@ public interface LibswresampleLibrary extends Library {
      * @param in_sample_rate  input sample rate (frequency in Hz)<br>
      * @param log_offset      logging level offset<br>
      * @param log_ctx         parent logging context, can be NULL<br>
-     * * @see swr_init(), swr_free()<br>
+     * @see swr_init(), swr_free()<br>
      * @return NULL on error, allocated context otherwise<br>
      * Original signature : <code>SwrContext* swr_alloc_set_opts(SwrContext*, int64_t, AVSampleFormat, int, int64_t, AVSampleFormat, int, int, void*)</code>
      */
     PointerByReference swr_alloc_set_opts(PointerByReference s, long out_ch_layout, int out_sample_fmt, int out_sample_rate, long in_ch_layout, int in_sample_fmt, int in_sample_rate, int log_offset, Pointer log_ctx);
+
     /**
-     * Free the given SwrContext and set the pointer to NULL.<br>
+     * Free the given SwrContext and set the pointer to NULL.
+     *
      * Original signature : <code>void swr_free(SwrContext**)</code>
      */
     void swr_free(PointerByReference s);
 
     /**
      * Convert audio.<br>
-     * * in and in_count can be set to 0 to flush the last few samples out at the<br>
-     * end.<br>
+     * * in and in_count can be set to 0 to flush the last few samples out at the end.
      * * If more input is provided than output space then the input will be buffered.<br>
      * You can avoid this buffering by providing more output space than input.<br>
      * Convertion will run directly without copying whenever possible.<br>
-     * * @param s         allocated Swr context, with parameters set<br>
+     * @param s         allocated Swr context, with parameters set<br>
      * @param out       output buffers, only the first one need be set in case of packed audio<br>
      * @param out_count amount of space available for output in samples per channel<br>
      * @param in        input buffers, only the first one need to be set in case of packed audio<br>
      * @param in_count  number of input samples available in one channel<br>
-     * * @return number of samples output per channel, negative value on error<br>
+     * @return number of samples output per channel, negative value on error<br>
      * Original signature : <code>int swr_convert(SwrContext*, uint8_t**, int, const uint8_t**, int)</code>
      */
     int swr_convert(PointerByReference s, PointerByReference out, int out_count, PointerByReference in, int in_count);
@@ -160,8 +214,9 @@ public interface LibswresampleLibrary extends Library {
     int swr_set_channel_mapping(PointerByReference s, IntByReference channel_map);
 
     /**
-     * Set a customized remix matrix.<br>
-     * * @param s       allocated Swr context, not yet initialized<br>
+     * Set a customized remix matrix.
+     *
+     * @param s       allocated Swr context, not yet initialized<br>
      * @param matrix  remix coefficients; matrix[i + stride * o] is<br>
      *                the weight of input channel i in output channel o<br>
      * @param stride  offset between lines of the matrix<br>
@@ -227,6 +282,7 @@ public interface LibswresampleLibrary extends Library {
      * Original signature : <code>char* swresample_license()</code>
      */
     String swresample_license();
+
     public static class AVClass extends PointerType {
         public AVClass(Pointer address) {
             super(address);
@@ -235,6 +291,7 @@ public interface LibswresampleLibrary extends Library {
             super();
         }
     };
+
     public static class SwrContext extends PointerType {
         public SwrContext(Pointer address) {
             super(address);

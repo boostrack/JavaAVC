@@ -87,6 +87,12 @@ public interface LibavdeviceLibrary extends Library {
      * </P>
      *
      * <P>
+     * <STRONG>
+     * This already called into constructor -- no needed to call!
+     * </STRONG>
+     * </P>
+     *
+     * <P>
      * Original signature: <CODE>void avdevice_register_all()</CODE>.
      * </P>
      */
