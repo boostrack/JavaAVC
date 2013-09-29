@@ -23,7 +23,7 @@ import java.io.IOException;
  *
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
-public class Windows extends Platform {
+public final class Windows extends Platform {
 
     public static final String ID = "windows";
 

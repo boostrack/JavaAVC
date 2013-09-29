@@ -42,17 +42,11 @@ public abstract class Platform {
 
     public static final String OS_NAME = "os.name";
 
-    public static final String OS_VERSION = "os.version";
+    public static final String JAVA_TEMP_DIR = "java.io.tmpdir";
 
     public static final String JNA_LIBRARY_PATH = "jna.library.path";
 
-    public static final String JAVA_TEMP_DIR = "java.io.tmpdir";
-
     private final String id;
-
-    private final String name;
-
-    private final String version;
 
     private final Arch arch;
 
@@ -70,33 +64,15 @@ public abstract class Platform {
 
     protected Platform(final String id) {
         this.id = id;
-        this.name = getSystemProperty(OS_NAME);
-        this.version = getSystemProperty(OS_VERSION);
         this.arch = Arch.getArch();
-    }
-
-    public String getId() {
-        return this.id;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public String getVersion() {
-        return this.version;
-    }
-
-    public Arch getArch() {
-        return this.arch;
     }
 
     /**
      * Return platform-specified directory for given library name in format <CODE>LibName_OsName_Arch</CODE>
      * (for example, <CODE>mylib_linux_64</CODE>).
      */
-    public String getLibraryNativeName(final String libName) {
-        return libName + "_" + getId() + "_" + getArch().getId();
+    private String getLibraryNativeName(final String libName) {
+        return libName + "_" + this.id + "_" + this.arch.getId();
     }
 
     /**
@@ -141,7 +117,7 @@ public abstract class Platform {
     /**
      * Extracts a JAR-file with some resource to defined directory.
      */
-    public static void unpackJarToDir(final URL jarUrl, final File outputDir) throws IOException {
+    private void unpackJarToDir(final URL jarUrl, final File outputDir) throws IOException {
         /*
          * Check values.
          */
@@ -214,7 +190,8 @@ public abstract class Platform {
         if (url != null) {
             unpackJarToDir(url, tempDirFile);
         } else {
-            throw new IOException("Can not find JAR-file with resource '" + resName + "'!");
+            throw new IOException("Can not find JAR-file with resource '" + resName + "'! You should download native JAR-file from "
+                + "official JavaAVC web-site (http://www.javaavc.org/) and add it to Java classpath!");
         }
 
         final File newPathFile = new File(tempDirFile.getCanonicalPath() + File.separatorChar + nativeLibDirName);
@@ -244,9 +221,7 @@ public abstract class Platform {
         if (platform == null) {
             final StringBuilder sb = new StringBuilder();
             sb.append("Unsupported OS: ");
-            sb.append(getSystemProperty(OS_NAME));
-            sb.append(" ");
-            sb.append(getSystemProperty(OS_VERSION));
+            sb.append(name);
             sb.append("!");
             throw new RuntimeException(sb.toString());
         } else {
@@ -274,7 +249,7 @@ public abstract class Platform {
     /**
      * Return list of files and directories of some path from system property.
      */
-    protected static List<File> getPathFiles(final String propertyName) {
+    protected List<File> getPathFiles(final String propertyName) {
         final Map<String, File> result = new HashMap<String, File>();
 
         final String value = System.getProperty(propertyName);
@@ -295,7 +270,7 @@ public abstract class Platform {
     /**
      * Add new path to some path from system property.
      */
-    protected static void addPathFile(final String propertyName, final File newPath) {
+    protected void addPathFile(final String propertyName, final File newPath) {
         if (newPath == null) {
             return;
         }
@@ -317,18 +292,18 @@ public abstract class Platform {
     /**
      * Return list of directories for search JNA native code (based on "jna.library.path" system property).
      */
-    public static List<File> getJnaPathFiles() {
+    private List<File> getJnaPathFiles() {
         return getPathFiles(JNA_LIBRARY_PATH);
     }
 
     /**
      * Add new path to JNA native code search (based on "jna.library.path" system property).
      */
-    public static void addJnaPathFile(final File newClassPath) {
+    private void addJnaPathFile(final File newClassPath) {
         addPathFile(JNA_LIBRARY_PATH, newClassPath);
     }
 
-    protected static File getFileProperty(final String propertyName) {
+    protected File getFileProperty(final String propertyName) {
         final String value = System.getProperty(propertyName);
         if (value != null && !value.isEmpty()) {
             final File f = new File(value);
@@ -345,14 +320,13 @@ public abstract class Platform {
     /**
      * Return file object for system temporary directory.
      */
-    public static File getJavaTempDirectoryFile() {
+    private File getJavaTempDirectoryFile() {
         return getFileProperty(JAVA_TEMP_DIR);
     }
 
     public enum Arch {
         x32("32", "i[2-6]{1}86"),
-        x64("64", "amd64"),
-        UnsuportedArch("unsupported_arch", ".*");
+        x64("64", "amd64");
 
         public static final String NAME_SYSTEM_PROPPERTY = "os.arch";
 
@@ -405,7 +379,11 @@ public abstract class Platform {
             }
 
             if (arch == null) {
-                arch = Arch.UnsuportedArch;
+                final StringBuilder sb = new StringBuilder();
+                sb.append("Unsupported arch: ");
+                sb.append(name);
+                sb.append("!");
+                throw new RuntimeException(sb.toString());
             }
 
             arch.setName(name);
