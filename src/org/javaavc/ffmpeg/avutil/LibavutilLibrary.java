@@ -167,11 +167,47 @@ public interface LibavutilLibrary extends Library {
      */
     public int av_int_list_length_for_size(int elsize, Pointer list, long term);
 
+    public static class AVBufferRef extends PointerType {
+        public AVBufferRef(Pointer address) {
+            super(address);
+        }
+        public AVBufferRef() {
+            super();
+        }
+    };
+
     public static class AVClass extends PointerType {
         public AVClass(Pointer address) {
             super(address);
         }
         public AVClass() {
+            super();
+        }
+    };
+
+    public static class AVDictionary extends PointerType {
+        public AVDictionary(Pointer address) {
+            super(address);
+        }
+        public AVDictionary() {
+            super();
+        }
+    };
+
+    public static class AVFrame extends PointerType {
+        public AVFrame(Pointer address) {
+            super(address);
+        }
+        public AVFrame() {
+            super();
+        }
+    };
+
+    public static class AVRational extends PointerType {
+        public AVRational(Pointer address) {
+            super(address);
+        }
+        public AVRational() {
             super();
         }
     };

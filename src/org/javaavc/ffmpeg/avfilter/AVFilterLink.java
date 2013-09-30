@@ -26,8 +26,8 @@ import java.util.List;
 
 import org.javaavc.ffmpeg.avfilter.LibavfilterLibrary.AVFilterChannelLayouts;
 import org.javaavc.ffmpeg.avfilter.LibavfilterLibrary.AVFilterPool;
-import org.javaavc.ffmpeg.avfilter.LibavfilterLibrary.AVFrame;
-import org.javaavc.ffmpeg.avfilter.LibavfilterLibrary.AVRational;
+import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVFrame;
+import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVRational;
 
 /**
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)

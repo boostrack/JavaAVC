@@ -21,10 +21,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-
 import java.net.JarURLConnection;
 import java.net.URL;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,6 +30,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
+
+import com.sun.jna.Native;
 
 /**
  * Base class for platform-specific code. Sub-classes should implement code specific for some OS.
@@ -50,6 +50,8 @@ public abstract class Platform {
 
     private final Arch arch;
 
+    public final StdIOLibrary STDIO;
+
     /**
      * Return property name by value. If value is not exists throw {@link RuntimeException}.
      */
@@ -65,6 +67,8 @@ public abstract class Platform {
     protected Platform(final String id) {
         this.id = id;
         this.arch = Arch.getArch();
+
+        this.STDIO = (StdIOLibrary) Native.loadLibrary(getStdIOLibraryName(), StdIOLibrary.class);
     }
 
     /**
@@ -84,6 +88,8 @@ public abstract class Platform {
      * Return extension of platform-specific file extension of shared library.
      */
     public abstract String getSharedLibExtension();
+
+    protected abstract String getStdIOLibraryName();
 
     public List<File> findSharedLibs(final String libName) throws IOException {
         /*

@@ -27,6 +27,8 @@ import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
 import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVClass;
+import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVDictionary;
+import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVFrame;
 
 /**
  * {@link LibavfilterLibrary} graph-based frame editing library.
@@ -92,6 +94,8 @@ public interface LibavfilterLibrary extends Library {
 
     /** Original signature : <code>void avfilter_copy_buffer_ref_props(AVFilterBufferRef*, AVFilterBufferRef*)</code> */
     void avfilter_copy_buffer_ref_props(AVFilterBufferRef dst, AVFilterBufferRef src);
+
+
     /** Original signature : <code>AVFilterBufferRef* avfilter_ref_buffer(AVFilterBufferRef*, int)</code> */
     AVFilterBufferRef avfilter_ref_buffer(AVFilterBufferRef ref, int pmask);
     /** Original signature : <code>void avfilter_unref_buffer(AVFilterBufferRef*)</code> */
@@ -161,8 +165,7 @@ public interface LibavfilterLibrary extends Library {
 
     /** Original signature : <code>AVFilterBufferRef* avfilter_get_video_buffer_ref_from_arrays(const uint8_t*[4], const int[4], int, int, int, AVPixelFormat)</code> */
     AVFilterBufferRef avfilter_get_video_buffer_ref_from_arrays(ByteBuffer data[], IntBuffer linesize, int perms, int w, int h, int format);
-    /** Original signature : <code>AVFilterBufferRef* avfilter_get_audio_buffer_ref_from_arrays(uint8_t**, int, int, int, AVSampleFormat, uint64_t)</code> */
-    AVFilterBufferRef avfilter_get_audio_buffer_ref_from_arrays(PointerByReference data, int linesize, int perms, int nb_samples, int sample_fmt, long channel_layout);
+
     /** Original signature : <code>AVFilterBufferRef* avfilter_get_audio_buffer_ref_from_arrays_channels(uint8_t**, int, int, int, AVSampleFormat, int, uint64_t)</code> */
     AVFilterBufferRef avfilter_get_audio_buffer_ref_from_arrays_channels(PointerByReference data, int linesize, int perms, int nb_samples, int sample_fmt, int channels, long channel_layout);
 
@@ -223,8 +226,6 @@ public interface LibavfilterLibrary extends Library {
 
     /** Original signature : <code>int avfilter_open(AVFilterContext**, AVFilter*, const char*)</code> */
     int avfilter_open(AVFilterContext.ByReference filter_ctx[], AVFilter filter, String inst_name);
-    /** Original signature : <code>int avfilter_open(AVFilterContext**, AVFilter*, const char*)</code> */
-    int avfilter_open(AVFilterContext.ByReference filter_ctx[], AVFilter filter, Pointer inst_name);
 
     /** Original signature : <code>int avfilter_init_filter(AVFilterContext*, const char*, void*)</code> */
     int avfilter_init_filter(AVFilterContext filter, String args, Pointer opaque);
@@ -260,7 +261,7 @@ public interface LibavfilterLibrary extends Library {
      * continue as usual.<br>
      * Original signature : <code>int avfilter_init_dict(AVFilterContext*, AVDictionary**)</code>
      */
-    int avfilter_init_dict(AVFilterContext ctx, LibavfilterLibrary.AVDictionary options[]);
+    int avfilter_init_dict(AVFilterContext ctx, AVDictionary options[]);
     /**
      * Free a filter context. This will also remove the filter from its<br>
      * filtergraph's list of filters.<br>
@@ -279,9 +280,9 @@ public interface LibavfilterLibrary extends Library {
      */
     int avfilter_insert_filter(AVFilterLink link, AVFilterContext filt, int filt_srcpad_idx, int filt_dstpad_idx);
     /** Original signature : <code>int avfilter_copy_frame_props(AVFilterBufferRef*, const AVFrame*)</code> */
-    int avfilter_copy_frame_props(AVFilterBufferRef dst, LibavfilterLibrary.AVFrame src);
+    int avfilter_copy_frame_props(AVFilterBufferRef dst, AVFrame src);
     /** Original signature : <code>int avfilter_copy_buf_props(AVFrame*, const AVFilterBufferRef*)</code> */
-    int avfilter_copy_buf_props(LibavfilterLibrary.AVFrame dst, AVFilterBufferRef src);
+    int avfilter_copy_buf_props(AVFrame dst, AVFilterBufferRef src);
     /**
      * @return AVClass for AVFilterContext.<br>
      * * @see av_opt_find().<br>
@@ -332,19 +333,7 @@ public interface LibavfilterLibrary extends Library {
      * Original signature : <code>int avfilter_graph_create_filter(AVFilterContext**, AVFilter*, const char*, const char*, void*, AVFilterGraph*)</code>
      */
     int avfilter_graph_create_filter(AVFilterContext.ByReference filt_ctx[], AVFilter filt, String name, String args, Pointer opaque, AVFilterGraph graph_ctx);
-    /**
-     * Create and add a filter instance into an existing graph.<br>
-     * The filter instance is created from the filter filt and inited<br>
-     * with the parameters args and opaque.<br>
-     * * In case of success put in *filt_ctx the pointer to the created<br>
-     * filter instance, otherwise set *filt_ctx to NULL.<br>
-     * * @param name the instance name to give to the created filter instance<br>
-     * @param graph_ctx the filter graph<br>
-     * @return a negative AVERROR error code in case of failure, a non<br>
-     * negative value otherwise<br>
-     * Original signature : <code>int avfilter_graph_create_filter(AVFilterContext**, AVFilter*, const char*, const char*, void*, AVFilterGraph*)</code>
-     */
-    int avfilter_graph_create_filter(AVFilterContext.ByReference filt_ctx[], AVFilter filt, Pointer name, Pointer args, Pointer opaque, AVFilterGraph graph_ctx);
+
     /**
      * Enable or disable automatic format conversion inside the graph.<br>
      * * Note that format conversion can still happen inside explicitly inserted<br>
@@ -385,8 +374,6 @@ public interface LibavfilterLibrary extends Library {
 
     /** Original signature : <code>int avfilter_graph_parse(AVFilterGraph*, const char*, AVFilterInOut**, AVFilterInOut**, void*)</code> */
     int avfilter_graph_parse(AVFilterGraph graph, String filters, AVFilterInOut.ByReference inputs[], AVFilterInOut.ByReference outputs[], Pointer log_ctx);
-    /** Original signature : <code>int avfilter_graph_parse(AVFilterGraph*, const char*, AVFilterInOut**, AVFilterInOut**, void*)</code> */
-    int avfilter_graph_parse(AVFilterGraph graph, Pointer filters, AVFilterInOut.ByReference inputs[], AVFilterInOut.ByReference outputs[], Pointer log_ctx);
 
     /**
      * Add a graph described by a string to a graph.<br>
@@ -402,20 +389,6 @@ public interface LibavfilterLibrary extends Library {
      * Original signature : <code>int avfilter_graph_parse_ptr(AVFilterGraph*, const char*, AVFilterInOut**, AVFilterInOut**, void*)</code>
      */
     int avfilter_graph_parse_ptr(AVFilterGraph graph, String filters, AVFilterInOut.ByReference inputs[], AVFilterInOut.ByReference outputs[], Pointer log_ctx);
-    /**
-     * Add a graph described by a string to a graph.<br>
-     * * @param graph   the filter graph where to link the parsed graph context<br>
-     * @param filters string to be parsed<br>
-     * @param inputs  pointer to a linked list to the inputs of the graph, may be NULL.<br>
-     *                If non-NULL, *inputs is updated to contain the list of open inputs<br>
-     *                after the parsing, should be freed with avfilter_inout_free().<br>
-     * @param outputs pointer to a linked list to the outputs of the graph, may be NULL.<br>
-     *                If non-NULL, *outputs is updated to contain the list of open outputs<br>
-     *                after the parsing, should be freed with avfilter_inout_free().<br>
-     * @return non negative on success, a negative AVERROR code on error<br>
-     * Original signature : <code>int avfilter_graph_parse_ptr(AVFilterGraph*, const char*, AVFilterInOut**, AVFilterInOut**, void*)</code>
-     */
-    int avfilter_graph_parse_ptr(AVFilterGraph graph, Pointer filters, AVFilterInOut.ByReference inputs[], AVFilterInOut.ByReference outputs[], Pointer log_ctx);
 
     /**
      * Add a graph described by a string to a graph.<br>
@@ -439,28 +412,6 @@ public interface LibavfilterLibrary extends Library {
      * Original signature : <code>int avfilter_graph_parse2(AVFilterGraph*, const char*, AVFilterInOut**, AVFilterInOut**)</code>
      */
     int avfilter_graph_parse2(AVFilterGraph graph, String filters, AVFilterInOut.ByReference inputs[], AVFilterInOut.ByReference outputs[]);
-    /**
-     * Add a graph described by a string to a graph.<br>
-     * * @param[in]  graph   the filter graph where to link the parsed graph context<br>
-     * @param[in]  filters string to be parsed<br>
-     * @param[out] inputs  a linked list of all free (unlinked) inputs of the<br>
-     *                     parsed graph will be returned here. It is to be freed<br>
-     *                     by the caller using avfilter_inout_free().<br>
-     * @param[out] outputs a linked list of all free (unlinked) outputs of the<br>
-     *                     parsed graph will be returned here. It is to be freed by the<br>
-     *                     caller using avfilter_inout_free().<br>
-     * @return zero on success, a negative AVERROR code on error<br>
-     * * @note This function returns the inputs and outputs that are left<br>
-     * unlinked after parsing the graph and the caller then deals with<br>
-     * them.<br>
-     * @note This function makes no reference whatsoever to already<br>
-     * existing parts of the graph and the inputs parameter will on return<br>
-     * contain inputs of the newly parsed part of the graph.  Analogously<br>
-     * the outputs parameter will contain outputs of the newly created<br>
-     * filters.<br>
-     * Original signature : <code>int avfilter_graph_parse2(AVFilterGraph*, const char*, AVFilterInOut**, AVFilterInOut**)</code>
-     */
-    int avfilter_graph_parse2(AVFilterGraph graph, Pointer filters, AVFilterInOut.ByReference inputs[], AVFilterInOut.ByReference outputs[]);
 
     /**
      * Send a command to one or more filter instances.<br>
@@ -543,14 +494,7 @@ public interface LibavfilterLibrary extends Library {
             super();
         }
     };
-    public static class AVRational extends PointerType {
-        public AVRational(Pointer address) {
-            super(address);
-        }
-        public AVRational() {
-            super();
-        }
-    };
+
     public static class AVFilterFormats extends PointerType {
         public AVFilterFormats(Pointer address) {
             super(address);
@@ -572,22 +516,6 @@ public interface LibavfilterLibrary extends Library {
             super(address);
         }
         public AVFilterPool() {
-            super();
-        }
-    };
-    public static class AVFrame extends PointerType {
-        public AVFrame(Pointer address) {
-            super(address);
-        }
-        public AVFrame() {
-            super();
-        }
-    };
-    public static class AVDictionary extends PointerType {
-        public AVDictionary(Pointer address) {
-            super(address);
-        }
-        public AVDictionary() {
             super();
         }
     };

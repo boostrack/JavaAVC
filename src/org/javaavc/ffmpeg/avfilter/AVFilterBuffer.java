@@ -27,97 +27,145 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * A reference-counted buffer data type used by the filter system. Filters should not store pointers to this structure directly,
+ * but instead use the {@link AVFilterBufferRef} structure below.
+ *
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class AVFilterBuffer extends Structure {
     /**
-     * < buffer data for each plane/channel<br>
-     * C type : uint8_t*[8]
+     * Buffer data for each plane/channel.
+     *
+     * <P>
+     * C type: <CODE>uint8_t*[8]</CODE>.
+     * </P>
      */
     public Pointer[] data = new Pointer[8];
+
     /**
-     * pointers to the data planes/channels.<br>
-     * * For video, this should simply point to data[].<br>
-     * * For planar audio, each channel has a separate data pointer, and<br>
-     * linesize[0] contains the size of each channel buffer.<br>
-     * For packed audio, there is just one data pointer, and linesize[0]<br>
-     * contains the total size of the buffer for all channels.<br>
-     * * Note: Both data and extended_data will always be set, but for planar<br>
-     * audio with more channels that can fit in data, extended_data must be used<br>
-     * in order to access all channels.<br>
-     * C type : uint8_t**
+     * Pointers to the data planes/channels.
+     *
+     * <P>
+     * For video, this should simply point to <CODE>data[]</CODE>.
+     * </P>
+     *
+     * <P>
+     * For planar audio, each channel has a separate data pointer, and <CODE>linesize[0]</CODE> contains the size of
+     * each channel buffer.
+     * </P>
+     *
+     * <P>
+     * For packed audio, there is just one data pointer, and <CODE>linesize[0]</CODE> contains the total size of the
+     * buffer for all channels.
+     * </P>
+     *
+     * <P>
+     * <STRONG>Note:</STRONG> Both data and extended_data will always be set, but for planar audio with more channels that can fit in data,
+     * <CODE>extended_data</CODE> must be used in order to access all channels.
+     * </P>
+     *
+     * <P>
+     * C type: <CODE>uint8_t**</CODE>.
+     * </P>
      */
     public PointerByReference extended_data;
+
     /**
-     * < number of bytes per line<br>
-     * C type : int[8]
+     * Number of bytes per line.
+     *
+     * <P>
+     * C type: <CODE>int[8]</CODE>.
+     * </P>
      */
     public int[] linesize = new int[8];
+
     /**
-     * private data to be used by a custom free function<br>
-     * C type : void*
+     * Private data to be used by a custom free function.
+     *
+     * <P>
+     * C type: <CODE>void*</CODE>.
+     * </P>
      */
     public Pointer priv;
+
     /**
-     * A pointer to the function to deallocate this buffer if the default<br>
-     * function is not sufficient. This could, for example, add the memory<br>
-     * back into a memory pool to be reused later without the overhead of<br>
-     * reallocating it from scratch.<br>
-     * C type : free_callback*
+     * A pointer to the function to deallocate this buffer if the default function is not sufficient. This could,
+     * for example, add the memory back into a memory pool to be reused later without the overhead of reallocating
+     * it from scratch.
+     *
+     * <P>
+     * C type: <CODE>free_callback*</CODE>.
+     * </P>
      */
     public AVFilterBuffer.free_callback free;
-    /** < media format */
+
+    /**
+     * Media format.
+     *
+     * <P>
+     * C type: <CODE>int</CODE>.
+     * </P>
+     */
     public int format;
-    /** < width and height of the allocated buffer */
+
+    /**
+     * Width and height of the allocated buffer.
+     *
+     * <P>
+     * C type: <CODE>int</CODE>.
+     * </P>
+     */
     public int w;
-    /** < width and height of the allocated buffer */
+
+    /**
+     * Width and height of the allocated buffer.
+     *
+     * <P>
+     * C type: <CODE>int</CODE>.
+     * </P>
+     */
     public int h;
-    /** < number of references to this buffer */
+
+    /**
+     * Number of references to this buffer.
+     *
+     * <P>
+     * C type: <CODE>int</CODE>.
+     * </P>
+     */
     public int refcount;
+
     public interface free_callback extends Callback {
         void apply(AVFilterBuffer buf);
     };
+
     public AVFilterBuffer() {
         super();
     }
-    protected List<? > getFieldOrder() {
+
+    /*
+     * (non-Javadoc)
+     * @see com.sun.jna.Structure#getFieldOrder()
+     */
+    @Override
+    protected List<?> getFieldOrder() {
         return Arrays.asList("data", "extended_data", "linesize", "priv", "free", "format", "w", "h", "refcount");
     }
-    /**
-     * @param data < buffer data for each plane/channel<br>
-     * C type : uint8_t*[8]<br>
-     * @param extended_data pointers to the data planes/channels.<br>
-     * * For video, this should simply point to data[].<br>
-     * * For planar audio, each channel has a separate data pointer, and<br>
-     * linesize[0] contains the size of each channel buffer.<br>
-     * For packed audio, there is just one data pointer, and linesize[0]<br>
-     * contains the total size of the buffer for all channels.<br>
-     * * Note: Both data and extended_data will always be set, but for planar<br>
-     * audio with more channels that can fit in data, extended_data must be used<br>
-     * in order to access all channels.<br>
-     * C type : uint8_t**<br>
-     * @param linesize < number of bytes per line<br>
-     * C type : int[8]<br>
-     * @param priv private data to be used by a custom free function<br>
-     * C type : void*<br>
-     * @param free A pointer to the function to deallocate this buffer if the default<br>
-     * function is not sufficient. This could, for example, add the memory<br>
-     * back into a memory pool to be reused later without the overhead of<br>
-     * reallocating it from scratch.<br>
-     * C type : free_callback*<br>
-     * @param format < media format<br>
-     * @param w < width and height of the allocated buffer<br>
-     * @param h < width and height of the allocated buffer<br>
-     * @param refcount < number of references to this buffer
-     */
-    public AVFilterBuffer(Pointer data[], PointerByReference extended_data, int linesize[], Pointer priv, AVFilterBuffer.free_callback free, int format, int w, int h, int refcount) {
+
+    public AVFilterBuffer(Pointer data[], PointerByReference extended_data, int linesize[], Pointer priv,
+        AVFilterBuffer.free_callback free, int format, int w, int h, int refcount) {
         super();
-        if ((data.length != this.data.length))
-            throw new IllegalArgumentException("Wrong array size !");
+
+        if (data.length != this.data.length) {
+            throw new IllegalArgumentException("Wrong array size!");
+        }
+
         this.data = data;
         this.extended_data = extended_data;
-        if ((linesize.length != this.linesize.length))
-            throw new IllegalArgumentException("Wrong array size !");
+        if (linesize.length != this.linesize.length) {
+            throw new IllegalArgumentException("Wrong array size!");
+        }
+
         this.linesize = linesize;
         this.priv = priv;
         this.free = free;
@@ -126,10 +174,10 @@ public class AVFilterBuffer extends Structure {
         this.h = h;
         this.refcount = refcount;
     }
+
     public static class ByReference extends AVFilterBuffer implements Structure.ByReference {
-
     };
-    public static class ByValue extends AVFilterBuffer implements Structure.ByValue {
 
+    public static class ByValue extends AVFilterBuffer implements Structure.ByValue {
     };
 }

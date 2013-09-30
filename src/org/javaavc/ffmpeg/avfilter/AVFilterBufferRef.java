@@ -25,61 +25,120 @@ import com.sun.jna.ptr.PointerByReference;
 import java.util.Arrays;
 import java.util.List;
 
-import org.javaavc.ffmpeg.avfilter.LibavfilterLibrary.AVDictionary;
+import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVDictionary;
 
 /**
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class AVFilterBufferRef extends Structure {
     /**
-     * < the buffer that this is a reference to<br>
-     * C type : AVFilterBuffer*
+     * The buffer that this is a reference to.
+     *
+     * <P>
+     * C type: <CODE>AVFilterBuffer*</CODE>.
+     * </P>
      */
-    public org.javaavc.ffmpeg.avfilter.AVFilterBuffer.ByReference buf;
+    public AVFilterBuffer.ByReference buf;
+
     /**
-     * < picture/audio data for each plane<br>
-     * C type : uint8_t*[8]
+     * Picture/audio data for each plane.
+     *
+     * <P>
+     * C type: <CODE>uint8_t*[8]</CODE>.
+     * </P>
      */
     public Pointer[] data = new Pointer[8];
+
     /**
-     * pointers to the data planes/channels.<br>
-     * * For video, this should simply point to data[].<br>
-     * * For planar audio, each channel has a separate data pointer, and<br>
-     * linesize[0] contains the size of each channel buffer.<br>
-     * For packed audio, there is just one data pointer, and linesize[0]<br>
-     * contains the total size of the buffer for all channels.<br>
-     * * Note: Both data and extended_data will always be set, but for planar<br>
-     * audio with more channels that can fit in data, extended_data must be used<br>
-     * in order to access all channels.<br>
-     * C type : uint8_t**
+     * Pointers to the data planes/channels.
+     *
+     * <P>
+     * For video, this should simply point to <CODE>data[]</CODE>.
+     * </P>
+     *
+     * <P>
+     * For planar audio, each channel has a separate data pointer, and <CODE>linesize[0]</CODE> contains the size of
+     * each channel buffer.
+     * </P>
+     *
+     * <P>
+     * For packed audio, there is just one data pointer, and <CODE>linesize[0]</CODE> contains the total size of the
+     * buffer for all channels.
+     * </P>
+     *
+     * <P>
+     * <STRONG>Note:</STRONG> Both data and extended_data will always be set, but for planar audio with more channels
+     * that can fit in data, <CODE>extended_data</CODE> must be used in order to access all channels.
+     * </P>
+     *
+     * <P>
+     * C type: <CODE>uint8_t**</CODE>.
+     * </P>
      */
     public PointerByReference extended_data;
+
     /**
-     * < number of bytes per line<br>
-     * C type : int[8]
+     * Number of bytes per line.
+     *
+     * <P>
+     * C type: <CODE>int[8]</CODE>.
+     * </P>
      */
     public int[] linesize = new int[8];
+
     /**
-     * < video buffer specific properties<br>
-     * C type : AVFilterBufferRefVideoProps*
+     * Video buffer specific properties.
+     *
+     * <P>
+     * C type: <CODE>AVFilterBufferRefVideoProps*</CODE>.
+     * </P>
      */
-    public org.javaavc.ffmpeg.avfilter.AVFilterBufferRefVideoProps.ByReference video;
+    public AVFilterBufferRefVideoProps.ByReference video;
+
     /**
-     * < audio buffer specific properties<br>
-     * C type : AVFilterBufferRefAudioProps*
+     * Audio buffer specific properties.
+     *
+     * <P>
+     * C type: <CODE>AVFilterBufferRefAudioProps*</CODE>.
+     * </P>
      */
-    public org.javaavc.ffmpeg.avfilter.AVFilterBufferRefAudioProps.ByReference audio;
+    public AVFilterBufferRefAudioProps.ByReference audio;
+
     /**
-     * presentation timestamp. The time unit may change during<br>
-     * filtering, as it is specified in the link and the filter code<br>
-     * may need to rescale the PTS accordingly.
+     * Presentation timestamp. The time unit may change during filtering, as it is specified in the link and the filter
+     * code may need to rescale the PTS accordingly.
+     *
+     * <P>
+     * C type: <CODE>int64_t</CODE>.
+     * </P>
      */
     public long pts;
-    /** < byte position in stream, -1 if unknown */
+
+    /**
+     * Byte position in stream, <CODE>-1</CODE> if unknown.
+     *
+     * <P>
+     * C type: <CODE>int64_t</CODE>.
+     * </P>
+     */
     public long pos;
-    /** < media format */
+
+    /**
+     * Media format.
+     *
+     * <P>
+     * C type: <CODE>int</CODE>.
+     * </P>
+     */
     public int format;
-    /** < permissions, see the AV_PERM_* flags */
+
+    /**
+     * Prmissions, see the <CODE>AV_PERM_*</CODE> flags.
+     *
+     * <P>
+     * C type: <CODE>int</CODE>.
+     * </P>
+     */
     public int perms;
     /**
      * @see AVMediaType<br>
@@ -92,19 +151,24 @@ public class AVFilterBufferRef extends Structure {
      * C type : AVDictionary*
      */
     public AVDictionary metadata;
+
     public AVFilterBufferRef() {
         super();
     }
 
+    /*
+     * (non-Javadoc)
+     * @see com.sun.jna.Structure#getFieldOrder()
+     */
     @Override
     protected List<?> getFieldOrder() {
         return Arrays.asList("buf", "data", "extended_data", "linesize", "video", "audio", "pts", "pos", "format", "perms",
             "type", "metadata");
     }
+
     public static class ByReference extends AVFilterBufferRef implements Structure.ByReference {
-
     };
-    public static class ByValue extends AVFilterBufferRef implements Structure.ByValue {
 
+    public static class ByValue extends AVFilterBufferRef implements Structure.ByValue {
     };
 }

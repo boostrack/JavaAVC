@@ -23,7 +23,7 @@ import com.sun.jna.Structure;
 import java.util.Arrays;
 import java.util.List;
 
-import org.javaavc.ffmpeg.avformat.LibavformatLibrary.AVPacket;
+import org.javaavc.ffmpeg.avcodec.AVPacket;
 
 /**
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
@@ -45,6 +45,7 @@ public class AVPacketList extends Structure {
      */
     public AVPacketList(AVPacket pkt, AVPacketList.ByReference next) {
         super();
+
         this.pkt = pkt;
         this.next = next;
     }

@@ -68,4 +68,13 @@ public final class Windows extends Platform {
     public String getSharedLibExtension() {
         return "dll";
     }
+
+    /*
+     * (non-Javadoc)
+     * @see org.javaavc.platform.Platform#stdIOLibraryName()
+     */
+    @Override
+    protected String getStdIOLibraryName() {
+        return "msvcrt";
+    }
 }

@@ -23,8 +23,8 @@ import com.sun.jna.Structure;
 import java.util.Arrays;
 import java.util.List;
 
-import org.javaavc.ffmpeg.avformat.LibavformatLibrary.AVDictionary;
-import org.javaavc.ffmpeg.avformat.LibavformatLibrary.AVRational;
+import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVDictionary;
+import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVRational;
 
 /**
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)

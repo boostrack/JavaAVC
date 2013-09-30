@@ -25,7 +25,7 @@ import com.sun.jna.Structure;
 import java.util.Arrays;
 import java.util.List;
 
-import org.javaavc.ffmpeg.avcodec.LibavcodecLibrary.AVBufferRef;
+import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVBufferRef;
 
 /**
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)

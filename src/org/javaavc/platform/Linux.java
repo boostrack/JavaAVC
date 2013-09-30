@@ -66,4 +66,13 @@ public final class Linux extends Platform {
     public String getSharedLibExtension() {
         return "so";
     }
+
+    /*
+     * (non-Javadoc)
+     * @see org.javaavc.platform.Platform#stdIOLibraryName()
+     */
+    @Override
+    protected String getStdIOLibraryName() {
+        return "c";
+    }
 }

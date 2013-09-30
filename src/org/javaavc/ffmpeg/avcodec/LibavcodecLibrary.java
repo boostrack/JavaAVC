@@ -19,6 +19,9 @@
 package org.javaavc.ffmpeg.avcodec;
 
 import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVClass;
+import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVDictionary;
+import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVFrame;
+import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVRational;
 import org.javaavc.platform.NativeSize;
 
 import com.sun.jna.Callback;
@@ -1052,9 +1055,9 @@ public interface LibavcodecLibrary extends Library {
         int apply(PointerByReference mutex, int op);
     };
     /** Original signature : <code>AVRational av_codec_get_pkt_timebase(const AVCodecContext*)</code> */
-    LibavcodecLibrary.AVRational av_codec_get_pkt_timebase(AVCodecContext avctx);
+    AVRational av_codec_get_pkt_timebase(AVCodecContext avctx);
     /** Original signature : <code>void av_codec_set_pkt_timebase(AVCodecContext*, AVRational)</code> */
-    void av_codec_set_pkt_timebase(AVCodecContext avctx, LibavcodecLibrary.AVRational val);
+    void av_codec_set_pkt_timebase(AVCodecContext avctx, AVRational val);
     /** Original signature : <code>AVCodecDescriptor* av_codec_get_codec_descriptor(const AVCodecContext*)</code> */
     AVCodecDescriptor av_codec_get_codec_descriptor(AVCodecContext avctx);
     /** Original signature : <code>void av_codec_set_codec_descriptor(AVCodecContext*, const AVCodecDescriptor*)</code> */
@@ -1184,13 +1187,13 @@ public interface LibavcodecLibrary extends Library {
      * @see avcodec_get_frame_defaults<br>
      * Original signature : <code>AVFrame* avcodec_alloc_frame()</code>
      */
-    LibavcodecLibrary.AVFrame avcodec_alloc_frame();
+    AVFrame avcodec_alloc_frame();
     /**
      * Set the fields of the given AVFrame to default values.<br>
      * * @param frame The AVFrame of which the fields should be set to default values.<br>
      * Original signature : <code>void avcodec_get_frame_defaults(AVFrame*)</code>
      */
-    void avcodec_get_frame_defaults(LibavcodecLibrary.AVFrame frame);
+    void avcodec_get_frame_defaults(AVFrame frame);
     /**
      * Free the frame and any dynamically allocated objects in it,<br>
      * e.g. extended_data.<br>
@@ -1200,7 +1203,7 @@ public interface LibavcodecLibrary extends Library {
      *  a custom get_buffer()).<br>
      * Original signature : <code>void avcodec_free_frame(AVFrame**)</code>
      */
-    void avcodec_free_frame(LibavcodecLibrary.AVFrame frame[]);
+    void avcodec_free_frame(AVFrame frame[]);
     /**
      * Initialize the AVCodecContext to use the given AVCodec. Prior to using this<br>
      * function the context has to be allocated with avcodec_alloc_context3().<br>
@@ -1262,7 +1265,7 @@ public interface LibavcodecLibrary extends Library {
      *      av_dict_set(), av_opt_find().<br>
      * Original signature : <code>int avcodec_open2(AVCodecContext*, const AVCodec*, AVDictionary**)</code>
      */
-    int avcodec_open2(AVCodecContext avctx, AVCodec codec, LibavcodecLibrary.AVDictionary options[]);
+    int avcodec_open2(AVCodecContext avctx, AVCodec codec, AVDictionary options[]);
     /**
      * Close a given AVCodecContext and free all the data associated with it<br>
      * (but not the AVCodecContext itself).<br>
@@ -1398,18 +1401,18 @@ public interface LibavcodecLibrary extends Library {
      */
     AVCodec avcodec_find_decoder_by_name(String name);
     /** Original signature : <code>int avcodec_default_get_buffer(AVCodecContext*, AVFrame*)</code> */
-    int avcodec_default_get_buffer(AVCodecContext s, LibavcodecLibrary.AVFrame pic);
+    int avcodec_default_get_buffer(AVCodecContext s, AVFrame pic);
     /** Original signature : <code>void avcodec_default_release_buffer(AVCodecContext*, AVFrame*)</code> */
-    void avcodec_default_release_buffer(AVCodecContext s, LibavcodecLibrary.AVFrame pic);
+    void avcodec_default_release_buffer(AVCodecContext s, AVFrame pic);
     /** Original signature : <code>int avcodec_default_reget_buffer(AVCodecContext*, AVFrame*)</code> */
-    int avcodec_default_reget_buffer(AVCodecContext s, LibavcodecLibrary.AVFrame pic);
+    int avcodec_default_reget_buffer(AVCodecContext s, AVFrame pic);
     /**
      * The default callback for AVCodecContext.get_buffer2(). It is made public so<br>
      * it can be called by custom get_buffer2() implementations for decoders without<br>
      * CODEC_CAP_DR1 set.<br>
      * Original signature : <code>int avcodec_default_get_buffer2(AVCodecContext*, AVFrame*, int)</code>
      */
-    int avcodec_default_get_buffer2(AVCodecContext s, LibavcodecLibrary.AVFrame frame, int flags);
+    int avcodec_default_get_buffer2(AVCodecContext s, AVFrame frame, int flags);
     /**
      * Return the amount of padding in pixels which the get_buffer callback must<br>
      * provide around the edge of the image for codecs which do not have the<br>
@@ -1477,7 +1480,7 @@ public interface LibavcodecLibrary extends Library {
      *         AVPacket is returned.<br>
      * Original signature : <code>int avcodec_decode_audio4(AVCodecContext*, AVFrame*, int*, const AVPacket*)</code>
      */
-    int avcodec_decode_audio4(AVCodecContext avctx, LibavcodecLibrary.AVFrame frame, IntBuffer got_frame_ptr, AVPacket avpkt);
+    int avcodec_decode_audio4(AVCodecContext avctx, AVFrame frame, IntBuffer got_frame_ptr, AVPacket avpkt);
 
     /**
      * Decode the video frame of size avpkt->size from avpkt->data into picture.<br>
@@ -1520,7 +1523,7 @@ public interface LibavcodecLibrary extends Library {
      * used or zero if no frame could be decompressed.<br>
      * Original signature : <code>int avcodec_decode_video2(AVCodecContext*, AVFrame*, int*, const AVPacket*)</code>
      */
-    int avcodec_decode_video2(AVCodecContext avctx, LibavcodecLibrary.AVFrame picture, IntBuffer got_picture_ptr, AVPacket avpkt);
+    int avcodec_decode_video2(AVCodecContext avctx, AVFrame picture, IntBuffer got_picture_ptr, AVPacket avpkt);
 
     /**
      * Decode a subtitle message.<br>
@@ -1629,10 +1632,10 @@ public interface LibavcodecLibrary extends Library {
      * @return          0 on success, negative error code on failure<br>
      * Original signature : <code>int avcodec_encode_audio2(AVCodecContext*, AVPacket*, const AVFrame*, int*)</code>
      */
-    int avcodec_encode_audio2(AVCodecContext avctx, AVPacket avpkt, LibavcodecLibrary.AVFrame frame, IntBuffer got_packet_ptr);
+    int avcodec_encode_audio2(AVCodecContext avctx, AVPacket avpkt, AVFrame frame, IntBuffer got_packet_ptr);
 
     /** Original signature : <code>int avcodec_encode_video(AVCodecContext*, uint8_t*, int, const AVFrame*)</code> */
-    int avcodec_encode_video(AVCodecContext avctx, ByteBuffer buf, int buf_size, LibavcodecLibrary.AVFrame pict);
+    int avcodec_encode_video(AVCodecContext avctx, ByteBuffer buf, int buf_size, AVFrame pict);
 
     /**
      * Encode a frame of video.<br>
@@ -1666,7 +1669,7 @@ public interface LibavcodecLibrary extends Library {
      * @return          0 on success, negative error code on failure<br>
      * Original signature : <code>int avcodec_encode_video2(AVCodecContext*, AVPacket*, const AVFrame*, int*)</code>
      */
-    int avcodec_encode_video2(AVCodecContext avctx, AVPacket avpkt, LibavcodecLibrary.AVFrame frame, IntBuffer got_packet_ptr);
+    int avcodec_encode_video2(AVCodecContext avctx, AVPacket avpkt, AVFrame frame, IntBuffer got_packet_ptr);
 
     /** Original signature : <code>int avcodec_encode_subtitle(AVCodecContext*, uint8_t*, int, const AVSubtitle*)</code> */
     int avcodec_encode_subtitle(AVCodecContext avctx, ByteBuffer buf, int buf_size, AVSubtitle sub);
@@ -1884,7 +1887,7 @@ public interface LibavcodecLibrary extends Library {
      * case of success, at the next libavutil bump<br>
      * Original signature : <code>int avcodec_fill_audio_frame(AVFrame*, int, AVSampleFormat, const uint8_t*, int, int)</code>
      */
-    int avcodec_fill_audio_frame(LibavcodecLibrary.AVFrame frame, int nb_channels, int sample_fmt, ByteBuffer buf, int buf_size, int align);
+    int avcodec_fill_audio_frame(AVFrame frame, int nb_channels, int sample_fmt, ByteBuffer buf, int buf_size, int align);
     /**
      * Flush buffers, should be called when seeking or when switching to a different stream.<br>
      * Original signature : <code>void avcodec_flush_buffers(AVCodecContext*)</code>
@@ -2126,47 +2129,11 @@ public interface LibavcodecLibrary extends Library {
         }
     };
 
-    public static class AVRational extends PointerType {
-        public AVRational(Pointer address) {
-            super(address);
-        }
-        public AVRational() {
-            super();
-        }
-    };
-
     public static class AVResampleContext extends PointerType {
         public AVResampleContext(Pointer address) {
             super(address);
         }
         public AVResampleContext() {
-            super();
-        }
-    };
-
-    public static class AVBufferRef extends PointerType {
-        public AVBufferRef(Pointer address) {
-            super(address);
-        }
-        public AVBufferRef() {
-            super();
-        }
-    };
-
-    public static class AVFrame extends PointerType {
-        public AVFrame(Pointer address) {
-            super(address);
-        }
-        public AVFrame() {
-            super();
-        }
-    };
-
-    public static class AVDictionary extends PointerType {
-        public AVDictionary(Pointer address) {
-            super(address);
-        }
-        public AVDictionary() {
             super();
         }
     };

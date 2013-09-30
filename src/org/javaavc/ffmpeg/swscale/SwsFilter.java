@@ -27,13 +27,32 @@ import java.util.List;
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class SwsFilter extends Structure {
-
+    /**
+     * <P>
+     * C type: <CODE>SwsVector*</CODE>.
+     * </P>
+     */
     public SwsVector.ByReference lumH;
 
+    /**
+     * <P>
+     * C type: <CODE>SwsVector*</CODE>.
+     * </P>
+     */
     public SwsVector.ByReference lumV;
 
+    /**
+     * <P>
+     * C type: <CODE>SwsVector*</CODE>.
+     * </P>
+     */
     public SwsVector.ByReference chrH;
 
+    /**
+     * <P>
+     * C type: <CODE>SwsVector*</CODE>.
+     * </P>
+     */
     public SwsVector.ByReference chrV;
 
     public SwsFilter() {

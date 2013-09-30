@@ -30,11 +30,19 @@ import java.util.List;
 public class SwsVector extends Structure {
     /**
      * Pointer to the list of coefficients.
+     *
+     * <P>
+     * C type: <CODE>double*</CODE>.
+     * </P>
      */
     public DoubleByReference coeff;
 
     /**
      * Number of coefficients in the vector.
+     *
+     * <P>
+     * C type: <CODE>int</CODE>.
+     * </P>
      */
     public int length;
 

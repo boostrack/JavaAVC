@@ -25,7 +25,7 @@ import com.sun.jna.Structure;
 import java.util.Arrays;
 import java.util.List;
 
-import org.javaavc.ffmpeg.avfilter.LibavfilterLibrary.AVFrame;
+import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVFrame;
 
 /**
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
