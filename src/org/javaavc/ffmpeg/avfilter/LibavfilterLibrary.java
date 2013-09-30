@@ -8,6 +8,8 @@ import com.sun.jna.ptr.PointerByReference;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
+import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVClass;
+
 public interface LibavfilterLibrary extends Library {
     /** < all automatic conversions enabled */
     public static final int AVFILTER_AUTO_CONVERT_ALL = 0;
@@ -242,7 +244,7 @@ public interface LibavfilterLibrary extends Library {
      * * @see av_opt_find().<br>
      * Original signature : <code>AVClass* avfilter_get_class()</code>
      */
-    LibavfilterLibrary.AVClass avfilter_get_class();
+    AVClass avfilter_get_class();
     /**
      * Allocate a filter graph.<br>
      * Original signature : <code>AVFilterGraph* avfilter_graph_alloc()</code>
@@ -495,14 +497,6 @@ public interface LibavfilterLibrary extends Library {
             super(address);
         }
         public AVFilterChannelLayouts() {
-            super();
-        }
-    };
-    public static class AVClass extends PointerType {
-        public AVClass(Pointer address) {
-            super(address);
-        }
-        public AVClass() {
             super();
         }
     };

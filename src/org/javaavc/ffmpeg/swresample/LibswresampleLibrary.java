@@ -28,6 +28,8 @@ import com.sun.jna.ptr.PointerByReference;
 import java.nio.DoubleBuffer;
 import java.nio.IntBuffer;
 
+import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVClass;
+
 /**
  * {@link LibswresampleLibrary} is a library that handles audio resampling, sample format conversion and mixing.
  *
@@ -113,7 +115,7 @@ public interface LibswresampleLibrary extends Library {
      * * @see av_opt_find().<br>
      * Original signature : <code>AVClass* swr_get_class()</code>
      */
-    LibswresampleLibrary.AVClass swr_get_class();
+    AVClass swr_get_class();
     /**
      * Allocate SwrContext.<br>
      * * If you use this function you will need to set the parameters (manually or<br>
@@ -282,15 +284,6 @@ public interface LibswresampleLibrary extends Library {
      * Original signature : <code>char* swresample_license()</code>
      */
     String swresample_license();
-
-    public static class AVClass extends PointerType {
-        public AVClass(Pointer address) {
-            super(address);
-        }
-        public AVClass() {
-            super();
-        }
-    };
 
     public static class SwrContext extends PointerType {
         public SwrContext(Pointer address) {

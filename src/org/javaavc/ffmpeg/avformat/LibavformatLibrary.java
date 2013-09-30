@@ -9,6 +9,8 @@ import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.nio.LongBuffer;
 
+import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVClass;
+
 public interface LibavformatLibrary extends Library {
 
     public static interface AVStreamParseType {
@@ -213,7 +215,7 @@ public interface LibavformatLibrary extends Library {
      * * @see av_opt_find().<br>
      * Original signature : <code>AVClass* avformat_get_class()</code>
      */
-    LibavformatLibrary.AVClass avformat_get_class();
+    AVClass avformat_get_class();
     /**
      * Add a new stream to a media file.<br>
      * * When demuxing, it is called by the demuxer in read_header(). If the<br>
@@ -896,14 +898,6 @@ public interface LibavformatLibrary extends Library {
             super(address);
         }
         public AVRational() {
-            super();
-        }
-    };
-    public static class AVClass extends PointerType {
-        public AVClass(Pointer address) {
-            super(address);
-        }
-        public AVClass() {
             super();
         }
     };

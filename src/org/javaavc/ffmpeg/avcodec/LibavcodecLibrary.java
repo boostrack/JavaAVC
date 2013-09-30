@@ -1,5 +1,6 @@
 package org.javaavc.ffmpeg.avcodec;
 
+import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVClass;
 import org.javaavc.platform.NativeSize;
 
 import com.sun.jna.Callback;
@@ -1128,21 +1129,21 @@ public interface LibavcodecLibrary extends Library {
      * * @see av_opt_find().<br>
      * Original signature : <code>AVClass* avcodec_get_class()</code>
      */
-    LibavcodecLibrary.AVClass avcodec_get_class();
+    AVClass avcodec_get_class();
     /**
      * Get the AVClass for AVFrame. It can be used in combination with<br>
      * AV_OPT_SEARCH_FAKE_OBJ for examining options.<br>
      * * @see av_opt_find().<br>
      * Original signature : <code>AVClass* avcodec_get_frame_class()</code>
      */
-    LibavcodecLibrary.AVClass avcodec_get_frame_class();
+    AVClass avcodec_get_frame_class();
     /**
      * Get the AVClass for AVSubtitleRect. It can be used in combination with<br>
      * AV_OPT_SEARCH_FAKE_OBJ for examining options.<br>
      * * @see av_opt_find().<br>
      * Original signature : <code>AVClass* avcodec_get_subtitle_rect_class()</code>
      */
-    LibavcodecLibrary.AVClass avcodec_get_subtitle_rect_class();
+    AVClass avcodec_get_subtitle_rect_class();
     /**
      * Copy the settings of the source AVCodecContext into the destination<br>
      * AVCodecContext. The resulting destination codec context will be<br>
@@ -2109,15 +2110,6 @@ public interface LibavcodecLibrary extends Library {
             super(address);
         }
         public AVRational() {
-            super();
-        }
-    };
-
-    public static class AVClass extends PointerType {
-        public AVClass(Pointer address) {
-            super(address);
-        }
-        public AVClass() {
             super();
         }
     };

@@ -20,6 +20,7 @@ package org.javaavc.ffmpeg.avutil;
 
 import com.sun.jna.Library;
 import com.sun.jna.Pointer;
+import com.sun.jna.PointerType;
 
 /**
  * {@link LibavutilLibrary} contains the code shared across all the other FFmpeg libraries.
@@ -165,4 +166,13 @@ public interface LibavutilLibrary extends Library {
      *          Length of the list, in elements, not counting the terminator.
      */
     public int av_int_list_length_for_size(int elsize, Pointer list, long term);
+
+    public static class AVClass extends PointerType {
+        public AVClass(Pointer address) {
+            super(address);
+        }
+        public AVClass() {
+            super();
+        }
+    };
 }
