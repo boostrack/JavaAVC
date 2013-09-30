@@ -21,8 +21,6 @@ package org.javaavc.ffmpeg.swresample;
 import com.sun.jna.Library;
 import com.sun.jna.Pointer;
 import com.sun.jna.PointerType;
-import com.sun.jna.ptr.DoubleByReference;
-import com.sun.jna.ptr.IntByReference;
 import com.sun.jna.ptr.PointerByReference;
 
 import java.nio.DoubleBuffer;
@@ -110,180 +108,280 @@ public interface LibswresampleLibrary extends Library {
     };
 
     /**
-     * Get the AVClass for swrContext. It can be used in combination with<br>
-     * AV_OPT_SEARCH_FAKE_OBJ for examining options.<br>
-     * * @see av_opt_find().<br>
-     * Original signature : <code>AVClass* swr_get_class()</code>
-     */
-    AVClass swr_get_class();
-    /**
-     * Allocate SwrContext.<br>
-     * * If you use this function you will need to set the parameters (manually or<br>
-     * with swr_alloc_set_opts()) before calling swr_init().<br>
-     * * @see swr_alloc_set_opts(), swr_init(), swr_free()<br>
-     * @return NULL on error, allocated context otherwise<br>
-     * Original signature : <code>SwrContext* swr_alloc()</code>
-     */
-    PointerByReference swr_alloc();
-
-    /**
-     * Initialize context after user parameters have been set.<br>
-     * @return AVERROR error code in case of failure.<br>
-     * Original signature : <code>int swr_init(SwrContext*)</code>
-     */
-    int swr_init(PointerByReference s);
-
-    /**
-     * Allocate SwrContext if needed and set/reset common parameters.<br>
-     * * This function does not require s to be allocated with swr_alloc(). On the<br>
-     * other hand, swr_alloc() can use swr_alloc_set_opts() to set the parameters<br>
-     * on the allocated context.<br>
-     * @param s               Swr context, can be NULL<br>
-     * @param out_ch_layout   output channel layout (AV_CH_LAYOUT_*)<br>
-     * @param out_sample_fmt  output sample format (AV_SAMPLE_FMT_*).<br>
-     * @param out_sample_rate output sample rate (frequency in Hz)<br>
-     * @param in_ch_layout    input channel layout (AV_CH_LAYOUT_*)<br>
-     * @param in_sample_fmt   input sample format (AV_SAMPLE_FMT_*).<br>
-     * @param in_sample_rate  input sample rate (frequency in Hz)<br>
-     * @param log_offset      logging level offset<br>
-     * @param log_ctx         parent logging context, can be NULL<br>
-     * @see swr_init(), swr_free()<br>
-     * @return NULL on error, allocated context otherwise<br>
-     * Original signature : <code>SwrContext* swr_alloc_set_opts(SwrContext*, int64_t, AVSampleFormat, int, int64_t, AVSampleFormat, int, int, void*)</code>
-     */
-    PointerByReference swr_alloc_set_opts(PointerByReference s, long out_ch_layout, int out_sample_fmt, int out_sample_rate, long in_ch_layout, int in_sample_fmt, int in_sample_rate, int log_offset, Pointer log_ctx);
-
-    /**
-     * Free the given SwrContext and set the pointer to NULL.
+     * Return the <CODE>LIBSWRESAMPLE_VERSION_INT</CODE> constant.
      *
-     * Original signature : <code>void swr_free(SwrContext**)</code>
+     * <P>
+     * Original signature: <CODE>int swresample_version()</CODE>.
+     * </P>
      */
-    void swr_free(PointerByReference s);
+    public int swresample_version();
 
     /**
-     * Convert audio.<br>
-     * * in and in_count can be set to 0 to flush the last few samples out at the end.
-     * * If more input is provided than output space then the input will be buffered.<br>
-     * You can avoid this buffering by providing more output space than input.<br>
-     * Convertion will run directly without copying whenever possible.<br>
-     * @param s         allocated Swr context, with parameters set<br>
-     * @param out       output buffers, only the first one need be set in case of packed audio<br>
-     * @param out_count amount of space available for output in samples per channel<br>
-     * @param in        input buffers, only the first one need to be set in case of packed audio<br>
-     * @param in_count  number of input samples available in one channel<br>
-     * @return number of samples output per channel, negative value on error<br>
-     * Original signature : <code>int swr_convert(SwrContext*, uint8_t**, int, const uint8_t**, int)</code>
+     * Return the {@link LibswresampleLibrary} build-time configuration.
+     *
+     * <P>
+     * Original signature: <CODE>char* swresample_configuration()</CODE>.
+     * </P>
      */
-    int swr_convert(PointerByReference s, PointerByReference out, int out_count, PointerByReference in, int in_count);
+    public String swresample_configuration();
 
     /**
-     * Convert the next timestamp from input to output<br>
-     * timestamps are in 1/(in_sample_rate * out_sample_rate) units.<br>
-     * * @note There are 2 slightly differently behaving modes.<br>
-     *       First is when automatic timestamp compensation is not used, (min_compensation >= FLT_MAX)<br>
-     *              in this case timestamps will be passed through with delays compensated<br>
-     *       Second is when automatic timestamp compensation is used, (min_compensation < FLT_MAX)<br>
-     *              in this case the output timestamps will match output sample numbers<br>
-     * * @param pts   timestamp for the next input sample, INT64_MIN if unknown<br>
-     * @return the output timestamp for the next output sample<br>
-     * Original signature : <code>int64_t swr_next_pts(SwrContext*, int64_t)</code>
+     * Return the {@link LibswresampleLibrary} license.
+     *
+     * <P>
+     * Original signature: <CODE>char* swresample_license()</CODE>.
+     * </P>
      */
-    long swr_next_pts(PointerByReference s, long pts);
+    public String swresample_license();
+
+    // TODO
+    /**
+     * Get the {@link AVClass} for {@link SwrContext}. It can be used in combination with <CODE>AV_OPT_SEARCH_FAKE_OBJ</CODE> for
+     * examining options.
+     *
+     * <P>
+     * See <CODE>av_opt_find()</CODE>.
+     * </P>
+     *
+     * <P>
+     * Original signature: <CODE>AVClass* swr_get_class()</CODE>.
+     * </P>
+     */
+    public AVClass swr_get_class();
 
     /**
-     * Activate resampling compensation.<br>
-     * Original signature : <code>int swr_set_compensation(SwrContext*, int, int)</code>
+     * Allocate {@link SwrContext}.
+     *
+     * <P>
+     * If you use this function you will need to set the parameters (manually or with
+     * {@link #swr_alloc_set_opts(PointerByReference, long, int, int, long, int, int, int, Pointer)}) before calling
+     * {@link #swr_init(PointerByReference)}.
+     * </P>
+     *
+     * <P>
+     * See {@link #swr_alloc_set_opts(PointerByReference, long, int, int, long, int, int, int, Pointer)},
+     * {@link #swr_init(PointerByReference)}, {@link #swr_free(PointerByReference)}.
+     * </P>
+     *
+     * <P>
+     * Original signature: <CODE>SwrContext* swr_alloc()</CODE>.
+     * </P>
+     *
+     * @return
+     *      <CODE>NULL</CODE> on error, allocated context otherwise.
      */
-    int swr_set_compensation(PointerByReference s, int sample_delta, int compensation_distance);
+    public PointerByReference swr_alloc();
+
+    // TODO
+    /**
+     * Initialize context after user parameters have been set.
+     *
+     * <P>
+     * Original signature: <CODE>int swr_init(SwrContext*)</CODE>.
+     * </P>
+     *
+     * @return
+     *      <CODE>AVERROR</CODE> error code in case of failure.
+     */
+    public int swr_init(PointerByReference s);
 
     /**
-     * Set a customized input channel mapping.<br>
-     * * @param s           allocated Swr context, not yet initialized<br>
-     * @param channel_map customized input channel mapping (array of channel<br>
-     *                    indexes, -1 for a muted channel)<br>
-     * @return AVERROR error code in case of failure.<br>
-     * Original signature : <code>int swr_set_channel_mapping(SwrContext*, const int*)</code>
+     * Allocate {@link SwrContext} if needed and set/reset common parameters.
+     *
+     * <P>
+     * This function does not require s to be allocated with {@link #swr_alloc()}. On the other hand, {@link #swr_alloc()} can use
+     * {@link #swr_alloc_set_opts(PointerByReference, long, int, int, long, int, int, int, Pointer)} to set the parameters on the
+     * allocated context.
+     * </P>
+     *
+     * <P>
+     * See {@link #swr_init(PointerByReference)}, {@link #swr_free(PointerByReference)}.
+     * </P>
+     *
+     * <P>
+     * Original signature: <CODE>SwrContext* swr_alloc_set_opts(SwrContext*, int64_t, AVSampleFormat, int, int64_t, AVSampleFormat,
+     *                              int, int, void*)</CODE>.
+     * </P>
+     *
+     * @param s
+     *              {@link SwrContext}, can be <CODE>NULL</CODE>.
+     * @param out_ch_layout
+     *              Output channel layout (<CODE>AV_CH_LAYOUT_*</CODE>).
+     * @param out_sample_fmt
+     *              Output sample format (<CODE>AV_SAMPLE_FMT_*</CODE>).
+     * @param out_sample_rate
+     *              Output sample rate (frequency in Hz).
+     * @param in_ch_layout
+     *              Input channel layout (<CODE>AV_CH_LAYOUT_*</CODE>).
+     * @param in_sample_fmt
+     *              Input sample format (<CODE>AV_SAMPLE_FMT_*</CODE>).
+     * @param in_sample_rate
+     *              Input sample rate (frequency in Hz).
+     * @param log_offset
+     *              Logging level offset.
+     * @param log_ctx
+     *              Parent logging context, can be <CODE>NULL</CODE>.
+     * @return
+     *              <CODE>NULL</CODE> on error, allocated context otherwise.
      */
-    int swr_set_channel_mapping(PointerByReference s, IntBuffer channel_map);
+    public PointerByReference swr_alloc_set_opts(PointerByReference s, long out_ch_layout, int out_sample_fmt, int out_sample_rate,
+        long in_ch_layout, int in_sample_fmt, int in_sample_rate, int log_offset, Pointer log_ctx);
+
     /**
-     * Set a customized input channel mapping.<br>
-     * * @param s           allocated Swr context, not yet initialized<br>
-     * @param channel_map customized input channel mapping (array of channel<br>
-     *                    indexes, -1 for a muted channel)<br>
-     * @return AVERROR error code in case of failure.<br>
-     * Original signature : <code>int swr_set_channel_mapping(SwrContext*, const int*)</code>
+     * Free the given {@link SwrContext} and set the pointer to <CODE>NULL</CODE>.
+     *
+     * <P>
+     * Original signature: <CODE>void swr_free(SwrContext**)</CODE>.
+     * </P>
      */
-    int swr_set_channel_mapping(PointerByReference s, IntByReference channel_map);
+    public void swr_free(PointerByReference s);
+
+    /**
+     * Convert audio.
+     *
+     * <P>
+     * <CODE>in</CODE> and <CODE>in_count</CODE> can be set to <CODE>0</CODE> to flush the last few samples out at the end.
+     * </P>
+     *
+     * <P>
+     * If more input is provided than output space then the input will be buffered. You can avoid this buffering by providing more
+     * output space than input. Convertion will run directly without copying whenever possible.
+     * </P>
+     *
+     * <P>
+     * Original signature: <CODE>int swr_convert(SwrContext*, uint8_t**, int, const uint8_t**, int)</CODE>.
+     * </P>
+     *
+     * @param s
+     *              Allocated {@link SwrContext}, with parameters set.
+     * @param out
+     *              Output buffers, only the first one need be set in case of packed audio.
+     * @param out_count
+     *              Amount of space available for output in samples per channel.
+     * @param in
+     *              Input buffers, only the first one need to be set in case of packed audio.
+     * @param in_count
+     *              Number of input samples available in one channel.
+     * @return
+     *              Number of samples output per channel, negative value on error.
+     */
+    public int swr_convert(PointerByReference s, PointerByReference out, int out_count, PointerByReference in, int in_count);
+
+    /**
+     * Convert the next timestamp from input to output timestamps are in <CODE>1/(in_sample_rate * out_sample_rate)</CODE> units.
+     *
+     * <P>
+     * There are 2 slightly differently behaving modes.
+     * <UL>
+     * <LI>First is when automatic timestamp compensation is not used, (<CODE>min_compensation&gt;=FLT_MAX</CODE>) in this case timestamps
+     * will be passed through with delays compensated.</LI>
+     * <LI>Second is when automatic timestamp compensation is used, (<CODE>min_compensation&lt;FLT_MAX</CODE>) in this case the output
+     * timestamps will match output sample numbers.</LI>
+     * </UL>
+     * </P>
+     *
+     * <P>
+     * Original signature: <CODE>int64_t swr_next_pts(SwrContext*, int64_t)</CODE>.
+     * </P>
+     *
+     * @param pts
+     *          Timestamp for the next input sample, <CODE>INT64_MIN</CODE> if unknown.
+     * @return
+     *          The output timestamp for the next output sample.
+     */
+    public long swr_next_pts(PointerByReference s, long pts);
+
+    /**
+     * Activate resampling compensation.
+     *
+     * <P>
+     * Original signature: <CODE>int swr_set_compensation(SwrContext*, int, int)</CODE>.
+     * </P>
+     */
+    public int swr_set_compensation(PointerByReference s, int sample_delta, int compensation_distance);
+
+    /**
+     * Set a customized input channel mapping.
+     *
+     * <P>
+     * Original signature: <CODE>int swr_set_channel_mapping(SwrContext*, const int*)</CODE>.
+     * </P>
+     *
+     * @param s
+     *          Allocated {@link SwrContext}, not yet initialized.
+     * @param channel_map
+     *          Customized input channel mapping (array of channel indexes, <CODE>-1</CODE> for a muted channel).
+     * @return
+     *          <CODE>AVERROR</CODE> error code in case of failure.
+     */
+    public int swr_set_channel_mapping(PointerByReference s, IntBuffer channel_map);
 
     /**
      * Set a customized remix matrix.
      *
-     * @param s       allocated Swr context, not yet initialized<br>
-     * @param matrix  remix coefficients; matrix[i + stride * o] is<br>
-     *                the weight of input channel i in output channel o<br>
-     * @param stride  offset between lines of the matrix<br>
-     * @return  AVERROR error code in case of failure.<br>
-     * Original signature : <code>int swr_set_matrix(SwrContext*, const double*, int)</code>
+     * <P>
+     * Original signature: <CODE>int swr_set_matrix(SwrContext*, const double*, int)</CODE>.
+     * </P>
+     *
+     * @param s
+     *          Allocated {@link SwrContext}, not yet initialized.
+     * @param matrix
+     *          Remix coefficients; <CODE>matrix[i + stride * o]</CODE> is the weight of input channel <CODE>i</CODE> in output
+     *          channel <CODE>o</CODE>.
+     * @param stride
+     *          Offset between lines of the matrix.
+     * @return
+     *          <CODE>AVERROR</CODE> error code in case of failure.
      */
-    int swr_set_matrix(PointerByReference s, DoubleBuffer matrix, int stride);
-    /**
-     * Set a customized remix matrix.<br>
-     * * @param s       allocated Swr context, not yet initialized<br>
-     * @param matrix  remix coefficients; matrix[i + stride * o] is<br>
-     *                the weight of input channel i in output channel o<br>
-     * @param stride  offset between lines of the matrix<br>
-     * @return  AVERROR error code in case of failure.<br>
-     * Original signature : <code>int swr_set_matrix(SwrContext*, const double*, int)</code>
-     */
-    int swr_set_matrix(PointerByReference s, DoubleByReference matrix, int stride);
+    public int swr_set_matrix(PointerByReference s, DoubleBuffer matrix, int stride);
 
     /**
-     * Drops the specified number of output samples.<br>
-     * Original signature : <code>int swr_drop_output(SwrContext*, int)</code>
+     * Drops the specified number of output samples.
+     *
+     * <P>
+     * Original signature: <CODE>int swr_drop_output(SwrContext*, int)</CODE>.
+     * </P>
      */
-    int swr_drop_output(PointerByReference s, int count);
+    public int swr_drop_output(PointerByReference s, int count);
 
     /**
      * Injects the specified number of silence samples.<br>
-     * Original signature : <code>int swr_inject_silence(SwrContext*, int)</code>
+     *
+     * <P>
+     * Original signature: <CODE>int swr_inject_silence(SwrContext*, int)</CODE>.
+     * </P>
      */
-    int swr_inject_silence(PointerByReference s, int count);
+    public int swr_inject_silence(PointerByReference s, int count);
 
     /**
-     * Gets the delay the next input sample will experience relative to the next output sample.<br>
-     * * Swresample can buffer data if more input has been provided than available<br>
-     * output space, also converting between sample rates needs a delay.<br>
-     * This function returns the sum of all such delays.<br>
-     * The exact delay is not necessarily an integer value in either input or<br>
-     * output sample rate. Especially when downsampling by a large value, the<br>
-     * output sample rate may be a poor choice to represent the delay, similarly<br>
-     * for upsampling and the input sample rate.<br>
-     * * @param s     swr context<br>
-     * @param base  timebase in which the returned delay will be<br>
-     *              if its set to 1 the returned delay is in seconds<br>
-     *              if its set to 1000 the returned delay is in milli seconds<br>
-     *              if its set to the input sample rate then the returned delay is in input samples<br>
-     *              if its set to the output sample rate then the returned delay is in output samples<br>
-     *              an exact rounding free delay can be found by using LCM(in_sample_rate, out_sample_rate)<br>
-     * @returns     the delay in 1/base units.<br>
-     * Original signature : <code>int64_t swr_get_delay(SwrContext*, int64_t)</code>
+     * Gets the delay the next input sample will experience relative to the next output sample.
+     *
+     * <P>
+     * Swresample can buffer data if more input has been provided than available output space, also converting between sample rates
+     * needs a delay. This function returns the sum of all such delays. The exact delay is not necessarily an integer value in either
+     * input or output sample rate. Especially when downsampling by a large value, the output sample rate may be a poor choice to
+     * represent the delay, similarly for upsampling and the input sample rate.
+     * </P>
+     *
+     * <P>
+     * Original signature: <CODE>int64_t swr_get_delay(SwrContext*, int64_t)</CODE>.
+     * </P>
+     *
+     * @param s
+     *          {@link SwrContext}.
+     * @param base
+     *          Timebase in which the returned delay will be:
+     *          <UL>
+     *          <LI>if its set to <CODE>1</CODE> the returned delay is in seconds;</LI>
+     *          <LI>if its set to <CODE>1000</CODE> the returned delay is in milliseconds;</LI>
+     *          <LI>if its set to the input sample rate then the returned delay is in input samples;</LI>
+     *          <LI>if its set to the output sample rate then the returned delay is in output samples;</LI>
+     *          </UL>
+     *          an exact rounding free delay can be found by using <CODE>LCM(in_sample_rate, out_sample_rate)</CODE>.
+     * @returns
+     *          The delay in <CODE>1/base</CODE> units.
      */
-    long swr_get_delay(PointerByReference s, long base);
-    /**
-     * Return the LIBSWRESAMPLE_VERSION_INT constant.<br>
-     * Original signature : <code>int swresample_version()</code>
-     */
-    int swresample_version();
-    /**
-     * Return the swr build-time configuration.<br>
-     * Original signature : <code>char* swresample_configuration()</code>
-     */
-    String swresample_configuration();
-    /**
-     * Return the swr license.<br>
-     * Original signature : <code>char* swresample_license()</code>
-     */
-    String swresample_license();
+    public long swr_get_delay(PointerByReference s, long base);
 
     public static class SwrContext extends PointerType {
         public SwrContext(Pointer address) {
