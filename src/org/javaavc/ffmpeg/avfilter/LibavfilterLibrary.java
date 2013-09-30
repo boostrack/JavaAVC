@@ -1,3 +1,21 @@
+/*
+ * Copyright 2013 JavaAVC Team
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/*
+ * This class is part of Java Java Audio/Video Codec (JavaAVC) Library.
+ */
 package org.javaavc.ffmpeg.avfilter;
 
 import com.sun.jna.Library;
@@ -10,6 +28,18 @@ import java.nio.IntBuffer;
 
 import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVClass;
 
+/**
+ * {@link LibavfilterLibrary} graph-based frame editing library.
+ *
+ * <P>
+ * <H6>Links:</H6>
+ * <OL>
+ * <LI><A href="http://www.ffmpeg.org/doxygen/2.0/group__lavfi.html">Libavfilter -- graph-based frame editing library</A>.</LI>
+ * </OL>
+ * </P>
+ *
+ * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
+ */
 public interface LibavfilterLibrary extends Library {
     /** < all automatic conversions enabled */
     public static final int AVFILTER_AUTO_CONVERT_ALL = 0;
@@ -32,21 +62,34 @@ public interface LibavfilterLibrary extends Library {
     public static final int AV_PERM_READ = 0x01;
     public static final int AV_PERM_WRITE = 0x02;
     public static final int AVFILTER_CMD_FLAG_ONE = 1;
+
     /**
-     * Return the LIBAVFILTER_VERSION_INT constant.<br>
-     * Original signature : <code>int avfilter_version()</code>
+     * Return the <CODE>LIBAVFILTER_VERSION_INT</CODE> constant.
+     *
+     * <P>
+     * Original signature: <CODE>int avfilter_version()</CODE>.
+     * </P>
      */
-    int avfilter_version();
+    public int avfilter_version();
+
     /**
-     * Return the libavfilter build-time configuration.<br>
-     * Original signature : <code>char* avfilter_configuration()</code>
+     * Return the {@link LibavfilterLibrary} build-time configuration.
+     *
+     * <P>
+     * Original signature: <CODE>char* avfilter_configuration()</CODE>.
+     * </P>
      */
-    String avfilter_configuration();
+    public String avfilter_configuration();
+
     /**
-     * Return the libavfilter license.<br>
-     * Original signature : <code>char* avfilter_license()</code>
+     * Return the {@link LibavfilterLibrary} license.
+     *
+     * <P>
+     * Original signature: <CODE>char* avfilter_license()</CODE>.
+     * </P>
      */
-    String avfilter_license();
+    public String avfilter_license();
+
     /** Original signature : <code>void avfilter_copy_buffer_ref_props(AVFilterBufferRef*, AVFilterBufferRef*)</code> */
     void avfilter_copy_buffer_ref_props(AVFilterBufferRef dst, AVFilterBufferRef src);
     /** Original signature : <code>AVFilterBufferRef* avfilter_ref_buffer(AVFilterBufferRef*, int)</code> */

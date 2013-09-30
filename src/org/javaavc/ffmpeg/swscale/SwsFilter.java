@@ -1,3 +1,21 @@
+/*
+ * Copyright 2013 JavaAVC Team
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/*
+ * This class is part of Java Java Audio/Video Codec (JavaAVC) Library.
+ */
 package org.javaavc.ffmpeg.swscale;
 
 import com.sun.jna.Structure;
@@ -5,36 +23,35 @@ import com.sun.jna.Structure;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
+ */
 public class SwsFilter extends Structure {
-    /** C type : SwsVector* */
-    public org.javaavc.ffmpeg.swscale.SwsVector.ByReference lumH;
 
-    /** C type : SwsVector* */
-    public org.javaavc.ffmpeg.swscale.SwsVector.ByReference lumV;
+    public SwsVector.ByReference lumH;
 
-    /** C type : SwsVector* */
-    public org.javaavc.ffmpeg.swscale.SwsVector.ByReference chrH;
+    public SwsVector.ByReference lumV;
 
-    /** C type : SwsVector* */
-    public org.javaavc.ffmpeg.swscale.SwsVector.ByReference chrV;
+    public SwsVector.ByReference chrH;
+
+    public SwsVector.ByReference chrV;
 
     public SwsFilter() {
         super();
     }
 
+    /*
+     * (non-Javadoc)
+     * @see com.sun.jna.Structure#getFieldOrder()
+     */
     @Override
     protected List<?> getFieldOrder() {
         return Arrays.asList("lumH", "lumV", "chrH", "chrV");
     }
 
-    /**
-     * @param lumH C type : SwsVector*
-     * @param lumV C type : SwsVector*
-     * @param chrH C type : SwsVector*
-     * @param chrV C type : SwsVector*
-     */
-    public SwsFilter(org.javaavc.ffmpeg.swscale.SwsVector.ByReference lumH, org.javaavc.ffmpeg.swscale.SwsVector.ByReference lumV, org.javaavc.ffmpeg.swscale.SwsVector.ByReference chrH, org.javaavc.ffmpeg.swscale.SwsVector.ByReference chrV) {
+    public SwsFilter(SwsVector.ByReference lumH, SwsVector.ByReference lumV, SwsVector.ByReference chrH, SwsVector.ByReference chrV) {
         super();
+
         this.lumH = lumH;
         this.lumV = lumV;
         this.chrH = chrH;
