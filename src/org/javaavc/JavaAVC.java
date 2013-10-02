@@ -64,41 +64,27 @@ import com.sun.jna.Native;
 public class JavaAVC {
 
     public static final String LIB_NAME = "JavaAVC";
-
     public static final int LIB_VER_MAJOR = 1;
-
     public static final int LIB_VER_MINOR = 7;
-
     public static final int LIB_VER_PATCH = 1;
-
     public static final String LIB_VER = Integer.toString(LIB_VER_MAJOR) + "." + Integer.toString(LIB_VER_MINOR) + "."
                     + Integer.toString(LIB_VER_PATCH);
 
     public static final String NATIVE_NAME = LIB_NAME.toLowerCase();
-
     public static final int NATIVE_VER_MAJOR = 2;
-
     public static final int NATIVE_VER_MINOR = 0;
-
     public static final int NATIVE_VER_PATCH = 1;
-
     public static final String NATIVE_VER = Integer.toString(NATIVE_VER_MAJOR) + "." + Integer.toString(NATIVE_VER_MINOR) + "."
                     + Integer.toString(NATIVE_VER_PATCH);
 
     private static volatile JavaAVC INSTANCE = null;
 
     public final LibavutilLibrary avutil;
-
     public final LibavcodecLibrary avcodec;
-
     public final LibavformatLibrary avformat;
-
     public final LibswresampleLibrary swresample;
-
     public final LibswscaleLibrary swscale;
-
     public final LibavfilterLibrary avfilter;
-
     public final LibavdeviceLibrary avdevice;
 
     private final Platform platform;

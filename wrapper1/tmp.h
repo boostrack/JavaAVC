@@ -38,7 +38,7 @@
  * @{
  */
 
-# 1 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stdint.h" 1 3 4
+# 1 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stdint.h" 1 3 4
 
 
 # 1 "/usr/include/stdint.h" 1 3 4
@@ -320,7 +320,7 @@
 
 
 #define __USE_ATFILE 1
-# 336 "/usr/include/features.h" 3 4
+# 340 "/usr/include/features.h" 3 4
 #define __USE_FORTIFY_LEVEL 0
 
 
@@ -355,37 +355,9 @@
    explicitly includes a system header.  GCC knows the name of this
    header in order to preinclude it.  */
 
-/* Define __STDC_IEC_559__ and other similar macros.  */
-# 1 "/usr/include/x86_64-linux-gnu/bits/predefs.h" 1 3 4
-/* Copyright (C) 2005 Free Software Foundation, Inc.
-   This file is part of the GNU C Library.
-
-   The GNU C Library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Lesser General Public
-   License as published by the Free Software Foundation; either
-   version 2.1 of the License, or (at your option) any later version.
-
-   The GNU C Library is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Lesser General Public License for more details.
-
-   You should have received a copy of the GNU Lesser General Public
-   License along with the GNU C Library; if not, write to the Free
-   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-   02111-1307 USA.  */
-
-
-#define _PREDEFS_H 
-
-
-
-
-
 /* We do support the IEC 559 math functionality, real and complex.  */
 #define __STDC_IEC_559__ 1
 #define __STDC_IEC_559_COMPLEX__ 1
-# 31 "/usr/include/stdc-predef.h" 2 3 4
 
 /* wchar_t uses ISO/IEC 10646 (2nd ed., published 2011-03-15) /
    Unicode 6.0.  */
@@ -393,7 +365,7 @@
 
 /* We do not support C11 <threads.h>.  */
 #define __STDC_NO_THREADS__ 1
-# 342 "/usr/include/features.h" 2 3 4
+# 346 "/usr/include/features.h" 2 3 4
 
 /* This macro indicates that the installed library is the GNU C Library.
    For historic reasons the value now is 6 and this will stay from now
@@ -423,7 +395,7 @@
 /* This is here only because every header file already includes this one.  */
 
 
-# 1 "/usr/include/x86_64-linux-gnu/sys/cdefs.h" 1 3 4
+# 1 "/usr/include/sys/cdefs.h" 1 3 4
 /* Copyright (C) 1992-2002, 2004, 2005, 2006, 2007, 2009, 2011, 2012
    Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -460,7 +432,7 @@
 /* Some user header file might have defined this before.  */
 #undef __P
 #undef __PMT
-# 73 "/usr/include/x86_64-linux-gnu/sys/cdefs.h" 3 4
+# 73 "/usr/include/sys/cdefs.h" 3 4
 #define __inline /* No inline functions.  */
 
 #define __THROW 
@@ -500,7 +472,7 @@
    future changes and we include the ISO C99 code in the non-standard
    namespace __c99.  The C++ wrapper header take case of adding the
    definitions to the global namespace.  */
-# 120 "/usr/include/x86_64-linux-gnu/sys/cdefs.h" 3 4
+# 120 "/usr/include/sys/cdefs.h" 3 4
 /* For compatibility we do not add the declarations into any
    namespace.  They will end up in the global namespace which is what
    old code expects.  */
@@ -525,14 +497,14 @@
 #define __bos(ptr) __builtin_object_size (ptr, __USE_FORTIFY_LEVEL > 1)
 #define __bos0(ptr) __builtin_object_size (ptr, 0)
 #define __fortify_function __extern_always_inline __attribute_artificial__
-# 152 "/usr/include/x86_64-linux-gnu/sys/cdefs.h" 3 4
+# 152 "/usr/include/sys/cdefs.h" 3 4
 #define __warndecl(name,msg) extern void name (void)
 #define __warnattr(msg) 
 #define __errordecl(name,msg) extern void name (void)
 
 
 /* Support for flexible arrays.  */
-# 168 "/usr/include/x86_64-linux-gnu/sys/cdefs.h" 3 4
+# 168 "/usr/include/sys/cdefs.h" 3 4
 /* Some other non-C99 compiler.  Approximate with [1].  */
 #define __flexarr [1]
 
@@ -549,7 +521,7 @@
 
    Example:
    int __REDIRECT(setpgrp, (__pid_t pid, __pid_t pgrp), setpgid); */
-# 210 "/usr/include/x86_64-linux-gnu/sys/cdefs.h" 3 4
+# 210 "/usr/include/sys/cdefs.h" 3 4
 /* GCC has various useful declarations that can be made with the
    `__attribute__' syntax.  All of the ways we use this do fine if
    they are omitted for compilers that don't understand it. */
@@ -663,7 +635,7 @@
 
 /* GCC 4.3 and above with -std=c99 or -std=gnu99 implements ISO C99
    inline semantics, unless -fgnu89-inline is used.  */
-# 337 "/usr/include/x86_64-linux-gnu/sys/cdefs.h" 3 4
+# 337 "/usr/include/sys/cdefs.h" 3 4
 #define __extern_inline /* Ignore */
 #define __extern_always_inline /* Ignore */
 
@@ -691,7 +663,7 @@
 /* ISO C99 also allows to declare arrays as non-overlapping.  The syntax is
      array_name[restrict]
    GCC 3.1 supports this.  */
-# 373 "/usr/include/x86_64-linux-gnu/sys/cdefs.h" 3 4
+# 373 "/usr/include/sys/cdefs.h" 3 4
 /* Some other non-C99 compiler.  */
 #define __restrict_arr /* Not supported.  */
 
@@ -704,21 +676,21 @@
 #define __glibc_unlikely(cond) (cond)
 
 
-# 1 "/usr/include/x86_64-linux-gnu/bits/wordsize.h" 1 3 4
+# 1 "/usr/include/bits/wordsize.h" 1 3 4
 /* Determine the wordsize from the preprocessor defines.  */
 
 
 
 
 #define __WORDSIZE 32
-# 386 "/usr/include/x86_64-linux-gnu/sys/cdefs.h" 2 3 4
-# 407 "/usr/include/x86_64-linux-gnu/sys/cdefs.h" 3 4
+# 386 "/usr/include/sys/cdefs.h" 2 3 4
+# 407 "/usr/include/sys/cdefs.h" 3 4
 #define __LDBL_REDIR1(name,proto,alias) name proto
 #define __LDBL_REDIR(name,proto) name proto
 #define __LDBL_REDIR1_NTH(name,proto,alias) name proto __THROW
 #define __LDBL_REDIR_NTH(name,proto) name proto __THROW
 #define __LDBL_REDIR_DECL(name) 
-# 372 "/usr/include/features.h" 2 3 4
+# 376 "/usr/include/features.h" 2 3 4
 
 
 /* If we don't have __REDIRECT, prototypes will be missing if
@@ -742,14 +714,14 @@
    Get the definitions of all the appropriate `__stub_FUNCTION' symbols.
    <gnu/stubs.h> contains `#define __stub_FUNCTION' when FUNCTION is a stub
    that will always return failure (and set errno to ENOSYS).  */
-# 1 "/usr/include/x86_64-linux-gnu/gnu/stubs.h" 1 3 4
+# 1 "/usr/include/gnu/stubs.h" 1 3 4
 /* This file is automatically generated.
    This file selects the right generated file of `__stub_FUNCTION' macros
    based on the architecture being compiled for.  */
 
 
 
-# 1 "/usr/include/x86_64-linux-gnu/gnu/stubs-32.h" 1 3 4
+# 1 "/usr/include/gnu/stubs-32.h" 1 3 4
 /* This file is automatically generated.
    It defines a symbol `__stub_FUNCTION' for each function
    in the C library which is a stub, meaning it will fail
@@ -770,12 +742,12 @@
 #define __stub_sigreturn 
 #define __stub_sstk 
 #define __stub_stty 
-# 8 "/usr/include/x86_64-linux-gnu/gnu/stubs.h" 2 3 4
-# 396 "/usr/include/features.h" 2 3 4
+# 8 "/usr/include/gnu/stubs.h" 2 3 4
+# 400 "/usr/include/features.h" 2 3 4
 # 26 "/usr/include/stdint.h" 2 3 4
-# 1 "/usr/include/x86_64-linux-gnu/bits/wchar.h" 1 3 4
-/* wchar_t type related definitions.
-   Copyright (C) 2000-2013 Free Software Foundation, Inc.
+# 1 "/usr/include/bits/wchar.h" 1 3 4
+/* wchar_t type related definitions.  i386/x86-64 version.
+   Copyright (C) 2000-2012 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -795,33 +767,23 @@
 
 #define _BITS_WCHAR_H 1
 
-/* The fallback definitions, for when __WCHAR_MAX__ or __WCHAR_MIN__
-   are not defined, give the right value and type as long as both int
-   and wchar_t are 32-bit types.  Adding L'\0' to a constant value
-   ensures that the type is correct; it is necessary to use (L'\0' +
-   0) rather than just L'\0' so that the type in C++ is the promoted
-   version of wchar_t rather than the distinct wchar_t type itself.
-   Because wchar_t in preprocessor #if expressions is treated as
-   intmax_t or uintmax_t, the expression (L'\0' - 1) would have the
-   wrong value for WCHAR_MAX in such expressions and so cannot be used
-   to define __WCHAR_MAX in the unsigned case.  */
+# 1 "/usr/include/bits/wordsize.h" 1 3 4
+/* Determine the wordsize from the preprocessor defines.  */
+
+
+
+
+#define __WORDSIZE 32
+# 23 "/usr/include/bits/wchar.h" 2 3 4
 
 
 
 
 
-
-#define __WCHAR_MAX (0x7fffffff + L'\0')
-
-
-
-
-
-
-
-#define __WCHAR_MIN (-__WCHAR_MAX - 1)
+#define __WCHAR_MIN (-2147483647l - 1l)
+#define __WCHAR_MAX (2147483647l)
 # 27 "/usr/include/stdint.h" 2 3 4
-# 1 "/usr/include/x86_64-linux-gnu/bits/wordsize.h" 1 3 4
+# 1 "/usr/include/bits/wordsize.h" 1 3 4
 /* Determine the wordsize from the preprocessor defines.  */
 
 
@@ -1109,7 +1071,7 @@ typedef unsigned long long int uintmax_t;
 
 #define INTMAX_C(c) c ## LL
 #define UINTMAX_C(c) c ## ULL
-# 4 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stdint.h" 2 3 4
+# 4 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stdint.h" 2 3 4
 
 
 
@@ -1468,7 +1430,7 @@ char av_get_picture_type_char(enum AVPictureType pict_type);
 
 /* Get the error number constants from the system-specific file.
    This file will test __need_Emath and _ERRNO_H.  */
-# 1 "/usr/include/x86_64-linux-gnu/bits/errno.h" 1 3 4
+# 1 "/usr/include/bits/errno.h" 1 3 4
 /* Error constants.  Linux specific version.
    Copyright (C) 1996-1999, 2005, 2009, 2012 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -1493,7 +1455,7 @@ char av_get_picture_type_char(enum AVPictureType pict_type);
 #undef EILSEQ
 #undef ERANGE
 # 1 "/usr/include/linux/errno.h" 1 3 4
-# 1 "/usr/include/x86_64-linux-gnu/asm/errno.h" 1 3 4
+# 1 "/usr/include/asm/errno.h" 1 3 4
 # 1 "/usr/include/asm-generic/errno.h" 1 3 4
 
 #define _ASM_GENERIC_ERRNO_H 
@@ -1644,9 +1606,9 @@ char av_get_picture_type_char(enum AVPictureType pict_type);
 #define ERFKILL 132 /* Operation not possible due to RF-kill */
 
 #define EHWPOISON 133 /* Memory page has hardware error */
-# 1 "/usr/include/x86_64-linux-gnu/asm/errno.h" 2 3 4
+# 1 "/usr/include/asm/errno.h" 2 3 4
 # 1 "/usr/include/linux/errno.h" 2 3 4
-# 25 "/usr/include/x86_64-linux-gnu/bits/errno.h" 2 3 4
+# 25 "/usr/include/bits/errno.h" 2 3 4
 
 /* Linux has no ENOTSUP error code.  */
 #define ENOTSUP EOPNOTSUPP
@@ -1657,7 +1619,7 @@ char av_get_picture_type_char(enum AVPictureType pict_type);
 
 
 /* Support for error codes to support robust mutexes was added later, too.  */
-# 49 "/usr/include/x86_64-linux-gnu/bits/errno.h" 3 4
+# 49 "/usr/include/bits/errno.h" 3 4
 /* Function to get address of global `errno' variable.  */
 extern int *__errno_location (void) /* Ignore */;
 
@@ -1738,7 +1700,7 @@ extern int *__errno_location (void) /* Ignore */;
 
 
 #define __need_wchar_t 
-# 1 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 1 3 4
+# 1 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 1 3 4
 /* Copyright (C) 1989, 1997, 1998, 1999, 2000, 2002, 2004, 2009, 2011
    Free Software Foundation, Inc.
 
@@ -1775,7 +1737,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 /* Any one of these symbols __need_* means that GNU libc
    wants us just to define one data type.  So don't define
    the symbols that indicate this file's entire job has been done.  */
-# 49 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 49 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* This avoids lossage on SunOS but only if stdtypes.h comes first.
    There's no way to win with the other order!  Sun lossage.  */
 
@@ -1793,7 +1755,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    defined if the corresponding type is *not* defined.
    FreeBSD-2.1 defines _MACHINE_ANSI_H_ instead of _ANSI_H_.
    NetBSD defines _I386_ANSI_H_ and _X86_64_ANSI_H_ instead of _ANSI_H_ */
-# 95 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 95 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* Sequent's header files use _PTRDIFF_T_ in some conflicting way.
    Just ignore it.  */
 
@@ -1806,7 +1768,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    not defined, and so that defining this macro defines _GCC_SIZE_T.
    If we find that the macros are still defined at this point, we must
    invoke them so that the type is defined as expected.  */
-# 120 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 120 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* In case nobody has defined these types, but we aren't running under
    GCC 2.00, make sure that __PTRDIFF_TYPE__, __SIZE_TYPE__, and
    __WCHAR_TYPE__ have reasonable values.  This can happen if the
@@ -1817,12 +1779,12 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 165 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 165 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* Unsigned type of `sizeof' something.  */
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 239 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 239 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* Wide character type.
    Locale-writers should change this as necessary to
    be big enough to hold unique values not between 0 and 127,
@@ -1830,7 +1792,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 264 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 264 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 #define __wchar_t__ /* BeOS */
 #define __WCHAR_T__ /* Cray Unicos/Mk */
 #define _WCHAR_T 
@@ -1859,25 +1821,25 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    the same type." */
 
 #undef _BSD_WCHAR_T_
-# 307 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 307 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* FreeBSD 5 can't be handled well using "traditional" logic above
    since it no longer defines _BSD_RUNE_T_ yet still desires to export
    rune_t in some cases... */
-# 322 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 322 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 #define __WCHAR_TYPE__ int
 
 
 typedef int wchar_t;
-# 344 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 344 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 #undef __need_wchar_t
-# 359 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 359 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /*  In 4.3bsd-net2, leave these undefined to indicate that size_t, etc.
     are already defined.  */
 /*  BSD/OS 3.1 and FreeBSD [23].x require the MACHINE_ANSI_H check here.  */
 /*  NetBSD 5 requires the I386_ANSI_H and X86_64_ANSI_H checks here.  */
-# 395 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 395 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* A null pointer constant.  */
-# 409 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 409 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 #undef __need_NULL
 # 38 "/usr/include/inttypes.h" 2 3 4
 typedef wchar_t __gwchar_t;
@@ -2154,7 +2116,7 @@ extern uintmax_t wcstoumax (const __gwchar_t */* Ignore */ __nptr,
 # 439 "/usr/include/inttypes.h" 3 4
 
 # 31 "include/libavutil/common.h" 2
-# 1 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include-fixed/limits.h" 1 3 4
+# 1 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include-fixed/limits.h" 1 3 4
 /* Copyright (C) 1992, 1994, 1997, 1998 Free Software Foundation, Inc.
 
 This file is part of GCC.
@@ -2188,14 +2150,14 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 
 /* Use "..." so that we find syslimits.h only in this same directory.  */
-# 1 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include-fixed/syslimits.h" 1 3 4
+# 1 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include-fixed/syslimits.h" 1 3 4
 /* syslimits.h stands for the system's own limits.h file.
    If we can use it ok unmodified, then we install this text.
    If fixincludes fixes it, then the fixed version is installed
    instead of this text.  */
 
 #define _GCC_NEXT_LIMITS_H /* tell gcc's limits.h to recurse */
-# 1 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include-fixed/limits.h" 1 3 4
+# 1 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include-fixed/limits.h" 1 3 4
 /* Copyright (C) 1992, 1994, 1997, 1998 Free Software Foundation, Inc.
 
 This file is part of GCC.
@@ -2224,7 +2186,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 /* We use _GCC_LIMITS_H_ because we want this not to match
    any macros that the system's limits.h uses for its own purposes.  */
-# 169 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include-fixed/limits.h" 3 4
+# 169 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include-fixed/limits.h" 3 4
 # 1 "/usr/include/limits.h" 1 3 4
 /* Copyright (C) 1991, 1992, 1996, 1997, 1998, 1999, 2000, 2005
    Free Software Foundation, Inc.
@@ -2287,7 +2249,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 #define _LIMITS_H 1
 
-# 1 "/usr/include/x86_64-linux-gnu/bits/wordsize.h" 1 3 4
+# 1 "/usr/include/bits/wordsize.h" 1 3 4
 /* Determine the wordsize from the preprocessor defines.  */
 
 
@@ -2374,7 +2336,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    ages are available.  */
 # 143 "/usr/include/limits.h" 3 4
 /* POSIX adds things to <limits.h>.  */
-# 1 "/usr/include/x86_64-linux-gnu/bits/posix1_lim.h" 1 3 4
+# 1 "/usr/include/bits/posix1_lim.h" 1 3 4
 /* Copyright (C) 1991-2012 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
@@ -2459,7 +2421,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 /* Number of files one process can have open at once.  */
 
 #define _POSIX_OPEN_MAX 20
-# 95 "/usr/include/x86_64-linux-gnu/bits/posix1_lim.h" 3 4
+# 95 "/usr/include/bits/posix1_lim.h" 3 4
 /* Number of bytes in a pathname.  */
 #define _POSIX_PATH_MAX 256
 
@@ -2504,13 +2466,13 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 /* Maximum length of a timezone name (element of `tzname').  */
 
 #define _POSIX_TZNAME_MAX 6
-# 155 "/usr/include/x86_64-linux-gnu/bits/posix1_lim.h" 3 4
+# 155 "/usr/include/bits/posix1_lim.h" 3 4
 /* Maximum clock resolution in nanoseconds.  */
 #define _POSIX_CLOCKRES_MIN 20000000
 
 
 /* Get the implementation-specific values for the above.  */
-# 1 "/usr/include/x86_64-linux-gnu/bits/local_lim.h" 1 3 4
+# 1 "/usr/include/bits/local_lim.h" 1 3 4
 /* Minimum guaranteed maximum values for system limits.  Linux version.
    Copyright (C) 1993-1998,2000,2002-2004,2008 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -2567,7 +2529,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 #define XATTR_LIST_MAX 65536 /* size of extended attribute namelist (64k) */
 
 #define RTSIG_MAX 32
-# 39 "/usr/include/x86_64-linux-gnu/bits/local_lim.h" 2 3 4
+# 39 "/usr/include/bits/local_lim.h" 2 3 4
 
 /* Have to remove NR_OPEN?  */
 
@@ -2629,7 +2591,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 /* Maximum value the semaphore can have.  */
 #define SEM_VALUE_MAX (2147483647)
-# 161 "/usr/include/x86_64-linux-gnu/bits/posix1_lim.h" 2 3 4
+# 161 "/usr/include/bits/posix1_lim.h" 2 3 4
 
 
 
@@ -2643,7 +2605,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 
 
-# 1 "/usr/include/x86_64-linux-gnu/bits/posix2_lim.h" 1 3 4
+# 1 "/usr/include/bits/posix2_lim.h" 1 3 4
 /* Copyright (C) 1991, 1996, 1999, 2000, 2001 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
@@ -2733,10 +2695,10 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 /* This value is defined like this in regex.h.  */
 #define RE_DUP_MAX (0x7fff)
 # 149 "/usr/include/limits.h" 2 3 4
-# 170 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include-fixed/limits.h" 2 3 4
-# 8 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include-fixed/syslimits.h" 2 3 4
+# 170 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include-fixed/limits.h" 2 3 4
+# 8 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include-fixed/syslimits.h" 2 3 4
 #undef _GCC_NEXT_LIMITS_H
-# 35 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include-fixed/limits.h" 2 3 4
+# 35 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include-fixed/limits.h" 2 3 4
 
 /* Copyright (C) 1991, 1992, 1993, 1996, 1997, 1998, 1999, 2000, 2001,
    2002 Free Software Foundation, Inc.
@@ -2789,7 +2751,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 
 /* Minimum and maximum values a `char' can hold.  */
-# 97 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include-fixed/limits.h" 3 4
+# 97 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include-fixed/limits.h" 3 4
 #undef CHAR_MIN
 #define CHAR_MIN SCHAR_MIN
 #undef CHAR_MAX
@@ -2830,7 +2792,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 /* Maximum value an `unsigned long int' can hold.  (Minimum is 0).  */
 #undef ULONG_MAX
 #define ULONG_MAX (LONG_MAX * 2UL + 1UL)
-# 163 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include-fixed/limits.h" 3 4
+# 163 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include-fixed/limits.h" 3 4
 /* This administrivia gets added to the end of limits.h
    if the system has its own version of limits.h.  */
 # 32 "include/libavutil/common.h" 2
@@ -2884,7 +2846,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 /* Get machine-dependent HUGE_VAL value (returned on overflow).
    On all IEEE754 machines, this is +Infinity.  */
-# 1 "/usr/include/x86_64-linux-gnu/bits/huge_val.h" 1 3 4
+# 1 "/usr/include/bits/huge_val.h" 1 3 4
 /* `HUGE_VAL' constant for IEEE 754 machines (where it is infinity).
    Used by <stdlib.h> and <math.h> functions for overflow.
    Copyright (C) 1992, 1995, 1996, 1997, 1999, 2000, 2004
@@ -2910,7 +2872,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 
 /* IEEE positive infinity (-HUGE_VAL is negative infinity).  */
-# 40 "/usr/include/x86_64-linux-gnu/bits/huge_val.h" 3 4
+# 40 "/usr/include/bits/huge_val.h" 3 4
 # 1 "/usr/include/endian.h" 1 3 4
 /* Copyright (C) 1992-2012 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -2964,7 +2926,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 #define __PDP_ENDIAN 3412
 
 /* This file defines `__BYTE_ORDER' for the particular machine.  */
-# 1 "/usr/include/x86_64-linux-gnu/bits/endian.h" 1 3 4
+# 1 "/usr/include/bits/endian.h" 1 3 4
 /* i386/x86_64 are little-endian.  */
 
 
@@ -2996,7 +2958,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 
 /* Conversion interfaces.  */
-# 1 "/usr/include/x86_64-linux-gnu/bits/byteswap.h" 1 3 4
+# 1 "/usr/include/bits/byteswap.h" 1 3 4
 /* Macros to swap the order of bytes in integer values.
    Copyright (C) 1997-2012   Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -3039,8 +3001,8 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    You should have received a copy of the GNU Lesser General Public
    License along with the GNU C Library; if not, see
    <http://www.gnu.org/licenses/>.  */
-# 27 "/usr/include/x86_64-linux-gnu/bits/byteswap.h" 2 3 4
-# 1 "/usr/include/x86_64-linux-gnu/bits/types.h" 1 3 4
+# 27 "/usr/include/bits/byteswap.h" 2 3 4
+# 1 "/usr/include/bits/types.h" 1 3 4
 /* bits/types.h -- definitions of __*_t types underlying *_t types.
    Copyright (C) 2002-2012 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -3083,15 +3045,15 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    You should have received a copy of the GNU Lesser General Public
    License along with the GNU C Library; if not, see
    <http://www.gnu.org/licenses/>.  */
-# 27 "/usr/include/x86_64-linux-gnu/bits/types.h" 2 3 4
-# 1 "/usr/include/x86_64-linux-gnu/bits/wordsize.h" 1 3 4
+# 27 "/usr/include/bits/types.h" 2 3 4
+# 1 "/usr/include/bits/wordsize.h" 1 3 4
 /* Determine the wordsize from the preprocessor defines.  */
 
 
 
 
 #define __WORDSIZE 32
-# 28 "/usr/include/x86_64-linux-gnu/bits/types.h" 2 3 4
+# 28 "/usr/include/bits/types.h" 2 3 4
 
 /* Convenience types.  */
 typedef unsigned char __u_char;
@@ -3106,7 +3068,7 @@ typedef signed short int __int16_t;
 typedef unsigned short int __uint16_t;
 typedef signed int __int32_t;
 typedef unsigned int __uint32_t;
-# 50 "/usr/include/x86_64-linux-gnu/bits/types.h" 3 4
+# 50 "/usr/include/bits/types.h" 3 4
 /* quad_t is also 64 bits.  */
 
 
@@ -3173,8 +3135,8 @@ typedef struct
 /* We want __extension__ before typedef's that use nonstandard base types
    such as `long long' in C89 mode.  */
 #define __STD_TYPE __extension__ typedef
-# 130 "/usr/include/x86_64-linux-gnu/bits/types.h" 3 4
-# 1 "/usr/include/x86_64-linux-gnu/bits/typesizes.h" 1 3 4
+# 130 "/usr/include/bits/types.h" 3 4
+# 1 "/usr/include/bits/typesizes.h" 1 3 4
 /* bits/typesizes.h -- underlying types for *_t.  Linux/x86-64 version.
    Copyright (C) 2012 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -3248,10 +3210,10 @@ typedef struct
 #define __BLKSIZE_T_TYPE __SYSCALL_SLONG_TYPE
 #define __FSID_T_TYPE struct { int __val[2]; }
 #define __SSIZE_T_TYPE __SWORD_TYPE
-# 85 "/usr/include/x86_64-linux-gnu/bits/typesizes.h" 3 4
+# 85 "/usr/include/bits/typesizes.h" 3 4
 /* Number of descriptors that can fit in an `fd_set'.  */
 #define __FD_SETSIZE 1024
-# 131 "/usr/include/x86_64-linux-gnu/bits/types.h" 2 3 4
+# 131 "/usr/include/bits/types.h" 2 3 4
 
 
 /* Ignore */ typedef __u_quad_t __dev_t; /* Type of device numbers.  */
@@ -3323,22 +3285,22 @@ typedef char *__caddr_t;
 
 
 #undef __STD_TYPE
-# 28 "/usr/include/x86_64-linux-gnu/bits/byteswap.h" 2 3 4
-# 1 "/usr/include/x86_64-linux-gnu/bits/wordsize.h" 1 3 4
+# 28 "/usr/include/bits/byteswap.h" 2 3 4
+# 1 "/usr/include/bits/wordsize.h" 1 3 4
 /* Determine the wordsize from the preprocessor defines.  */
 
 
 
 
 #define __WORDSIZE 32
-# 29 "/usr/include/x86_64-linux-gnu/bits/byteswap.h" 2 3 4
+# 29 "/usr/include/bits/byteswap.h" 2 3 4
 
 /* Swap bytes in 16 bit value.  */
 #define __bswap_constant_16(x) ((unsigned short int) ((((x) >> 8) & 0xff) | (((x) & 0xff) << 8)))
 
 
 /* Get __bswap_16.  */
-# 1 "/usr/include/x86_64-linux-gnu/bits/byteswap-16.h" 1 3 4
+# 1 "/usr/include/bits/byteswap-16.h" 1 3 4
 /* Macros to swap the order of bytes in 16-bit integer values.
    Copyright (C) 2012 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -3356,17 +3318,17 @@ typedef char *__caddr_t;
    You should have received a copy of the GNU Lesser General Public
    License along with the GNU C Library; if not, see
    <http://www.gnu.org/licenses/>.  */
-# 44 "/usr/include/x86_64-linux-gnu/bits/byteswap-16.h" 3 4
+# 44 "/usr/include/bits/byteswap-16.h" 3 4
 static /* No inline functions.  */ unsigned short int
 __bswap_16 (unsigned short int __bsx)
 {
   return ((unsigned short int) ((((__bsx) >> 8) & 0xff) | (((__bsx) & 0xff) << 8)));
 }
-# 36 "/usr/include/x86_64-linux-gnu/bits/byteswap.h" 2 3 4
+# 36 "/usr/include/bits/byteswap.h" 2 3 4
 
 /* Swap bytes in 32 bit value.  */
 #define __bswap_constant_32(x) ((((x) & 0xff000000) >> 24) | (((x) & 0x00ff0000) >> 8) | (((x) & 0x0000ff00) << 8) | (((x) & 0x000000ff) << 24))
-# 87 "/usr/include/x86_64-linux-gnu/bits/byteswap.h" 3 4
+# 87 "/usr/include/bits/byteswap.h" 3 4
 static /* No inline functions.  */ unsigned int
 __bswap_32 (unsigned int __bsx)
 {
@@ -3384,7 +3346,7 @@ __bswap_32 (unsigned int __bsx)
 #define htole32(x) (x)
 #define be32toh(x) __bswap_32 (x)
 #define le32toh(x) (x)
-# 41 "/usr/include/x86_64-linux-gnu/bits/huge_val.h" 2 3 4
+# 41 "/usr/include/bits/huge_val.h" 2 3 4
 
 typedef union { unsigned char __c[8]; double __d; } __huge_val_t;
 
@@ -3399,7 +3361,7 @@ static __huge_val_t __huge_val = { { 0, 0, 0, 0, 0, 0, 0xf0, 0x7f } };
 #define HUGE_VAL (__huge_val.__d)
 # 34 "/usr/include/math.h" 2 3 4
 
-# 1 "/usr/include/x86_64-linux-gnu/bits/huge_valf.h" 1 3 4
+# 1 "/usr/include/bits/huge_valf.h" 1 3 4
 /* `HUGE_VALF' constant for IEEE 754 machines (where it is infinity).
    Used by <stdlib.h> and <math.h> functions for overflow.
    Copyright (C) 1992, 1995, 1996, 1997, 1999, 2000, 2004
@@ -3425,7 +3387,7 @@ static __huge_val_t __huge_val = { { 0, 0, 0, 0, 0, 0, 0xf0, 0x7f } };
 
 
 /* IEEE positive infinity (-HUGE_VAL is negative infinity).  */
-# 40 "/usr/include/x86_64-linux-gnu/bits/huge_valf.h" 3 4
+# 40 "/usr/include/bits/huge_valf.h" 3 4
 typedef union { unsigned char __c[4]; float __f; } __huge_valf_t;
 
 
@@ -3438,7 +3400,7 @@ typedef union { unsigned char __c[4]; float __f; } __huge_valf_t;
 static __huge_valf_t __huge_valf = { { 0, 0, 0x80, 0x7f } };
 #define HUGE_VALF (__huge_valf.__f)
 # 36 "/usr/include/math.h" 2 3 4
-# 1 "/usr/include/x86_64-linux-gnu/bits/huge_vall.h" 1 3 4
+# 1 "/usr/include/bits/huge_vall.h" 1 3 4
 /* `HUGE_VALL' constant for ix86 (where it is infinity).
    Used by <stdlib.h> and <math.h> functions for overflow.
    Copyright (C) 1992, 1995, 1996, 1997, 1999, 2000, 2004
@@ -3458,7 +3420,7 @@ static __huge_valf_t __huge_valf = { { 0, 0, 0x80, 0x7f } };
    You should have received a copy of the GNU Lesser General Public
    License along with the GNU C Library; if not, see
    <http://www.gnu.org/licenses/>.  */
-# 31 "/usr/include/x86_64-linux-gnu/bits/huge_vall.h" 3 4
+# 31 "/usr/include/bits/huge_vall.h" 3 4
 #define __HUGE_VALL_bytes { 0, 0, 0, 0, 0, 0, 0, 0x80, 0xff, 0x7f, 0, 0 }
 
 #define __huge_vall_t union { unsigned char __c[12]; long double __ld; }
@@ -3471,7 +3433,7 @@ static union { unsigned char __c[12]; long double __ld; } __huge_vall = { { 0, 0
 # 37 "/usr/include/math.h" 2 3 4
 
 /* Get machine-dependent INFINITY value.  */
-# 1 "/usr/include/x86_64-linux-gnu/bits/inf.h" 1 3 4
+# 1 "/usr/include/bits/inf.h" 1 3 4
 /* `INFINITY' constant for IEEE 754 machines.
    Copyright (C) 2004 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -3503,7 +3465,7 @@ static union { unsigned char __c[12]; long double __ld; } __huge_vall = { { 0, 0
 # 40 "/usr/include/math.h" 2 3 4
 
 /* Get machine-dependent NAN value (returned for some domain errors).  */
-# 1 "/usr/include/x86_64-linux-gnu/bits/nan.h" 1 3 4
+# 1 "/usr/include/bits/nan.h" 1 3 4
 /* `NAN' constant for IEEE 754 machines.
    Copyright (C) 1992,1996,1997,1999,2004,2006 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -3528,7 +3490,7 @@ static union { unsigned char __c[12]; long double __ld; } __huge_vall = { { 0, 0
 
 
 /* IEEE Not A Number.  */
-# 39 "/usr/include/x86_64-linux-gnu/bits/nan.h" 3 4
+# 39 "/usr/include/bits/nan.h" 3 4
 # 1 "/usr/include/endian.h" 1 3 4
 /* Copyright (C) 1992-2012 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -3546,7 +3508,7 @@ static union { unsigned char __c[12]; long double __ld; } __huge_vall = { { 0, 0
    You should have received a copy of the GNU Lesser General Public
    License along with the GNU C Library; if not, see
    <http://www.gnu.org/licenses/>.  */
-# 40 "/usr/include/x86_64-linux-gnu/bits/nan.h" 2 3 4
+# 40 "/usr/include/bits/nan.h" 2 3 4
 
 
 
@@ -3562,7 +3524,7 @@ static union { unsigned char __c[4]; float __d; } __nan_union
 
 
 /* Get general and ISO C99 specific information.  */
-# 1 "/usr/include/x86_64-linux-gnu/bits/mathdef.h" 1 3 4
+# 1 "/usr/include/bits/mathdef.h" 1 3 4
 /* Copyright (C) 2001-2012 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
@@ -3586,7 +3548,7 @@ static union { unsigned char __c[4]; float __d; } __nan_union
 
 
 #define _MATH_H_MATHDEF 1
-# 32 "/usr/include/x86_64-linux-gnu/bits/mathdef.h" 3 4
+# 32 "/usr/include/bits/mathdef.h" 3 4
 /* The ix87 FPUs evaluate all values in the 80 bit floating-point format
    which is also available for the user as `long double'.  Therefore we
    define:  */
@@ -3626,7 +3588,7 @@ typedef long double double_t; /* `double' expressions are evaluated as
 #define __MATH_PRECNAME(name,r) __CONCAT(name,r)
 #define _Mdouble_BEGIN_NAMESPACE __BEGIN_NAMESPACE_STD
 #define _Mdouble_END_NAMESPACE __END_NAMESPACE_STD
-# 1 "/usr/include/x86_64-linux-gnu/bits/mathcalls.h" 1 3 4
+# 1 "/usr/include/bits/mathcalls.h" 1 3 4
 /* Prototype declarations for math functions; helper file for <math.h>.
    Copyright (C) 1996-2003, 2006, 2011, 2012 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -3704,7 +3666,7 @@ extern double sinh (double __x) ; extern double __sinh (double __x) ;
 /* Hyperbolic tangent of X.  */
 extern double tanh (double __x) ; extern double __tanh (double __x) ;
 
-# 86 "/usr/include/x86_64-linux-gnu/bits/mathcalls.h" 3 4
+# 86 "/usr/include/bits/mathcalls.h" 3 4
 
 /* Hyperbolic arc cosine of X.  */
 extern double acosh (double __x) ; extern double __acosh (double __x) ;
@@ -3737,7 +3699,7 @@ extern double log10 (double __x) ; extern double __log10 (double __x) ;
 extern double modf (double __x, double *__iptr) ; extern double __modf (double __x, double *__iptr)
      /* Ignore */;
 
-# 127 "/usr/include/x86_64-linux-gnu/bits/mathcalls.h" 3 4
+# 127 "/usr/include/bits/mathcalls.h" 3 4
 
 /* Return exp(X) - 1.  */
 extern double expm1 (double __x) ; extern double __expm1 (double __x) ;
@@ -3995,7 +3957,7 @@ extern double scalb (double __x, double __n) ; extern double __scalb (double __x
 #define __MATH_PRECNAME(name,r) name ##f ##r
 #define _Mdouble_BEGIN_NAMESPACE __BEGIN_NAMESPACE_C99
 #define _Mdouble_END_NAMESPACE __END_NAMESPACE_C99
-# 1 "/usr/include/x86_64-linux-gnu/bits/mathcalls.h" 1 3 4
+# 1 "/usr/include/bits/mathcalls.h" 1 3 4
 /* Prototype declarations for math functions; helper file for <math.h>.
    Copyright (C) 1996-2003, 2006, 2011, 2012 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -4073,7 +4035,7 @@ extern float sinhf (float __x) ; extern float __sinhf (float __x) ;
 /* Hyperbolic tangent of X.  */
 extern float tanhf (float __x) ; extern float __tanhf (float __x) ;
 
-# 86 "/usr/include/x86_64-linux-gnu/bits/mathcalls.h" 3 4
+# 86 "/usr/include/bits/mathcalls.h" 3 4
 
 /* Hyperbolic arc cosine of X.  */
 extern float acoshf (float __x) ; extern float __acoshf (float __x) ;
@@ -4106,7 +4068,7 @@ extern float log10f (float __x) ; extern float __log10f (float __x) ;
 extern float modff (float __x, float *__iptr) ; extern float __modff (float __x, float *__iptr)
      /* Ignore */;
 
-# 127 "/usr/include/x86_64-linux-gnu/bits/mathcalls.h" 3 4
+# 127 "/usr/include/bits/mathcalls.h" 3 4
 
 /* Return exp(X) - 1.  */
 extern float expm1f (float __x) ; extern float __expm1f (float __x) ;
@@ -4350,7 +4312,7 @@ extern float scalbf (float __x, float __n) ; extern float __scalbf (float __x, f
 #undef _Mdouble_BEGIN_NAMESPACE
 #undef _Mdouble_END_NAMESPACE
 #undef __MATH_PRECNAME
-# 125 "/usr/include/math.h" 3 4
+# 122 "/usr/include/math.h" 3 4
 /* Include the file of declarations again, this time using `long double'
    instead of `double' and appending l to each function name.  */
 
@@ -4362,7 +4324,7 @@ extern float scalbf (float __x, float __n) ; extern float __scalbf (float __x, f
 #define _Mdouble_BEGIN_NAMESPACE __BEGIN_NAMESPACE_C99
 #define _Mdouble_END_NAMESPACE __END_NAMESPACE_C99
 #define __MATH_DECLARE_LDOUBLE 1
-# 1 "/usr/include/x86_64-linux-gnu/bits/mathcalls.h" 1 3 4
+# 1 "/usr/include/bits/mathcalls.h" 1 3 4
 /* Prototype declarations for math functions; helper file for <math.h>.
    Copyright (C) 1996-2003, 2006, 2011, 2012 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -4440,7 +4402,7 @@ extern long double sinhl (long double __x) ; extern long double __sinhl (long do
 /* Hyperbolic tangent of X.  */
 extern long double tanhl (long double __x) ; extern long double __tanhl (long double __x) ;
 
-# 86 "/usr/include/x86_64-linux-gnu/bits/mathcalls.h" 3 4
+# 86 "/usr/include/bits/mathcalls.h" 3 4
 
 /* Hyperbolic arc cosine of X.  */
 extern long double acoshl (long double __x) ; extern long double __acoshl (long double __x) ;
@@ -4473,7 +4435,7 @@ extern long double log10l (long double __x) ; extern long double __log10l (long 
 extern long double modfl (long double __x, long double *__iptr) ; extern long double __modfl (long double __x, long double *__iptr)
      /* Ignore */;
 
-# 127 "/usr/include/x86_64-linux-gnu/bits/mathcalls.h" 3 4
+# 127 "/usr/include/bits/mathcalls.h" 3 4
 
 /* Return exp(X) - 1.  */
 extern long double expm1l (long double __x) ; extern long double __expm1l (long double __x) ;
@@ -4712,7 +4674,7 @@ extern long double fmal (long double __x, long double __y, long double __z) ; ex
 
 /* Return X times (2 to the Nth power).  */
 extern long double scalbl (long double __x, long double __n) ; extern long double __scalbl (long double __x, long double __n) ;
-# 137 "/usr/include/math.h" 2 3 4
+# 134 "/usr/include/math.h" 2 3 4
 #undef _Mdouble_
 #undef _Mdouble_BEGIN_NAMESPACE
 #undef _Mdouble_END_NAMESPACE
@@ -4920,7 +4882,7 @@ extern int matherr (struct exception *__exc);
 
 /* SVID mode specifies returning this large value instead of infinity.  */
 #define HUGE 3.40282347e+38F
-# 355 "/usr/include/math.h" 3 4
+# 352 "/usr/include/math.h" 3 4
 /* Some useful constants.  */
 
 #define M_E 2.7182818284590452354 /* e */
@@ -4941,11 +4903,11 @@ extern int matherr (struct exception *__exc);
 /* The above constants are not adequate for computation using `long double's.
    Therefore we provide as an extension constants with similar names as a
    GNU extension.  Provide enough digits for the 128-bit IEEE quad.  */
-# 392 "/usr/include/math.h" 3 4
+# 389 "/usr/include/math.h" 3 4
 /* When compiling in strict ISO C compatible mode we must not use the
    inline functions since they, among other things, do not set the
    `errno' variable correctly.  */
-# 414 "/usr/include/math.h" 3 4
+# 411 "/usr/include/math.h" 3 4
 /* Get machine-dependent inline versions (if there are any).  */
 
 
@@ -5062,7 +5024,7 @@ extern int matherr (struct exception *__exc);
 
 #define __need_size_t 
 #define __need_NULL 
-# 1 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 1 3 4
+# 1 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 1 3 4
 /* Copyright (C) 1989, 1997, 1998, 1999, 2000, 2002, 2004, 2009, 2011
    Free Software Foundation, Inc.
 
@@ -5099,7 +5061,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 /* Any one of these symbols __need_* means that GNU libc
    wants us just to define one data type.  So don't define
    the symbols that indicate this file's entire job has been done.  */
-# 49 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 49 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* This avoids lossage on SunOS but only if stdtypes.h comes first.
    There's no way to win with the other order!  Sun lossage.  */
 
@@ -5117,7 +5079,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    defined if the corresponding type is *not* defined.
    FreeBSD-2.1 defines _MACHINE_ANSI_H_ instead of _ANSI_H_.
    NetBSD defines _I386_ANSI_H_ and _X86_64_ANSI_H_ instead of _ANSI_H_ */
-# 95 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 95 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* Sequent's header files use _PTRDIFF_T_ in some conflicting way.
    Just ignore it.  */
 
@@ -5130,7 +5092,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    not defined, and so that defining this macro defines _GCC_SIZE_T.
    If we find that the macros are still defined at this point, we must
    invoke them so that the type is defined as expected.  */
-# 120 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 120 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* In case nobody has defined these types, but we aren't running under
    GCC 2.00, make sure that __PTRDIFF_TYPE__, __SIZE_TYPE__, and
    __WCHAR_TYPE__ have reasonable values.  This can happen if the
@@ -5141,12 +5103,12 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 165 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 165 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* Unsigned type of `sizeof' something.  */
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 187 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 187 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 #define __size_t__ /* BeOS */
 #define __SIZE_T__ /* Cray Unicos/Mk */
 #define _SIZE_T 
@@ -5174,7 +5136,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 
 typedef long unsigned int size_t;
-# 235 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 235 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 #undef __need_size_t
 
 
@@ -5186,12 +5148,12 @@ typedef long unsigned int size_t;
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 359 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 359 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /*  In 4.3bsd-net2, leave these undefined to indicate that size_t, etc.
     are already defined.  */
 /*  BSD/OS 3.1 and FreeBSD [23].x require the MACHINE_ANSI_H check here.  */
 /*  NetBSD 5 requires the I386_ANSI_H and X86_64_ANSI_H checks here.  */
-# 395 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 395 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* A null pointer constant.  */
 
 
@@ -5209,7 +5171,7 @@ typedef long unsigned int size_t;
 #undef __need_NULL
 # 34 "/usr/include/stdio.h" 2 3 4
 
-# 1 "/usr/include/x86_64-linux-gnu/bits/types.h" 1 3 4
+# 1 "/usr/include/bits/types.h" 1 3 4
 /* bits/types.h -- definitions of __*_t types underlying *_t types.
    Copyright (C) 2002-2012 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -5311,7 +5273,7 @@ typedef struct _IO_FILE __FILE;
 
 /* Define types for libio in terms of the standard internal type names.  */
 
-# 1 "/usr/include/x86_64-linux-gnu/bits/types.h" 1 3 4
+# 1 "/usr/include/bits/types.h" 1 3 4
 /* bits/types.h -- definitions of __*_t types underlying *_t types.
    Copyright (C) 2002-2012 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -5339,7 +5301,7 @@ typedef struct _IO_FILE __FILE;
 
 
 #define __need_NULL 
-# 1 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 1 3 4
+# 1 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 1 3 4
 /* Copyright (C) 1989, 1997, 1998, 1999, 2000, 2002, 2004, 2009, 2011
    Free Software Foundation, Inc.
 
@@ -5376,7 +5338,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 /* Any one of these symbols __need_* means that GNU libc
    wants us just to define one data type.  So don't define
    the symbols that indicate this file's entire job has been done.  */
-# 49 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 49 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* This avoids lossage on SunOS but only if stdtypes.h comes first.
    There's no way to win with the other order!  Sun lossage.  */
 
@@ -5394,7 +5356,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    defined if the corresponding type is *not* defined.
    FreeBSD-2.1 defines _MACHINE_ANSI_H_ instead of _ANSI_H_.
    NetBSD defines _I386_ANSI_H_ and _X86_64_ANSI_H_ instead of _ANSI_H_ */
-# 95 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 95 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* Sequent's header files use _PTRDIFF_T_ in some conflicting way.
    Just ignore it.  */
 
@@ -5407,7 +5369,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    not defined, and so that defining this macro defines _GCC_SIZE_T.
    If we find that the macros are still defined at this point, we must
    invoke them so that the type is defined as expected.  */
-# 120 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 120 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* In case nobody has defined these types, but we aren't running under
    GCC 2.00, make sure that __PTRDIFF_TYPE__, __SIZE_TYPE__, and
    __WCHAR_TYPE__ have reasonable values.  This can happen if the
@@ -5418,12 +5380,12 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 165 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 165 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* Unsigned type of `sizeof' something.  */
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 235 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 235 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 #undef __need_size_t
 
 
@@ -5435,12 +5397,12 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 359 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 359 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /*  In 4.3bsd-net2, leave these undefined to indicate that size_t, etc.
     are already defined.  */
 /*  BSD/OS 3.1 and FreeBSD [23].x require the MACHINE_ANSI_H check here.  */
 /*  NetBSD 5 requires the I386_ANSI_H and X86_64_ANSI_H checks here.  */
-# 395 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 395 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* A null pointer constant.  */
 
 
@@ -5486,7 +5448,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 # 49 "/usr/include/wchar.h" 3 4
 #undef __need_wint_t
 #define __need_wint_t 
-# 1 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 1 3 4
+# 1 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 1 3 4
 /* Copyright (C) 1989, 1997, 1998, 1999, 2000, 2002, 2004, 2009, 2011
    Free Software Foundation, Inc.
 
@@ -5523,7 +5485,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 /* Any one of these symbols __need_* means that GNU libc
    wants us just to define one data type.  So don't define
    the symbols that indicate this file's entire job has been done.  */
-# 49 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 49 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* This avoids lossage on SunOS but only if stdtypes.h comes first.
    There's no way to win with the other order!  Sun lossage.  */
 
@@ -5541,7 +5503,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    defined if the corresponding type is *not* defined.
    FreeBSD-2.1 defines _MACHINE_ANSI_H_ instead of _ANSI_H_.
    NetBSD defines _I386_ANSI_H_ and _X86_64_ANSI_H_ instead of _ANSI_H_ */
-# 95 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 95 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* Sequent's header files use _PTRDIFF_T_ in some conflicting way.
    Just ignore it.  */
 
@@ -5554,7 +5516,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    not defined, and so that defining this macro defines _GCC_SIZE_T.
    If we find that the macros are still defined at this point, we must
    invoke them so that the type is defined as expected.  */
-# 120 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 120 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* In case nobody has defined these types, but we aren't running under
    GCC 2.00, make sure that __PTRDIFF_TYPE__, __SIZE_TYPE__, and
    __WCHAR_TYPE__ have reasonable values.  This can happen if the
@@ -5565,12 +5527,12 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 165 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 165 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* Unsigned type of `sizeof' something.  */
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 239 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 239 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* Wide character type.
    Locale-writers should change this as necessary to
    be big enough to hold unique values not between 0 and 127,
@@ -5578,7 +5540,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 349 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 349 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 #define _WINT_T 
 
 
@@ -5593,9 +5555,9 @@ typedef unsigned int wint_t;
     are already defined.  */
 /*  BSD/OS 3.1 and FreeBSD [23].x require the MACHINE_ANSI_H check here.  */
 /*  NetBSD 5 requires the I386_ANSI_H and X86_64_ANSI_H checks here.  */
-# 395 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 395 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* A null pointer constant.  */
-# 409 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 409 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 #undef __need_NULL
 # 52 "/usr/include/wchar.h" 2 3 4
 
@@ -5680,7 +5642,7 @@ typedef struct
 
 /* This define avoids name pollution if we're using GNU stdarg.h */
 #define __need___va_list 
-# 1 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stdarg.h" 1 3 4
+# 1 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stdarg.h" 1 3 4
 /* Copyright (C) 1989, 1997, 1998, 1999, 2000, 2009 Free Software Foundation, Inc.
 
 This file is part of GCC.
@@ -5998,7 +5960,7 @@ extern __off64_t _IO_seekpos (_IO_FILE *, __off64_t, int);
 extern void _IO_free_backup_area (_IO_FILE *) ;
 # 75 "/usr/include/stdio.h" 2 3 4
 # 83 "/usr/include/stdio.h" 3 4
-# 1 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stdarg.h" 1 3 4
+# 1 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stdarg.h" 1 3 4
 /* Copyright (C) 1989, 1997, 1998, 1999, 2000, 2009 Free Software Foundation, Inc.
 
 This file is part of GCC.
@@ -6059,7 +6021,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    va_list.  stdio.h needs to have access to that data type, 
    but must not use that name.  It should use the name __gnuc_va_list,
    which is safe because it is reserved for the implementation.  */
-# 89 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stdarg.h" 3 4
+# 89 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stdarg.h" 3 4
 /* The macro _VA_LIST_ is the same thing used by this file in Ultrix.
    But on BSD NET2 we must not test or define or undef it.
    (Note that the comments in NET 2's ansi.h
@@ -6173,7 +6135,7 @@ typedef _G_fpos_t fpos_t;
    L_cuserid	How long an array to pass to `cuserid'.
    FOPEN_MAX	Minimum number of files that can be open at once.
    FILENAME_MAX	Maximum length of a filename.  */
-# 1 "/usr/include/x86_64-linux-gnu/bits/stdio_lim.h" 1 3 4
+# 1 "/usr/include/bits/stdio_lim.h" 1 3 4
 /* Copyright (C) 1994, 1997, 1998, 1999, 2009 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
@@ -6739,7 +6701,7 @@ extern void perror (const char *__s);
    are available on this system.  Even if available, these variables
    should not be used directly.  The `strerror' function provides
    all the necessary functionality.  */
-# 1 "/usr/include/x86_64-linux-gnu/bits/sys_errlist.h" 1 3 4
+# 1 "/usr/include/bits/sys_errlist.h" 1 3 4
 /* Declare sys_errlist and sys_nerr, or don't.  Compatibility (do) version.
    Copyright (C) 2002, 2012 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -6867,7 +6829,7 @@ extern void funlockfile (FILE *__stream) ;
 #define __need_wchar_t 
 #define __need_NULL 
 
-# 1 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 1 3 4
+# 1 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 1 3 4
 /* Copyright (C) 1989, 1997, 1998, 1999, 2000, 2002, 2004, 2009, 2011
    Free Software Foundation, Inc.
 
@@ -6904,7 +6866,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 /* Any one of these symbols __need_* means that GNU libc
    wants us just to define one data type.  So don't define
    the symbols that indicate this file's entire job has been done.  */
-# 49 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 49 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* This avoids lossage on SunOS but only if stdtypes.h comes first.
    There's no way to win with the other order!  Sun lossage.  */
 
@@ -6922,7 +6884,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    defined if the corresponding type is *not* defined.
    FreeBSD-2.1 defines _MACHINE_ANSI_H_ instead of _ANSI_H_.
    NetBSD defines _I386_ANSI_H_ and _X86_64_ANSI_H_ instead of _ANSI_H_ */
-# 95 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 95 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* Sequent's header files use _PTRDIFF_T_ in some conflicting way.
    Just ignore it.  */
 
@@ -6935,7 +6897,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    not defined, and so that defining this macro defines _GCC_SIZE_T.
    If we find that the macros are still defined at this point, we must
    invoke them so that the type is defined as expected.  */
-# 120 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 120 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* In case nobody has defined these types, but we aren't running under
    GCC 2.00, make sure that __PTRDIFF_TYPE__, __SIZE_TYPE__, and
    __WCHAR_TYPE__ have reasonable values.  This can happen if the
@@ -6946,12 +6908,12 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 165 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 165 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* Unsigned type of `sizeof' something.  */
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 235 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 235 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 #undef __need_size_t
 
 
@@ -6963,14 +6925,14 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 344 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 344 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 #undef __need_wchar_t
-# 359 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 359 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /*  In 4.3bsd-net2, leave these undefined to indicate that size_t, etc.
     are already defined.  */
 /*  BSD/OS 3.1 and FreeBSD [23].x require the MACHINE_ANSI_H check here.  */
 /*  NetBSD 5 requires the I386_ANSI_H and X86_64_ANSI_H checks here.  */
-# 395 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 395 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* A null pointer constant.  */
 
 
@@ -6995,7 +6957,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 
 /* XPG requires a few symbols from <sys/wait.h> being defined.  */
-# 1 "/usr/include/x86_64-linux-gnu/bits/waitflags.h" 1 3 4
+# 1 "/usr/include/bits/waitflags.h" 1 3 4
 /* Definitions of flag bits for `waitpid' et al.
    Copyright (C) 1992,1996,1997,2000,2004,2005 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -7035,7 +6997,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 #define __WALL 0x40000000 /* Wait for any child.  */
 #define __WCLONE 0x80000000 /* Wait for cloned process.  */
 # 42 "/usr/include/stdlib.h" 2 3 4
-# 1 "/usr/include/x86_64-linux-gnu/bits/waitstatus.h" 1 3 4
+# 1 "/usr/include/bits/waitstatus.h" 1 3 4
 /* Definitions of status bits for `wait' et al.
    Copyright (C) 1992,1994,1996,1997,2000,2004 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -7116,7 +7078,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    You should have received a copy of the GNU Lesser General Public
    License along with the GNU C Library; if not, see
    <http://www.gnu.org/licenses/>.  */
-# 65 "/usr/include/x86_64-linux-gnu/bits/waitstatus.h" 2 3 4
+# 65 "/usr/include/bits/waitstatus.h" 2 3 4
 
 union wait
   {
@@ -7314,7 +7276,7 @@ extern long int a64l (const char *__s)
 
 
 
-# 1 "/usr/include/x86_64-linux-gnu/sys/types.h" 1 3 4
+# 1 "/usr/include/sys/types.h" 1 3 4
 /* Copyright (C) 1991,1992,1994-2002,2006,2010 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
@@ -7356,11 +7318,11 @@ extern long int a64l (const char *__s)
    You should have received a copy of the GNU Lesser General Public
    License along with the GNU C Library; if not, see
    <http://www.gnu.org/licenses/>.  */
-# 26 "/usr/include/x86_64-linux-gnu/sys/types.h" 2 3 4
+# 26 "/usr/include/sys/types.h" 2 3 4
 
 
 
-# 1 "/usr/include/x86_64-linux-gnu/bits/types.h" 1 3 4
+# 1 "/usr/include/bits/types.h" 1 3 4
 /* bits/types.h -- definitions of __*_t types underlying *_t types.
    Copyright (C) 2002-2012 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -7382,7 +7344,7 @@ extern long int a64l (const char *__s)
 /*
  * Never include this file directly; use <sys/types.h> instead.
  */
-# 30 "/usr/include/x86_64-linux-gnu/sys/types.h" 2 3 4
+# 30 "/usr/include/sys/types.h" 2 3 4
 
 
 
@@ -7435,7 +7397,7 @@ typedef __nlink_t nlink_t;
 
 typedef __uid_t uid_t;
 #define __uid_t_defined 
-# 98 "/usr/include/x86_64-linux-gnu/sys/types.h" 3 4
+# 98 "/usr/include/sys/types.h" 3 4
 typedef __pid_t pid_t;
 #define __pid_t_defined 
 
@@ -7444,7 +7406,7 @@ typedef __pid_t pid_t;
 
 typedef __id_t id_t;
 #define __id_t_defined 
-# 115 "/usr/include/x86_64-linux-gnu/sys/types.h" 3 4
+# 115 "/usr/include/sys/types.h" 3 4
 typedef __daddr_t daddr_t;
 typedef __caddr_t caddr_t;
 #define __daddr_t_defined 
@@ -7486,7 +7448,7 @@ typedef __key_t key_t;
 # 53 "/usr/include/time.h" 3 4
 #define __clock_t_defined 1
 
-# 1 "/usr/include/x86_64-linux-gnu/bits/types.h" 1 3 4
+# 1 "/usr/include/bits/types.h" 1 3 4
 /* bits/types.h -- definitions of __*_t types underlying *_t types.
    Copyright (C) 2002-2012 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -7524,7 +7486,7 @@ typedef __clock_t clock_t;
 
 #define __time_t_defined 1
 
-# 1 "/usr/include/x86_64-linux-gnu/bits/types.h" 1 3 4
+# 1 "/usr/include/bits/types.h" 1 3 4
 /* bits/types.h -- definitions of __*_t types underlying *_t types.
    Copyright (C) 2002-2012 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -7563,7 +7525,7 @@ typedef __time_t time_t;
 
 #define __clockid_t_defined 1
 
-# 1 "/usr/include/x86_64-linux-gnu/bits/types.h" 1 3 4
+# 1 "/usr/include/bits/types.h" 1 3 4
 /* bits/types.h -- definitions of __*_t types underlying *_t types.
    Copyright (C) 2002-2012 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -7597,7 +7559,7 @@ typedef __clockid_t clockid_t;
 
 #define __timer_t_defined 1
 
-# 1 "/usr/include/x86_64-linux-gnu/bits/types.h" 1 3 4
+# 1 "/usr/include/bits/types.h" 1 3 4
 /* bits/types.h -- definitions of __*_t types underlying *_t types.
    Copyright (C) 2002-2012 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -7628,10 +7590,10 @@ typedef __timer_t timer_t;
 #undef __need_timer_t
 # 127 "/usr/include/time.h" 3 4
 #undef __need_timespec
-# 133 "/usr/include/x86_64-linux-gnu/sys/types.h" 2 3 4
-# 145 "/usr/include/x86_64-linux-gnu/sys/types.h" 3 4
+# 133 "/usr/include/sys/types.h" 2 3 4
+# 145 "/usr/include/sys/types.h" 3 4
 #define __need_size_t 
-# 1 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 1 3 4
+# 1 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 1 3 4
 /* Copyright (C) 1989, 1997, 1998, 1999, 2000, 2002, 2004, 2009, 2011
    Free Software Foundation, Inc.
 
@@ -7668,7 +7630,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 /* Any one of these symbols __need_* means that GNU libc
    wants us just to define one data type.  So don't define
    the symbols that indicate this file's entire job has been done.  */
-# 49 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 49 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* This avoids lossage on SunOS but only if stdtypes.h comes first.
    There's no way to win with the other order!  Sun lossage.  */
 
@@ -7686,7 +7648,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    defined if the corresponding type is *not* defined.
    FreeBSD-2.1 defines _MACHINE_ANSI_H_ instead of _ANSI_H_.
    NetBSD defines _I386_ANSI_H_ and _X86_64_ANSI_H_ instead of _ANSI_H_ */
-# 95 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 95 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* Sequent's header files use _PTRDIFF_T_ in some conflicting way.
    Just ignore it.  */
 
@@ -7699,7 +7661,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    not defined, and so that defining this macro defines _GCC_SIZE_T.
    If we find that the macros are still defined at this point, we must
    invoke them so that the type is defined as expected.  */
-# 120 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 120 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* In case nobody has defined these types, but we aren't running under
    GCC 2.00, make sure that __PTRDIFF_TYPE__, __SIZE_TYPE__, and
    __WCHAR_TYPE__ have reasonable values.  This can happen if the
@@ -7710,12 +7672,12 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 165 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 165 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* Unsigned type of `sizeof' something.  */
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 235 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 235 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 #undef __need_size_t
 
 
@@ -7727,16 +7689,16 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 359 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 359 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /*  In 4.3bsd-net2, leave these undefined to indicate that size_t, etc.
     are already defined.  */
 /*  BSD/OS 3.1 and FreeBSD [23].x require the MACHINE_ANSI_H check here.  */
 /*  NetBSD 5 requires the I386_ANSI_H and X86_64_ANSI_H checks here.  */
-# 395 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 395 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* A null pointer constant.  */
-# 409 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 409 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 #undef __need_NULL
-# 147 "/usr/include/x86_64-linux-gnu/sys/types.h" 2 3 4
+# 147 "/usr/include/sys/types.h" 2 3 4
 
 
 /* Old compatibility names for C types.  */
@@ -7750,7 +7712,7 @@ typedef unsigned int uint;
 
 
 /* These types are defined by the ISO C99 header <inttypes.h>. */
-# 172 "/usr/include/x86_64-linux-gnu/sys/types.h" 3 4
+# 172 "/usr/include/sys/types.h" 3 4
 /* But these were defined by ISO C without the first `_'.  */
 typedef unsigned char u_int8_t;
 typedef unsigned short int u_int16_t;
@@ -7762,7 +7724,7 @@ typedef unsigned int u_int32_t;
 
 
 typedef int register_t;
-# 211 "/usr/include/x86_64-linux-gnu/sys/types.h" 3 4
+# 211 "/usr/include/sys/types.h" 3 4
 #define __BIT_TYPES_DEFINED__ 1
 
 
@@ -7785,10 +7747,10 @@ typedef int register_t;
    You should have received a copy of the GNU Lesser General Public
    License along with the GNU C Library; if not, see
    <http://www.gnu.org/licenses/>.  */
-# 217 "/usr/include/x86_64-linux-gnu/sys/types.h" 2 3 4
+# 217 "/usr/include/sys/types.h" 2 3 4
 
 /* It also defines `fd_set' and the FD_* macros for `select'.  */
-# 1 "/usr/include/x86_64-linux-gnu/sys/select.h" 1 3 4
+# 1 "/usr/include/sys/select.h" 1 3 4
 /* `fd_set' type and related macros, and `select'/`pselect' declarations.
    Copyright (C) 1996-2003, 2009, 2011 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -7829,10 +7791,10 @@ typedef int register_t;
    You should have received a copy of the GNU Lesser General Public
    License along with the GNU C Library; if not, see
    <http://www.gnu.org/licenses/>.  */
-# 25 "/usr/include/x86_64-linux-gnu/sys/select.h" 2 3 4
+# 25 "/usr/include/sys/select.h" 2 3 4
 
 /* Get definition of needed basic types.  */
-# 1 "/usr/include/x86_64-linux-gnu/bits/types.h" 1 3 4
+# 1 "/usr/include/bits/types.h" 1 3 4
 /* bits/types.h -- definitions of __*_t types underlying *_t types.
    Copyright (C) 2002-2012 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -7854,10 +7816,10 @@ typedef int register_t;
 /*
  * Never include this file directly; use <sys/types.h> instead.
  */
-# 28 "/usr/include/x86_64-linux-gnu/sys/select.h" 2 3 4
+# 28 "/usr/include/sys/select.h" 2 3 4
 
 /* Get __FD_* definitions.  */
-# 1 "/usr/include/x86_64-linux-gnu/bits/select.h" 1 3 4
+# 1 "/usr/include/bits/select.h" 1 3 4
 /* Copyright (C) 1997-1999,2001,2008,2009,2011 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
@@ -7879,28 +7841,28 @@ typedef int register_t;
 
 
 
-# 1 "/usr/include/x86_64-linux-gnu/bits/wordsize.h" 1 3 4
+# 1 "/usr/include/bits/wordsize.h" 1 3 4
 /* Determine the wordsize from the preprocessor defines.  */
 
 
 
 
 #define __WORDSIZE 32
-# 23 "/usr/include/x86_64-linux-gnu/bits/select.h" 2 3 4
-# 46 "/usr/include/x86_64-linux-gnu/bits/select.h" 3 4
+# 23 "/usr/include/bits/select.h" 2 3 4
+# 46 "/usr/include/bits/select.h" 3 4
 /* We don't use `memset' because this would require a prototype and
    the array isn't too big.  */
 #define __FD_ZERO(set) do { unsigned int __i; fd_set *__arr = (set); for (__i = 0; __i < sizeof (fd_set) / sizeof (__fd_mask); ++__i) __FDS_BITS (__arr)[__i] = 0; } while (0)
-# 58 "/usr/include/x86_64-linux-gnu/bits/select.h" 3 4
+# 58 "/usr/include/bits/select.h" 3 4
 #define __FD_SET(d,set) ((void) (__FDS_BITS (set)[__FD_ELT (d)] |= __FD_MASK (d)))
 
 #define __FD_CLR(d,set) ((void) (__FDS_BITS (set)[__FD_ELT (d)] &= ~__FD_MASK (d)))
 
 #define __FD_ISSET(d,set) ((__FDS_BITS (set)[__FD_ELT (d)] & __FD_MASK (d)) != 0)
-# 31 "/usr/include/x86_64-linux-gnu/sys/select.h" 2 3 4
+# 31 "/usr/include/sys/select.h" 2 3 4
 
 /* Get __sigset_t.  */
-# 1 "/usr/include/x86_64-linux-gnu/bits/sigset.h" 1 3 4
+# 1 "/usr/include/bits/sigset.h" 1 3 4
 /* __sig_atomic_t, __sigset_t, and related definitions.  Linux version.
    Copyright (C) 1991, 1992, 1994, 1996, 1997, 2007, 2012
    Free Software Foundation, Inc.
@@ -7941,7 +7903,7 @@ typedef struct
    are namespace-clean, it wouldn't hurt to define extra macros.  But
    trouble can be caused by functions being defined (e.g., any global
    register vars declared later will cause compilation errors).  */
-# 34 "/usr/include/x86_64-linux-gnu/sys/select.h" 2 3 4
+# 34 "/usr/include/sys/select.h" 2 3 4
 
 
 #define __sigset_t_defined 
@@ -7989,7 +7951,7 @@ typedef __sigset_t sigset_t;
 
 #define __timespec_defined 1
 
-# 1 "/usr/include/x86_64-linux-gnu/bits/types.h" 1 3 4
+# 1 "/usr/include/bits/types.h" 1 3 4
 /* bits/types.h -- definitions of __*_t types underlying *_t types.
    Copyright (C) 2002-2012 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -8023,9 +7985,9 @@ struct timespec
 
 
 #undef __need_timespec
-# 44 "/usr/include/x86_64-linux-gnu/sys/select.h" 2 3 4
+# 44 "/usr/include/sys/select.h" 2 3 4
 #define __need_timeval 
-# 1 "/usr/include/x86_64-linux-gnu/bits/time.h" 1 3 4
+# 1 "/usr/include/bits/time.h" 1 3 4
 /* System-dependent timing definitions.  Linux version.
    Copyright (C) 1996,1997,1999-2003,2010,2011,2012 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -8051,7 +8013,7 @@ struct timespec
 
 
 #define _STRUCT_TIMEVAL 1
-# 1 "/usr/include/x86_64-linux-gnu/bits/types.h" 1 3 4
+# 1 "/usr/include/bits/types.h" 1 3 4
 /* bits/types.h -- definitions of __*_t types underlying *_t types.
    Copyright (C) 2002-2012 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -8073,7 +8035,7 @@ struct timespec
 /*
  * Never include this file directly; use <sys/types.h> instead.
  */
-# 27 "/usr/include/x86_64-linux-gnu/bits/time.h" 2 3 4
+# 27 "/usr/include/bits/time.h" 2 3 4
 
 /* A time value that is accurate to the nearest
    microsecond but also has a range of years.  */
@@ -8082,9 +8044,9 @@ struct timeval
     __time_t tv_sec; /* Seconds.  */
     __suseconds_t tv_usec; /* Microseconds.  */
   };
-# 99 "/usr/include/x86_64-linux-gnu/bits/time.h" 3 4
+# 99 "/usr/include/bits/time.h" 3 4
 #undef __need_timeval
-# 46 "/usr/include/x86_64-linux-gnu/sys/select.h" 2 3 4
+# 46 "/usr/include/sys/select.h" 2 3 4
 
 
 typedef __suseconds_t suseconds_t;
@@ -8171,10 +8133,10 @@ extern int pselect (int __nfds, fd_set */* Ignore */ __readfds,
 
 
 
-# 220 "/usr/include/x86_64-linux-gnu/sys/types.h" 2 3 4
+# 220 "/usr/include/sys/types.h" 2 3 4
 
 /* BSD defines these symbols, so we follow.  */
-# 1 "/usr/include/x86_64-linux-gnu/sys/sysmacros.h" 1 3 4
+# 1 "/usr/include/sys/sysmacros.h" 1 3 4
 /* Definitions of macros to access `dev_t' values.
    Copyright (C) 1996, 1997, 1999, 2003, 2004, 2007, 2011
    Free Software Foundation, Inc.
@@ -8214,12 +8176,12 @@ extern int pselect (int __nfds, fd_set */* Ignore */ __readfds,
    You should have received a copy of the GNU Lesser General Public
    License along with the GNU C Library; if not, see
    <http://www.gnu.org/licenses/>.  */
-# 24 "/usr/include/x86_64-linux-gnu/sys/sysmacros.h" 2 3 4
+# 24 "/usr/include/sys/sysmacros.h" 2 3 4
 
 /* If the compiler does not know long long it is out of luck.  We are
    not going to hack weird hacks to support the dev_t representation
    they need.  */
-# 223 "/usr/include/x86_64-linux-gnu/sys/types.h" 2 3 4
+# 223 "/usr/include/sys/types.h" 2 3 4
 
 
 
@@ -8242,10 +8204,10 @@ typedef __fsblkcnt_t fsblkcnt_t; /* Type to count file system blocks.  */
 
 typedef __fsfilcnt_t fsfilcnt_t; /* Type to count file system inodes.  */
 #define __fsfilcnt_t_defined 
-# 268 "/usr/include/x86_64-linux-gnu/sys/types.h" 3 4
+# 268 "/usr/include/sys/types.h" 3 4
 /* Now add the thread types.  */
 
-# 1 "/usr/include/x86_64-linux-gnu/bits/pthreadtypes.h" 1 3 4
+# 1 "/usr/include/bits/pthreadtypes.h" 1 3 4
 /* Copyright (C) 2002-2007, 2012 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
@@ -8266,15 +8228,15 @@ typedef __fsfilcnt_t fsfilcnt_t; /* Type to count file system inodes.  */
 
 #define _BITS_PTHREADTYPES_H 1
 
-# 1 "/usr/include/x86_64-linux-gnu/bits/wordsize.h" 1 3 4
+# 1 "/usr/include/bits/wordsize.h" 1 3 4
 /* Determine the wordsize from the preprocessor defines.  */
 
 
 
 
 #define __WORDSIZE 32
-# 22 "/usr/include/x86_64-linux-gnu/bits/pthreadtypes.h" 2 3 4
-# 46 "/usr/include/x86_64-linux-gnu/bits/pthreadtypes.h" 3 4
+# 22 "/usr/include/bits/pthreadtypes.h" 2 3 4
+# 46 "/usr/include/bits/pthreadtypes.h" 3 4
 #define __SIZEOF_PTHREAD_ATTR_T 36
 #define __SIZEOF_PTHREAD_MUTEX_T 24
 #define __SIZEOF_PTHREAD_MUTEXATTR_T 4
@@ -8300,7 +8262,7 @@ union pthread_attr_t
 
 typedef union pthread_attr_t pthread_attr_t;
 #define __have_pthread_attr_t 1
-# 81 "/usr/include/x86_64-linux-gnu/bits/pthreadtypes.h" 3 4
+# 81 "/usr/include/bits/pthreadtypes.h" 3 4
 typedef struct __pthread_internal_slist
 {
   struct __pthread_internal_slist *__next;
@@ -8386,7 +8348,7 @@ typedef int pthread_once_t;
    structure of the attribute type is not exposed on purpose.  */
 typedef union
 {
-# 185 "/usr/include/x86_64-linux-gnu/bits/pthreadtypes.h" 3 4
+# 185 "/usr/include/bits/pthreadtypes.h" 3 4
   struct
   {
     int __lock;
@@ -8440,7 +8402,7 @@ typedef union
 
 /* Extra attributes for the cleanup functions.  */
 #define __cleanup_fct_attribute __attribute__ ((__regparm__ (1)))
-# 271 "/usr/include/x86_64-linux-gnu/sys/types.h" 2 3 4
+# 271 "/usr/include/sys/types.h" 2 3 4
 
 
 
@@ -8662,7 +8624,7 @@ extern void cfree (void *__ptr) ;
 # 22 "/usr/include/alloca.h" 2 3 4
 
 #define __need_size_t 
-# 1 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 1 3 4
+# 1 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 1 3 4
 /* Copyright (C) 1989, 1997, 1998, 1999, 2000, 2002, 2004, 2009, 2011
    Free Software Foundation, Inc.
 
@@ -8699,7 +8661,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 /* Any one of these symbols __need_* means that GNU libc
    wants us just to define one data type.  So don't define
    the symbols that indicate this file's entire job has been done.  */
-# 49 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 49 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* This avoids lossage on SunOS but only if stdtypes.h comes first.
    There's no way to win with the other order!  Sun lossage.  */
 
@@ -8717,7 +8679,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    defined if the corresponding type is *not* defined.
    FreeBSD-2.1 defines _MACHINE_ANSI_H_ instead of _ANSI_H_.
    NetBSD defines _I386_ANSI_H_ and _X86_64_ANSI_H_ instead of _ANSI_H_ */
-# 95 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 95 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* Sequent's header files use _PTRDIFF_T_ in some conflicting way.
    Just ignore it.  */
 
@@ -8730,7 +8692,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    not defined, and so that defining this macro defines _GCC_SIZE_T.
    If we find that the macros are still defined at this point, we must
    invoke them so that the type is defined as expected.  */
-# 120 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 120 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* In case nobody has defined these types, but we aren't running under
    GCC 2.00, make sure that __PTRDIFF_TYPE__, __SIZE_TYPE__, and
    __WCHAR_TYPE__ have reasonable values.  This can happen if the
@@ -8741,12 +8703,12 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 165 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 165 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* Unsigned type of `sizeof' something.  */
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 235 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 235 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 #undef __need_size_t
 
 
@@ -8758,14 +8720,14 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 359 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 359 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /*  In 4.3bsd-net2, leave these undefined to indicate that size_t, etc.
     are already defined.  */
 /*  BSD/OS 3.1 and FreeBSD [23].x require the MACHINE_ANSI_H check here.  */
 /*  NetBSD 5 requires the I386_ANSI_H and X86_64_ANSI_H checks here.  */
-# 395 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 395 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* A null pointer constant.  */
-# 409 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 409 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 #undef __need_NULL
 # 25 "/usr/include/alloca.h" 2 3 4
 
@@ -9085,7 +9047,7 @@ extern int getloadavg (double __loadavg[], int __nelem)
      ;
 
 
-# 1 "/usr/include/x86_64-linux-gnu/bits/stdlib-float.h" 1 3 4
+# 1 "/usr/include/bits/stdlib-float.h" 1 3 4
 /* Floating-point inline functions for stdlib.h.
    Copyright (C) 2012 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -9160,7 +9122,7 @@ extern int getloadavg (double __loadavg[], int __nelem)
 /* Get size_t and NULL from <stddef.h>.  */
 #define __need_size_t 
 #define __need_NULL 
-# 1 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 1 3 4
+# 1 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 1 3 4
 /* Copyright (C) 1989, 1997, 1998, 1999, 2000, 2002, 2004, 2009, 2011
    Free Software Foundation, Inc.
 
@@ -9197,7 +9159,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 /* Any one of these symbols __need_* means that GNU libc
    wants us just to define one data type.  So don't define
    the symbols that indicate this file's entire job has been done.  */
-# 49 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 49 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* This avoids lossage on SunOS but only if stdtypes.h comes first.
    There's no way to win with the other order!  Sun lossage.  */
 
@@ -9215,7 +9177,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    defined if the corresponding type is *not* defined.
    FreeBSD-2.1 defines _MACHINE_ANSI_H_ instead of _ANSI_H_.
    NetBSD defines _I386_ANSI_H_ and _X86_64_ANSI_H_ instead of _ANSI_H_ */
-# 95 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 95 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* Sequent's header files use _PTRDIFF_T_ in some conflicting way.
    Just ignore it.  */
 
@@ -9228,7 +9190,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    not defined, and so that defining this macro defines _GCC_SIZE_T.
    If we find that the macros are still defined at this point, we must
    invoke them so that the type is defined as expected.  */
-# 120 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 120 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* In case nobody has defined these types, but we aren't running under
    GCC 2.00, make sure that __PTRDIFF_TYPE__, __SIZE_TYPE__, and
    __WCHAR_TYPE__ have reasonable values.  This can happen if the
@@ -9239,12 +9201,12 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 165 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 165 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* Unsigned type of `sizeof' something.  */
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 235 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 235 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 #undef __need_size_t
 
 
@@ -9256,12 +9218,12 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 359 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 359 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /*  In 4.3bsd-net2, leave these undefined to indicate that size_t, etc.
     are already defined.  */
 /*  BSD/OS 3.1 and FreeBSD [23].x require the MACHINE_ANSI_H check here.  */
 /*  NetBSD 5 requires the I386_ANSI_H and X86_64_ANSI_H checks here.  */
-# 395 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 395 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* A null pointer constant.  */
 
 
@@ -10289,7 +10251,7 @@ static inline int av_popcount64_c(uint64_t x)
 
 #define AVUTIL_MEM_H 
 
-# 1 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include-fixed/limits.h" 1 3 4
+# 1 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include-fixed/limits.h" 1 3 4
 /* Copyright (C) 1992, 1994, 1997, 1998 Free Software Foundation, Inc.
 
 This file is part of GCC.
@@ -10401,7 +10363,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    might need this definition sometimes even if this file was included
    before.  */
 # 28 "include/libavutil/error.h" 2
-# 1 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 1 3 4
+# 1 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 1 3 4
 /* Copyright (C) 1989, 1997, 1998, 1999, 2000, 2002, 2004, 2009, 2011
    Free Software Foundation, Inc.
 
@@ -10467,7 +10429,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    defined if the corresponding type is *not* defined.
    FreeBSD-2.1 defines _MACHINE_ANSI_H_ instead of _ANSI_H_.
    NetBSD defines _I386_ANSI_H_ and _X86_64_ANSI_H_ instead of _ANSI_H_ */
-# 95 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 95 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* Sequent's header files use _PTRDIFF_T_ in some conflicting way.
    Just ignore it.  */
 
@@ -10480,7 +10442,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    not defined, and so that defining this macro defines _GCC_SIZE_T.
    If we find that the macros are still defined at this point, we must
    invoke them so that the type is defined as expected.  */
-# 120 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 120 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* In case nobody has defined these types, but we aren't running under
    GCC 2.00, make sure that __PTRDIFF_TYPE__, __SIZE_TYPE__, and
    __WCHAR_TYPE__ have reasonable values.  This can happen if the
@@ -10491,7 +10453,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 139 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 139 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 #define _PTRDIFF_T 
 #define _T_PTRDIFF_ 
 #define _T_PTRDIFF 
@@ -10504,7 +10466,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 #define __PTRDIFF_TYPE__ long int
 
 typedef long int ptrdiff_t;
-# 160 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 160 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* If this symbol has done its job, get rid of it.  */
 #undef __need_ptrdiff_t
 
@@ -10514,7 +10476,7 @@ typedef long int ptrdiff_t;
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 235 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 235 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 #undef __need_size_t
 
 
@@ -10526,14 +10488,14 @@ typedef long int ptrdiff_t;
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 344 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 344 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 #undef __need_wchar_t
-# 359 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 359 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /*  In 4.3bsd-net2, leave these undefined to indicate that size_t, etc.
     are already defined.  */
 /*  BSD/OS 3.1 and FreeBSD [23].x require the MACHINE_ANSI_H check here.  */
 /*  NetBSD 5 requires the I386_ANSI_H and X86_64_ANSI_H checks here.  */
-# 395 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stddef.h" 3 4
+# 395 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stddef.h" 3 4
 /* A null pointer constant.  */
 
 
@@ -11082,7 +11044,7 @@ void av_memcpy_backptr(uint8_t *dst, int back, int cnt);
 #define AVUTIL_RATIONAL_H 
 
 
-# 1 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include-fixed/limits.h" 1 3 4
+# 1 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include-fixed/limits.h" 1 3 4
 /* Copyright (C) 1992, 1994, 1997, 1998 Free Software Foundation, Inc.
 
 This file is part of GCC.
@@ -11570,7 +11532,7 @@ typedef struct AVExtFloat {
 
 #define AVUTIL_LOG_H 
 
-# 1 "/usr/lib/gcc/x86_64-linux-gnu/4.7/include/stdarg.h" 1 3 4
+# 1 "/usr/lib64/gcc/x86_64-suse-linux/4.7/include/stdarg.h" 1 3 4
 /* Copyright (C) 1989, 1997, 1998, 1999, 2000, 2009 Free Software Foundation, Inc.
 
 This file is part of GCC.

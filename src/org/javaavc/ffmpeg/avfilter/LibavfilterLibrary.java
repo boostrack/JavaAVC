@@ -43,27 +43,29 @@ import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVFrame;
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public interface LibavfilterLibrary extends Library {
-    /** < all automatic conversions enabled */
-    public static final int AVFILTER_AUTO_CONVERT_ALL = 0;
-    /** < all automatic conversions disabled */
-    public static final int AVFILTER_AUTO_CONVERT_NONE = -1;
-    public static final int AVFILTER_FLAG_SUPPORT_TIMELINE = ((1 << 16) | (1 << 17));
-    public static final int AV_PERM_NEG_LINESIZES = 0x20;
-    public static final int AV_PERM_REUSE2 = 0x10;
-    public static final int AV_PERM_ALIGN = 0x40;
-    public static final int AVFILTER_FLAG_DYNAMIC_INPUTS = (1 << 0);
-    public static final int AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC = (1 << 16);
-    public static final int AVFILTER_CMD_FLAG_FAST = 2;
-    public static final int AVFILTER_FLAG_DYNAMIC_OUTPUTS = (1 << 1);
-    public static final int AV_PERM_REUSE = 0x08;
-    public static final int AVFILTER_FLAG_SLICE_THREADS = (1 << 2);
-    public static final int AVFILTER_THREAD_SLICE = (1 << 0);
-    public static final int AVFILTER_ALIGN = 16;
-    public static final int AVFILTER_FLAG_SUPPORT_TIMELINE_INTERNAL = (1 << 17);
-    public static final int AV_PERM_PRESERVE = 0x04;
+
     public static final int AV_PERM_READ = 0x01;
     public static final int AV_PERM_WRITE = 0x02;
+    public static final int AV_PERM_PRESERVE = 0x04;
+    public static final int AV_PERM_REUSE = 0x08;
+    public static final int AV_PERM_REUSE2 = 0x10;
+    public static final int AV_PERM_NEG_LINESIZES = 0x20;
+    public static final int AV_PERM_ALIGN = 0x40;
+
+    public static final int AVFILTER_AUTO_CONVERT_ALL = 0;
+    public static final int AVFILTER_AUTO_CONVERT_NONE = -1;
+
+    public static final int AVFILTER_THREAD_SLICE = (1 << 0);
+
+    public static final int AVFILTER_FLAG_DYNAMIC_INPUTS = (1 << 0);
+    public static final int AVFILTER_FLAG_DYNAMIC_OUTPUTS = (1 << 1);
+    public static final int AVFILTER_FLAG_SLICE_THREADS = (1 << 2);
+    public static final int AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC = (1 << 16);
+    public static final int AVFILTER_FLAG_SUPPORT_TIMELINE_INTERNAL = (1 << 17);
+    public static final int AVFILTER_FLAG_SUPPORT_TIMELINE = ((1 << 16) | (1 << 17));
+
     public static final int AVFILTER_CMD_FLAG_ONE = 1;
+    public static final int AVFILTER_CMD_FLAG_FAST = 2;
 
     /**
      * Return the <CODE>LIBAVFILTER_VERSION_INT</CODE> constant.
@@ -92,8 +94,12 @@ public interface LibavfilterLibrary extends Library {
      */
     public String avfilter_license();
 
-    /** Original signature : <code>void avfilter_copy_buffer_ref_props(AVFilterBufferRef*, AVFilterBufferRef*)</code> */
-    void avfilter_copy_buffer_ref_props(AVFilterBufferRef dst, AVFilterBufferRef src);
+    /**
+     * <P>
+     * Original signature: <CODE>void avfilter_copy_buffer_ref_props(AVFilterBufferRef*, AVFilterBufferRef*)</CODE>.
+     * </P>
+     */
+    public void avfilter_copy_buffer_ref_props(AVFilterBufferRef dst, AVFilterBufferRef src);
 
 
     /** Original signature : <code>AVFilterBufferRef* avfilter_ref_buffer(AVFilterBufferRef*, int)</code> */

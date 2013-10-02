@@ -45,14 +45,18 @@ LINUX64_OPT=--arch=x86_64
 WINDOWS32_OPT=--cross-prefix=x86_64-w64-mingw32- --enable-cross-compile --target-os=mingw32 --arch=x86
 WINDOWS64_OPT=--cross-prefix=x86_64-w64-mingw32- --enable-cross-compile --target-os=mingw32 --arch=x86_64
 
+# TODO: Add?
+#--disable-bzlib
+#--disable-iconv
+#--disable-zlib
 # Configure options.
 CONF= \
     --fatal-warnings \
     --prefix=$(BUILD_DIR) \
     --enable-version3 \
     --enable-shared \
-    --enable-runtime-cpudetect \
-    --disable-static \
+    --disable-runtime-cpudetect \
+    --disable-doc \
     --enable-pic \
     --pkg-config=pkg-config
 
@@ -144,5 +148,4 @@ $(WINDOWS64_JAR): $(WINDOWS64_DIR)
 # 
 clean:
 	rm -rf $(FFMPEG_DIR) $(BUILD_DIR) $(LINUX32_DIR) $(LINUX64_DIR) $(WINDOWS32_DIR) $(WINDOWS64_DIR) *.jar
-
 

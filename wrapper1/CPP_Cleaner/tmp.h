@@ -1,12 +1,12 @@
-# 1 "include/header1.h"
+# 1 "include/dir1/header1.h"
 #define __STDC__ 1
-# 1 "include/header1.h"
+# 1 "include/dir1/header1.h"
 #define __STDC_HOSTED__ 1
 # 1 "<command-line>"
-# 1 "include/header1.h"
+# 1 "include/dir1/header1.h"
 // Begin header1.h.
 
-# 1 "include/header2.h" 1
+# 1 "include/dir1/header2.h" 1
 // Begin header2.h.
 
 # 1 "/usr/include/error.h" 1 3 4
@@ -285,7 +285,7 @@
 
 
 #define __USE_ATFILE 1
-# 336 "/usr/include/features.h" 3 4
+# 340 "/usr/include/features.h" 3 4
 #define __USE_FORTIFY_LEVEL 0
 
 
@@ -320,37 +320,9 @@
    explicitly includes a system header.  GCC knows the name of this
    header in order to preinclude it.  */
 
-/* Define __STDC_IEC_559__ and other similar macros.  */
-# 1 "/usr/include/x86_64-linux-gnu/bits/predefs.h" 1 3 4
-/* Copyright (C) 2005 Free Software Foundation, Inc.
-   This file is part of the GNU C Library.
-
-   The GNU C Library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Lesser General Public
-   License as published by the Free Software Foundation; either
-   version 2.1 of the License, or (at your option) any later version.
-
-   The GNU C Library is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Lesser General Public License for more details.
-
-   You should have received a copy of the GNU Lesser General Public
-   License along with the GNU C Library; if not, write to the Free
-   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-   02111-1307 USA.  */
-
-
-#define _PREDEFS_H 
-
-
-
-
-
 /* We do support the IEC 559 math functionality, real and complex.  */
 #define __STDC_IEC_559__ 1
 #define __STDC_IEC_559_COMPLEX__ 1
-# 31 "/usr/include/stdc-predef.h" 2 3 4
 
 /* wchar_t uses ISO/IEC 10646 (2nd ed., published 2011-03-15) /
    Unicode 6.0.  */
@@ -358,7 +330,7 @@
 
 /* We do not support C11 <threads.h>.  */
 #define __STDC_NO_THREADS__ 1
-# 342 "/usr/include/features.h" 2 3 4
+# 346 "/usr/include/features.h" 2 3 4
 
 /* This macro indicates that the installed library is the GNU C Library.
    For historic reasons the value now is 6 and this will stay from now
@@ -388,7 +360,7 @@
 /* This is here only because every header file already includes this one.  */
 
 
-# 1 "/usr/include/x86_64-linux-gnu/sys/cdefs.h" 1 3 4
+# 1 "/usr/include/sys/cdefs.h" 1 3 4
 /* Copyright (C) 1992-2002, 2004, 2005, 2006, 2007, 2009, 2011, 2012
    Free Software Foundation, Inc.
    This file is part of the GNU C Library.
@@ -425,7 +397,7 @@
 /* Some user header file might have defined this before.  */
 #undef __P
 #undef __PMT
-# 73 "/usr/include/x86_64-linux-gnu/sys/cdefs.h" 3 4
+# 73 "/usr/include/sys/cdefs.h" 3 4
 #define __inline /* No inline functions.  */
 
 #define __THROW 
@@ -465,7 +437,7 @@
    future changes and we include the ISO C99 code in the non-standard
    namespace __c99.  The C++ wrapper header take case of adding the
    definitions to the global namespace.  */
-# 120 "/usr/include/x86_64-linux-gnu/sys/cdefs.h" 3 4
+# 120 "/usr/include/sys/cdefs.h" 3 4
 /* For compatibility we do not add the declarations into any
    namespace.  They will end up in the global namespace which is what
    old code expects.  */
@@ -490,14 +462,14 @@
 #define __bos(ptr) __builtin_object_size (ptr, __USE_FORTIFY_LEVEL > 1)
 #define __bos0(ptr) __builtin_object_size (ptr, 0)
 #define __fortify_function __extern_always_inline __attribute_artificial__
-# 152 "/usr/include/x86_64-linux-gnu/sys/cdefs.h" 3 4
+# 152 "/usr/include/sys/cdefs.h" 3 4
 #define __warndecl(name,msg) extern void name (void)
 #define __warnattr(msg) 
 #define __errordecl(name,msg) extern void name (void)
 
 
 /* Support for flexible arrays.  */
-# 168 "/usr/include/x86_64-linux-gnu/sys/cdefs.h" 3 4
+# 168 "/usr/include/sys/cdefs.h" 3 4
 /* Some other non-C99 compiler.  Approximate with [1].  */
 #define __flexarr [1]
 
@@ -514,7 +486,7 @@
 
    Example:
    int __REDIRECT(setpgrp, (__pid_t pid, __pid_t pgrp), setpgid); */
-# 210 "/usr/include/x86_64-linux-gnu/sys/cdefs.h" 3 4
+# 210 "/usr/include/sys/cdefs.h" 3 4
 /* GCC has various useful declarations that can be made with the
    `__attribute__' syntax.  All of the ways we use this do fine if
    they are omitted for compilers that don't understand it. */
@@ -628,7 +600,7 @@
 
 /* GCC 4.3 and above with -std=c99 or -std=gnu99 implements ISO C99
    inline semantics, unless -fgnu89-inline is used.  */
-# 337 "/usr/include/x86_64-linux-gnu/sys/cdefs.h" 3 4
+# 337 "/usr/include/sys/cdefs.h" 3 4
 #define __extern_inline /* Ignore */
 #define __extern_always_inline /* Ignore */
 
@@ -656,7 +628,7 @@
 /* ISO C99 also allows to declare arrays as non-overlapping.  The syntax is
      array_name[restrict]
    GCC 3.1 supports this.  */
-# 373 "/usr/include/x86_64-linux-gnu/sys/cdefs.h" 3 4
+# 373 "/usr/include/sys/cdefs.h" 3 4
 /* Some other non-C99 compiler.  */
 #define __restrict_arr /* Not supported.  */
 
@@ -669,21 +641,21 @@
 #define __glibc_unlikely(cond) (cond)
 
 
-# 1 "/usr/include/x86_64-linux-gnu/bits/wordsize.h" 1 3 4
+# 1 "/usr/include/bits/wordsize.h" 1 3 4
 /* Determine the wordsize from the preprocessor defines.  */
 
 
 
 
 #define __WORDSIZE 32
-# 386 "/usr/include/x86_64-linux-gnu/sys/cdefs.h" 2 3 4
-# 407 "/usr/include/x86_64-linux-gnu/sys/cdefs.h" 3 4
+# 386 "/usr/include/sys/cdefs.h" 2 3 4
+# 407 "/usr/include/sys/cdefs.h" 3 4
 #define __LDBL_REDIR1(name,proto,alias) name proto
 #define __LDBL_REDIR(name,proto) name proto
 #define __LDBL_REDIR1_NTH(name,proto,alias) name proto __THROW
 #define __LDBL_REDIR_NTH(name,proto) name proto __THROW
 #define __LDBL_REDIR_DECL(name) 
-# 372 "/usr/include/features.h" 2 3 4
+# 376 "/usr/include/features.h" 2 3 4
 
 
 /* If we don't have __REDIRECT, prototypes will be missing if
@@ -707,14 +679,14 @@
    Get the definitions of all the appropriate `__stub_FUNCTION' symbols.
    <gnu/stubs.h> contains `#define __stub_FUNCTION' when FUNCTION is a stub
    that will always return failure (and set errno to ENOSYS).  */
-# 1 "/usr/include/x86_64-linux-gnu/gnu/stubs.h" 1 3 4
+# 1 "/usr/include/gnu/stubs.h" 1 3 4
 /* This file is automatically generated.
    This file selects the right generated file of `__stub_FUNCTION' macros
    based on the architecture being compiled for.  */
 
 
 
-# 1 "/usr/include/x86_64-linux-gnu/gnu/stubs-32.h" 1 3 4
+# 1 "/usr/include/gnu/stubs-32.h" 1 3 4
 /* This file is automatically generated.
    It defines a symbol `__stub_FUNCTION' for each function
    in the C library which is a stub, meaning it will fail
@@ -735,8 +707,8 @@
 #define __stub_sigreturn 
 #define __stub_sstk 
 #define __stub_stty 
-# 8 "/usr/include/x86_64-linux-gnu/gnu/stubs.h" 2 3 4
-# 396 "/usr/include/features.h" 2 3 4
+# 8 "/usr/include/gnu/stubs.h" 2 3 4
+# 400 "/usr/include/features.h" 2 3 4
 # 23 "/usr/include/error.h" 2 3 4
 
 
@@ -771,15 +743,15 @@ extern int error_one_per_line;
 
 
 
-# 4 "include/header2.h" 2
+# 4 "include/dir1/header2.h" 2
 
 #define v2 2
 
 int f2();
 
 // End   header2.h.
-# 4 "include/header1.h" 2
-# 1 "include/header3.h" 1
+# 4 "include/dir1/header1.h" 2
+# 1 "include/dir2/header3.h" 1
 // Begin header3.h.
 
 #define v3 3
@@ -787,7 +759,7 @@ int f2();
 int f3();
 
 // End   header3.h.
-# 5 "include/header1.h" 2
+# 5 "include/dir1/header1.h" 2
 
 #define v1 1
 

@@ -67,11 +67,7 @@ public class AVFilterPad extends Structure {
      * can be used to optimize buffer allocation.
      */
     public int rej_perms;
-    /**
-     * @deprecated unused<br>
-     * C type : start_frame_callback*
-     */
-    public AVFilterPad.start_frame_callback start_frame;
+
     /**
      * Callback function to get a video buffer. If NULL, the filter system will<br>
      * use ff_default_get_video_buffer().<br>
@@ -86,16 +82,7 @@ public class AVFilterPad extends Structure {
      * C type : get_audio_buffer_callback*
      */
     public AVFilterPad.get_audio_buffer_callback get_audio_buffer;
-    /**
-     * @deprecated unused<br>
-     * C type : end_frame_callback*
-     */
-    public AVFilterPad.end_frame_callback end_frame;
-    /**
-     * @deprecated unused<br>
-     * C type : draw_slice_callback*
-     */
-    public AVFilterPad.draw_slice_callback draw_slice;
+
     /**
      * Filtering callback. This is where a filter receives a frame with<br>
      * audio/video data and should do its processing.<br>

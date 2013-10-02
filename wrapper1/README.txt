@@ -3,7 +3,7 @@ Required components:
  * Make
  * Libc x32
 
-Install in Ubuntu:
+Install in Mint:
     $ sudo apt-get install gcc make libc6-dev-i386
 
 Install in openSUSE:

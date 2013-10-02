@@ -32,11 +32,11 @@ import os
 import re
 
 
-VERSION="1.2.1"
+VERSION="2.1.2"
 
 
 # Temporary file for preprocessing results.
-tmp_fname = "TMP.h"
+tmp_fname = "tmp.h"
 
 
 # Strings to remove.
@@ -63,7 +63,8 @@ def preproc(src_fname, res_fname, includes):
 #
 # Uses:
 #   source string and 
-#   return tuple (fname, is_start, is_comeback, is_system, is_extern) if current line is linemark or None.
+#   return tuple (fname, is_start, is_comeback, is_system, is_extern) if 
+#   current line is linemark or None.
 def parse(line):
     # See: http://gcc.gnu.org/onlinedocs/cpp/Preprocessor-Output.html
     lnum = "(\d+)"
@@ -90,17 +91,10 @@ def parse(line):
 #
 # Uses:
 #   source file name to define perprocessed header-file, 
-#   clean level number to define clean strategy: 
-#       0 -- nothing to cut;
-#       1 -- cut only system headers;
-#       2 -- cut everything except given root header-file;
+#   prefix list of include files, 
 #   result output source.
-def clean(src_fname, clean_level, res_fname):
-    head   = [ src_fname ]
-    system = [ False ]
-    extern = [ False ]
-    
-    level = [ True, True, True ]
+def clean(src_fname, prefix, res_fname):
+    head = [ src_fname ]
     out = False
     
     # Input file.
@@ -123,20 +117,14 @@ def clean(src_fname, clean_level, res_fname):
         
         res = parse(line)
         if res != None: # If current line is linemarker.
-            (hname, is_start, is_comeback, is_system, is_extern) = res
+            (hname, is_start, is_comeback, _, _) = res
             if is_start:
-                head.append(res[1])
-                system.append(is_system)
-                extern.append(is_extern)
+                head.append(hname)
             if is_comeback:
                 head.pop()
-                system.pop()
-                extern.pop()
-            
-            level[0] = not(extern[-1])                      # Output everything except extern code.
-            level[1] = level[0] and not(system[-1])         # Output everything except system header.
-            level[2] = level[1] and (head[-1] == src_fname) # Output only root herader.
-        elif level[clean_level]:
+            current = head[-1]
+            out = (current == src_fname) or reduce(lambda res, x: res or current.rfind(x) >= 0, prefix, False)
+        elif out:
             fout.write(line)    # Print to output source.
     
     fin.close()
@@ -146,22 +134,21 @@ def clean(src_fname, clean_level, res_fname):
 def main():
     # See: http://docs.python.org/2/library/optparse.html
     parser = OptionParser(version="%prog " + VERSION)
-    parser.add_option("-I", "--include", dest="include", action="append", 
-                        default=[], help="include directory for preprocessior")
-    parser.add_option("-l", "--level",   dest="level", 
-                        default="2", help="level of header-file cleaning")
+    parser.add_option("-I", "--include", dest="include", action="append", default=[], 
+                      help="include directory for preprocessior")
+    parser.add_option("-F", "--fragment", dest="fragment", action="append", default=[], 
+                      help="fragment include file path that will be leaved into output")
     parser.add_option("-o", "--output",  dest="output", 
-                        help="output file name (if not seleted console will be used)")
+                      help="output file name (if not seleted console will be used)")
     
     (opts, args) = parser.parse_args()
-    if len(args) != 1 or not(int(opts.level) in [0, 1, 2]):
+    if len(args) != 1:
         parser.error("incorrect number of arguments")
     else:
         preproc(args[0], tmp_fname, opts.include)
-        clean(tmp_fname, int(opts.level), opts.output)
+        clean(tmp_fname, opts.fragment, opts.output)
 
 
 if __name__ == "__main__":
     main()
-
 

@@ -1,7 +1,7 @@
 // Begin header1.h.
 
-#include "header2.h"
-#include "header3.h"
+#include "dir1/header2.h"
+#include "dir2/header3.h"
 
 #define v1 1
 

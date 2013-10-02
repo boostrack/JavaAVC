@@ -1,14 +1,11 @@
 ROOT_DIR=../src
 # See new version on: http://code.google.com/p/jnaerator/
 JNR=jnaerator-0.12-SNAPSHOT-20130727.jar
-PACK_PREF=org.javaavc.ffmpeg
+PACK_PREF=org.javaavc.ffmpeg_gen
 
 
 # ============
 # Header path.
-# Ver. 1: User original headers.
-#HEADER=../wrapper1/include/lib$@/$@.h
-# Ver. 2: Use preprocessed headers.
 HEADER=../wrapper1/$@.h
 
 
@@ -95,21 +92,9 @@ wrapper=\
     java -jar $(JNR) $(OPT) $(INC_DIR) -o $(ROOT_DIR) -library $1 -package $2 $3
 
 
-# ==========
-# Excellent:
-#  * avdevice
-# Good:
-#  * avfilter
-#  * avformat
-#  * swresample
-#  * swscale
-# Bad (replace NativeSize to NativeLong):
-#  * avcodec
-#  * avutil
 all: avcodec avdevice avfilter avformat avutil swresample swscale
 
 
 avcodec avdevice avfilter avformat avutil swresample swscale:
 	$(call wrapper,Lib$@,$(PACK_PREF).$@,$(HEADER))
-
 
