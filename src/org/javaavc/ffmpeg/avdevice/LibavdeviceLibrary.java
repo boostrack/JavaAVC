@@ -50,6 +50,13 @@ import com.sun.jna.Library;
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public interface LibavdeviceLibrary extends Library {
+
+    public static final String LIBAVDEVICE_IDENT = "Lavd";
+
+    public static final int LIBAVDEVICE_VERSION_MAJOR = 55;
+    public static final int LIBAVDEVICE_VERSION_MINOR = 3;
+    public static final int LIBAVDEVICE_VERSION_MICRO = 100;
+
     /**
      * Return the <CODE>LIBAVDEVICE_VERSION_INT</CODE> constant.
      *
