@@ -18,7 +18,7 @@
  */
 package org.javaavc.ffmpeg.avcodec;
 
-import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVClass;
+import org.javaavc.ffmpeg.avutil.AVClass;
 import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVDictionary;
 import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVFrame;
 import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVRational;

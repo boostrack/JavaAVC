@@ -26,7 +26,7 @@ import com.sun.jna.ptr.PointerByReference;
 import java.nio.DoubleBuffer;
 import java.nio.IntBuffer;
 
-import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVClass;
+import org.javaavc.ffmpeg.avutil.AVClass;
 
 /**
  * {@link LibswresampleLibrary} is a library that handles audio resampling, sample format conversion and mixing.

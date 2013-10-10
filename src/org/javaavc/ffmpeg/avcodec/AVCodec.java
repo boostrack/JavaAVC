@@ -28,7 +28,7 @@ import com.sun.jna.ptr.PointerByReference;
 import java.util.Arrays;
 import java.util.List;
 
-import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVClass;
+import org.javaavc.ffmpeg.avutil.AVClass;
 import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVFrame;
 import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVRational;
 

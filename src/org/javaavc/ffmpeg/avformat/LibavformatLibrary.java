@@ -21,7 +21,6 @@ package org.javaavc.ffmpeg.avformat;
 import com.sun.jna.Library;
 import com.sun.jna.Pointer;
 import com.sun.jna.PointerType;
-import com.sun.jna.ptr.IntByReference;
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
@@ -29,7 +28,7 @@ import java.nio.LongBuffer;
 
 import org.javaavc.ffmpeg.avcodec.AVCodec;
 import org.javaavc.ffmpeg.avcodec.AVPacket;
-import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVClass;
+import org.javaavc.ffmpeg.avutil.AVClass;
 import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVDictionary;
 import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVFrame;
 import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVRational;
@@ -142,7 +141,7 @@ public interface LibavformatLibrary extends Library {
      * @return >0 (read size) if OK, AVERROR_xxx otherwise<br>
      * Original signature : <code>int av_get_packet(AVIOContext*, AVPacket*, int)</code>
      */
-    int av_get_packet(LibavformatLibrary.AVIOContext s, AVPacket pkt, int size);
+    int av_get_packet(AVIOContext s, AVPacket pkt, int size);
     /**
      * Read data and append it to the current content of the AVPacket.<br>
      * If pkt->size is 0 this is identical to av_get_packet.<br>
@@ -156,7 +155,7 @@ public interface LibavformatLibrary extends Library {
      *         will not be lost even if an error occurs.<br>
      * Original signature : <code>int av_append_packet(AVIOContext*, AVPacket*, int)</code>
      */
-    int av_append_packet(LibavformatLibrary.AVIOContext s, AVPacket pkt, int size);
+    int av_append_packet(AVIOContext s, AVPacket pkt, int size);
     /** Original signature : <code>AVRational av_stream_get_r_frame_rate(const AVStream*)</code> */
     AVRational av_stream_get_r_frame_rate(AVStream s);
     /** Original signature : <code>void av_stream_set_r_frame_rate(AVStream*, AVRational)</code> */
@@ -279,23 +278,6 @@ public interface LibavformatLibrary extends Library {
      * Original signature : <code>int avformat_alloc_output_context2(AVFormatContext**, AVOutputFormat*, const char*, const char*)</code>
      */
     int avformat_alloc_output_context2(AVFormatContext.ByReference ctx[], AVOutputFormat oformat, String format_name, String filename);
-    /**
-     * Allocate an AVFormatContext for an output format.<br>
-     * avformat_free_context() can be used to free the context and<br>
-     * everything allocated by the framework within it.<br>
-     * * @param *ctx is set to the created format context, or to NULL in<br>
-     * case of failure<br>
-     * @param oformat format to use for allocating the context, if NULL<br>
-     * format_name and filename are used instead<br>
-     * @param format_name the name of output format to use for allocating the<br>
-     * context, if NULL filename is used instead<br>
-     * @param filename the name of the filename to use for allocating the<br>
-     * context, may be NULL<br>
-     * @return >= 0 in case of success, a negative AVERROR code in case of<br>
-     * failure<br>
-     * Original signature : <code>int avformat_alloc_output_context2(AVFormatContext**, AVOutputFormat*, const char*, const char*)</code>
-     */
-    int avformat_alloc_output_context2(AVFormatContext.ByReference ctx[], AVOutputFormat oformat, Pointer format_name, Pointer filename);
 
     /**
      * Find AVInputFormat based on the short name of the input format.<br>
@@ -347,23 +329,7 @@ public interface LibavformatLibrary extends Library {
      * AVERROR code otherwise<br>
      * Original signature : <code>int av_probe_input_buffer(AVIOContext*, AVInputFormat**, const char*, void*, unsigned int, unsigned int)</code>
      */
-    int av_probe_input_buffer(LibavformatLibrary.AVIOContext pb, AVInputFormat.ByReference fmt[], String filename, Pointer logctx, int offset, int max_probe_size);
-    /**
-     * Probe a bytestream to determine the input format. Each time a probe returns<br>
-     * with a score that is too low, the probe buffer size is increased and another<br>
-     * attempt is made. When the maximum probe size is reached, the input format<br>
-     * with the highest score is returned.<br>
-     * * @param pb the bytestream to probe<br>
-     * @param fmt the input format is put here<br>
-     * @param filename the filename of the stream<br>
-     * @param logctx the log context<br>
-     * @param offset the offset within the bytestream to probe from<br>
-     * @param max_probe_size the maximum probe buffer size (zero for default)<br>
-     * @return 0 in case of success, a negative value corresponding to an<br>
-     * AVERROR code otherwise<br>
-     * Original signature : <code>int av_probe_input_buffer(AVIOContext*, AVInputFormat**, const char*, void*, unsigned int, unsigned int)</code>
-     */
-    int av_probe_input_buffer(LibavformatLibrary.AVIOContext pb, AVInputFormat.ByReference fmt[], Pointer filename, Pointer logctx, int offset, int max_probe_size);
+    int av_probe_input_buffer(AVIOContext pb, AVInputFormat.ByReference fmt[], String filename, Pointer logctx, int offset, int max_probe_size);
 
     /**
      * Open an input stream and read the header. The codecs are not opened.
@@ -727,16 +693,6 @@ public interface LibavformatLibrary extends Library {
      * Original signature : <code>int av_codec_get_tag2(const AVCodecTag**, AVCodecID, unsigned int*)</code>
      */
     int av_codec_get_tag2(LibavformatLibrary.AVCodecTag tags[], int id, IntBuffer tag);
-    /**
-     * Get the codec tag for the given codec id.<br>
-     * * @param tags list of supported codec_id - codec_tag pairs, as stored<br>
-     * in AVInputFormat.codec_tag and AVOutputFormat.codec_tag<br>
-     * @param id codec id that should be searched for in the list<br>
-     * @param tag A pointer to the found tag<br>
-     * @return 0 if id was not found in tags, > 0 if it was found<br>
-     * Original signature : <code>int av_codec_get_tag2(const AVCodecTag**, AVCodecID, unsigned int*)</code>
-     */
-    int av_codec_get_tag2(LibavformatLibrary.AVCodecTag tags[], int id, IntByReference tag);
     /** Original signature : <code>int av_find_default_stream_index(AVFormatContext*)</code> */
     int av_find_default_stream_index(AVFormatContext s);
     /**
@@ -823,23 +779,6 @@ public interface LibavformatLibrary extends Library {
      */
     int av_sdp_create(AVFormatContext.ByReference ac[], int n_files, ByteBuffer buf, int size);
     /**
-     * Generate an SDP for an RTP session.<br>
-     * * Note, this overwrites the id values of AVStreams in the muxer contexts<br>
-     * for getting unique dynamic payload types.<br>
-     * * @param ac array of AVFormatContexts describing the RTP streams. If the<br>
-     *           array is composed by only one context, such context can contain<br>
-     *           multiple AVStreams (one AVStream per RTP stream). Otherwise,<br>
-     *           all the contexts in the array (an AVCodecContext per RTP stream)<br>
-     *           must contain only one AVStream.<br>
-     * @param n_files number of AVCodecContexts contained in ac<br>
-     * @param buf buffer where the SDP will be stored (must be allocated by<br>
-     *            the caller)<br>
-     * @param size the size of the buffer<br>
-     * @return 0 if OK, AVERROR_xxx on error<br>
-     * Original signature : <code>int av_sdp_create(AVFormatContext*[], int, char*, int)</code>
-     */
-    int av_sdp_create(AVFormatContext.ByReference ac[], int n_files, Pointer buf, int size);
-    /**
      * Return a positive value if the given filename has one of the given<br>
      * extensions, 0 otherwise.<br>
      * * @param extensions a comma-separated list of filename extensions<br>
@@ -909,24 +848,6 @@ public interface LibavformatLibrary extends Library {
             super(address);
         }
         public AVCodecTag() {
-            super();
-        }
-    };
-
-    public static class AVIOContext extends PointerType {
-        public AVIOContext(Pointer address) {
-            super(address);
-        }
-        public AVIOContext() {
-            super();
-        }
-    };
-
-    public static class AVIOInterruptCB extends PointerType {
-        public AVIOInterruptCB(Pointer address) {
-            super(address);
-        }
-        public AVIOInterruptCB() {
             super();
         }
     };

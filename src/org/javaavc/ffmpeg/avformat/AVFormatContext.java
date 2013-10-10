@@ -24,11 +24,9 @@ import com.sun.jna.Structure;
 import java.util.Arrays;
 import java.util.List;
 
-import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVClass;
+import org.javaavc.ffmpeg.avutil.AVClass;
 import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVDictionary;
 import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVRational;
-import org.javaavc.ffmpeg.avformat.LibavformatLibrary.AVIOContext;
-import org.javaavc.ffmpeg.avformat.LibavformatLibrary.AVIOInterruptCB;
 
 /**
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)

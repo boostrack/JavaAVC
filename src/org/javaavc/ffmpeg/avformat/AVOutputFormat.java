@@ -28,7 +28,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.javaavc.ffmpeg.avcodec.AVPacket;
-import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVClass;
+import org.javaavc.ffmpeg.avutil.AVClass;
 
 /**
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)

@@ -26,7 +26,7 @@ import com.sun.jna.ptr.LongByReference;
 import java.util.Arrays;
 import java.util.List;
 
-import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVClass;
+import org.javaavc.ffmpeg.avutil.AVClass;
 import org.javaavc.ffmpeg.avcodec.AVPacket;
 import org.javaavc.ffmpeg.avformat.LibavformatLibrary.AVCodecTag;
 

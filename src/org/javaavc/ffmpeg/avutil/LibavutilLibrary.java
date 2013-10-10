@@ -176,15 +176,6 @@ public interface LibavutilLibrary extends Library {
         }
     };
 
-    public static class AVClass extends PointerType {
-        public AVClass(Pointer address) {
-            super(address);
-        }
-        public AVClass() {
-            super();
-        }
-    };
-
     public static class AVDictionary extends PointerType {
         public AVDictionary(Pointer address) {
             super(address);
