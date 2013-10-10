@@ -108,6 +108,21 @@ public interface LibswresampleLibrary extends Library {
     };
 
     /**
+     * Maximum number of channels.
+     */
+    public static final int SWR_CH_MAX = 32;
+
+    /**
+     * Force resampling even if equal sample rate.
+     */
+    public static final int SWR_FLAG_RESAMPLE = 1;
+
+    public static final String LIBSWRESAMPLE_IDENT = "SwR";
+    public static final int LIBSWRESAMPLE_VERSION_MAJOR = 0;
+    public static final int LIBSWRESAMPLE_VERSION_MINOR = 17;
+    public static final int LIBSWRESAMPLE_VERSION_MICRO = 102;
+
+    /**
      * Return the <CODE>LIBSWRESAMPLE_VERSION_INT</CODE> constant.
      *
      * <P>

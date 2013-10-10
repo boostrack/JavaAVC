@@ -44,6 +44,11 @@ import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVClass;
  */
 public interface LibswscaleLibrary extends Library {
 
+    public static final String LIBSWSCALE_IDENT = "SwS";
+    public static final int LIBSWSCALE_VERSION_MINOR = 3;
+    public static final int LIBSWSCALE_VERSION_MAJOR = 2;
+    public static final int LIBSWSCALE_VERSION_MICRO = 100;
+
     /**
      * Values for the flags, the stuff on the command line is different.
      */
@@ -69,9 +74,12 @@ public interface LibswscaleLibrary extends Library {
     /**
      * Input subsampling info.
      */
-    public static final int SWS_FULL_CHR_H_INP = 0x4000;
+    // Internal chrominace subsampling info.
+    public static final int SWS_FULL_CHR_H_INT = 0x2000;
+    // Input subsampling info.
     public static final int SWS_DIRECT_BGR = 0x8000;
     public static final int SWS_ACCURATE_RND = 0x40000;
+    public static final int SWS_FULL_CHR_H_INP = 0x4000;
     public static final int SWS_BITEXACT = 0x80000;
     public static final int SWS_ERROR_DIFFUSION = 0x800000;
 
