@@ -77,9 +77,9 @@ public interface LibswscaleLibrary extends Library {
     // Internal chrominace subsampling info.
     public static final int SWS_FULL_CHR_H_INT = 0x2000;
     // Input subsampling info.
+    public static final int SWS_FULL_CHR_H_INP = 0x4000;
     public static final int SWS_DIRECT_BGR = 0x8000;
     public static final int SWS_ACCURATE_RND = 0x40000;
-    public static final int SWS_FULL_CHR_H_INP = 0x4000;
     public static final int SWS_BITEXACT = 0x80000;
     public static final int SWS_ERROR_DIFFUSION = 0x800000;
 
