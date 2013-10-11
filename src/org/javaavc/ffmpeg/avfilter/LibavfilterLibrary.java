@@ -44,28 +44,120 @@ import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVFrame;
  */
 public interface LibavfilterLibrary extends Library {
 
+    public static final String LIBAVFILTER_IDENT = "Lavfi";
+    public static final int LIBAVFILTER_VERSION_MAJOR = 3;
+    public static final int LIBAVFILTER_VERSION_MINOR = 79;
+    public static final int LIBAVFILTER_VERSION_MICRO = 101;
+
+    public static final boolean FF_API_AVFILTERPAD_PUBLIC = (3 < 4);
+    public static final boolean FF_API_FOO_COUNT = (3 < 4);
+    public static final boolean FF_API_FILL_FRAME = (3 < 4);
+    public static final boolean FF_API_BUFFERSRC_BUFFER = (3 < 4);
+    public static final boolean FF_API_AVFILTERBUFFER = (3 < 4);
+    public static final boolean FF_API_OLD_FILTER_OPTS = (3 < 4);
+    public static final boolean FF_API_ACONVERT_FILTER = (3 < 4);
+    public static final boolean FF_API_AVFILTER_OPEN = (3 < 4);
+    public static final boolean FF_API_AVFILTER_INIT_FILTER = (3 < 4);
+    public static final boolean FF_API_OLD_FILTER_REGISTER = (3 < 4);
+    public static final boolean FF_API_OLD_GRAPH_PARSE = (3 < 4);
+
+    /**
+     * Can read from the buffer.
+     */
     public static final int AV_PERM_READ = 0x01;
+
+    /**
+     * Can write to the buffer.
+     */
     public static final int AV_PERM_WRITE = 0x02;
+
+    /**
+     * Nobody else can overwrite the buffer.
+     */
     public static final int AV_PERM_PRESERVE = 0x04;
+
+    /**
+     * Can output the buffer multiple times, with the same contents each time.
+     */
     public static final int AV_PERM_REUSE = 0x08;
+
+    /**
+     * Can output the buffer multiple times, modified each time.
+     */
     public static final int AV_PERM_REUSE2 = 0x10;
+
+    /**
+     * The buffer requested can have negative linesizes.
+     */
     public static final int AV_PERM_NEG_LINESIZES = 0x20;
+
+    /**
+     * The buffer must be aligned.
+     */
     public static final int AV_PERM_ALIGN = 0x40;
 
-    public static final int AVFILTER_AUTO_CONVERT_ALL = 0;
-    public static final int AVFILTER_AUTO_CONVERT_NONE = -1;
-
-    public static final int AVFILTER_THREAD_SLICE = (1 << 0);
-
+    /**
+     * The number of the filter inputs is not determined just by {@link AVFilter#inputs}. The filter might add additional inputs during
+     * initialization depending on the options supplied to it.
+     */
     public static final int AVFILTER_FLAG_DYNAMIC_INPUTS = (1 << 0);
+
+    /**
+     * The number of the filter outputs is not determined just by {@link AVFilter#outputs}. The filter might add additional outputs during
+     * initialization depending on the options supplied to it.
+     */
     public static final int AVFILTER_FLAG_DYNAMIC_OUTPUTS = (1 << 1);
+
+    /**
+     * The filter supports multithreading by splitting frames into multiple parts and processing them concurrently.
+     */
     public static final int AVFILTER_FLAG_SLICE_THREADS = (1 << 2);
+
+    /**
+     * Some filters support a generic "enable" expression option that can be used to enable or disable a filter in the timeline.
+     * Filters supporting this option have this flag set. When the enable expression is false, the default no-op
+     * <CODE>filter_frame()</CODE> function is called in place of the <CODE>filter_frame()</CODE> callback defined on each input
+     * pad, thus the frame is passed unchanged to the next filters.
+     */
     public static final int AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC = (1 << 16);
+
+    /**
+     * Same as {@link #AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC}, except that the filter will have its <CODE>filter_frame()</CODE>
+     * callback(s) called as usual even when the enable expression is false. The filter will disable filtering within the
+     * <CODE>filter_frame()</CODE> callback(s) itself, for example executing code depending on the {@link AVFilterContext#is_disabled}
+     * value.
+     */
     public static final int AVFILTER_FLAG_SUPPORT_TIMELINE_INTERNAL = (1 << 17);
+
+    /**
+     * Handy mask to test whether the filter supports or no the timeline feature (internally or generically).
+     */
     public static final int AVFILTER_FLAG_SUPPORT_TIMELINE = ((1 << 16) | (1 << 17));
 
+    /**
+     * Process multiple parts of the frame concurrently.
+     */
+    public static final int AVFILTER_THREAD_SLICE = (1 << 0);
+
+    /**
+     * Stop once a filter understood the command (for target=all for example), fast filters are favored automatically.
+     */
     public static final int AVFILTER_CMD_FLAG_ONE = 1;
+
+    /**
+     * Only execute command when its fast (like a video out that supports contrast adjustment in hw).
+     */
     public static final int AVFILTER_CMD_FLAG_FAST = 2;
+
+    /**
+     * All automatic conversions enabled.
+     */
+    public static final int AVFILTER_AUTO_CONVERT_ALL = 0;
+
+    /**
+     * All automatic conversions disabled.
+     */
+    public static final int AVFILTER_AUTO_CONVERT_NONE = -1;
 
     /**
      * Return the <CODE>LIBAVFILTER_VERSION_INT</CODE> constant.
@@ -171,6 +263,9 @@ public interface LibavfilterLibrary extends Library {
 
     /** Original signature : <code>AVFilterBufferRef* avfilter_get_video_buffer_ref_from_arrays(const uint8_t*[4], const int[4], int, int, int, AVPixelFormat)</code> */
     AVFilterBufferRef avfilter_get_video_buffer_ref_from_arrays(ByteBuffer data[], IntBuffer linesize, int perms, int w, int h, int format);
+
+    /** Original signature : <code>AVFilterBufferRef* avfilter_get_audio_buffer_ref_from_arrays(uint8_t**, int, int, int, AVSampleFormat, uint64_t)</code> */
+    AVFilterBufferRef avfilter_get_audio_buffer_ref_from_arrays(PointerByReference data, int linesize, int perms, int nb_samples, int sample_fmt, long channel_layout);
 
     /** Original signature : <code>AVFilterBufferRef* avfilter_get_audio_buffer_ref_from_arrays_channels(uint8_t**, int, int, int, AVSampleFormat, int, uint64_t)</code> */
     AVFilterBufferRef avfilter_get_audio_buffer_ref_from_arrays_channels(PointerByReference data, int linesize, int perms, int nb_samples, int sample_fmt, int channels, long channel_layout);

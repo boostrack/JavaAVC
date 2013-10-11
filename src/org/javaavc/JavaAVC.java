@@ -172,7 +172,6 @@ public class JavaAVC {
         // Load "avcodec". Require: "avutil".
         this.avcodec = (LibavcodecLibrary) Native.loadLibrary(findLib("avcodec"), LibavcodecLibrary.class);
         this.checkLib(this.avcodec, "avcodec");
-        this.avcodec.avcodec_register_all();
 
         // Load "avformat". Require: "avcodec".
         this.avformat = (LibavformatLibrary) Native.loadLibrary(findLib("avformat"), LibavformatLibrary.class);
@@ -189,12 +188,10 @@ public class JavaAVC {
         // Load "avfilter". Require: "swresample", "swscale", "avformat", "avcodec", "avutil".
         this.avfilter = (LibavfilterLibrary) Native.loadLibrary(findLib("avfilter"), LibavfilterLibrary.class);
         this.checkLib(this.avfilter, "avfilter");
-        this.avfilter.avfilter_register_all();
 
         // Load "avdevice". Require: "avfilter", "avformat".
         this.avdevice = (LibavdeviceLibrary) Native.loadLibrary(findLib("avdevice"), LibavdeviceLibrary.class);
         this.checkLib(this.avdevice, "avdevice");
-        this.avdevice.avdevice_register_all();
     }
 
     /**
