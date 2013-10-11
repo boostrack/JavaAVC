@@ -18,6 +18,7 @@
  */
 package org.javaavc.ffmpeg.avcodec;
 
+import org.javaavc.ffmpeg.avcodec.AVCodecContext.draw_horiz_band_callback;
 import org.javaavc.ffmpeg.avutil.AVClass;
 import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVDictionary;
 import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVFrame;
@@ -29,7 +30,6 @@ import com.sun.jna.Library;
 import com.sun.jna.Pointer;
 import com.sun.jna.PointerType;
 import com.sun.jna.ptr.PointerByReference;
-import com.sun.jna.ptr.ShortByReference;
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
@@ -760,319 +760,638 @@ public interface LibavcodecLibrary extends Library {
         /** < Free mutex resources */
         public static final int AV_LOCK_DESTROY = 3;
     };
+
+    public static final String LIBAVCODEC_IDENT = "Lavc";
+    public static final int LIBAVCODEC_VERSION_MAJOR = 55;
+    public static final int LIBAVCODEC_VERSION_MINOR = 18;
+    public static final int LIBAVCODEC_VERSION_MICRO = 102;
+
+    /**
+     * Codec uses only intra compression. Video codecs only.
+     */
+    public static final int AV_CODEC_PROP_INTRA_ONLY = (1 << 0);
+
+    /**
+     * Codec supports lossy compression. Audio and video codecs only.
+     *
+     * <P>
+     * Note a codec may support both lossy and lossless compression modes.
+     * </P>
+     */
+    public static final int AV_CODEC_PROP_LOSSY = (1 << 1);
+
+    /**
+     * Codec supports lossless compression. Audio and video codecs only.
+     */
+    public static final int AV_CODEC_PROP_LOSSLESS = (1 << 2);
+
+    /**
+     * Subtitle codec is bitmap based. Decoded {@link AVSubtitle} data can be read from the {@link AVSubtitleRect#pict} field.
+     */
+    public static final int AV_CODEC_PROP_BITMAP_SUB = (1 << 16);
+
+    /**
+     * Subtitle codec is text based. Decoded {@link AVSubtitle} data can be read from the {@link AVSubtitleRect#ass} field.
+     */
+    public static final int AV_CODEC_PROP_TEXT_SUB = (1 << 17);
+
+    /**
+     * Required number of additionally allocated bytes at the end of the input bitstream for decoding.
+     *
+     * <P>
+     * This is mainly needed because some optimized bitstream readers read 32 or 64 bit at once and could read over the end.
+     * </P>
+     *
+     * <P>
+     * Note: If the first 23 bits of the additional bytes are not <CODE>0</CODE>, then damaged MPEG bitstreams could cause overread and
+     * segfault.
+     * </P>
+     */
+    public static final int FF_INPUT_BUFFER_PADDING_SIZE = 16;
+
+    /**
+     * Minimum encoding buffer size. Used to avoid some checks during header writing.
+     */
+    public static final int FF_MIN_BUFFER_SIZE = 16384;
+
+    public static final int FF_MAX_B_FRAMES = 16;
+
+    /**
+     * Allow decoders to produce frames with data planes that are not aligned to CPU requirements (e.g. due to cropping).
+     */
+    public static final int CODEC_FLAG_UNALIGNED = 0x0001;
+
+    /**
+     * Use fixed qscale.
+     */
+    public static final int CODEC_FLAG_QSCALE = 0x0002;
+
+    /**
+     * 4 MV per MB allowed / advanced prediction for H.263.
+     */
+    public static final int CODEC_FLAG_4MV = 0x0004;
+
+    /**
+     * Use qpel MC.
+     */
+    public static final int CODEC_FLAG_QPEL = 0x0010;
+
+    /**
+     * Use GMC.
+     */
+    public static final int CODEC_FLAG_GMC = 0x0020;
+
+    /**
+     * Always try a MB with MV=<0,0>.
+     */
+    public static final int CODEC_FLAG_MV0 = 0x0040;
+
+
+    /**
+     * The parent program guarantees that the input for B-frames containing streams is not written to for at least
+     * <CODE>s -&gt; max_b_frames + 1</CODE> frames, if this is not set the input will be copied.
+     */
+    public static final int CODEC_FLAG_INPUT_PRESERVED = 0x0100;
+
+    /**
+     * Use internal 2pass ratecontrol in first pass mode.
+     */
+    public static final int CODEC_FLAG_PASS1 = 0x0200;
+
+    /**
+     * Use internal 2pass ratecontrol in second pass mode.
+     */
+    public static final int CODEC_FLAG_PASS2 = 0x0400;
+
+    /**
+     * Only decode/encode grayscale.
+     */
+    public static final int CODEC_FLAG_GRAY = 0x2000;
+
+    /**
+     * Don't draw edges.
+     */
+    public static final int CODEC_FLAG_EMU_EDGE = 0x4000;
+
+    /**
+     * Error[?] variables will be set during encoding.
+     */
+    public static final int CODEC_FLAG_PSNR = 0x8000;
+
+    /**
+     * Input bitstream might be truncated at a random location instead of only at frame boundaries.
+     */
+    public static final int CODEC_FLAG_TRUNCATED = 0x00010000;
+
+    /**
+     * Normalize adaptive quantization.
+     */
+    public static final int CODEC_FLAG_NORMALIZE_AQP = 0x00020000;
+
+    /**
+     * Use interlaced DCT.
+     */
+    public static final int CODEC_FLAG_INTERLACED_DCT = 0x00040000;
+
+    /**
+     * Force low delay.
+     */
+    public static final int CODEC_FLAG_LOW_DELAY = 0x00080000;
+
+    /**
+     * Place global headers in extradata instead of every keyframe.
+     */
+    public static final int CODEC_FLAG_GLOBAL_HEADER = 0x00400000;
+
+    /**
+     * Use only bitexact stuff (except (I)DCT).
+     */
+    public static final int CODEC_FLAG_BITEXACT = 0x00800000;
+
+    /**
+     * H.263 advanced intra coding / MPEG-4 AC prediction.
+     */
+    public static final int CODEC_FLAG_AC_PRED = 0x01000000;
+
+    /**
+     * Loop filter.
+     */
+    public static final int CODEC_FLAG_LOOP_FILTER = 0x00000800;
+
+    /**
+     * Interlaced motion estimation.
+     */
+    public static final int CODEC_FLAG_INTERLACED_ME = 0x20000000;
+
+    public static final int CODEC_FLAG_CLOSED_GOP = 0x80000000;
+
+    /**
+     * Allow non spec compliant speedup tricks.
+     */
+    public static final int CODEC_FLAG2_FAST = 0x00000001;
+
+    /**
+     * Skip bitstream encoding.
+     */
+    public static final int CODEC_FLAG2_NO_OUTPUT = 0x00000004;
+
+    /**
+     * Place global headers at every keyframe instead of in extradata.
+     */
+    public static final int CODEC_FLAG2_LOCAL_HEADER = 0x00000008;
+
+    /**
+     * Discard cropping information from SPS.
+     */
+    public static final int CODEC_FLAG2_IGNORE_CROP = 0x00010000;
+
+    /**
+     * Input bitstream might be truncated at a packet boundaries instead of only at frame boundaries.
+     */
+    public static final int CODEC_FLAG2_CHUNKS = 0x00008000;
+
+    /**
+     * Show all frames before the first keyframe.
+     */
+    public static final int CODEC_FLAG2_SHOW_ALL = 0x00400000;
+
+    /**
+     * Decoder can use {@link draw_horiz_band_callback}.
+     */
+    public static final int CODEC_CAP_DRAW_HORIZ_BAND = 0x0001;
+
+    // TODO
+    /**
+     * Codec uses <CODE>get_buffer()</CODE> for allocating buffers and supports custom allocators.
+     *
+     * If not set, it might not use <CODE>get_buffer()</CODE> at all or use operations that assume the buffer was allocated by
+     * {@link #avcodec_default_get_buffer(AVCodecContext, AVFrame)}.
+     */
+    public static final int CODEC_CAP_DR1 = 0x0002;
+
+    public static final int CODEC_CAP_TRUNCATED = 0x0008;
+
+    /**
+     * Codec can export data for HW decoding (XvMC).
+     */
+    public static final int CODEC_CAP_HWACCEL = 0x0010;
+
+    // TODO
+    /**
+     * Encoder or decoder requires flushing with NULL input at the end in order to give the complete and correct output.
+     *
+     * <P>
+     * <STRONG>NOTE:</STRONG><BR />
+     * If this flag is not set, the codec is guaranteed to never be fed with with <CODE>NULL</CODE> data. The user can still
+     * send <CODE>NULL</CODE> data to the public encode or decode function, but {@link LibavcodecLibrary} will not pass it
+     * along to the codec unless this flag is set.
+     * </P>
+     *
+     * <P>
+     * Decoders:<BR />
+     * The decoder has a non-zero delay and needs to be fed with <CODE>avpkt-&gt;data=NULL</CODE>, <CODE>avpkt-&gt;size=0</CODE> at
+     * the end to get the delayed data until the decoder no longer returns frames.
+     * </P>
+     *
+     * <P>
+     * Encoders:<BR />
+     * The encoder needs to be fed with <CODE>NULL</CODE> data at the end of encoding until the encoder no longer returns data.
+     * </P>
+     *
+     * <P>
+     * <STRONG>NOTE:</STRONG><BR />
+     * For encoders implementing the {@link AVCodec#encode2} function, setting this flag also means that the encoder must set the
+     * pts and duration for each output packet. If this flag is not set, the pts and duration will be determined by
+     * {@link LibavcodecLibrary} from the input frame.
+     * </P>
+     */
+    public static final int CODEC_CAP_DELAY = 0x0020;
+
+    /**
+     * Codec can be fed a final frame with a smaller size. This can be used to prevent truncation of the last audio samples.
+     */
+    public static final int CODEC_CAP_SMALL_LAST_FRAME = 0x0040;
+
+    /**
+     * Codec can export data for HW decoding (VDPAU).
+     */
+    public static final int CODEC_CAP_HWACCEL_VDPAU = 0x0080;
+
+    /**
+     * Codec can output multiple frames per {@link AVPacket}.
+     *
+     * <P>
+     * Normally demuxers return one frame at a time, demuxers which do not do are connected to a parser to split what they
+     * return into proper frames. This flag is reserved to the very rare category of codecs which have a bitstream that cannot
+     * be split into frames without timeconsuming operations like full decoding. Demuxers carring such bitstreams thus may return
+     * multiple frames in a packet. This has many disadvantages like prohibiting stream copy in many cases thus it should only be
+     * considered as a last resort.
+     * </P>
+     */
+    public static final int CODEC_CAP_SUBFRAMES = 0x0100;
+
+    /**
+     * Codec is experimental and is thus avoided in favor of non experimental encoders.
+     */
+    public static final int CODEC_CAP_EXPERIMENTAL = 0x0200;
+
+    /**
+     * Codec should fill in channel configuration and samplerate instead of container.
+     */
+    public static final int CODEC_CAP_CHANNEL_CONF = 0x0400;
+
+    /**
+     * Codec is able to deal with negative linesizes.
+     */
+    public static final int CODEC_CAP_NEG_LINESIZES = 0x0800;
+
+    /**
+     * Codec supports frame-level multithreading.
+     */
+    public static final int CODEC_CAP_FRAME_THREADS = 0x1000;
+
+    /**
+     * Codec supports slice-based (or partition-based) multithreading.
+     */
+    public static final int CODEC_CAP_SLICE_THREADS = 0x2000;
+
+    /**
+     * Codec supports changed parameters at any point.
+     */
+    public static final int CODEC_CAP_PARAM_CHANGE = 0x4000;
+
+    // TODO
+    /**
+     * Codec supports <CODE>avctx->thread_count == 0</CODE> (auto).
+     */
+    public static final int CODEC_CAP_AUTO_THREADS = 0x8000;
+
+    /**
+     * Audio encoder supports receiving a different number of samples in each call.
+     */
+    public static final int CODEC_CAP_VARIABLE_FRAME_SIZE = 0x10000;
+
+    /**
+     * Codec is intra only.
+     */
+    public static final int CODEC_CAP_INTRA_ONLY = 0x40000000;
+
+    /**
+     * Codec is lossless.
+     */
+    public static final int CODEC_CAP_LOSSLESS = 0x80000000;
+
+    public static final int FF_QSCALE_TYPE_MPEG1 = 0;
+    public static final int FF_QSCALE_TYPE_MPEG2 = 1;
+    public static final int FF_QSCALE_TYPE_H264 = 2;
+    public static final int FF_QSCALE_TYPE_VP56 = 3;
+
+    public static final int FF_BUFFER_TYPE_INTERNAL = 1;
+
+    /**
+     * Direct rendering buffers (image is (de)allocated by user).
+     */
+    public static final int FF_BUFFER_TYPE_USER = 2;
+
+    /**
+     * Buffer from somewhere else; don't deallocate image (data/base), all other tables are not shared.
+     */
+    public static final int FF_BUFFER_TYPE_SHARED = 4;
+
+    /**
+     * Just a (modified) copy of some other buffer, don't deallocate anything.
+     */
+    public static final int FF_BUFFER_TYPE_COPY = 8;
+
+    /**
+     * Buffer hints value is meaningful (if <CODE>0</CODE> ignore).
+     */
+    public static final int FF_BUFFER_HINTS_VALID = 0x01;
+
+    /**
+     * Codec will read from buffer.
+     */
+    public static final int FF_BUFFER_HINTS_READABLE = 0x02;
+
+    /**
+     * User must not alter buffer content.
+     */
+    public static final int FF_BUFFER_HINTS_PRESERVE = 0x04;
+
+    /**
+     * Codec will reuse the buffer (update).
+     */
+    public static final int FF_BUFFER_HINTS_REUSABLE = 0x08;
+
+    /**
+     * The decoder will keep a reference to the frame and may reuse it later.
+     */
+    public static final int AV_GET_BUFFER_FLAG_REF = (1 << 0);
+
+    /**
+     * The packet contains a keyframe.
+     */
+    public static final int AV_PKT_FLAG_KEY = 0x0001;
+
+    /**
+     * The packet content is corrupted.
+     */
+    public static final int AV_PKT_FLAG_CORRUPT = 0x0002;
+
+    public static final int FF_COMPRESSION_DEFAULT = -1;
+    public static final int FF_ASPECT_EXTENDED = 15;
+    public static final int FF_RC_STRATEGY_XVID = 1;
+
+    public static final int FF_PRED_LEFT = 0;
+    public static final int FF_PRED_PLANE = 1;
+    public static final int FF_PRED_MEDIAN = 2;
+
+    public static final int FF_CMP_SAD = 0;
+    public static final int FF_CMP_SSE = 1;
+    public static final int FF_CMP_SATD = 2;
+    public static final int FF_CMP_DCT = 3;
+    public static final int FF_CMP_PSNR = 4;
+    public static final int FF_CMP_BIT = 5;
+    public static final int FF_CMP_RD = 6;
+    public static final int FF_CMP_ZERO = 7;
+    public static final int FF_CMP_VSAD = 8;
+    public static final int FF_CMP_VSSE = 9;
+    public static final int FF_CMP_NSSE = 10;
+    public static final int FF_CMP_W53 = 11;
+    public static final int FF_CMP_W97 = 12;
+    public static final int FF_CMP_DCTMAX = 13;
+    public static final int FF_CMP_DCT264 = 14;
+    public static final int FF_CMP_CHROMA = 256;
+
+    public static final int FF_DTG_AFD_SAME = 8;
+    public static final int FF_DTG_AFD_4_3 = 9;
+    public static final int FF_DTG_AFD_16_9 = 10;
+    public static final int FF_DTG_AFD_14_9 = 11;
+    public static final int FF_DTG_AFD_4_3_SP_14_9 = 13;
+    public static final int FF_DTG_AFD_16_9_SP_14_9 = 14;
+    public static final int FF_DTG_AFD_SP_4_3 = 15;
+
+    public static final int FF_DEFAULT_QUANT_BIAS = 999999;
+
+    // TODO
+    /**
+     * <CODE>draw_horiz_band()</CODE> is called in coded order instead of display.
+     */
+    public static final int SLICE_FLAG_CODED_ORDER = 0x0001;
+
+    // TODO
+    /**
+     * <CODE>allow draw_horiz_band()</CODE> with field slices (MPEG2 field pics).
+     */
+    public static final int SLICE_FLAG_ALLOW_FIELD = 0x0002;
+
+    /**
+     * <CODE>allow draw_horiz_band()</CODE> with <CODE>1</CODE> component at a time (SVQ1).
+     */
+    public static final int SLICE_FLAG_ALLOW_PLANE = 0x0004;
+
+    // TODO
+    /**
+     * Uses <CODE>mb_cmp</CODE>.
+     */
+    public static final int FF_MB_DECISION_SIMPLE = 0;
+
+    /**
+     * Chooses the one which needs the fewest bits.
+     */
+    public static final int FF_MB_DECISION_BITS = 1;
+
+    /**
+     * Rate distortion.
+     */
+    public static final int FF_MB_DECISION_RD = 2;
+
+    public static final int FF_CODER_TYPE_VLC = 0;
+    public static final int FF_CODER_TYPE_AC = 1;
+    public static final int FF_CODER_TYPE_RAW = 2;
+    public static final int FF_CODER_TYPE_RLE = 3;
+    public static final int FF_CODER_TYPE_DEFLATE = 4;
+
+    /**
+     * Autodetection.
+     */
+    public static final int FF_BUG_AUTODETECT = 1;
+    public static final int FF_BUG_OLD_MSMPEG4 = 2;
+    public static final int FF_BUG_XVID_ILACE = 4;
+    public static final int FF_BUG_UMP4 = 8;
+    public static final int FF_BUG_NO_PADDING = 16;
+    public static final int FF_BUG_AMV = 32;
+
+    /**
+     * Will be removed, {@link LibavcodecLibrary} can now handle these non-compliant files by default.
+     */
+    public static final int FF_BUG_AC_VLC = 0;
+    public static final int FF_BUG_QPEL_CHROMA = 64;
+    public static final int FF_BUG_STD_QPEL = 128;
+    public static final int FF_BUG_QPEL_CHROMA2 = 256;
+    public static final int FF_BUG_DIRECT_BLOCKSIZE = 512;
+    public static final int FF_BUG_EDGE = 1024;
+    public static final int FF_BUG_HPEL_CHROMA = 2048;
+    public static final int FF_BUG_DC_CLIP = 4096;
+
+    /**
+     * Work around various bugs in Microsoft's broken decoders.
+     */
+    public static final int FF_BUG_MS = 8192;
+    public static final int FF_BUG_TRUNCATED = 16384;
+
+    // TODO
+
     public static final int FF_IDCT_SIMPLENEON = 22;
     public static final int FF_PROFILE_JPEG2000_CSTREAM_NO_RESTRICTION = 2;
     public static final int FF_DEBUG_VIS_MV_B_BACK = 0x00000004;
     public static final int FF_PROFILE_MPEG2_422 = 0;
-    public static final int CODEC_FLAG_CLOSED_GOP = 0x80000000;
     public static final int FF_PROFILE_H264_EXTENDED = 88;
-    public static final int CODEC_FLAG_QPEL = 0x0010;
-    public static final int CODEC_FLAG_NORMALIZE_AQP = 0x00020000;
     public static final int FF_COMPLIANCE_NORMAL = 0;
     public static final int FF_PROFILE_MPEG2_SIMPLE = 5;
     public static final int FF_IDCT_XVIDMMX = 14;
-    public static final int MB_TYPE_L0 = (0x1000 | 0x2000);
     public static final int FF_IDCT_ALTIVEC = 8;
-    public static final int CODEC_CAP_HWACCEL = 0x0010;
-    public static final int FF_CMP_CHROMA = 256;
     public static final int FF_PROFILE_VC1_MAIN = 1;
-    public static final int MB_TYPE_QUANT = 0x00010000;
     public static final int FF_PROFILE_MPEG2_SS = 2;
     public static final int FF_PROFILE_MPEG4_ADVANCED_REAL_TIME = 9;
     public static final int FF_PROFILE_MPEG2_AAC_HE = 131;
-    public static final int MB_TYPE_L1 = (0x4000 | 0x8000);
     public static final int AV_EF_BITSTREAM = (1 << 1);
     public static final int FF_DEBUG_BUFFERS = 0x00008000;
     public static final int FF_PROFILE_H264_MAIN = 77;
-    public static final int FF_ASPECT_EXTENDED = 15;
-    public static final int FF_CMP_SATD = 2;
-    public static final int FF_MAX_B_FRAMES = 16;
     public static final int FF_PROFILE_MPEG4_SIMPLE_FACE_ANIMATION = 6;
     public static final int FF_DEBUG_BUGS = 0x00001000;
-    public static final int FF_BUFFER_TYPE_SHARED = 4;
-    public static final int CODEC_CAP_DELAY = 0x0020;
     public static final int FF_PROFILE_MPEG4_SCALABLE_TEXTURE = 5;
-    public static final int FF_BUG_AMV = 32;
-    public static final int FF_MIN_BUFFER_SIZE = 16384;
     public static final int AV_EF_EXPLODE = (1 << 3);
-    public static final int FF_CMP_RD = 6;
-    public static final int FF_BUG_AUTODETECT = 1;
     public static final int FF_PROFILE_MPEG2_SNR_SCALABLE = 3;
     public static final int FF_DEBUG_ER = 0x00000400;
     public static final int FF_SUB_CHARENC_MODE_PRE_DECODER = 1;
-    public static final int CODEC_FLAG_GRAY = 0x2000;
-    public static final int MB_TYPE_16x8 = 0x0010;
-    public static final int FF_CODER_TYPE_RLE = 3;
-    public static final int FF_MB_DECISION_BITS = 1;
-    public static final int FF_CODER_TYPE_VLC = 0;
-    public static final int FF_MB_DECISION_RD = 2;
-    public static final int FF_BUG_DC_CLIP = 4096;
     public static final int FF_PROFILE_VC1_COMPLEX = 2;
-    public static final int FF_BUG_QPEL_CHROMA2 = 256;
-    public static final int CODEC_FLAG_EMU_EDGE = 0x4000;
-    public static final int FF_CMP_W97 = 12;
     public static final int FF_PROFILE_AAC_LD = 22;
     public static final int FF_IDCT_SIMPLEARMV6 = 17;
-    public static final int CODEC_CAP_DRAW_HORIZ_BAND = 0x0001;
     public static final int FF_DEBUG_DCT_COEFF = 0x00000040;
-    public static final int MB_TYPE_8x8 = 0x0040;
     public static final int FF_COMPLIANCE_EXPERIMENTAL = -2;
     public static final int FF_DEBUG_VIS_MV_P_FOR = 0x00000001;
-    public static final int FF_CMP_DCT = 3;
-    public static final int FF_MB_DECISION_SIMPLE = 0;
     public static final int FF_IDCT_SIMPLEARM = 10;
     public static final int FF_PROFILE_MPEG4_SIMPLE = 0;
     public static final int FF_PROFILE_MPEG4_CORE_SCALABLE = 10;
-    public static final int FF_CODER_TYPE_AC = 1;
     public static final int FF_SUB_CHARENC_MODE_DO_NOTHING = -1;
     public static final int FF_PROFILE_H264_CAVLC_444 = 44;
-    public static final int FF_CMP_SAD = 0;
     public static final int FF_PROFILE_MPEG4_CORE = 2;
-    public static final int FF_BUG_TRUNCATED = 16384;
     public static final int FF_PROFILE_MPEG4_MAIN = 3;
     public static final int FF_PROFILE_AAC_SSR = 2;
-    public static final int SLICE_FLAG_CODED_ORDER = 0x0001;
     public static final int FF_PROFILE_JPEG2000_DCINEMA_4K = 4;
-    public static final int CODEC_FLAG_GLOBAL_HEADER = 0x00400000;
-    public static final int MB_TYPE_P1L1 = 0x8000;
-    public static final int CODEC_FLAG_UNALIGNED = 0x0001;
     public static final int AV_EF_COMPLIANT = (1 << 17);
-    public static final int MB_TYPE_P1L0 = 0x2000;
-    public static final int CODEC_FLAG2_IGNORE_CROP = 0x00010000;
     public static final int FF_PROFILE_VC1_SIMPLE = 0;
-    public static final int AV_CODEC_PROP_TEXT_SUB = (1 << 17);
     public static final int FF_PROFILE_VC1_ADVANCED = 3;
-    public static final int CODEC_FLAG_PSNR = 0x8000;
     public static final int FF_COMPLIANCE_VERY_STRICT = 2;
-    public static final int CODEC_CAP_DR1 = 0x0002;
-    public static final int FF_BUG_XVID_ILACE = 4;
     public static final int FF_LOSS_COLORQUANT = 0x0010;
-    public static final int CODEC_CAP_SMALL_LAST_FRAME = 0x0040;
     public static final int AV_SUBTITLE_FLAG_FORCED = 0x00000001;
     public static final int FF_PROFILE_H264_HIGH_10 = 110;
-    public static final int FF_BUFFER_TYPE_INTERNAL = 1;
-    public static final int FF_DTG_AFD_16_9_SP_14_9 = 14;
-    public static final int MB_TYPE_SKIP = 0x0800;
-    public static final int MB_TYPE_P0L1 = 0x4000;
-    public static final int MB_TYPE_8x16 = 0x0020;
     public static final int FF_PROFILE_H264_HIGH_10_INTRA = (110 | (1 << 11));
-    public static final int CODEC_FLAG_MV0 = 0x0040;
-    public static final int MB_TYPE_INTERLACED = 0x0080;
     public static final int FF_PROFILE_H264_HIGH_444 = 144;
-    public static final int FF_CODER_TYPE_RAW = 2;
     public static final int FF_PROFILE_H264_HIGH = 100;
-    public static final int SLICE_FLAG_ALLOW_FIELD = 0x0002;
     public static final int FF_DEBUG_THREADS = 0x00010000;
     public static final int FF_PROFILE_MPEG4_ADVANCED_CODING = 11;
-    public static final int FF_BUG_QPEL_CHROMA = 64;
     public static final int FF_COMPLIANCE_UNOFFICIAL = -1;
-    public static final int FF_BUFFER_HINTS_REUSABLE = 0x08;
     public static final int FF_PROFILE_JPEG2000_DCINEMA_2K = 3;
     public static final int FF_LOSS_COLORSPACE = 0x0004;
-    public static final int CODEC_FLAG2_SHOW_ALL = 0x00400000;
     public static final int AV_EF_CRCCHECK = (1 << 0);
-    public static final int SLICE_FLAG_ALLOW_PLANE = 0x0004;
     public static final int FF_PROFILE_DTS_HD_HRA = 50;
     public static final int FF_LOSS_RESOLUTION = 0x0001;
     public static final int FF_DEBUG_VIS_MV_B_FOR = 0x00000002;
     public static final int PARSER_FLAG_FETCHED_OFFSET = 0x0004;
-    public static final int FF_CMP_W53 = 11;
     public static final int FF_PROFILE_AAC_HE = 4;
     public static final int FF_PROFILE_H264_HIGH_444_PREDICTIVE = 244;
-    public static final int CODEC_FLAG_TRUNCATED = 0x00010000;
-    public static final int FF_CMP_SSE = 1;
     public static final int FF_DEBUG_MB_TYPE = 8;
     public static final int FF_DEBUG_STARTCODE = 0x00000100;
     public static final int FF_DCT_FAAN = 6;
     public static final int FF_DCT_AUTO = 0;
-    public static final int FF_BUFFER_HINTS_PRESERVE = 0x04;
-    public static final int FF_CMP_PSNR = 4;
     public static final int FF_SUB_CHARENC_MODE_AUTOMATIC = 0;
     public static final int FF_PROFILE_MPEG4_HYBRID = 8;
-    public static final int FF_RC_STRATEGY_XVID = 1;
     public static final int FF_PROFILE_DTS = 20;
-    public static final int MB_TYPE_INTRA4x4 = 0x0001;
     public static final int FF_PROFILE_H264_HIGH_422_INTRA = (122 | (1 << 11));
     public static final int FF_PROFILE_H264_HIGH_444_INTRA = (244 | (1 << 11));
-    public static final int AV_CODEC_PROP_LOSSY = (1 << 1);
     public static final int FF_PROFILE_H264_HIGH_422 = 122;
-    public static final int FF_CODER_TYPE_DEFLATE = 4;
     public static final int FF_PROFILE_AAC_LTP = 3;
     public static final int FF_PROFILE_MPEG4_SIMPLE_STUDIO = 14;
-    public static final int CODEC_CAP_INTRA_ONLY = 0x40000000;
     public static final int FF_LEVEL_UNKNOWN = -99;
-    public static final int MB_TYPE_CBP = 0x00020000;
     public static final int FF_IDCT_SIMPLEVIS = 18;
-    public static final int CODEC_CAP_LOSSLESS = 0x80000000;
-    public static final int CODEC_CAP_FRAME_THREADS = 0x1000;
-    public static final int AV_PKT_FLAG_KEY = 0x0001;
-    public static final int FF_DTG_AFD_14_9 = 11;
-    public static final int CODEC_CAP_NEG_LINESIZES = 0x0800;
-    public static final int CODEC_FLAG2_NO_OUTPUT = 0x00000004;
-    public static final int CODEC_FLAG_BITEXACT = 0x00800000;
     public static final int FF_PROFILE_MPEG2_AAC_LOW = 128;
     public static final int FF_IDCT_SH4 = 9;
     public static final int AV_EF_BUFFER = (1 << 2);
-    public static final int FF_BUG_STD_QPEL = 128;
     public static final int FF_LOSS_CHROMA = 0x0020;
     public static final int FF_PROFILE_DTS_ES = 30;
     public static final int FF_IDCT_INT = 1;
-    public static final int FF_INPUT_BUFFER_PADDING_SIZE = 16;
     public static final int FF_THREAD_FRAME = 1;
-    public static final int FF_DTG_AFD_16_9 = 10;
-    public static final int FF_DTG_AFD_SP_4_3 = 15;
-    public static final int FF_QSCALE_TYPE_H264 = 2;
-    public static final int CODEC_CAP_VARIABLE_FRAME_SIZE = 0x10000;
     public static final int FF_DEBUG_SKIP = 0x00000080;
     public static final int FF_PROFILE_H264_CONSTRAINED_BASELINE = (66 | (1 << 9));
-    public static final int CODEC_CAP_TRUNCATED = 0x0008;
     public static final int FF_DEBUG_MMCO = 0x00000800;
     public static final int FF_IDCT_AUTO = 0;
     public static final int FF_PROFILE_MPEG4_BASIC_ANIMATED_TEXTURE = 7;
-    public static final int CODEC_FLAG_INTERLACED_DCT = 0x00040000;
     public static final int FF_PROFILE_MPEG4_ADVANCED_SIMPLE = 15;
-    public static final int FF_DTG_AFD_4_3_SP_14_9 = 13;
     public static final int FF_DCT_ALTIVEC = 5;
-    public static final int CODEC_CAP_CHANNEL_CONF = 0x0400;
-    public static final int AV_CODEC_PROP_INTRA_ONLY = (1 << 0);
     public static final int FF_COMPLIANCE_STRICT = 1;
-    public static final int FF_CMP_BIT = 5;
-    public static final int CODEC_FLAG_LOW_DELAY = 0x00080000;
-    public static final int FF_BUG_AC_VLC = 0;
     public static final int AV_PARSER_PTS_NB = 4;
     public static final int FF_DEBUG_PTS = 0x00000200;
-    public static final int AV_CODEC_PROP_BITMAP_SUB = (1 << 16);
-    public static final int MB_TYPE_L0L1 = ((0x1000 | 0x2000) | (0x4000 | 0x8000));
-    public static final int FF_BUG_HPEL_CHROMA = 2048;
-    public static final int MB_TYPE_INTRA16x16 = 0x0002;
-    public static final int FF_QSCALE_TYPE_VP56 = 3;
     public static final int FF_DEBUG_MV = 32;
     public static final int FF_LOSS_ALPHA = 0x0008;
     public static final int FF_PROFILE_MPEG4_N_BIT = 4;
-    public static final int FF_DTG_AFD_4_3 = 9;
     public static final int AV_EF_AGGRESSIVE = (1 << 18);
-    public static final int MB_TYPE_P0L0 = 0x1000;
     public static final int FF_DEBUG_VIS_QP = 0x00002000;
     public static final int FF_DEBUG_BITSTREAM = 4;
     public static final int FF_PROFILE_DTS_96_24 = 40;
-    public static final int FF_CMP_DCT264 = 14;
-    public static final int FF_BUG_NO_PADDING = 16;
-    public static final int FF_DEFAULT_QUANT_BIAS = 999999;
     public static final int FF_EC_DEBLOCK = 2;
-    public static final int CODEC_FLAG_LOOP_FILTER = 0x00000800;
     public static final int FF_PROFILE_MPEG2_MAIN = 4;
-    public static final int FF_CMP_DCTMAX = 13;
-    public static final int CODEC_FLAG_INTERLACED_ME = 0x20000000;
     public static final int FF_PROFILE_RESERVED = -100;
-    public static final int AV_CODEC_PROP_LOSSLESS = (1 << 2);
     public static final int FF_PROFILE_JPEG2000_CSTREAM_RESTRICTION_0 = 0;
     public static final int FF_PROFILE_JPEG2000_CSTREAM_RESTRICTION_1 = 1;
     public static final int FF_PROFILE_AAC_LOW = 1;
     public static final int FF_IDCT_SIMPLE = 2;
-    public static final int CODEC_FLAG_PASS2 = 0x0400;
-    public static final int CODEC_FLAG_PASS1 = 0x0200;
-    public static final int MB_TYPE_16x16 = 0x0008;
     public static final int AV_EF_CAREFUL = (1 << 16);
     public static final int FF_PROFILE_DTS_HD_MA = 60;
     public static final int FF_THREAD_SLICE = 2;
     public static final int FF_LOSS_DEPTH = 0x0002;
     public static final int FF_PROFILE_UNKNOWN = -99;
     public static final int FF_PROFILE_AAC_MAIN = 0;
-    public static final int FF_CMP_VSAD = 8;
-    public static final int CODEC_CAP_PARAM_CHANGE = 0x4000;
-    public static final int CODEC_CAP_SLICE_THREADS = 0x2000;
-    public static final int FF_BUG_EDGE = 1024;
     public static final int FF_PROFILE_H264_BASELINE = 66;
     public static final int FF_IDCT_SIMPLEMMX = 3;
     public static final int FF_PROFILE_MPEG4_ADVANCED_SCALABLE_TEXTURE = 13;
-    public static final int AV_GET_BUFFER_FLAG_REF = (1 << 0);
-    public static final int MB_TYPE_GMC = 0x0400;
-    public static final int CODEC_CAP_AUTO_THREADS = 0x8000;
-    public static final int CODEC_CAP_SUBFRAMES = 0x0100;
     public static final int FF_PROFILE_MPEG4_ADVANCED_CORE = 12;
-    public static final int MB_TYPE_INTRA_PCM = 0x0004;
-    public static final int CODEC_CAP_HWACCEL_VDPAU = 0x0080;
-    public static final int FF_PRED_PLANE = 1;
-    public static final int FF_DTG_AFD_SAME = 8;
-    public static final int CODEC_FLAG2_FAST = 0x00000001;
-    public static final int FF_BUFFER_TYPE_USER = 2;
-    public static final int CODEC_FLAG2_CHUNKS = 0x00008000;
-    public static final int CODEC_FLAG2_DROP_FRAME_TIMECODE = 0x00002000;
-    public static final int AV_PKT_FLAG_CORRUPT = 0x0002;
     public static final int FF_IDCT_SIMPLEALPHA = 23;
     public static final int FF_DCT_FASTINT = 1;
-    public static final int FF_BUG_MS = 8192;
     public static final int FF_DEBUG_VIS_MB_TYPE = 0x00004000;
     public static final int PARSER_FLAG_ONCE = 0x0002;
-    public static final int CODEC_FLAG_4MV = 0x0004;
-    public static final int CODEC_FLAG_AC_PRED = 0x01000000;
     public static final int FF_PROFILE_AAC_HE_V2 = 28;
-    public static final int CODEC_FLAG_QSCALE = 0x0002;
     public static final int FF_PROFILE_MPEG4_SIMPLE_SCALABLE = 1;
-    public static final int MB_TYPE_ACPRED = 0x0200;
-    public static final int FF_BUG_UMP4 = 8;
-    public static final int FF_CMP_ZERO = 7;
-    public static final int FF_CMP_VSSE = 9;
     public static final int FF_IDCT_SIMPLEARMV5TE = 16;
     public static final int FF_IDCT_FAAN = 20;
-    public static final int FF_PRED_MEDIAN = 2;
-    public static final int FF_CMP_NSSE = 10;
     public static final int FF_PROFILE_H264_INTRA = (1 << 11);
     public static final int FF_PROFILE_H264_CONSTRAINED = (1 << 9);
-    public static final int CODEC_FLAG2_LOCAL_HEADER = 0x00000008;
-    public static final int FF_BUFFER_TYPE_COPY = 8;
-    public static final int CODEC_CAP_EXPERIMENTAL = 0x0200;
     public static final int FF_DEBUG_QP = 16;
-    public static final int CODEC_FLAG_GMC = 0x0020;
-    public static final int FF_BUFFER_HINTS_VALID = 0x01;
-    public static final int MB_TYPE_DIRECT2 = 0x0100;
-    public static final int FF_BUG_DIRECT_BLOCKSIZE = 512;
-    public static final int FF_QSCALE_TYPE_MPEG1 = 0;
     public static final int PARSER_FLAG_USE_CODEC_TS = 0x1000;
-    public static final int FF_QSCALE_TYPE_MPEG2 = 1;
     public static final int FF_IDCT_ARM = 7;
     public static final int FF_DEBUG_RC = 2;
-    public static final int FF_PRED_LEFT = 0;
     public static final int FF_IDCT_IPP = 13;
-    public static final int CODEC_FLAG_INPUT_PRESERVED = 0x0100;
     public static final int FF_EC_GUESS_MVS = 1;
     public static final int FF_DCT_MMX = 3;
-    public static final int FF_BUG_OLD_MSMPEG4 = 2;
     public static final int FF_PROFILE_AAC_ELD = 38;
     public static final int FF_DEBUG_PICT_INFO = 1;
-    public static final int FF_COMPRESSION_DEFAULT = -1;
     public static final int PARSER_FLAG_COMPLETE_FRAMES = 0x0001;
     public static final int FF_PROFILE_MPEG2_HIGH = 1;
     public static final int FF_DCT_INT = 2;
-    public static final int FF_BUFFER_HINTS_READABLE = 0x02;
+
     public interface avcodec_default_execute_func_callback extends Callback {
         int apply(AVCodecContext c2, Pointer arg2);
     };
+
     public interface avcodec_default_execute2_func_callback extends Callback {
         int apply(AVCodecContext c2, Pointer arg2, int int1, int int2);
     };
+
     public interface av_lockmgr_register_cb_callback extends Callback {
         int apply(PointerByReference mutex, int op);
     };
-    /** Original signature : <code>AVRational av_codec_get_pkt_timebase(const AVCodecContext*)</code> */
-    AVRational av_codec_get_pkt_timebase(AVCodecContext avctx);
-    /** Original signature : <code>void av_codec_set_pkt_timebase(AVCodecContext*, AVRational)</code> */
-    void av_codec_set_pkt_timebase(AVCodecContext avctx, AVRational val);
-    /** Original signature : <code>AVCodecDescriptor* av_codec_get_codec_descriptor(const AVCodecContext*)</code> */
-    AVCodecDescriptor av_codec_get_codec_descriptor(AVCodecContext avctx);
-    /** Original signature : <code>void av_codec_set_codec_descriptor(AVCodecContext*, const AVCodecDescriptor*)</code> */
-    void av_codec_set_codec_descriptor(AVCodecContext avctx, AVCodecDescriptor desc);
-    /** Original signature : <code>int av_codec_get_lowres(const AVCodecContext*)</code> */
-    int av_codec_get_lowres(AVCodecContext avctx);
-    /** Original signature : <code>void av_codec_set_lowres(AVCodecContext*, int)</code> */
-    void av_codec_set_lowres(AVCodecContext avctx, int val);
-    /**
-     * If c is NULL, returns the first registered codec,<br>
-     * if c is non-NULL, returns the next registered codec after c,<br>
-     * or NULL if c is the last one.<br>
-     * Original signature : <code>AVCodec* av_codec_next(const AVCodec*)</code>
-     */
-    AVCodec av_codec_next(AVCodec c);
+
     /**
      * Return the LIBAVCODEC_VERSION_INT constant.<br>
      * Original signature : <code>int avcodec_version()</code>
@@ -1121,6 +1440,27 @@ public interface LibavcodecLibrary extends Library {
      * </P>
      */
     public void avcodec_register_all();
+
+
+    /** Original signature : <code>AVRational av_codec_get_pkt_timebase(const AVCodecContext*)</code> */
+    AVRational av_codec_get_pkt_timebase(AVCodecContext avctx);
+    /** Original signature : <code>void av_codec_set_pkt_timebase(AVCodecContext*, AVRational)</code> */
+    void av_codec_set_pkt_timebase(AVCodecContext avctx, AVRational val);
+    /** Original signature : <code>AVCodecDescriptor* av_codec_get_codec_descriptor(const AVCodecContext*)</code> */
+    AVCodecDescriptor av_codec_get_codec_descriptor(AVCodecContext avctx);
+    /** Original signature : <code>void av_codec_set_codec_descriptor(AVCodecContext*, const AVCodecDescriptor*)</code> */
+    void av_codec_set_codec_descriptor(AVCodecContext avctx, AVCodecDescriptor desc);
+    /** Original signature : <code>int av_codec_get_lowres(const AVCodecContext*)</code> */
+    int av_codec_get_lowres(AVCodecContext avctx);
+    /** Original signature : <code>void av_codec_set_lowres(AVCodecContext*, int)</code> */
+    void av_codec_set_lowres(AVCodecContext avctx, int val);
+    /**
+     * If c is NULL, returns the first registered codec,<br>
+     * if c is non-NULL, returns the next registered codec after c,<br>
+     * or NULL if c is the last one.<br>
+     * Original signature : <code>AVCodec* av_codec_next(const AVCodec*)</code>
+     */
+    AVCodec av_codec_next(AVCodec c);
 
     /**
      * Allocate an AVCodecContext and set its fields to default values.  The<br>
@@ -1204,37 +1544,6 @@ public interface LibavcodecLibrary extends Library {
      * Original signature : <code>void avcodec_free_frame(AVFrame**)</code>
      */
     void avcodec_free_frame(AVFrame frame[]);
-    /**
-     * Initialize the AVCodecContext to use the given AVCodec. Prior to using this<br>
-     * function the context has to be allocated with avcodec_alloc_context3().<br>
-     * * The functions avcodec_find_decoder_by_name(), avcodec_find_encoder_by_name(),<br>
-     * avcodec_find_decoder() and avcodec_find_encoder() provide an easy way for<br>
-     * retrieving a codec.<br>
-     * * @warning This function is not thread safe!<br>
-     * * @code<br>
-     * avcodec_register_all();<br>
-     * av_dict_set(&opts, "b", "2.5M", 0);<br>
-     * codec = avcodec_find_decoder(AV_CODEC_ID_H264);<br>
-     * if (!codec)<br>
-     *     exit(1);<br>
-     * * context = avcodec_alloc_context3(codec);<br>
-     * * if (avcodec_open2(context, codec, opts) < 0)<br>
-     *     exit(1);<br>
-     * @endcode<br>
-     * * @param avctx The context to initialize.<br>
-     * @param codec The codec to open this context for. If a non-NULL codec has been<br>
-     *              previously passed to avcodec_alloc_context3() or<br>
-     *              avcodec_get_context_defaults3() for this context, then this<br>
-     *              parameter MUST be either NULL or equal to the previously passed<br>
-     *              codec.<br>
-     * @param options A dictionary filled with AVCodecContext and codec-private options.<br>
-     *                On return this object will be filled with options that were not found.<br>
-     * * @return zero on success, a negative value on error<br>
-     * @see avcodec_alloc_context3(), avcodec_find_decoder(), avcodec_find_encoder(),<br>
-     *      av_dict_set(), av_opt_find().<br>
-     * Original signature : <code>int avcodec_open2(AVCodecContext*, const AVCodec*, AVDictionary**)</code>
-     */
-    int avcodec_open2(AVCodecContext avctx, AVCodec codec, PointerByReference options);
     /**
      * Initialize the AVCodecContext to use the given AVCodec. Prior to using this<br>
      * function the context has to be allocated with avcodec_alloc_context3().<br>
@@ -1678,8 +1987,6 @@ public interface LibavcodecLibrary extends Library {
 
     /** Original signature : <code>int audio_resample(ReSampleContext*, short*, short*, int)</code> */
     int audio_resample(PointerByReference s, ShortBuffer output, ShortBuffer input, int nb_samples);
-    /** Original signature : <code>int audio_resample(ReSampleContext*, short*, short*, int)</code> */
-    int audio_resample(PointerByReference s, ShortByReference output, ShortByReference input, int nb_samples);
 
     /** Original signature : <code>void audio_resample_close(ReSampleContext*)</code> */
     void audio_resample_close(PointerByReference s);

@@ -113,6 +113,7 @@ public interface LibavfilterLibrary extends Library {
      */
     public static final int AVFILTER_FLAG_SLICE_THREADS = (1 << 2);
 
+    // TODO
     /**
      * Some filters support a generic "enable" expression option that can be used to enable or disable a filter in the timeline.
      * Filters supporting this option have this flag set. When the enable expression is false, the default no-op
@@ -121,6 +122,7 @@ public interface LibavfilterLibrary extends Library {
      */
     public static final int AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC = (1 << 16);
 
+    // TODO
     /**
      * Same as {@link #AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC}, except that the filter will have its <CODE>filter_frame()</CODE>
      * callback(s) called as usual even when the enable expression is false. The filter will disable filtering within the

@@ -158,7 +158,7 @@ public class JavaAVC {
     }
 
     /**
-     * Unpack native library and load wrapper.
+     * Unpack native libraries and load wrappers.
      */
     private JavaAVC() throws IOException {
         // Unpack library.
