@@ -106,6 +106,75 @@ public class AVFormatContext extends Structure {
     public int bit_rate;
     public int packet_size;
     public int max_delay;
+
+    /**
+     * Generate missing pts even if it requires parsing future frames.
+     */
+    public static final int AVFMT_FLAG_GENPTS = 0x0001;
+
+    /**
+     * Ignore index.
+     */
+    public static final int AVFMT_FLAG_IGNIDX = 0x0002;
+
+    /**
+     * Do not block when reading packets from input.
+     */
+    public static final int AVFMT_FLAG_NONBLOCK = 0x0004;
+
+    /**
+     * Ignore DTS on frames that contain both DTS & PTS.
+     */
+    public static final int AVFMT_FLAG_IGNDTS = 0x0008;
+
+    /**
+     * Do not infer any values from other values, just return what is stored in the container.
+     */
+    public static final int AVFMT_FLAG_NOFILLIN = 0x0010;
+
+    /**
+     * Do not use AVParsers, you also must set {@link #AVFMT_FLAG_NOFILLIN} as the fillin code works on
+     * frames and no parsing <CODE>-&gt;</CODE> no frames. Also seeking to frames can not work if parsing to find
+     * frame boundaries has been disabled.
+     */
+    public static final int AVFMT_FLAG_NOPARSE = 0x0020;
+
+    /**
+     * Do not buffer frames when possible.
+     */
+    public static final int AVFMT_FLAG_NOBUFFER = 0x0040;
+
+    // TODO
+    /**
+     * The caller has supplied a custom {@link AVIOContext}, don't <CODE>avio_close()</CODE> it.
+     */
+    public static final int AVFMT_FLAG_CUSTOM_IO = 0x0080;
+
+    /**
+     * Discard frames marked corrupted.
+     */
+    public static final int AVFMT_FLAG_DISCARD_CORRUPT = 0x0100;
+
+    /**
+     * Enable RTP MP4A-LATM payload.
+     */
+    public static final int AVFMT_FLAG_MP4A_LATM = 0x8000;
+
+    /**
+     * Try to interleave outputted packets by DTS (using this flag can slow demuxing down).
+     */
+    public static final int AVFMT_FLAG_SORT_DTS = 0x10000;
+
+    /**
+     * Enable use of private options by delaying codec open (this could be made default once all code is converted).
+     */
+    public static final int AVFMT_FLAG_PRIV_OPT = 0x20000;
+
+    /**
+     * Don't merge side data but keep it separate.
+     */
+    public static final int AVFMT_FLAG_KEEP_SIDE_DATA = 0x40000;
+
     public int flags;
     /** decoding: size of data to probe; encoding: unused. */
     public int probesize;
@@ -189,7 +258,12 @@ public class AVFormatContext extends Structure {
      * C type : AVIOInterruptCB
      */
     public AVIOInterruptCB interrupt_callback;
-    /** Flags to enable debugging. */
+
+    public static final int FF_FDEBUG_TS = 0x0001;
+
+    /**
+     * Flags to enable debugging.
+     */
     public int debug;
     /**
      * Transport stream id.<br>
@@ -304,18 +378,27 @@ public class AVFormatContext extends Structure {
     public org.javaavc.ffmpeg.avformat.AVPacketList.ByReference parse_queue;
     /** C type : AVPacketList* */
     public org.javaavc.ffmpeg.avformat.AVPacketList.ByReference parse_queue_end;
+
+    /**
+     * Remaining size available for {@link #raw_packet_buffer}, in bytes.
+     */
+    public static final int RAW_PACKET_BUFFER_SIZE = 2500000;
+
     public int raw_packet_buffer_remaining_size;
+
     /**
      * Offset to remap timestamps to be non-negative.<br>
      * Expressed in timebase units.<br>
      * @see AVStream.mux_ts_offset
      */
     public long offset;
+
     /**
      * Timebase for the timestamp offset.<br>
      * C type : AVRational
      */
     public AVRational offset_timebase;
+
     /**
      * IO repositioned flag.<br>
      * This is set by avformat when the underlaying IO context read pointer<br>

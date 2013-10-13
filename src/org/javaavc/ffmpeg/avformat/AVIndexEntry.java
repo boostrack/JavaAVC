@@ -27,43 +27,81 @@ import java.util.List;
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public abstract class AVIndexEntry extends Structure {
-    public long pos;
     /**
-     * <<br>
-     * Timestamp in AVStream.time_base units, preferably the time from which on correctly decoded frames are available<br>
-     * when seeking to this entry. That means preferable PTS on keyframe based formats.<br>
-     * But demuxers can choose to store a different timestamp, if it is more convenient for the implementation or nothing better<br>
-     * is known
+     * <P>
+     * C type: <CODE>int64_t pos;</CODE>
+     * </P>
+     */
+    public long pos;
+
+    /**
+     * Timestamp in {@link AVStream#time_base} units, preferably the time from which on correctly decoded frames are
+     * available when seeking to this entry. That means preferable PTS on keyframe based formats.
+     *
+     * <P>
+     * But demuxers can choose to store a different timestamp, if it is more convenient for the implementation or
+     * nothing better is known.
+     * </P>
+     *
+     * <P>
+     * C type: <CODE>int64_t timestamp;</CODE>
+     * </P>
      */
     public long timestamp;
-    /** Conversion Error : flags:2 (This runtime does not support bit fields : JNA (please use BridJ instead)) */
-    /** Conversion Error : size:30 (This runtime does not support bit fields : JNA (please use BridJ instead)) */
-    /** < Minimum distance between this and the previous keyframe, used to avoid unneeded searching. */
+
+    public static final int AVINDEX_KEYFRAME = 0x0001;
+
+    /**
+     * <P>
+     * C type: <CODE>int flags:2;</CODE>
+     * </P>
+     */
+    public int flags;
+
+    /**
+     * Yeah, trying to keep the size of this small to reduce memory requirements (it is 24 vs. 32 bytes due to
+     * possible 8-byte alignment).
+     *
+     * <P>
+     * C type: <CODE>int size:30;</CODE>
+     * </P>
+     */
+    public int size;
+
+    /**
+     * Minimum distance between this and the previous keyframe, used to avoid unneeded searching.
+     *
+     * <P>
+     * C type: <CODE>int min_distance;</CODE>
+     * </P>
+     */
     public int min_distance;
+
     public AVIndexEntry() {
         super();
     }
-    protected List<? > getFieldOrder() {
-        return Arrays.asList("pos", "timestamp", "min_distance");
-    }
-    /**
-     * @param timestamp <<br>
-     * Timestamp in AVStream.time_base units, preferably the time from which on correctly decoded frames are available<br>
-     * when seeking to this entry. That means preferable PTS on keyframe based formats.<br>
-     * But demuxers can choose to store a different timestamp, if it is more convenient for the implementation or nothing better<br>
-     * is known<br>
-     * @param min_distance < Minimum distance between this and the previous keyframe, used to avoid unneeded searching.
+
+    /*
+     * (non-Javadoc)
+     * @see com.sun.jna.Structure#getFieldOrder()
      */
-    public AVIndexEntry(long pos, long timestamp, int min_distance) {
+    protected List<?> getFieldOrder() {
+        return Arrays.asList("pos", "timestamp", "flags", "size", "min_distance");
+    }
+
+    public AVIndexEntry(long pos, long timestamp, int flags, int size, int min_distance) {
         super();
+
         this.pos = pos;
         this.timestamp = timestamp;
+        this.flags = flags;
+        this.size = size;
         this.min_distance = min_distance;
     }
+
     public static abstract class ByReference extends AVIndexEntry implements Structure.ByReference {
-
     };
-    public static abstract class ByValue extends AVIndexEntry implements Structure.ByValue {
 
+    public static abstract class ByValue extends AVIndexEntry implements Structure.ByValue {
     };
 }

@@ -25,36 +25,64 @@ import com.sun.jna.Structure;
 import java.util.Arrays;
 import java.util.List;
 
+// TODO
 /**
+ * Callback for checking whether to abort blocking functions.
+ *
+ * <P>
+ * <CODE>AVERROR_EXIT<//CODE> is returned in this case by the interrupted function. During blocking operations,
+ * callback is called with opaque as parameter. If the callback returns <CODE>1</CODE>, the blocking operation
+ * will be aborted.
+ * </P>
+ *
+ * <P>
+ * No members can be added to this struct without a major bump, if new elements have been added after this struct
+ * in {@link AVFormatContext} or {@link AVIOContext}d.
+ * </P>
+ *
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
 public class AVIOInterruptCB extends Structure {
-    /** C type : callback_callback* */
+    /**
+     * <P>
+     * C type: <CODE>callback_callback*</CODE>.
+     * </P>
+     */
     public AVIOInterruptCB.callback_callback callback;
-    /** C type : void* */
+
+    /**
+     * <P>
+     * C type: <CODE>void*</CODE>.
+     * </P>
+     */
     public Pointer opaque;
+
     public interface callback_callback extends Callback {
         int apply(Pointer voidPtr1);
     };
+
     public AVIOInterruptCB() {
         super();
     }
-    protected List<? > getFieldOrder() {
+
+    /*
+     * (non-Javadoc)
+     * @see com.sun.jna.Structure#getFieldOrder()
+     */
+    @Override
+    protected List<?> getFieldOrder() {
         return Arrays.asList("callback", "opaque");
     }
-    /**
-     * @param callback C type : callback_callback*<br>
-     * @param opaque C type : void*
-     */
+
     public AVIOInterruptCB(AVIOInterruptCB.callback_callback callback, Pointer opaque) {
         super();
         this.callback = callback;
         this.opaque = opaque;
     }
+
     public static class ByReference extends AVIOInterruptCB implements Structure.ByReference {
-
     };
-    public static class ByValue extends AVIOInterruptCB implements Structure.ByValue {
 
+    public static class ByValue extends AVIOInterruptCB implements Structure.ByValue {
     };
 }

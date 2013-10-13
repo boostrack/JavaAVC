@@ -26,8 +26,6 @@ import com.sun.jna.ptr.PointerByReference;
 import java.util.Arrays;
 import java.util.List;
 
-import org.javaavc.ffmpeg_gen.avutil.LibavutilLibrary.AVOption;
-
 /**
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
@@ -113,16 +111,24 @@ public class AVClass extends Structure {
     public interface query_ranges_callback extends Callback {
         int apply(PointerByReference AVOptionRangesPtrPtr1, Pointer obj, Pointer key, int flags);
     };
+
     public AVClass() {
         super();
     }
-    protected List<? > getFieldOrder() {
-        return Arrays.asList("class_name", "item_name", "option", "version", "log_level_offset_offset", "parent_log_context_offset", "child_next", "child_class_next", "category", "get_category", "query_ranges");
+
+    /*
+     * (non-Javadoc)
+     * @see com.sun.jna.Structure#getFieldOrder()
+     */
+    protected List<?> getFieldOrder() {
+        return Arrays.asList("class_name", "item_name", "option", "version", "log_level_offset_offset",
+            "parent_log_context_offset", "child_next", "child_class_next", "category", "get_category",
+            "query_ranges");
     }
+
     public static class ByReference extends AVClass implements Structure.ByReference {
-
     };
-    public static class ByValue extends AVClass implements Structure.ByValue {
 
+    public static class ByValue extends AVClass implements Structure.ByValue {
     };
 }

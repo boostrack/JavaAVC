@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import org.javaavc.ffmpeg.avcodec.LibavcodecLibrary;
-import org.javaavc.ffmpeg.avdevice.LibavdeviceLibrary;
+import org.javaavc.ffmpeg.avdevice.Libavdevice;
 import org.javaavc.ffmpeg.avfilter.LibavfilterLibrary;
 import org.javaavc.ffmpeg.avformat.LibavformatLibrary;
 import org.javaavc.ffmpeg.avutil.LibavutilLibrary;
@@ -85,7 +85,7 @@ public class JavaAVC {
     public final LibswresampleLibrary swresample;
     public final LibswscaleLibrary swscale;
     public final LibavfilterLibrary avfilter;
-    public final LibavdeviceLibrary avdevice;
+    public final Libavdevice avdevice;
 
     private final Platform platform;
 
@@ -190,7 +190,7 @@ public class JavaAVC {
         this.checkLib(this.avfilter, "avfilter");
 
         // Load "avdevice". Require: "avfilter", "avformat".
-        this.avdevice = (LibavdeviceLibrary) Native.loadLibrary(findLib("avdevice"), LibavdeviceLibrary.class);
+        this.avdevice = (Libavdevice) Native.loadLibrary(findLib("avdevice"), Libavdevice.class);
         this.checkLib(this.avdevice, "avdevice");
     }
 
