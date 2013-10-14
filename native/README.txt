@@ -1,11 +1,13 @@
 Required components:
- * GCC
- * Make
- * Automake
- * Yasm
- * Oracle JRE/OpenJRE
- * Oracle JDK/OpenJDK
- * MinGW Windows cross-compiler (GCC) for C
+ * GCC (http://www.gnu.org/software/gcc/)
+ * Make (http://www.gnu.org/software/make/)
+ * Automake (http://www.gnu.org/software/automake/)
+ * Yasm (http://yasm.tortall.net/)
+ * OpenJRE (http://openjdk.java.net/) or 
+   Oracle JRE (http://www.oracle.com/technetwork/java/javase/downloads/index.html)
+ * OpenJDK (http://openjdk.java.net/) or 
+   Oracle JDK (http://www.oracle.com/technetwork/java/javase/downloads/index.html)
+ * MinGW Windows cross-compiler (GCC) for C (http://www.mingw.org/)
 
 Install in Ubuntu/Mint:
     $ sudo apt-get install gcc make automake yasm
