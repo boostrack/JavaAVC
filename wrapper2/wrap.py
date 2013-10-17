@@ -30,23 +30,37 @@ sys.path.extend(['.', '..'])
 
 from pycparser import c_parser, c_ast, parse_file
 
+
+
+
+
 class TypeDeclVisitor(c_ast.NodeVisitor):
     def __init__(self):
-        self.list = []
-        
+        self.values = []
+    
     def visit_TypeDecl(self, node):
-        self.list += [(node.declname, node.type.names[0])]
+        self.values += [(node.declname, node.type.names[0])]
 
 class FuncDeclVisitor(c_ast.NodeVisitor):
+    def __init__(self):
+        self.values = []
+    
     def visit_FuncDecl(self, node):
-        v = TypeDeclVisitor()
-        v.visit(node)
-        print v.list
+        self.values.append(node)
+        #v = TypeDeclVisitor()
+        #v.visit(node)
 
 
 if __name__ == "__main__":
-    ast = parse_file("header1.h", use_cpp=False)
+    if len(sys.argv) != 2:
+        print "Usage:\n    python {0} HEADER.h".format(sys.argv[0])
+        sys.exit(0)
     
+    ast = parse_file(sys.argv[1], use_cpp=False)
+    #ast.show(attrnames=True)
     v = FuncDeclVisitor()
     v.visit(ast)
+    for f in v.values:
+        f.show(attrnames=True)
+
     
