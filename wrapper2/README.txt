@@ -1,15 +1,15 @@
 Required components:
  * Python PIP (https://pypi.python.org/pypi/pip)
  * PLY (http://www.dabeaz.com/ply/)
- * CppHeaderParser (http://sourceforge.net/projects/cppheaderparser/)
+ * eliben/pycparser (https://github.com/eliben/pycparser)
 
 Install in Ubuntu:
     $ sudo apt-get install python-pip
     $ sudo pip install ply
-    $ sudo pip install CppHeaderParser
+    $ sudo pip install pycparser
 
 Install in openSUSE:
     $ sudo zypper install python-pip
     $ sudo pip install ply
-    $ sudo pip install CppHeaderParser
+    $ sudo pip install pycparser
 
