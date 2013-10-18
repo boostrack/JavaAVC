@@ -19,7 +19,11 @@ typedef struct Struct3 {
 
 void f1(int a, double b, MyStruct3 c);
 
-const char *f2(void);
+int f2(void);
 
-const char* f3(const char* a, int b);
+void f3(void);
+
+const char *f3(void);
+
+const char** f4(const char* a, int** b);
 

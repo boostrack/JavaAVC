@@ -185,7 +185,7 @@ public interface LibswresampleLibrary extends Library {
      * @return
      *      <CODE>NULL</CODE> on error, allocated context otherwise.
      */
-    public PointerByReference swr_alloc();
+    public SwrContext swr_alloc();
 
     // TODO
     /**
@@ -198,7 +198,7 @@ public interface LibswresampleLibrary extends Library {
      * @return
      *      <CODE>AVERROR</CODE> error code in case of failure.
      */
-    public int swr_init(PointerByReference s);
+    public int swr_init(SwrContext s);
 
     /**
      * Allocate {@link SwrContext} if needed and set/reset common parameters.
@@ -210,7 +210,7 @@ public interface LibswresampleLibrary extends Library {
      * </P>
      *
      * <P>
-     * See {@link #swr_init(PointerByReference)}, {@link #swr_free(PointerByReference)}.
+     * See {@link #swr_init(SwrContext)}, {@link #swr_free(PointerByReference)}.
      * </P>
      *
      * <P>
@@ -280,7 +280,7 @@ public interface LibswresampleLibrary extends Library {
      * @return
      *              Number of samples output per channel, negative value on error.
      */
-    public int swr_convert(PointerByReference s, PointerByReference out, int out_count, PointerByReference in, int in_count);
+    public int swr_convert(SwrContext s, PointerByReference out, int out_count, PointerByReference in, int in_count);
 
     /**
      * Convert the next timestamp from input to output timestamps are in <CODE>1/(in_sample_rate * out_sample_rate)</CODE> units.
