@@ -64,18 +64,11 @@ import com.sun.jna.Native;
 public class JavaAVC {
 
     public static final String LIB_NAME = "JavaAVC";
-    public static final int LIB_VER_MAJOR = 1;
-    public static final int LIB_VER_MINOR = 7;
-    public static final int LIB_VER_PATCH = 1;
-    public static final String LIB_VER = Integer.toString(LIB_VER_MAJOR) + "." + Integer.toString(LIB_VER_MINOR) + "."
-                    + Integer.toString(LIB_VER_PATCH);
+    public static final String LIB_VER = "1.7.1";
 
     public static final String NATIVE_NAME = LIB_NAME.toLowerCase();
-    public static final int NATIVE_VER_MAJOR = 2;
-    public static final int NATIVE_VER_MINOR = 0;
-    public static final int NATIVE_VER_PATCH = 1;
-    public static final String NATIVE_VER = Integer.toString(NATIVE_VER_MAJOR) + "." + Integer.toString(NATIVE_VER_MINOR) + "."
-                    + Integer.toString(NATIVE_VER_PATCH);
+    public static final String NATIVE_VER = "2.1";
+    public static final String NATIVE_ID = NATIVE_NAME + "-" + NATIVE_VER;
 
     private static volatile JavaAVC INSTANCE = null;
 
@@ -163,7 +156,7 @@ public class JavaAVC {
     private JavaAVC() throws IOException {
         // Unpack library.
         this.platform = Platform.getPlatform();
-        this.nativeDir = platform.unpackNativeLibrary(NATIVE_NAME + "-" + NATIVE_VER);
+        this.nativeDir = platform.unpackNativeLibrary(NATIVE_ID);
 
         // Load "avutil". Require: nothing.
         this.avutil = (LibavutilLibrary) Native.loadLibrary(findLib("avutil"), LibavutilLibrary.class);

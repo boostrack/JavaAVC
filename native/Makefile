@@ -1,5 +1,6 @@
 # FFmpeg distrib.
-FFMPEG_VER=2.0.1
+# 28.10.2013
+FFMPEG_VER=2.1
 FFMPEG_DIR=ffmpeg-$(FFMPEG_VER)
 FFMPEG_ARCH=$(FFMPEG_DIR).tar.gz
 FFMPEG_LINK=http://ffmpeg.org/releases/$(FFMPEG_ARCH)
@@ -49,6 +50,10 @@ WINDOWS64_OPT=--cross-prefix=x86_64-w64-mingw32- --enable-cross-compile --target
 #--disable-bzlib
 #--disable-iconv
 #--disable-zlib
+
+# TODO: Remove?
+# --disable-yasm
+
 # Configure options.
 CONF= \
     --fatal-warnings \
@@ -58,6 +63,7 @@ CONF= \
     --disable-runtime-cpudetect \
     --disable-doc \
     --enable-pic \
+    --disable-yasm \
     --pkg-config=pkg-config
 
 

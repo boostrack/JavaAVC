@@ -6,9 +6,9 @@
 	<classpathentry kind="lib" path="lib/junit-4.11-bin.jar"/>
 	<classpathentry kind="lib" path="lib/jna-4.0.0-bin.jar"/>
 	<classpathentry kind="lib" path="lib/jna-platform-4.0.0-bin.jar"/>
-	<classpathentry kind="lib" path="lib/javaavc-2.0.1-linux-32-native.jar"/>
-	<classpathentry kind="lib" path="lib/javaavc-2.0.1-linux-64-native.jar"/>
-	<classpathentry kind="lib" path="lib/javaavc-2.0.1-windows-32-native.jar"/>
-	<classpathentry kind="lib" path="lib/javaavc-2.0.1-windows-64-native.jar"/>
+	<classpathentry kind="lib" path="lib/javaavc-2.1-linux-32-native.jar"/>
+	<classpathentry kind="lib" path="lib/javaavc-2.1-linux-64-native.jar"/>
+	<classpathentry kind="lib" path="lib/javaavc-2.1-windows-32-native.jar"/>
+	<classpathentry kind="lib" path="lib/javaavc-2.1-windows-64-native.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

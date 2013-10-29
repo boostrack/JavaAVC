@@ -128,6 +128,12 @@
  *
  * @}
  *
+ * @defgroup lavu_log Logging Facility
+ *
+ * @{
+ *
+ * @}
+ *
  * @defgroup lavu_misc Other
  *
  * @{
@@ -338,12 +344,6 @@ char av_get_picture_type_char(enum AVPictureType pict_type);
 
 
 #define av_extern_inline inline
-
-
-
-
-
-
 #define av_noinline 
 
 
@@ -351,10 +351,6 @@ char av_get_picture_type_char(enum AVPictureType pict_type);
 
 
 #define av_pure 
-
-
-
-#define av_restrict restrict
 
 
 
@@ -373,6 +369,8 @@ char av_get_picture_type_char(enum AVPictureType pict_type);
 
 
 #define av_flatten 
+
+
 
 
 
@@ -509,7 +507,7 @@ char av_get_picture_type_char(enum AVPictureType pict_type);
  */
 
 #define LIBAVUTIL_VERSION_MAJOR 52
-#define LIBAVUTIL_VERSION_MINOR 38
+#define LIBAVUTIL_VERSION_MINOR 48
 #define LIBAVUTIL_VERSION_MICRO 100
 
 #define LIBAVUTIL_VERSION_INT AV_VERSION_INT(LIBAVUTIL_VERSION_MAJOR, LIBAVUTIL_VERSION_MINOR, LIBAVUTIL_VERSION_MICRO)
@@ -568,6 +566,12 @@ char av_get_picture_type_char(enum AVPictureType pict_type);
 
 
 #define FF_API_AVFRAME_LAVC (LIBAVUTIL_VERSION_MAJOR < 53)
+
+
+#define FF_API_VDPAU (LIBAVUTIL_VERSION_MAJOR < 53)
+
+
+#define FF_API_GET_CHANNEL_LAYOUT_COMPAT (LIBAVUTIL_VERSION_MAJOR < 53)
 
 
 /**
@@ -790,7 +794,7 @@ static inline int16_t av_clip_int16_c(int a)
  */
 static inline int32_t av_clipl_int32_c(int64_t a)
 {
-    if ((a+0x80000000u) & ~0xFFFFFFFFULL) return (a>>63) ^ 0x7FFFFFFF;
+    if ((a+0x80000000u) & ~0xFFFFFFFFULL) return (int32_t)((a>>63) ^ 0x7FFFFFFF);
     else return (int32_t)a;
 }
 
@@ -894,7 +898,7 @@ static inline int av_popcount_c(uint32_t x)
  */
 static inline int av_popcount64_c(uint64_t x)
 {
-    return av_popcount_c((uint32_t)x) + av_popcount_c(x >> 32);
+    return av_popcount_c((uint32_t)x) + av_popcount_c((uint32_t)(x >> 32));
 }
 
 #define MKTAG(a,b,c,d) ((a) | ((b) << 8) | ((c) << 16) | ((unsigned)(d) << 24))
@@ -910,6 +914,11 @@ static inline int av_popcount64_c(uint64_t x)
  *                 input, this could be *ptr++.
  * @param ERROR    Expression to be evaluated on invalid input,
  *                 typically a goto statement.
+ *
+ * @warning ERROR should not contain a loop control statement which
+ * could interact with the internal while loop, and should force an
+ * exit from the macro code (e.g. through a goto or a return) in order
+ * to prevent undefined results.
  */
 #define GET_UTF8(val,GET_BYTE,ERROR) val= GET_BYTE; { uint32_t top = (val & 128) >> 1; if ((val & 0xc0) == 0x80 || val >= 0xFE) ERROR while (val & top) { int tmp= GET_BYTE - 128; if(tmp>>6) ERROR val= (val<<6) + tmp; top <<= 5; } val &= (top << 1) - 1; }
 /**
@@ -1172,8 +1181,7 @@ static inline char *av_make_error_string(char *errbuf, size_t errbuf_size, int e
 void *av_malloc(size_t size) ;
 
 /**
- * Helper function to allocate a block of size * nmemb bytes with
- * using av_malloc()
+ * Allocate a block of size * nmemb bytes with av_malloc().
  * @param nmemb Number of elements
  * @param size Size of the single element
  * @return Pointer to the allocated block, NULL if the block cannot
@@ -1182,7 +1190,7 @@ void *av_malloc(size_t size) ;
  */
  static inline void *av_malloc_array(size_t nmemb, size_t size)
 {
-    if (size <= 0 || nmemb >= __INT_MAX__ / size)
+    if (!size || nmemb >= __INT_MAX__ / size)
         return ((void *)0);
     return av_malloc(nmemb * size);
 }
@@ -1192,11 +1200,17 @@ void *av_malloc(size_t size) ;
  * If ptr is NULL and size > 0, allocate a new block. If
  * size is zero, free the memory block pointed to by ptr.
  * @param ptr Pointer to a memory block already allocated with
- * av_malloc(z)() or av_realloc() or NULL.
- * @param size Size in bytes for the memory block to be allocated or
+ * av_realloc() or NULL.
+ * @param size Size in bytes of the memory block to be allocated or
  * reallocated.
- * @return Pointer to a newly reallocated block or NULL if the block
+ * @return Pointer to a newly-reallocated block or NULL if the block
  * cannot be reallocated or the function is used to free the memory block.
+ * @warning Pointers originating from the av_malloc() family of functions must
+ *          not be passed to av_realloc(). The former can be implemented using
+ *          memalign() (or other functions), and there is no guarantee that
+ *          pointers from such functions can be passed to realloc() at all.
+ *          The situation is undefined according to POSIX and may crash with
+ *          some libc implementations.
  * @see av_fast_realloc()
  */
 void *av_realloc(void *ptr, size_t size) ;
@@ -1212,28 +1226,59 @@ void *av_realloc(void *ptr, size_t size) ;
 void *av_realloc_f(void *ptr, size_t nelem, size_t elsize);
 
 /**
+ * Allocate or reallocate a block of memory.
+ * If *ptr is NULL and size > 0, allocate a new block. If
+ * size is zero, free the memory block pointed to by ptr.
+ * @param   ptr Pointer to a pointer to a memory block already allocated
+ *          with av_realloc(), or pointer to a pointer to NULL.
+ *          The pointer is updated on success, or freed on failure.
+ * @param   size Size in bytes for the memory block to be allocated or
+ *          reallocated
+ * @return  Zero on success, an AVERROR error code on failure.
+ * @warning Pointers originating from the av_malloc() family of functions must
+ *          not be passed to av_reallocp(). The former can be implemented using
+ *          memalign() (or other functions), and there is no guarantee that
+ *          pointers from such functions can be passed to realloc() at all.
+ *          The situation is undefined according to POSIX and may crash with
+ *          some libc implementations.
+ */
+int av_reallocp(void *ptr, size_t size);
+
+/**
  * Allocate or reallocate an array.
  * If ptr is NULL and nmemb > 0, allocate a new block. If
  * nmemb is zero, free the memory block pointed to by ptr.
  * @param ptr Pointer to a memory block already allocated with
- * av_malloc(z)() or av_realloc() or NULL.
+ * av_realloc() or NULL.
  * @param nmemb Number of elements
  * @param size Size of the single element
- * @return Pointer to a newly reallocated block or NULL if the block
+ * @return Pointer to a newly-reallocated block or NULL if the block
  * cannot be reallocated or the function is used to free the memory block.
+ * @warning Pointers originating from the av_malloc() family of functions must
+ *          not be passed to av_realloc(). The former can be implemented using
+ *          memalign() (or other functions), and there is no guarantee that
+ *          pointers from such functions can be passed to realloc() at all.
+ *          The situation is undefined according to POSIX and may crash with
+ *          some libc implementations.
  */
  void *av_realloc_array(void *ptr, size_t nmemb, size_t size);
 
 /**
- * Allocate or reallocate an array.
+ * Allocate or reallocate an array through a pointer to a pointer.
  * If *ptr is NULL and nmemb > 0, allocate a new block. If
  * nmemb is zero, free the memory block pointed to by ptr.
  * @param ptr Pointer to a pointer to a memory block already allocated
- * with av_malloc(z)() or av_realloc(), or pointer to a pointer to NULL.
+ * with av_realloc(), or pointer to a pointer to NULL.
  * The pointer is updated on success, or freed on failure.
  * @param nmemb Number of elements
  * @param size Size of the single element
  * @return Zero on success, an AVERROR error code on failure.
+ * @warning Pointers originating from the av_malloc() family of functions must
+ *          not be passed to av_realloc(). The former can be implemented using
+ *          memalign() (or other functions), and there is no guarantee that
+ *          pointers from such functions can be passed to realloc() at all.
+ *          The situation is undefined according to POSIX and may crash with
+ *          some libc implementations.
  */
  int av_reallocp_array(void *ptr, size_t nmemb, size_t size);
 
@@ -1270,8 +1315,7 @@ void *av_mallocz(size_t size) ;
 void *av_calloc(size_t nmemb, size_t size) ;
 
 /**
- * Helper function to allocate a block of size * nmemb bytes with
- * using av_mallocz()
+ * Allocate a block of size * nmemb bytes with av_mallocz().
  * @param nmemb Number of elements
  * @param size Size of the single element
  * @return Pointer to the allocated block, NULL if the block cannot
@@ -1281,7 +1325,7 @@ void *av_calloc(size_t nmemb, size_t size) ;
  */
  static inline void *av_mallocz_array(size_t nmemb, size_t size)
 {
-    if (size <= 0 || nmemb >= __INT_MAX__ / size)
+    if (!size || nmemb >= __INT_MAX__ / size)
         return ((void *)0);
     return av_mallocz(nmemb * size);
 }
@@ -1289,7 +1333,7 @@ void *av_calloc(size_t nmemb, size_t size) ;
 /**
  * Duplicate the string s.
  * @param s string to be duplicated
- * @return Pointer to a newly allocated string containing a
+ * @return Pointer to a newly-allocated string containing a
  * copy of s or NULL if the string cannot be allocated.
  */
 char *av_strdup(const char *s) ;
@@ -1379,7 +1423,7 @@ static inline int av_size_mult(size_t a, size_t b, size_t *r)
 void av_max_alloc(size_t max);
 
 /**
- * @brief deliberately overlapping memcpy implementation
+ * deliberately overlapping memcpy implementation
  * @param dst destination buffer
  * @param back how many bytes back we start (the initial size of the overlapping window), must be > 0
  * @param cnt number of bytes to copy, must be >= 0
@@ -1571,7 +1615,7 @@ typedef struct AVRational{
 static inline int av_cmp_q(AVRational a, AVRational b){
     const int64_t tmp= a.num * (int64_t)b.den - b.num * (int64_t)a.den;
 
-    if(tmp) return ((tmp ^ a.den ^ b.den)>>63)|1;
+    if(tmp) return (int)((tmp ^ a.den ^ b.den)>>63)|1;
     else if(b.den && a.den) return 0;
     else if(a.num && b.num) return (a.num>>31) - (b.num>>31);
     else return (-__INT_MAX__ - 1);
@@ -1670,20 +1714,20 @@ int av_find_nearest_q_idx(AVRational q, const AVRational* q_list);
 /*
  * Copyright (c) 2011 Mans Rullgard
  *
- * This file is part of Libav.
+ * This file is part of FFmpeg.
  *
- * Libav is free software; you can redistribute it and/or
+ * FFmpeg is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * Libav is distributed in the hope that it will be useful,
+ * FFmpeg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with Libav; if not, write to the Free Software
+ * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -2108,8 +2152,19 @@ typedef struct AVClass {
     int (*query_ranges)(struct AVOptionRanges **, void *obj, const char *key, int flags);
 } AVClass;
 
-/* av_log API */
+/**
+ * @addtogroup lavu_log
+ *
+ * @{
+ *
+ * @defgroup lavu_log_constants Logging Constants
+ *
+ * @{
+ */
 
+/**
+ * Print no output.
+ */
 #define AV_LOG_QUIET -8
 
 /**
@@ -2136,7 +2191,14 @@ typedef struct AVClass {
  */
 #define AV_LOG_WARNING 24
 
+/**
+ * Standard information.
+ */
 #define AV_LOG_INFO 32
+
+/**
+ * Detailed information.
+ */
 #define AV_LOG_VERBOSE 40
 
 /**
@@ -2147,26 +2209,95 @@ typedef struct AVClass {
 #define AV_LOG_MAX_OFFSET (AV_LOG_DEBUG - AV_LOG_QUIET)
 
 /**
+ * @}
+ */
+
+/**
  * Send the specified message to the log if the level is less than or equal
  * to the current av_log_level. By default, all logging messages are sent to
- * stderr. This behavior can be altered by setting a different av_vlog callback
+ * stderr. This behavior can be altered by setting a different logging callback
  * function.
+ * @see av_log_set_callback
  *
  * @param avcl A pointer to an arbitrary struct of which the first field is a
- * pointer to an AVClass struct.
- * @param level The importance level of the message, lower values signifying
- * higher importance.
+ *        pointer to an AVClass struct.
+ * @param level The importance level of the message expressed using a @ref
+ *        lavu_log_constants "Logging Constant".
  * @param fmt The format string (printf-compatible) that specifies how
- * subsequent arguments are converted to output.
- * @see av_vlog
+ *        subsequent arguments are converted to output.
  */
 void av_log(void *avcl, int level, const char *fmt, ...) ;
 
-void av_vlog(void *avcl, int level, const char *fmt, va_list);
+
+/**
+ * Send the specified message to the log if the level is less than or equal
+ * to the current av_log_level. By default, all logging messages are sent to
+ * stderr. This behavior can be altered by setting a different logging callback
+ * function.
+ * @see av_log_set_callback
+ *
+ * @param avcl A pointer to an arbitrary struct of which the first field is a
+ *        pointer to an AVClass struct.
+ * @param level The importance level of the message expressed using a @ref
+ *        lavu_log_constants "Logging Constant".
+ * @param fmt The format string (printf-compatible) that specifies how
+ *        subsequent arguments are converted to output.
+ * @param vl The arguments referenced by the format string.
+ */
+void av_vlog(void *avcl, int level, const char *fmt, va_list vl);
+
+/**
+ * Get the current log level
+ *
+ * @see lavu_log_constants
+ *
+ * @return Current log level
+ */
 int av_log_get_level(void);
-void av_log_set_level(int);
-void av_log_set_callback(void (*)(void*, int, const char*, va_list));
+
+/**
+ * Set the log level
+ *
+ * @see lavu_log_constants
+ *
+ * @param level Logging level
+ */
+void av_log_set_level(int level);
+
+/**
+ * Set the logging callback
+ *
+ * @note The callback must be thread safe, even if the application does not use
+ *       threads itself as some codecs are multithreaded.
+ *
+ * @see av_log_default_callback
+ *
+ * @param callback A logging function with a compatible signature.
+ */
+void av_log_set_callback(void (*callback)(void*, int, const char*, va_list));
+
+/**
+ * Default logging callback
+ *
+ * It prints the message to stderr, optionally colorizing it.
+ *
+ * @param avcl A pointer to an arbitrary struct of which the first field is a
+ *        pointer to an AVClass struct.
+ * @param level The importance level of the message expressed using a @ref
+ *        lavu_log_constants "Logging Constant".
+ * @param fmt The format string (printf-compatible) that specifies how
+ *        subsequent arguments are converted to output.
+ * @param ap The arguments referenced by the format string.
+ */
 void av_log_default_callback(void* ptr, int level, const char* fmt, va_list vl);
+
+/**
+ * Return the context name
+ *
+ * @param  ctx The AVClass context
+ *
+ * @return The AVClass class_name
+ */
 const char* av_default_item_name(void* ctx);
 AVClassCategory av_default_get_category(void *ptr);
 
@@ -2201,6 +2332,10 @@ void av_log_format_line(void *ptr, int level, const char *fmt, va_list vl,
  */
 #define AV_LOG_SKIP_REPEATED 1
 void av_log_set_flags(int arg);
+
+/**
+ * @}
+ */
 /*
  * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
  *
@@ -2258,17 +2393,17 @@ void av_log_set_flags(int arg);
  * Pixel format.
  *
  * @note
- * PIX_FMT_RGB32 is handled in an endian-specific manner. An RGBA
+ * AV_PIX_FMT_RGB32 is handled in an endian-specific manner. An RGBA
  * color is put together as:
  *  (A << 24) | (R << 16) | (G << 8) | B
  * This is stored as BGRA on little-endian CPU architectures and ARGB on
  * big-endian CPUs.
  *
  * @par
- * When the pixel format is palettized RGB (PIX_FMT_PAL8), the palettized
+ * When the pixel format is palettized RGB (AV_PIX_FMT_PAL8), the palettized
  * image data is stored in AVFrame.data[0]. The palette is transported in
  * AVFrame.data[1], is 1024 bytes long (256 4-byte entries) and is
- * formatted the same as in PIX_FMT_RGB32 described above (i.e., it is
+ * formatted the same as in AV_PIX_FMT_RGB32 described above (i.e., it is
  * also endian-specific). Note also that the individual RGB palette
  * components stored in AVFrame.data[1] should be in the range 0..255.
  * This is important as many custom PAL8 video codecs that were designed
@@ -2280,8 +2415,8 @@ void av_log_set_flags(int arg);
  * allocating the picture.
  *
  * @note
- * Make sure that all newly added big-endian formats have pix_fmt & 1 == 1
- * and that all newly added little-endian formats have pix_fmt & 1 == 0.
+ * Make sure that all newly added big-endian formats have (pix_fmt & 1) == 1
+ * and that all newly added little-endian formats have (pix_fmt & 1) == 0.
  * This allows simpler detection of big vs little-endian.
  */
 enum AVPixelFormat {
@@ -2324,11 +2459,13 @@ enum AVPixelFormat {
     AV_PIX_FMT_YUV440P, ///< planar YUV 4:4:0 (1 Cr & Cb sample per 1x2 Y samples)
     AV_PIX_FMT_YUVJ440P, ///< planar YUV 4:4:0 full scale (JPEG), deprecated in favor of PIX_FMT_YUV440P and setting color_range
     AV_PIX_FMT_YUVA420P, ///< planar YUV 4:2:0, 20bpp, (1 Cr & Cb sample per 2x2 Y & A samples)
+
     AV_PIX_FMT_VDPAU_H264,///< H.264 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers
     AV_PIX_FMT_VDPAU_MPEG1,///< MPEG-1 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers
     AV_PIX_FMT_VDPAU_MPEG2,///< MPEG-2 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers
     AV_PIX_FMT_VDPAU_WMV3,///< WMV3 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers
     AV_PIX_FMT_VDPAU_VC1, ///< VC-1 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers
+
     AV_PIX_FMT_RGB48BE, ///< packed RGB 16:16:16, 48bpp, 16R, 16G, 16B, the 2-byte value for each R/G/B component is stored as big-endian
     AV_PIX_FMT_RGB48LE, ///< packed RGB 16:16:16, 48bpp, 16R, 16G, 16B, the 2-byte value for each R/G/B component is stored as little-endian
 
@@ -2352,7 +2489,9 @@ enum AVPixelFormat {
     AV_PIX_FMT_YUV422P16BE, ///< planar YUV 4:2:2, 32bpp, (1 Cr & Cb sample per 2x1 Y samples), big-endian
     AV_PIX_FMT_YUV444P16LE, ///< planar YUV 4:4:4, 48bpp, (1 Cr & Cb sample per 1x1 Y samples), little-endian
     AV_PIX_FMT_YUV444P16BE, ///< planar YUV 4:4:4, 48bpp, (1 Cr & Cb sample per 1x1 Y samples), big-endian
+
     AV_PIX_FMT_VDPAU_MPEG4, ///< MPEG4 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers
+
     AV_PIX_FMT_DXVA2_VLD, ///< HW decoding through DXVA2, Picture.data[3] contains a LPDIRECT3DSURFACE9 pointer
 
     AV_PIX_FMT_RGB444LE, ///< packed RGB 4:4:4, 16bpp, (msb)4A 4R 4G 4B(lsb), little-endian, most significant bits to 0
@@ -2363,9 +2502,11 @@ enum AVPixelFormat {
     AV_PIX_FMT_BGR48BE, ///< packed RGB 16:16:16, 48bpp, 16B, 16G, 16R, the 2-byte value for each R/G/B component is stored as big-endian
     AV_PIX_FMT_BGR48LE, ///< packed RGB 16:16:16, 48bpp, 16B, 16G, 16R, the 2-byte value for each R/G/B component is stored as little-endian
 
-    //the following 10 formats have the disadvantage of needing 1 format for each bit depth, thus
-    //If you want to support multiple bit depths, then using AV_PIX_FMT_YUV420P16* with the bpp stored separately
-    //is better
+    /**
+     * The following 12 formats have the disadvantage of needing 1 format for each bit depth.
+     * Notice that each 9/10 bits sample is stored in 16 bits with extra padding.
+     * If you want to support multiple bit depths, then using AV_PIX_FMT_YUV420P16* with the bpp stored separately is better.
+     */
     AV_PIX_FMT_YUV420P9BE, ///< planar YUV 4:2:0, 13.5bpp, (1 Cr & Cb sample per 2x2 Y samples), big-endian
     AV_PIX_FMT_YUV420P9LE, ///< planar YUV 4:2:0, 13.5bpp, (1 Cr & Cb sample per 2x2 Y samples), little-endian
     AV_PIX_FMT_YUV420P10BE,///< planar YUV 4:2:0, 15bpp, (1 Cr & Cb sample per 2x2 Y samples), big-endian
@@ -2425,6 +2566,9 @@ enum AVPixelFormat {
 
     AV_PIX_FMT_XYZ12LE, ///< packed XYZ 4:4:4, 36 bpp, (msb) 12X, 12Y, 12Z (lsb), the 2-byte value for each X/Y/Z is stored as little-endian, the 4 lower bits are set to 0
     AV_PIX_FMT_XYZ12BE, ///< packed XYZ 4:4:4, 36 bpp, (msb) 12X, 12Y, 12Z (lsb), the 2-byte value for each X/Y/Z is stored as big-endian, the 4 lower bits are set to 0
+    AV_PIX_FMT_NV16, ///< interleaved chroma YUV 4:2:2, 16bpp, (1 Cr & Cb sample per 2x1 Y samples)
+    AV_PIX_FMT_NV20LE, ///< interleaved chroma YUV 4:2:2, 20bpp, (1 Cr & Cb sample per 2x1 Y samples), little-endian
+    AV_PIX_FMT_NV20BE, ///< interleaved chroma YUV 4:2:2, 20bpp, (1 Cr & Cb sample per 2x1 Y samples), big-endian
 
 
     AV_PIX_FMT_RGBA64BE=0x123, ///< packed RGBA 16:16:16:16, 64bpp, 16R, 16G, 16B, 16A, the 2-byte value for each R/G/B/A component is stored as big-endian
@@ -2459,6 +2603,20 @@ enum AVPixelFormat {
     AV_PIX_FMT_GBRAP16BE, ///< planar GBRA 4:4:4:4 64bpp, big-endian
     AV_PIX_FMT_GBRAP16LE, ///< planar GBRA 4:4:4:4 64bpp, little-endian
     AV_PIX_FMT_YUVJ411P, ///< planar YUV 4:1:1, 12bpp, (1 Cr & Cb sample per 4x1 Y samples) full scale (JPEG), deprecated in favor of PIX_FMT_YUV411P and setting color_range
+
+    AV_PIX_FMT_BAYER_BGGR8, ///< bayer, BGBG..(odd line), GRGR..(even line), 8-bit samples */
+    AV_PIX_FMT_BAYER_RGGB8, ///< bayer, RGRG..(odd line), GBGB..(even line), 8-bit samples */
+    AV_PIX_FMT_BAYER_GBRG8, ///< bayer, GBGB..(odd line), RGRG..(even line), 8-bit samples */
+    AV_PIX_FMT_BAYER_GRBG8, ///< bayer, GRGR..(odd line), BGBG..(even line), 8-bit samples */
+    AV_PIX_FMT_BAYER_BGGR16LE, ///< bayer, BGBG..(odd line), GRGR..(even line), 16-bit samples, little-endian */
+    AV_PIX_FMT_BAYER_BGGR16BE, ///< bayer, BGBG..(odd line), GRGR..(even line), 16-bit samples, big-endian */
+    AV_PIX_FMT_BAYER_RGGB16LE, ///< bayer, RGRG..(odd line), GBGB..(even line), 16-bit samples, little-endian */
+    AV_PIX_FMT_BAYER_RGGB16BE, ///< bayer, RGRG..(odd line), GBGB..(even line), 16-bit samples, big-endian */
+    AV_PIX_FMT_BAYER_GBRG16LE, ///< bayer, GBGB..(odd line), RGRG..(even line), 16-bit samples, little-endian */
+    AV_PIX_FMT_BAYER_GBRG16BE, ///< bayer, GBGB..(odd line), RGRG..(even line), 16-bit samples, big-endian */
+    AV_PIX_FMT_BAYER_GRBG16LE, ///< bayer, GRGR..(odd line), BGBG..(even line), 16-bit samples, little-endian */
+    AV_PIX_FMT_BAYER_GRBG16BE, ///< bayer, GRGR..(odd line), BGBG..(even line), 16-bit samples, big-endian */
+
     AV_PIX_FMT_NB, ///< number of pixel formats, DO NOT USE THIS if you want to link with shared libav* because the number of formats might differ between versions
 
 
@@ -2531,11 +2689,13 @@ enum AVPixelFormat {
     PIX_FMT_YUV440P, ///< planar YUV 4:4:0 (1 Cr & Cb sample per 1x2 Y samples)
     PIX_FMT_YUVJ440P, ///< planar YUV 4:4:0 full scale (JPEG), deprecated in favor of PIX_FMT_YUV440P and setting color_range
     PIX_FMT_YUVA420P, ///< planar YUV 4:2:0, 20bpp, (1 Cr & Cb sample per 2x2 Y & A samples)
+
     PIX_FMT_VDPAU_H264,///< H.264 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers
     PIX_FMT_VDPAU_MPEG1,///< MPEG-1 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers
     PIX_FMT_VDPAU_MPEG2,///< MPEG-2 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers
     PIX_FMT_VDPAU_WMV3,///< WMV3 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers
     PIX_FMT_VDPAU_VC1, ///< VC-1 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers
+
     PIX_FMT_RGB48BE, ///< packed RGB 16:16:16, 48bpp, 16R, 16G, 16B, the 2-byte value for each R/G/B component is stored as big-endian
     PIX_FMT_RGB48LE, ///< packed RGB 16:16:16, 48bpp, 16R, 16G, 16B, the 2-byte value for each R/G/B component is stored as little-endian
 
@@ -2559,7 +2719,9 @@ enum AVPixelFormat {
     PIX_FMT_YUV422P16BE, ///< planar YUV 4:2:2, 32bpp, (1 Cr & Cb sample per 2x1 Y samples), big-endian
     PIX_FMT_YUV444P16LE, ///< planar YUV 4:4:4, 48bpp, (1 Cr & Cb sample per 1x1 Y samples), little-endian
     PIX_FMT_YUV444P16BE, ///< planar YUV 4:4:4, 48bpp, (1 Cr & Cb sample per 1x1 Y samples), big-endian
+
     PIX_FMT_VDPAU_MPEG4, ///< MPEG4 HW decoding with VDPAU, data[0] contains a vdpau_render_state struct which contains the bitstream of the slices as well as various fields extracted from headers
+
     PIX_FMT_DXVA2_VLD, ///< HW decoding through DXVA2, Picture.data[3] contains a LPDIRECT3DSURFACE9 pointer
 
     PIX_FMT_RGB444LE, ///< packed RGB 4:4:4, 16bpp, (msb)4A 4R 4G 4B(lsb), little-endian, most significant bits to 0
@@ -2690,6 +2852,13 @@ enum AVPixelFormat {
 #define AV_PIX_FMT_GBRP12 AV_PIX_FMT_NE(GBRP12BE, GBRP12LE)
 #define AV_PIX_FMT_GBRP14 AV_PIX_FMT_NE(GBRP14BE, GBRP14LE)
 #define AV_PIX_FMT_GBRP16 AV_PIX_FMT_NE(GBRP16BE, GBRP16LE)
+#define AV_PIX_FMT_GBRAP16 AV_PIX_FMT_NE(GBRAP16BE, GBRAP16LE)
+
+#define AV_PIX_FMT_BAYER_BGGR16 AV_PIX_FMT_NE(BAYER_BGGR16BE, BAYER_BGGR16LE)
+#define AV_PIX_FMT_BAYER_RGGB16 AV_PIX_FMT_NE(BAYER_RGGB16BE, BAYER_RGGB16LE)
+#define AV_PIX_FMT_BAYER_GBRG16 AV_PIX_FMT_NE(BAYER_GBRG16BE, BAYER_GBRG16LE)
+#define AV_PIX_FMT_BAYER_GRBG16 AV_PIX_FMT_NE(BAYER_GRBG16BE, BAYER_GRBG16LE)
+
 
 #define AV_PIX_FMT_YUVA420P9 AV_PIX_FMT_NE(YUVA420P9BE , YUVA420P9LE)
 #define AV_PIX_FMT_YUVA422P9 AV_PIX_FMT_NE(YUVA422P9BE , YUVA422P9LE)
@@ -2702,6 +2871,7 @@ enum AVPixelFormat {
 #define AV_PIX_FMT_YUVA444P16 AV_PIX_FMT_NE(YUVA444P16BE, YUVA444P16LE)
 
 #define AV_PIX_FMT_XYZ12 AV_PIX_FMT_NE(XYZ12BE, XYZ12LE)
+#define AV_PIX_FMT_NV20 AV_PIX_FMT_NE(NV20BE, NV20LE)
 
 
 #define PixelFormat AVPixelFormat
