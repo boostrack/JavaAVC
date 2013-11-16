@@ -36,7 +36,7 @@
 
       and select 'JcvLib' project.
 -->
-<project name="Java Audio/Video Codec (JavaAVC)" default="build" basedir=".">
+<project name="JavaAVC (Java Audio/Video Codec)" default="build" basedir=".">
     <!--
         Common variables.
     -->

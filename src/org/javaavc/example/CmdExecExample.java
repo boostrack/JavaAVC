@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 /*
- * This class is part of Java Java Audio/Video Codec (JavaAVC) Library.
+ * This class is part of Java Audio/Video Codec (JavaAVC) Library.
  */
 package org.javaavc.example;
 
