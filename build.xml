@@ -45,7 +45,8 @@
     <property name="program.ver.minor"  value="7" />
     <property name="program.ver.patch"  value="1" />
     <property name="program.ver"        value="${program.ver.major}.${program.ver.minor}.${program.ver.patch}" />
-    <property name="license.file"       value="${basedir}/LICENSE" />
+    <property name="license.file"       value="${basedir}/LICENSE.txt" />
+    <property name="notice.file"        value="${basedir}/NOTICE.txt" />
 
     <property name="src.dir"            value="${basedir}/src" />
     <property name="doc.dir"            value="${basedir}/doc" />
@@ -152,7 +153,8 @@
             <fileset dir="${resources.dir}" />
         </copy>
 
-        <copy file="${license.file}" todir="${build.dir}"/>
+        <copy file="${license.file}" todir="${build.dir}" />
+        <copy file="${notice.file}"  todir="${build.dir}" />
     </target>
 
     <!--
