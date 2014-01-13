@@ -1,11 +1,24 @@
+License
+=======
+Build FFmpeg under LGPL 3.0 License.
+
+Current build is NOT support x264 because it distributed under GPL 2.0!
+
+To see all supported formats using "-formats" option.
+
+To see all supported codecs using "-codecs" option.
+
+
+How To Build
+============
 Required components:
  * GCC (http://www.gnu.org/software/gcc/)
  * Make (http://www.gnu.org/software/make/)
  * Automake (http://www.gnu.org/software/automake/)
  * Yasm (http://yasm.tortall.net/)
- * OpenJRE (http://openjdk.java.net/) or 
+ * OpenJRE (http://openjdk.java.net/) or
    Oracle JRE (http://www.oracle.com/technetwork/java/javase/downloads/index.html)
- * OpenJDK (http://openjdk.java.net/) or 
+ * OpenJDK (http://openjdk.java.net/) or
    Oracle JDK (http://www.oracle.com/technetwork/java/javase/downloads/index.html)
  * MinGW Windows cross-compiler (GCC) for C (http://www.mingw.org/)
 
@@ -15,7 +28,7 @@ Install in Ubuntu/Mint:
     $ sudo apt-get install gcc-mingw-w64
 
 Install in openSUSE:
-    $ sudo zypper install gcc make automake yasm 
+    $ sudo zypper install gcc make automake yasm
     $ sudo zypper install java-1_7_0-openjdk java-1_7_0-openjdk-devel
     $ sudo zypper addrepo -f http://download.opensuse.org/repositories/windows:/mingw/openSUSE_`lsb_release -rs`/ MinGW
     $ sudo zypper addrepo -f http://download.opensuse.org/repositories/windows:/mingw:/win64/openSUSE_`lsb_release -rs`/ MinGW64
