@@ -22,15 +22,21 @@ Required components:
    Oracle JDK (http://www.oracle.com/technetwork/java/javase/downloads/index.html)
  * MinGW Windows cross-compiler (GCC) for C (http://www.mingw.org/)
 
-Install in Ubuntu/Mint:
-    $ sudo apt-get install gcc make automake yasm
-    $ sudo apt-get install openjdk-7-jre openjdk-7-jdk
-    $ sudo apt-get install gcc-mingw-w64
+Build on Fedora:
+    $ sudo yum -y install gcc make automake yasm 
+    $ sudo yum -y install java-1.7.0-openjdk java-1.7.0-openjdk-devel 
+    $ sudo yum -y install mingw64-gcc
 
-Install in openSUSE:
+Build on openSUSE:
     $ sudo zypper install gcc make automake yasm
     $ sudo zypper install java-1_7_0-openjdk java-1_7_0-openjdk-devel
     $ sudo zypper addrepo -f http://download.opensuse.org/repositories/windows:/mingw/openSUSE_`lsb_release -rs`/ MinGW
     $ sudo zypper addrepo -f http://download.opensuse.org/repositories/windows:/mingw:/win64/openSUSE_`lsb_release -rs`/ MinGW64
     $ sudo zypper install mingw64-cross-gcc
+
+Build on Ubuntu/Mint:
+    $ sudo apt-get install gcc make automake yasm
+    $ sudo apt-get install openjdk-7-jre openjdk-7-jdk
+    $ sudo apt-get install gcc-mingw-w64
+
 

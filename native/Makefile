@@ -1,13 +1,34 @@
 # FFmpeg distrib.
-# 28.10.2013
-FFMPEG_VER=2.1
+# 15.01.2014
+FFMPEG_VER=2.1.3
 FFMPEG_DIR=ffmpeg-$(FFMPEG_VER)
 FFMPEG_ARCH=$(FFMPEG_DIR).tar.gz
 FFMPEG_LINK=http://ffmpeg.org/releases/$(FFMPEG_ARCH)
 
+# Configure options.
+# TODO: Add?
+#--disable-bzlib
+#--disable-iconv
+#--disable-zlib
+# TODO: Remove?
+# --disable-yasm
+CONF= \
+    --fatal-warnings \
+    --prefix=$(BUILD_DIR) \
+    --enable-version3 \
+    --enable-shared \
+    --disable-runtime-cpudetect \
+    --disable-doc \
+    --enable-pic \
+    --disable-yasm \
+    --pkg-config=pkg-config
+
+OUT=1> /dev/null
+
 # Main constants.
+SEP=-
 WRAP_NAME=javaavc
-WRAP_DIR=$(WRAP_NAME)-$(FFMPEG_VER)
+WRAP_DIR=$(WRAP_NAME)$(SEP)$(FFMPEG_VER)
 
 # Resources.
 VER_FILE=$(FFMPEG_DIR)/VERSION
@@ -20,8 +41,6 @@ LIB_DIR=$(BUILD_DIR)/lib
 ROOT_DIR=$(shell pwd)
 BUILD_DIR=$(ROOT_DIR)/build
 
-OUT=1> /dev/null
-
 LINUX=linux
 WINDOWS=windows
 
@@ -29,43 +48,22 @@ ARCH_x86=x86
 ARCH_x86_64=x86_64
 
 # OS-specific names of directories.
-LINUX32_DIR=$(WRAP_DIR)_$(LINUX)_$(ARCH_x86)
-LINUX64_DIR=$(WRAP_DIR)_$(LINUX)_$(ARCH_x86_64)
-WINDOWS32_DIR=$(WRAP_DIR)_$(WINDOWS)_$(ARCH_x86)
-WINDOWS64_DIR=$(WRAP_DIR)_$(WINDOWS)_$(ARCH_x86_64)
+LINUX_X86_DIR=$(WRAP_DIR)$(SEP)$(LINUX)$(SEP)$(ARCH_x86)
+LINUX_X86_64_DIR=$(WRAP_DIR)$(SEP)$(LINUX)$(SEP)$(ARCH_x86_64)
+WINDOWS_X86_DIR=$(WRAP_DIR)$(SEP)$(WINDOWS)$(SEP)$(ARCH_x86)
+WINDOWS_X86_64_DIR=$(WRAP_DIR)$(SEP)$(WINDOWS)$(SEP)$(ARCH_x86_64)
 
 # Result JAR-files.
-LINUX32_JAR=$(WRAP_DIR)-$(LINUX)-$(ARCH_x86)-native.jar
-LINUX64_JAR=$(WRAP_DIR)-$(LINUX)-$(ARCH_x86_64)-native.jar
-WINDOWS32_JAR=$(WRAP_DIR)-$(WINDOWS)-$(ARCH_x86)-native.jar
-WINDOWS64_JAR=$(WRAP_DIR)-$(WINDOWS)-$(ARCH_x86_64)-native.jar
+LINUX_X86_JAR=$(WRAP_DIR)$(SEP)$(LINUX)$(SEP)$(ARCH_x86)$(SEP)native.jar
+LINUX_X86_64_JAR=$(WRAP_DIR)$(SEP)$(LINUX)$(SEP)$(ARCH_x86_64)$(SEP)native.jar
+WINDOWS_X86_JAR=$(WRAP_DIR)$(SEP)$(WINDOWS)$(SEP)$(ARCH_x86)$(SEP)native.jar
+WINDOWS_X86_64_JAR=$(WRAP_DIR)$(SEP)$(WINDOWS)$(SEP)$(ARCH_x86_64)$(SEP)native.jar
 
 # Build options.
-LINUX32_OPT=--arch=x86
-LINUX64_OPT=--arch=x86_64
-WINDOWS32_OPT=--cross-prefix=x86_64-w64-mingw32- --enable-cross-compile --target-os=mingw32 --arch=x86
-WINDOWS64_OPT=--cross-prefix=x86_64-w64-mingw32- --enable-cross-compile --target-os=mingw32 --arch=x86_64
-
-# TODO: Add?
-#--disable-bzlib
-#--disable-iconv
-#--disable-zlib
-
-# TODO: Remove?
-# --disable-yasm
-
-# Configure options.
-CONF= \
-    --fatal-warnings \
-    --prefix=$(BUILD_DIR) \
-    --enable-version3 \
-    --enable-shared \
-    --disable-runtime-cpudetect \
-    --disable-doc \
-    --enable-pic \
-    --disable-yasm \
-    --pkg-config=pkg-config
-
+LINUX_X86_OPT=--arch=x86
+LINUX_X86_64_OPT=--arch=x86_64
+WINDOWS_X86_OPT=--cross-prefix=x86_64-w64-mingw32- --enable-cross-compile --target-os=mingw32 --arch=x86
+WINDOWS_X86_64_OPT=--cross-prefix=x86_64-w64-mingw32- --enable-cross-compile --target-os=mingw32 --arch=x86_64
 
 # Copy needed resources.
 # $1 -- directory to copy needed resources.
@@ -107,7 +105,7 @@ jar = \
 # 
 # Run...
 # 
-all: $(LINUX32_JAR) $(LINUX64_JAR) $(WINDOWS32_JAR) $(WINDOWS64_JAR)
+all: $(LINUX_X86_JAR) $(LINUX_X86_64_JAR) $(WINDOWS_X86_JAR) $(WINDOWS_X86_64_JAR)
 
 
 # 
@@ -120,32 +118,32 @@ $(FFMPEG_ARCH):
 # 
 # Compile.
 # 
-$(LINUX32_DIR): $(FFMPEG_ARCH)
-	$(call compile,$(LINUX32_OPT),$@)
+$(LINUX_X86_DIR): $(FFMPEG_ARCH)
+	$(call compile,$(LINUX_X86_OPT),$@)
 
-$(LINUX64_DIR): $(FFMPEG_ARCH)
-	$(call compile,$(LINUX64_OPT),$@)
+$(LINUX_X86_64_DIR): $(FFMPEG_ARCH)
+	$(call compile,$(LINUX_X86_64_OPT),$@)
 
-$(WINDOWS32_DIR): $(FFMPEG_ARCH)
-	$(call compile,$(WINDOWS32_OPT),$@)
+$(WINDOWS_X86_DIR): $(FFMPEG_ARCH)
+	$(call compile,$(WINDOWS_X86_OPT),$@)
 
-$(WINDOWS64_DIR): $(FFMPEG_ARCH)
-	$(call compile,$(WINDOWS64_OPT),$@)
+$(WINDOWS_X86_64_DIR): $(FFMPEG_ARCH)
+	$(call compile,$(WINDOWS_X86_64_OPT),$@)
 
 
 # 
 # Create JAR-file.
 # 
-$(LINUX32_JAR): $(LINUX32_DIR)
+$(LINUX_X86_JAR): $(LINUX_X86_DIR)
 	$(call jar,$@,$<)
 
-$(LINUX64_JAR): $(LINUX64_DIR)
+$(LINUX_X86_64_JAR): $(LINUX_X86_64_DIR)
 	$(call jar,$@,$<)
 
-$(WINDOWS32_JAR): $(WINDOWS32_DIR)
+$(WINDOWS_X86_JAR): $(WINDOWS_X86_DIR)
 	$(call jar,$@,$<)
 
-$(WINDOWS64_JAR): $(WINDOWS64_DIR)
+$(WINDOWS_X86_64_JAR): $(WINDOWS_X86_64_DIR)
 	$(call jar,$@,$<)
 
 
@@ -153,5 +151,6 @@ $(WINDOWS64_JAR): $(WINDOWS64_DIR)
 # Clean all.
 # 
 clean:
-	rm -rf $(FFMPEG_DIR) $(BUILD_DIR) $(LINUX32_DIR) $(LINUX64_DIR) $(WINDOWS32_DIR) $(WINDOWS64_DIR) *.jar
+	rm -rf $(FFMPEG_DIR) $(BUILD_DIR) $(LINUX_X86_DIR) $(LINUX_X86_64_DIR) $(WINDOWS_X86_DIR) $(WINDOWS_X86_64_DIR) *.jar
+
 

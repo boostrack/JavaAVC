@@ -297,3 +297,5 @@ Developer options (useful when working on FFmpeg itself):
   --random-seed=VALUE      seed value for --enable/disable-random
 
 NOTE: Object files are built at the place where configure is launched.
+
+

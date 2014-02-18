@@ -66,9 +66,8 @@ public class JavaAVC {
     public static final String LIB_NAME = "JavaAVC";
     public static final String LIB_VER = "1.7.1";
 
-    public static final String NATIVE_NAME = LIB_NAME.toLowerCase();
-    public static final String NATIVE_VER = "2.1";
-    public static final String NATIVE_ID = NATIVE_NAME + "-" + NATIVE_VER;
+    public static final String NATIVE_NAME = "javaavc";
+    public static final String NATIVE_VER = "2.1.3";
 
     private static volatile JavaAVC INSTANCE = null;
 
@@ -156,7 +155,8 @@ public class JavaAVC {
     private JavaAVC() throws IOException {
         // Unpack library.
         this.platform = Platform.getPlatform();
-        this.nativeDir = platform.unpackNativeLibrary(NATIVE_ID);
+
+        this.nativeDir = platform.unpackNativeLibrary(NATIVE_NAME, NATIVE_VER);
 
         // Load "avutil". Require: nothing.
         this.avutil = (LibavutilLibrary) Native.loadLibrary(findLib("avutil"), LibavutilLibrary.class);

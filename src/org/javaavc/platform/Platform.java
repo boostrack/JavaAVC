@@ -43,32 +43,23 @@ import com.sun.jna.Native;
  */
 public abstract class Platform {
 
+    public static final String SEPARATOR = "-";
+
     public static final String OS_NAME = "os.name";
 
     public static final String JAVA_TEMP_DIR = "java.io.tmpdir";
 
-    //public static final String JNA_LIBRARY_PATH = "jna.library.path";
-    public static final String JNA_LIBRARY_PATH = "java.library.path";
+    public static final String JNA_LIBRARY_PATH = "jna.library.path";
 
     private final String id;
 
     private final Arch arch;
 
-    public final StdIOLibrary STDIO;
+    public final StdIOLibrary STD_IO_LIB;
 
-    private static boolean isStringNullOrEmpty(final String value) {
-        return value == null || value.isEmpty();
-    }
-
-    /**
-     * Return property name by value. If value is not exists throw {@link RuntimeException}.
-     */
-    private static String getSystemProperty(final String propertyName) {
-        final String value = System.getProperty(propertyName);
-        if (!isStringNullOrEmpty(value)) {
-            return value;
-        } else {
-            throw new RuntimeException("Property '" + propertyName + "' is not exists!");
+    private static void checkString(final String name, final String value) {
+        if (value == null || value.isEmpty()) {
+            throw new IllegalArgumentException("Value '" + name + "' should not be empty or null!");
         }
     }
 
@@ -76,15 +67,15 @@ public abstract class Platform {
         this.id = id;
         this.arch = Arch.getArch();
 
-        this.STDIO = (StdIOLibrary) Native.loadLibrary(getStdIOLibraryName(), StdIOLibrary.class);
+        this.STD_IO_LIB = (StdIOLibrary) Native.loadLibrary(getStdIOLibraryName(), StdIOLibrary.class);
     }
 
     /**
-     * Return platform-specified directory for given library name in format <CODE>LibName_OsName_Arch</CODE>
-     * (for example, <CODE>mylib_linux_64</CODE>).
+     * Return platform-specified directory for given library name in format <CODE>LibName-LibVer-OsName-Arch</CODE>
+     * (for example, <CODE>MyLib-1.2.3-linux-x86_64</CODE>).
      */
-    private String getLibraryNativeName(final String libName) {
-        return libName + "_" + this.id + "_" + this.arch.getId();
+    private String getLibraryNativeName(final String libName, final String libVer) {
+        return libName + SEPARATOR + libVer + SEPARATOR + this.id + SEPARATOR + this.arch.getId();
     }
 
     /**
@@ -95,7 +86,7 @@ public abstract class Platform {
     /**
      * Return extension of platform-specific file extension of shared library.
      */
-    public abstract String getSharedLibExtension();
+    protected abstract String getSharedLibExtension();
 
     protected abstract String getStdIOLibraryName();
 
@@ -103,9 +94,7 @@ public abstract class Platform {
         /*
          * Check values.
          */
-        if (isStringNullOrEmpty(libName)) {
-            throw new IllegalArgumentException("Incorrect library name '" + libName + "'!");
-        }
+        checkString("library name", libName);
 
         /*
          * Find results.
@@ -131,7 +120,7 @@ public abstract class Platform {
     /**
      * Extracts a JAR-file with some resource to defined directory.
      */
-    private void unpackJarToDir(final URL jarUrl, final File outputDir) throws IOException {
+    public void unpackJarToDir(final URL jarUrl, final File outputDir) throws IOException {
         /*
          * Check values.
          */
@@ -176,36 +165,34 @@ public abstract class Platform {
      * copied into temporary directory and returned {@link File} of this copy (for example, <CODE>/tmp/mylib_linux_64</CODE>).
      * </P>
      */
-    public File unpackNativeLibrary(final String libName) throws IOException {
+    public File unpackNativeLibrary(final String libName, final String libVer) throws IOException {
         /*
          * Checking values.
          */
-        if (isStringNullOrEmpty(libName)) {
-            throw new IllegalArgumentException("Library name can not be null or empty!");
-        }
+        checkString("library name", libName);
+        checkString("library version", libVer);
 
         /*
          * Unpacking.
          */
-        final String nativeLibDirName = getLibraryNativeName(libName);
+        final String nativeLibDirName = getLibraryNativeName(libName, libVer);
         final File tempDirFile = getJavaTempDirectoryFile();
 
         /* (non-Javadoc)
+         *
          * Remember that:
          *  * If the name begins with a '/', then the absolute name of the resource is the portion of the name following the '/'.
          *  * Otherwise, the absolute name is of the following form: "package_name/name".
          */
-        /* (non-Javadoc)
-         * See:
-         *  * http://docs.oracle.com/javase/tutorial/deployment/jar/jarclassloader.html
-         */
         final String resName = "/" + nativeLibDirName;
+
         final URL url = Class.class.getResource(resName);
         if (url != null) {
             unpackJarToDir(url, tempDirFile);
         } else {
-            throw new IOException("Can not find JAR-file with resource '" + resName + "'! You should download native JAR-file from "
-                + "official JavaAVC web-site (http://www.javaavc.org/) and add it to Java classpath!");
+            throw new IOException("Can not find JAR-file with resource '" + resName + "'! "
+                    + "You should download native JAR-file from official JavaAVC web-site (http://www.javaavc.org/) and "
+                    + "add it to Java classpath!");
         }
 
         final File newPathFile = new File(tempDirFile.getCanonicalPath() + File.separatorChar + nativeLibDirName);
@@ -214,9 +201,30 @@ public abstract class Platform {
         return newPathFile;
     }
 
+    /**
+     * Return property value. If value is not exists (<CODE>null</CODE>) return empty string.
+     */
+    private static String getSystemProperty(final String propertyName) {
+        /*
+         * Checking values.
+         */
+        checkString("property name", propertyName);
+
+        /*
+         * Check property value.
+         */
+        String value = System.getProperty(propertyName);
+        if (value == null) {
+            value = "";
+        }
+
+        return value;
+    }
+
     public static Platform getPlatform() {
         /*
          * (non-Javadoc)
+         *
          * See:
          * * http://lopica.sourceforge.net/os.html
          */
@@ -263,21 +271,15 @@ public abstract class Platform {
     /**
      * Return list of files and directories of some path from system property.
      */
-    private List<File> getPathFiles(final String propertyName) {
+    private static List<File> getPathFiles(final String propertyName) {
         final Map<String, File> result = new HashMap<String, File>();
 
-        final String value = System.getProperty(propertyName);
-
-        System.out.println(value);
-
-        if (!isStringNullOrEmpty(value)) {
-            for (String s : value.split(File.pathSeparator)) {
-                final File f = new File(s);
-                try {
-                    result.put(f.getCanonicalPath(), f.getCanonicalFile());
-                } catch (IOException e) {
-                    throw new RuntimeException(e.getMessage());
-                }
+        for (String s : getSystemProperty(propertyName).split(File.pathSeparator)) {
+            final File f = new File(s);
+            try {
+                result.put(f.getCanonicalPath(), f.getCanonicalFile());
+            } catch (IOException e) {
+                throw new RuntimeException(e.getMessage());
             }
         }
 
@@ -287,7 +289,7 @@ public abstract class Platform {
     /**
      * Add new path to some path from system property.
      */
-    private void addPathFile(final String propertyName, final File newPath) {
+    private static void addPathFile(final String propertyName, final File newPath) {
         if (newPath == null) {
             return;
         }
@@ -309,41 +311,36 @@ public abstract class Platform {
     /**
      * Return list of directories for search JNA native code (based on "jna.library.path" system property).
      */
-    private List<File> getJnaPathFiles() {
+    public static List<File> getJnaPathFiles() {
         return getPathFiles(JNA_LIBRARY_PATH);
     }
 
     /**
      * Add new path to JNA native code search (based on "jna.library.path" system property).
      */
-    private void addJnaPathFile(final File newClassPath) {
+    public static void addJnaPathFile(final File newClassPath) {
         addPathFile(JNA_LIBRARY_PATH, newClassPath);
     }
 
-    private File getFileProperty(final String propertyName) {
-        final String value = System.getProperty(propertyName);
-        if (isStringNullOrEmpty(value)) {
-            final File f = new File(value);
-            try {
-                return f.getCanonicalFile();
-            } catch (IOException e) {
-                throw new RuntimeException(e.getMessage());
-            }
+    private static File getFileProperty(final String propertyName) {
+        final File f = new File(getSystemProperty(propertyName));
+        try {
+            return f.getCanonicalFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e.getMessage());
         }
-
-        return null;
     }
 
     /**
      * Return file object for system temporary directory.
      */
-    private File getJavaTempDirectoryFile() {
+    public static File getJavaTempDirectoryFile() {
         return getFileProperty(JAVA_TEMP_DIR);
     }
 
     public enum Arch {
-        x86("32", ".{1,2}86"),
-        x86_64("64", "amd64");
+        x86("x86", ".{1,2}86"),
+        x86_64("x86_64", "amd64");
 
         public static final String NAME_SYSTEM_PROPPERTY = "os.arch";
 
