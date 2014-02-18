@@ -47,7 +47,8 @@ public abstract class Platform {
 
     public static final String JAVA_TEMP_DIR = "java.io.tmpdir";
 
-    public static final String JNA_LIBRARY_PATH = "jna.library.path";
+    //public static final String JNA_LIBRARY_PATH = "jna.library.path";
+    public static final String JNA_LIBRARY_PATH = "java.library.path";
 
     private final String id;
 
@@ -55,12 +56,16 @@ public abstract class Platform {
 
     public final StdIOLibrary STDIO;
 
+    private static boolean isStringNullOrEmpty(final String value) {
+        return value == null || value.isEmpty();
+    }
+
     /**
      * Return property name by value. If value is not exists throw {@link RuntimeException}.
      */
-    protected static String getSystemProperty(final String propertyName) {
+    private static String getSystemProperty(final String propertyName) {
         final String value = System.getProperty(propertyName);
-        if (value != null) {
+        if (!isStringNullOrEmpty(value)) {
             return value;
         } else {
             throw new RuntimeException("Property '" + propertyName + "' is not exists!");
@@ -98,7 +103,7 @@ public abstract class Platform {
         /*
          * Check values.
          */
-        if (libName == null || libName.isEmpty()) {
+        if (isStringNullOrEmpty(libName)) {
             throw new IllegalArgumentException("Incorrect library name '" + libName + "'!");
         }
 
@@ -175,7 +180,7 @@ public abstract class Platform {
         /*
          * Checking values.
          */
-        if (libName == null || libName.isEmpty()) {
+        if (isStringNullOrEmpty(libName)) {
             throw new IllegalArgumentException("Library name can not be null or empty!");
         }
 
@@ -258,11 +263,14 @@ public abstract class Platform {
     /**
      * Return list of files and directories of some path from system property.
      */
-    protected List<File> getPathFiles(final String propertyName) {
+    private List<File> getPathFiles(final String propertyName) {
         final Map<String, File> result = new HashMap<String, File>();
 
         final String value = System.getProperty(propertyName);
-        if (value != null && !value.isEmpty()) {
+
+        System.out.println(value);
+
+        if (!isStringNullOrEmpty(value)) {
             for (String s : value.split(File.pathSeparator)) {
                 final File f = new File(s);
                 try {
@@ -279,7 +287,7 @@ public abstract class Platform {
     /**
      * Add new path to some path from system property.
      */
-    protected void addPathFile(final String propertyName, final File newPath) {
+    private void addPathFile(final String propertyName, final File newPath) {
         if (newPath == null) {
             return;
         }
@@ -312,9 +320,9 @@ public abstract class Platform {
         addPathFile(JNA_LIBRARY_PATH, newClassPath);
     }
 
-    protected File getFileProperty(final String propertyName) {
+    private File getFileProperty(final String propertyName) {
         final String value = System.getProperty(propertyName);
-        if (value != null && !value.isEmpty()) {
+        if (isStringNullOrEmpty(value)) {
             final File f = new File(value);
             try {
                 return f.getCanonicalFile();
@@ -334,8 +342,8 @@ public abstract class Platform {
     }
 
     public enum Arch {
-        x32("32", "i[2-6]{1}86"),
-        x64("64", "amd64");
+        x86("32", ".{1,2}86"),
+        x86_64("64", "amd64");
 
         public static final String NAME_SYSTEM_PROPPERTY = "os.arch";
 
@@ -379,12 +387,12 @@ public abstract class Platform {
 
             Arch arch = null;
 
-            if (name.matches(Arch.x32.getNamePattern())) {
-                arch = Arch.x32;
+            if (name.matches(Arch.x86.getNamePattern())) {
+                arch = Arch.x86;
             }
 
-            if (name.matches(Arch.x64.getNamePattern())) {
-                arch = Arch.x64;
+            if (name.matches(Arch.x86_64.getNamePattern())) {
+                arch = Arch.x86_64;
             }
 
             if (arch == null) {
