@@ -28,7 +28,7 @@ import java.util.List;
 
 import org.javaavc.ffmpeg.avutil.AVClass;
 import org.javaavc.ffmpeg.avcodec.AVPacket;
-import org.javaavc.ffmpeg.avformat.LibavformatLibrary.AVCodecTag;
+import org.javaavc.ffmpeg.avformat.Libavformat.AVCodecTag;
 
 /**
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)

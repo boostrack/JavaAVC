@@ -31,15 +31,15 @@ import java.nio.LongBuffer;
 import org.javaavc.ffmpeg.avcodec.AVCodec;
 import org.javaavc.ffmpeg.avcodec.AVPacket;
 import org.javaavc.ffmpeg.avutil.AVClass;
-import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVDictionary;
-import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVFrame;
-import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVRational;
+import org.javaavc.ffmpeg.avutil.Libavutil.AVDictionary;
+import org.javaavc.ffmpeg.avutil.Libavutil.AVFrame;
+import org.javaavc.ffmpeg.avutil.Libavutil.AVRational;
 import org.javaavc.platform.StdIOLibrary.FILE;
 
 /**
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
-public interface LibavformatLibrary extends Library {
+public interface Libavformat extends Library {
 
     public static interface AVStreamParseType {
         public static final int AVSTREAM_PARSE_NONE = 0;
@@ -1201,7 +1201,7 @@ public interface LibavformatLibrary extends Library {
      * in AVInputFormat.codec_tag and AVOutputFormat.codec_tag<br>
      * Original signature : <code>AVCodecID av_codec_get_id(const AVCodecTag**, unsigned int)</code>
      */
-    int av_codec_get_id(LibavformatLibrary.AVCodecTag tags[], int tag);
+    int av_codec_get_id(Libavformat.AVCodecTag tags[], int tag);
 
     /**
      * Get the codec tag for the given codec id id.<br>
@@ -1210,7 +1210,7 @@ public interface LibavformatLibrary extends Library {
      * in AVInputFormat.codec_tag and AVOutputFormat.codec_tag<br>
      * Original signature : <code>int av_codec_get_tag(const AVCodecTag**, AVCodecID)</code>
      */
-    int av_codec_get_tag(LibavformatLibrary.AVCodecTag tags[], int id);
+    int av_codec_get_tag(Libavformat.AVCodecTag tags[], int id);
 
     /**
      * Get the codec tag for the given codec id.<br>
@@ -1221,7 +1221,7 @@ public interface LibavformatLibrary extends Library {
      * @return 0 if id was not found in tags, > 0 if it was found<br>
      * Original signature : <code>int av_codec_get_tag2(const AVCodecTag**, AVCodecID, unsigned int*)</code>
      */
-    int av_codec_get_tag2(LibavformatLibrary.AVCodecTag tags[], int id, IntBuffer tag);
+    int av_codec_get_tag2(Libavformat.AVCodecTag tags[], int id, IntBuffer tag);
     /** Original signature : <code>int av_find_default_stream_index(AVFormatContext*)</code> */
     int av_find_default_stream_index(AVFormatContext s);
     /**
@@ -1326,12 +1326,12 @@ public interface LibavformatLibrary extends Library {
      * @return the table mapping RIFF FourCCs for video to libavcodec AVCodecID.<br>
      * Original signature : <code>AVCodecTag* avformat_get_riff_video_tags()</code>
      */
-    LibavformatLibrary.AVCodecTag avformat_get_riff_video_tags();
+    Libavformat.AVCodecTag avformat_get_riff_video_tags();
     /**
      * @return the table mapping RIFF FourCCs for audio to AVCodecID.<br>
      * Original signature : <code>AVCodecTag* avformat_get_riff_audio_tags()</code>
      */
-    LibavformatLibrary.AVCodecTag avformat_get_riff_audio_tags();
+    Libavformat.AVCodecTag avformat_get_riff_audio_tags();
     /**
      * Guess the sample aspect ratio of a frame, based on both the stream and the<br>
      * frame aspect ratio.<br>

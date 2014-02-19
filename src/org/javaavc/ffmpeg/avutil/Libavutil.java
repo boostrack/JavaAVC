@@ -23,7 +23,7 @@ import com.sun.jna.Pointer;
 import com.sun.jna.PointerType;
 
 /**
- * {@link LibavutilLibrary} contains the code shared across all the other FFmpeg libraries.
+ * {@link Libavutil} contains the code shared across all the other FFmpeg libraries.
  *
  * <P>
  * <H6>Links:</H6>
@@ -34,7 +34,7 @@ import com.sun.jna.PointerType;
  *
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
-public interface LibavutilLibrary extends Library {
+public interface Libavutil extends Library {
 
     public static interface AVMediaType {
         /**
@@ -109,7 +109,7 @@ public interface LibavutilLibrary extends Library {
     public int avutil_version();
 
     /**
-     * Return the {@link LibavutilLibrary} build-time configuration.
+     * Return the {@link Libavutil} build-time configuration.
      *
      * <P>
      * Original signature: <CODE>char* avutil_configuration()</CODE>.
@@ -118,7 +118,7 @@ public interface LibavutilLibrary extends Library {
     public String avutil_configuration();
 
     /**
-     * Return the {@link LibavutilLibrary} license.
+     * Return the {@link Libavutil} license.
      *
      * <P>
      * Original signature: <CODE>char* avutil_license()</CODE>.

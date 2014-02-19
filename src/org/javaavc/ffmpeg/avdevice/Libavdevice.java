@@ -18,19 +18,19 @@
  */
 package org.javaavc.ffmpeg.avdevice;
 
-import org.javaavc.ffmpeg.avformat.LibavformatLibrary;
+import org.javaavc.ffmpeg.avformat.Libavformat;
 
 import com.sun.jna.Library;
 
 //TODO: x11grab
 /**
-* {@link Libavdevice} is a complementary library to {@link LibavformatLibrary}.
+* {@link Libavdevice} is a complementary library to {@link Libavformat}.
 *
 * <P>
 * It provides various "special" platform-specific muxers and demuxers, e.g. for grabbing devices, audio capture and
-* playback etc. As a consequence, the (de)muxers in libavdevice are of the {@link LibavformatLibrary#AVFMT_NOFILE}
+* playback etc. As a consequence, the (de)muxers in libavdevice are of the {@link Libavformat#AVFMT_NOFILE}
 * type (they use their own I/O functions). The filename passed to
-* {@link LibavformatLibrary#avformat_open_input(org.javaavc.ffmpeg.avformat.AVFormatContext.ByReference[], String,
+* {@link Libavformat#avformat_open_input(org.javaavc.ffmpeg.avformat.AVFormatContext.ByReference[], String,
 * org.javaavc.ffmpeg.avformat.AVInputFormat, org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVDictionary[])} often does
 * not refer to an actually existing file, but has some special device-specific meaning -- e.g. for <CODE>x11grab</CODE>
 * it is the display name.
@@ -38,7 +38,7 @@ import com.sun.jna.Library;
 *
 * <P>
 * To use {@link Libavdevice}, simply call {@link #avdevice_register_all()} to register all compiled muxers and demuxers.
-* They all use standard {@link LibavformatLibrary} API.
+* They all use standard {@link Libavformat} API.
 * </P>
 *
 * <P>

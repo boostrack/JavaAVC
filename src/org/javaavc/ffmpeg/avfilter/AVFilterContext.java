@@ -27,7 +27,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.javaavc.ffmpeg.avutil.AVClass;
-import org.javaavc.ffmpeg.avfilter.LibavfilterLibrary.AVFilterCommand;
+import org.javaavc.ffmpeg.avfilter.Libavfilter.AVFilterCommand;
 
 /**
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)

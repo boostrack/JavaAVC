@@ -25,7 +25,7 @@ import com.sun.jna.ptr.PointerByReference;
 import java.util.Arrays;
 import java.util.List;
 
-import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVDictionary;
+import org.javaavc.ffmpeg.avutil.Libavutil.AVDictionary;
 
 /**
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)

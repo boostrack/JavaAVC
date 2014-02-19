@@ -31,7 +31,7 @@ import java.nio.IntBuffer;
 import org.javaavc.ffmpeg.avutil.AVClass;
 
 /**
- * {@link LibswscaleLibrary} color conversion and scaling library.
+ * {@link Libswscale} color conversion and scaling library.
  *
  * <P>
  * <H6>Links:</H6>
@@ -42,7 +42,7 @@ import org.javaavc.ffmpeg.avutil.AVClass;
  *
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
-public interface LibswscaleLibrary extends Library {
+public interface Libswscale extends Library {
 
     public static final String LIBSWSCALE_IDENT = "SwS";
     public static final int LIBSWSCALE_VERSION_MINOR = 3;
@@ -103,7 +103,7 @@ public interface LibswscaleLibrary extends Library {
     public int swscale_version();
 
     /**
-     * Return the {@link LibswscaleLibrary} build-time configuration.
+     * Return the {@link Libswscale} build-time configuration.
      *
      * <P>
      * Original signature: <CODE>char* swscale_configuration()</CODE>.
@@ -112,7 +112,7 @@ public interface LibswscaleLibrary extends Library {
     public String swscale_configuration();
 
     /**
-     * Return the {@link LibswscaleLibrary} license.
+     * Return the {@link Libswscale} license.
      *
      * <P>
      * Original signature: <CODE>char* swscale_license()</CODE>.
@@ -174,7 +174,7 @@ public interface LibswscaleLibrary extends Library {
      * Original signature: <CODE>SwsContext* sws_alloc_context()</CODE>.
      * </P>
      */
-    public LibswscaleLibrary.SwsContext sws_alloc_context();
+    public Libswscale.SwsContext sws_alloc_context();
 
     /**
      * Initialize the swscaler context <CODE>sws_context</CODE>.
@@ -186,7 +186,7 @@ public interface LibswscaleLibrary extends Library {
      * @return
      *          Zero or positive value on success, a negative value on error.
      */
-    public int sws_init_context(LibswscaleLibrary.SwsContext sws_context, SwsFilter srcFilter, SwsFilter dstFilter);
+    public int sws_init_context(Libswscale.SwsContext sws_context, SwsFilter srcFilter, SwsFilter dstFilter);
 
     /**
      * Free the swscaler context <CODE>swsContext</CODE>. If swsContext is <CODE>NULL</CODE>, then does nothing.
@@ -195,7 +195,7 @@ public interface LibswscaleLibrary extends Library {
      * Original signature: <CODE>void sws_freeContext(SwsContext*)</CODE>.
      * </P>
      */
-    public void sws_freeContext(LibswscaleLibrary.SwsContext swsContext);
+    public void sws_freeContext(Libswscale.SwsContext swsContext);
 
     /**
      * Scale the image slice in srcSlice and put the resulting scaled slice in the image in <CODE>dst</CODE>. A slice is a sequence of
@@ -230,7 +230,7 @@ public interface LibswscaleLibrary extends Library {
      * @return
      *          The height of the output slice.
      */
-    public int sws_scale(LibswscaleLibrary.SwsContext c, PointerByReference srcSlice, IntBuffer srcStride, int srcSliceY, int srcSliceH,
+    public int sws_scale(Libswscale.SwsContext c, PointerByReference srcSlice, IntBuffer srcStride, int srcSliceY, int srcSliceH,
         PointerByReference dst, IntBuffer dstStride);
 
     /**
@@ -257,7 +257,7 @@ public interface LibswscaleLibrary extends Library {
      * @return
      *          <CODE>-1</CODE> if not supported.
      */
-    public int sws_setColorspaceDetails(LibswscaleLibrary.SwsContext c, IntBuffer inv_table, int srcRange, IntBuffer table, int dstRange,
+    public int sws_setColorspaceDetails(Libswscale.SwsContext c, IntBuffer inv_table, int srcRange, IntBuffer table, int dstRange,
         int brightness, int contrast, int saturation);
 
     /**
@@ -268,7 +268,7 @@ public interface LibswscaleLibrary extends Library {
      * @return
      *          <CODE>-1</CODE> if not supported.
      */
-    public int sws_getColorspaceDetails(LibswscaleLibrary.SwsContext c, PointerByReference inv_table, IntBuffer srcRange,
+    public int sws_getColorspaceDetails(Libswscale.SwsContext c, PointerByReference inv_table, IntBuffer srcRange,
         PointerByReference table, IntBuffer dstRange, IntBuffer brightness, IntBuffer contrast, IntBuffer saturation);
 
     /**
@@ -408,7 +408,7 @@ public interface LibswscaleLibrary extends Library {
      *                              SwsFilter*, SwsFilter*, const double*)</CODE>.
      * </P>
      */
-    public LibswscaleLibrary.SwsContext sws_getCachedContext(LibswscaleLibrary.SwsContext context, int srcW, int srcH, int srcFormat,
+    public Libswscale.SwsContext sws_getCachedContext(Libswscale.SwsContext context, int srcW, int srcH, int srcFormat,
         int dstW, int dstH, int dstFormat, int flags, SwsFilter srcFilter, SwsFilter dstFilter, DoubleBuffer param);
 
     /**

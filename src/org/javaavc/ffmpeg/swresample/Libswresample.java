@@ -29,7 +29,7 @@ import java.nio.IntBuffer;
 import org.javaavc.ffmpeg.avutil.AVClass;
 
 /**
- * {@link LibswresampleLibrary} is a library that handles audio resampling, sample format conversion and mixing.
+ * {@link Libswresample} is a library that handles audio resampling, sample format conversion and mixing.
  *
  * <P>
  * <H6>Links:</H6>
@@ -40,7 +40,7 @@ import org.javaavc.ffmpeg.avutil.AVClass;
  *
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
-public interface LibswresampleLibrary extends Library {
+public interface Libswresample extends Library {
 
     public static interface SwrDitherType {
         public static final int SWR_DITHER_NONE = 0;
@@ -132,7 +132,7 @@ public interface LibswresampleLibrary extends Library {
     public int swresample_version();
 
     /**
-     * Return the {@link LibswresampleLibrary} build-time configuration.
+     * Return the {@link Libswresample} build-time configuration.
      *
      * <P>
      * Original signature: <CODE>char* swresample_configuration()</CODE>.
@@ -141,7 +141,7 @@ public interface LibswresampleLibrary extends Library {
     public String swresample_configuration();
 
     /**
-     * Return the {@link LibswresampleLibrary} license.
+     * Return the {@link Libswresample} license.
      *
      * <P>
      * Original signature: <CODE>char* swresample_license()</CODE>.

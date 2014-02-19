@@ -20,9 +20,9 @@ package org.javaavc.ffmpeg.avcodec;
 
 import org.javaavc.ffmpeg.avcodec.AVCodecContext.draw_horiz_band_callback;
 import org.javaavc.ffmpeg.avutil.AVClass;
-import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVDictionary;
-import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVFrame;
-import org.javaavc.ffmpeg.avutil.LibavutilLibrary.AVRational;
+import org.javaavc.ffmpeg.avutil.Libavutil.AVDictionary;
+import org.javaavc.ffmpeg.avutil.Libavutil.AVFrame;
+import org.javaavc.ffmpeg.avutil.Libavutil.AVRational;
 import org.javaavc.platform.NativeSize;
 
 import com.sun.jna.Callback;
@@ -38,7 +38,7 @@ import java.nio.ShortBuffer;
 /**
  * @author Dmitriy Zavodnikov (d.zavodnikov@gmail.com)
  */
-public interface LibavcodecLibrary extends Library {
+public interface Libavcodec extends Library {
     /**
      * Identify the syntax and semantics of the bitstream.<br>
      * The principle is roughly:<br>
@@ -983,7 +983,7 @@ public interface LibavcodecLibrary extends Library {
      * <P>
      * <STRONG>NOTE:</STRONG><BR />
      * If this flag is not set, the codec is guaranteed to never be fed with with <CODE>NULL</CODE> data. The user can still
-     * send <CODE>NULL</CODE> data to the public encode or decode function, but {@link LibavcodecLibrary} will not pass it
+     * send <CODE>NULL</CODE> data to the public encode or decode function, but {@link Libavcodec} will not pass it
      * along to the codec unless this flag is set.
      * </P>
      *
@@ -1002,7 +1002,7 @@ public interface LibavcodecLibrary extends Library {
      * <STRONG>NOTE:</STRONG><BR />
      * For encoders implementing the {@link AVCodec#encode2} function, setting this flag also means that the encoder must set the
      * pts and duration for each output packet. If this flag is not set, the pts and duration will be determined by
-     * {@link LibavcodecLibrary} from the input frame.
+     * {@link Libavcodec} from the input frame.
      * </P>
      */
     public static final int CODEC_CAP_DELAY = 0x0020;
@@ -1223,7 +1223,7 @@ public interface LibavcodecLibrary extends Library {
     public static final int FF_BUG_AMV = 32;
 
     /**
-     * Will be removed, {@link LibavcodecLibrary} can now handle these non-compliant files by default.
+     * Will be removed, {@link Libavcodec} can now handle these non-compliant files by default.
      */
     public static final int FF_BUG_AC_VLC = 0;
     public static final int FF_BUG_QPEL_CHROMA = 64;
@@ -1991,14 +1991,14 @@ public interface LibavcodecLibrary extends Library {
     /** Original signature : <code>void audio_resample_close(ReSampleContext*)</code> */
     void audio_resample_close(PointerByReference s);
     /** Original signature : <code>AVResampleContext* av_resample_init(int, int, int, int, int, double)</code> */
-    LibavcodecLibrary.AVResampleContext av_resample_init(int out_rate, int in_rate, int filter_length, int log2_phase_count, int linear, double cutoff);
+    Libavcodec.AVResampleContext av_resample_init(int out_rate, int in_rate, int filter_length, int log2_phase_count, int linear, double cutoff);
 
     /** Original signature : <code>int av_resample(AVResampleContext*, short*, short*, int*, int, int, int)</code> */
-    int av_resample(LibavcodecLibrary.AVResampleContext c, ShortBuffer dst, ShortBuffer src, IntBuffer consumed, int src_size, int dst_size, int update_ctx);
+    int av_resample(Libavcodec.AVResampleContext c, ShortBuffer dst, ShortBuffer src, IntBuffer consumed, int src_size, int dst_size, int update_ctx);
     /** Original signature : <code>void av_resample_compensate(AVResampleContext*, int, int)</code> */
-    void av_resample_compensate(LibavcodecLibrary.AVResampleContext c, int sample_delta, int compensation_distance);
+    void av_resample_compensate(Libavcodec.AVResampleContext c, int sample_delta, int compensation_distance);
     /** Original signature : <code>void av_resample_close(AVResampleContext*)</code> */
-    void av_resample_close(LibavcodecLibrary.AVResampleContext c);
+    void av_resample_close(Libavcodec.AVResampleContext c);
     /**
      * Allocate memory for a picture.  Call avpicture_free() to free it.<br>
      * * @see avpicture_fill()<br>
@@ -2168,10 +2168,10 @@ public interface LibavcodecLibrary extends Library {
     String av_get_profile_name(AVCodec codec, int profile);
 
     /** Original signature : <code>int avcodec_default_execute(AVCodecContext*, avcodec_default_execute_func_callback*, void*, int*, int, int)</code> */
-    int avcodec_default_execute(AVCodecContext c, LibavcodecLibrary.avcodec_default_execute_func_callback func, Pointer arg, IntBuffer ret, int count, int size);
+    int avcodec_default_execute(AVCodecContext c, Libavcodec.avcodec_default_execute_func_callback func, Pointer arg, IntBuffer ret, int count, int size);
 
     /** Original signature : <code>int avcodec_default_execute2(AVCodecContext*, avcodec_default_execute2_func_callback*, void*, int*, int)</code> */
-    int avcodec_default_execute2(AVCodecContext c, LibavcodecLibrary.avcodec_default_execute2_func_callback func, Pointer arg, IntBuffer ret, int count);
+    int avcodec_default_execute2(AVCodecContext c, Libavcodec.avcodec_default_execute2_func_callback func, Pointer arg, IntBuffer ret, int count);
 
     /**
      * Fill AVFrame audio data and linesize pointers.<br>
@@ -2370,7 +2370,7 @@ public interface LibavcodecLibrary extends Library {
      *           lockmgr callback may also be invoked.<br>
      * Original signature : <code>int av_lockmgr_register(av_lockmgr_register_cb_callback*)</code>
      */
-    int av_lockmgr_register(LibavcodecLibrary.av_lockmgr_register_cb_callback cb);
+    int av_lockmgr_register(Libavcodec.av_lockmgr_register_cb_callback cb);
     /**
      * Get the type of the given codec.<br>
      * Original signature : <code>AVMediaType avcodec_get_type(AVCodecID)</code>

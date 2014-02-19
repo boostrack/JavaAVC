@@ -23,13 +23,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import org.javaavc.ffmpeg.avcodec.LibavcodecLibrary;
+import org.javaavc.ffmpeg.avcodec.Libavcodec;
 import org.javaavc.ffmpeg.avdevice.Libavdevice;
-import org.javaavc.ffmpeg.avfilter.LibavfilterLibrary;
-import org.javaavc.ffmpeg.avformat.LibavformatLibrary;
-import org.javaavc.ffmpeg.avutil.LibavutilLibrary;
-import org.javaavc.ffmpeg.swresample.LibswresampleLibrary;
-import org.javaavc.ffmpeg.swscale.LibswscaleLibrary;
+import org.javaavc.ffmpeg.avfilter.Libavfilter;
+import org.javaavc.ffmpeg.avformat.Libavformat;
+import org.javaavc.ffmpeg.avutil.Libavutil;
+import org.javaavc.ffmpeg.swresample.Libswresample;
+import org.javaavc.ffmpeg.swscale.Libswscale;
 import org.javaavc.platform.Platform;
 
 import com.sun.jna.Native;
@@ -64,20 +64,20 @@ import com.sun.jna.Native;
 public class JavaAVC {
 
     public static final String LIB_NAME = "JavaAVC";
-    public static final String LIB_VER = "1.7.1";
+    public static final String LIB_VER  = "1.7.1";
 
     public static final String NATIVE_NAME = "javaavc";
-    public static final String NATIVE_VER = "2.1.3";
+    public static final String NATIVE_VER  = "2.1.3";
 
     private static volatile JavaAVC INSTANCE = null;
 
-    public final LibavutilLibrary avutil;
-    public final LibavcodecLibrary avcodec;
-    public final LibavformatLibrary avformat;
-    public final LibswresampleLibrary swresample;
-    public final LibswscaleLibrary swscale;
-    public final LibavfilterLibrary avfilter;
-    public final Libavdevice avdevice;
+    public final Libavutil     avutil;
+    public final Libavcodec    avcodec;
+    public final Libavformat   avformat;
+    public final Libswresample swresample;
+    public final Libswscale    swscale;
+    public final Libavfilter   avfilter;
+    public final Libavdevice   avdevice;
 
     private final Platform platform;
 
@@ -159,32 +159,39 @@ public class JavaAVC {
         this.nativeDir = platform.unpackNativeLibrary(NATIVE_NAME, NATIVE_VER);
 
         // Load "avutil". Require: nothing.
-        this.avutil = (LibavutilLibrary) Native.loadLibrary(findLib("avutil"), LibavutilLibrary.class);
-        this.checkLib(this.avutil, "avutil");
+        final String avutilName = "avutil";
+        this.avutil = (Libavutil) Native.loadLibrary(findLib(avutilName), Libavutil.class);
+        this.checkLib(this.avutil, avutilName);
 
         // Load "avcodec". Require: "avutil".
-        this.avcodec = (LibavcodecLibrary) Native.loadLibrary(findLib("avcodec"), LibavcodecLibrary.class);
-        this.checkLib(this.avcodec, "avcodec");
+        final String avcodecName = "avcodec";
+        this.avcodec = (Libavcodec) Native.loadLibrary(findLib(avcodecName), Libavcodec.class);
+        this.checkLib(this.avcodec, avcodecName);
 
         // Load "avformat". Require: "avcodec".
-        this.avformat = (LibavformatLibrary) Native.loadLibrary(findLib("avformat"), LibavformatLibrary.class);
-        this.checkLib(this.avformat, "avformat");
+        final String avformatName = "avformat";
+        this.avformat = (Libavformat) Native.loadLibrary(findLib(avformatName), Libavformat.class);
+        this.checkLib(this.avformat, avformatName);
 
         // Load "swresample". Require: "avutil".
-        this.swresample = (LibswresampleLibrary) Native.loadLibrary(findLib("swresample"), LibswresampleLibrary.class);
-        this.checkLib(this.swresample, "swresample");
+        final String swresampleName = "swresample";
+        this.swresample = (Libswresample) Native.loadLibrary(findLib(swresampleName), Libswresample.class);
+        this.checkLib(this.swresample, swresampleName);
 
         // Load "swscale". Require: "avutil".
-        this.swscale = (LibswscaleLibrary) Native.loadLibrary(findLib("swscale"), LibswscaleLibrary.class);
-        this.checkLib(this.swscale, "swscale");
+        final String swscaleName = "swscale";
+        this.swscale = (Libswscale) Native.loadLibrary(findLib(swscaleName), Libswscale.class);
+        this.checkLib(this.swscale, swscaleName);
 
         // Load "avfilter". Require: "swresample", "swscale", "avformat", "avcodec", "avutil".
-        this.avfilter = (LibavfilterLibrary) Native.loadLibrary(findLib("avfilter"), LibavfilterLibrary.class);
-        this.checkLib(this.avfilter, "avfilter");
+        final String avfilterName = "avfilter";
+        this.avfilter = (Libavfilter) Native.loadLibrary(findLib(avfilterName), Libavfilter.class);
+        this.checkLib(this.avfilter, avfilterName);
 
         // Load "avdevice". Require: "avfilter", "avformat".
-        this.avdevice = (Libavdevice) Native.loadLibrary(findLib("avdevice"), Libavdevice.class);
-        this.checkLib(this.avdevice, "avdevice");
+        final String avdeviceName = "avdevice";
+        this.avdevice = (Libavdevice) Native.loadLibrary(findLib(avdeviceName), Libavdevice.class);
+        this.checkLib(this.avdevice, avdeviceName);
     }
 
     /**
