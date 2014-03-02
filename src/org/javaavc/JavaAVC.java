@@ -81,7 +81,7 @@ public class JavaAVC {
 
     private final Platform platform;
 
-    public final File nativeDir;
+    private final File nativeDir;
 
     /**
      * ffmpeg is a very fast video and audio converter that can also grab from a live audio/video source.
