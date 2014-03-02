@@ -45,6 +45,7 @@ Configuration options:
   --disable-all            disable building components, libraries and programs
   --enable-incompatible-libav-abi enable incompatible Libav fork ABI [no]
   --enable-incompatible-fork-abi  enable incompatible Libav fork ABI (deprecated) [no]
+  --enable-raise-major     increase major version numbers in sonames [no]
 
 Program options:
   --disable-programs       do not build command line programs
@@ -297,5 +298,3 @@ Developer options (useful when working on FFmpeg itself):
   --random-seed=VALUE      seed value for --enable/disable-random
 
 NOTE: Object files are built at the place where configure is launched.
-
-

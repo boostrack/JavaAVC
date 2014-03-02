@@ -18,6 +18,7 @@ CONF= \
     --enable-shared \
     --disable-doc \
     --enable-pic \
+    --disable-symver \
     --pkg-config=pkg-config
 
 OUT=1> /dev/null
