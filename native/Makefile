@@ -1,8 +1,8 @@
 # ==============================================================================
 # FFmpeg distrib.
-# 15.01.2014
+# 26.03.2014
 # ------------------------------------------------------------------------------
-FFMPEG_VER=2.1.3
+FFMPEG_VER=2.2
 FFMPEG_DIR=ffmpeg-$(FFMPEG_VER)
 FFMPEG_ARCH=$(FFMPEG_DIR).tar.gz
 FFMPEG_LINK=http://ffmpeg.org/releases/$(FFMPEG_ARCH)

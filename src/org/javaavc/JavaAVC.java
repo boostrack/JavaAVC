@@ -67,7 +67,7 @@ public class JavaAVC {
     public static final String LIB_VER  = "1.7.1";
 
     public static final String NATIVE_NAME = "javaavc";
-    public static final String NATIVE_VER  = "2.1.3";
+    public static final String NATIVE_VER  = "2.2";
 
     private static volatile JavaAVC INSTANCE = null;
 
