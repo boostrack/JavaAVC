@@ -1,8 +1,6 @@
 License
 =======
-Build FFmpeg under LGPL 3.0 License.
-
-Current build is NOT support x264 because it distributed under GPL 2.0!
+Build FFmpeg under GNU LGPL 3.0 License (full features distributed under GNU GPL 3.0 License).
 
 To see all supported formats using "-formats" option.
 
