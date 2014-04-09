@@ -82,9 +82,9 @@ LINUX_OPT=
 LINUX_X86_OPT=$(LINUX_OPT)    --arch=$(ARCH_x86)
 LINUX_X86_64_OPT=$(LINUX_OPT) --arch=$(ARCH_x86_64)
 
-WINDOWS_OPT=--cross-prefix=x86_64-w64-mingw32- --enable-cross-compile --target-os=mingw32
-WINDOWS_X86_OPT=$(WINDOWS_OPT)    --arch=$(ARCH_x86)
-WINDOWS_X86_64_OPT=$(WINDOWS_OPT) --arch=$(ARCH_x86_64)
+WINDOWS_OPT=--enable-cross-compile --target-os=mingw32
+WINDOWS_X86_OPT=$(WINDOWS_OPT)    --cross-prefix=i686-w64-mingw32- --arch=$(ARCH_x86)
+WINDOWS_X86_64_OPT=$(WINDOWS_OPT) --cross-prefix=x86_64-w64-mingw32- --arch=$(ARCH_x86_64)
 
 
 # ==============================================================================
@@ -121,7 +121,7 @@ compile = \
 
 
 # ==============================================================================
-# Create JAr-file base on platform-specific directory.
+# Create JAR-file base on platform-specific directory.
 # $1 -- JAR-file name;
 # $2 -- platform-specific directory.
 # ------------------------------------------------------------------------------
