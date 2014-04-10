@@ -68,11 +68,12 @@ WINDOWS_X86_64_DIR=$(WRAP_DIR)$(SEP)$(WINDOWS)$(SEP)$(ARCH_x86_64)
 # ==============================================================================
 # Result JAR-files.
 # ------------------------------------------------------------------------------
-LINUX_X86_JAR=$(WRAP_DIR)$(SEP)$(LINUX)$(SEP)$(ARCH_x86)$(SEP)native.jar
-LINUX_X86_64_JAR=$(WRAP_DIR)$(SEP)$(LINUX)$(SEP)$(ARCH_x86_64)$(SEP)native.jar
+POSTFIX=native.jar
+LINUX_X86_JAR=$(WRAP_DIR)$(SEP)$(LINUX)$(SEP)$(ARCH_x86)$(SEP)$(POSTFIX)
+LINUX_X86_64_JAR=$(WRAP_DIR)$(SEP)$(LINUX)$(SEP)$(ARCH_x86_64)$(SEP)$(POSTFIX)
 
-WINDOWS_X86_JAR=$(WRAP_DIR)$(SEP)$(WINDOWS)$(SEP)$(ARCH_x86)$(SEP)native.jar
-WINDOWS_X86_64_JAR=$(WRAP_DIR)$(SEP)$(WINDOWS)$(SEP)$(ARCH_x86_64)$(SEP)native.jar
+WINDOWS_X86_JAR=$(WRAP_DIR)$(SEP)$(WINDOWS)$(SEP)$(ARCH_x86)$(SEP)$(POSTFIX)
+WINDOWS_X86_64_JAR=$(WRAP_DIR)$(SEP)$(WINDOWS)$(SEP)$(ARCH_x86_64)$(SEP)$(POSTFIX)
 
 
 # ==============================================================================
