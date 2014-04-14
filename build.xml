@@ -137,7 +137,7 @@
         <jar destfile="${build.dir}/${program.name}-${program.ver}-bin.jar" basedir="${bin.dir}" />
 
         <!--
-            http://stackoverflow.com/questions/5063630/generate-jars-with-source-code-using-ant
+            http://stackoverflow.com/questions/5063630/
         -->
         <jar destfile="${build.dir}/${program.name}-${program.ver}-src.jar" basedir="${src.dir}" />
 
