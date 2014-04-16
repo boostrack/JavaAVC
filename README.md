@@ -10,7 +10,7 @@ Currently supported FFmpeg 2.2.
 
 
 ### Download
- * [JavaAVC 1.7.1](https://googledrive.com/host/0B1-mMGcBjR50RGd3eHoyYXhrSGc/JavaAVC-1.7.1.zip).
+**VERSION 1.0.0 IN DEVELOPING YET!**
 
 
 ### Documentation
