@@ -56,10 +56,6 @@ public class AVChapter extends Structure {
         super();
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.sun.jna.Structure#getFieldOrder()
-     */
     @Override
     protected List<?> getFieldOrder() {
         return Arrays.asList("id", "time_base", "start", "end", "metadata");

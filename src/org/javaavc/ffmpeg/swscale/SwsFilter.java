@@ -59,10 +59,6 @@ public class SwsFilter extends Structure {
         super();
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.sun.jna.Structure#getFieldOrder()
-     */
     @Override
     protected List<?> getFieldOrder() {
         return Arrays.asList("lumH", "lumV", "chrH", "chrV");

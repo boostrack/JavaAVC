@@ -204,7 +204,6 @@ public class JavaAVC {
      */
     public void commandLineExecute(final String binName, final String command, final boolean outputError) {
         /*
-         * (non-Javadoc)
          * See:
          * * http://www.rgagnon.com/javadetails/java-0014.html
          */

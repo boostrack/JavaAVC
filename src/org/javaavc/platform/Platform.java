@@ -178,8 +178,7 @@ public abstract class Platform {
         final String nativeLibDirName = getLibraryNativeName(libName, libVer);
         final File tempDirFile = getJavaTempDirectoryFile();
 
-        /* (non-Javadoc)
-         *
+        /*
          * Remember that:
          *  * If the name begins with a '/', then the absolute name of the resource is the portion of the name following the '/'.
          *  * Otherwise, the absolute name is of the following form: "package_name/name".
@@ -223,8 +222,6 @@ public abstract class Platform {
 
     public static Platform getPlatform() {
         /*
-         * (non-Javadoc)
-         *
          * See:
          * * http://lopica.sourceforge.net/os.html
          */
@@ -376,7 +373,6 @@ public abstract class Platform {
          */
         public static Arch getArch() {
             /*
-             * (non-Javadoc)
              * See:
              * * http://lopica.sourceforge.net/os.html
              */

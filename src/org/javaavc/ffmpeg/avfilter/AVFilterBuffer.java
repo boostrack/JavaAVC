@@ -143,10 +143,6 @@ public class AVFilterBuffer extends Structure {
         super();
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.sun.jna.Structure#getFieldOrder()
-     */
     @Override
     protected List<?> getFieldOrder() {
         return Arrays.asList("data", "extended_data", "linesize", "priv", "free", "format", "w", "h", "refcount");

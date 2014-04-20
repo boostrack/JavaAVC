@@ -116,10 +116,7 @@ public class AVClass extends Structure {
         super();
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.sun.jna.Structure#getFieldOrder()
-     */
+    @Override
     protected List<?> getFieldOrder() {
         return Arrays.asList("class_name", "item_name", "option", "version", "log_level_offset_offset",
             "parent_log_context_offset", "child_next", "child_class_next", "category", "get_category",

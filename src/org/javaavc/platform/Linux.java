@@ -46,10 +46,6 @@ public final class Linux extends Platform {
      * </OL>
      * </P>
      */
-    /*
-     * (non-Javadoc)
-     * @see org.javaavc.platform.Platform#getNativeProcess(java.io.File, java.lang.String)
-     */
     @Override
     public Process getNativeProcess(final File binFile, final String command) throws IOException {
         return Runtime.getRuntime().exec(new String[]{
@@ -61,19 +57,11 @@ public final class Linux extends Platform {
             });
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.javaavc.platform.Platform#getSharedLibExtension()
-     */
     @Override
     public String getSharedLibExtension() {
         return "so";
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.javaavc.platform.Platform#stdIOLibraryName()
-     */
     @Override
     protected String getStdIOLibraryName() {
         return "c";

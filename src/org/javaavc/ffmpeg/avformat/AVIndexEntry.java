@@ -81,10 +81,7 @@ public abstract class AVIndexEntry extends Structure {
         super();
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.sun.jna.Structure#getFieldOrder()
-     */
+    @Override
     protected List<?> getFieldOrder() {
         return Arrays.asList("pos", "timestamp", "flags", "size", "min_distance");
     }

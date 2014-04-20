@@ -201,10 +201,6 @@ public class AVIOContext extends Structure {
         super();
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.sun.jna.Structure#getFieldOrder()
-     */
     @Override
     protected List<?> getFieldOrder() {
         return Arrays.asList("av_class", "buffer", "buffer_size", "buf_ptr", "buf_end", "opaque", "read_packet",

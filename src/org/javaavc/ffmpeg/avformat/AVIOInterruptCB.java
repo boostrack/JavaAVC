@@ -65,10 +65,6 @@ public class AVIOInterruptCB extends Structure {
         super();
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.sun.jna.Structure#getFieldOrder()
-     */
     @Override
     protected List<?> getFieldOrder() {
         return Arrays.asList("callback", "opaque");

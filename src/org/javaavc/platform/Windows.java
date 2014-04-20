@@ -50,10 +50,6 @@ public final class Windows extends Platform {
      * <STRONG>Note: The LIBPATH environment variable is not used.</STRONG>
      * </P>
      */
-    /*
-     * (non-Javadoc)
-     * @see org.javaavc.platform.Platform#getNativeProcess(java.io.File, java.lang.String)
-     */
     @Override
     public Process getNativeProcess(File binFile, String command) throws IOException {
         return Runtime.getRuntime().exec(new String[]{
@@ -63,19 +59,11 @@ public final class Windows extends Platform {
             });
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.javaavc.platform.Platform#getSharedLibExtension()
-     */
     @Override
     public String getSharedLibExtension() {
         return "dll";
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.javaavc.platform.Platform#stdIOLibraryName()
-     */
     @Override
     protected String getStdIOLibraryName() {
         return "msvcrt";
