@@ -161,37 +161,37 @@ public class JavaAVC {
         // Load "avutil". Require: nothing.
         final String avutilName = "avutil";
         this.avutil = (Libavutil) Native.loadLibrary(findLib(avutilName), Libavutil.class);
-        this.checkLib(this.avutil, avutilName);
+        checkLib(this.avutil, avutilName);
 
         // Load "avcodec". Require: "avutil".
         final String avcodecName = "avcodec";
         this.avcodec = (Libavcodec) Native.loadLibrary(findLib(avcodecName), Libavcodec.class);
-        this.checkLib(this.avcodec, avcodecName);
+        checkLib(this.avcodec, avcodecName);
 
         // Load "avformat". Require: "avcodec".
         final String avformatName = "avformat";
         this.avformat = (Libavformat) Native.loadLibrary(findLib(avformatName), Libavformat.class);
-        this.checkLib(this.avformat, avformatName);
+        checkLib(this.avformat, avformatName);
 
         // Load "swresample". Require: "avutil".
         final String swresampleName = "swresample";
         this.swresample = (Libswresample) Native.loadLibrary(findLib(swresampleName), Libswresample.class);
-        this.checkLib(this.swresample, swresampleName);
+        checkLib(this.swresample, swresampleName);
 
         // Load "swscale". Require: "avutil".
         final String swscaleName = "swscale";
         this.swscale = (Libswscale) Native.loadLibrary(findLib(swscaleName), Libswscale.class);
-        this.checkLib(this.swscale, swscaleName);
+        checkLib(this.swscale, swscaleName);
 
         // Load "avfilter". Require: "swresample", "swscale", "avformat", "avcodec", "avutil".
         final String avfilterName = "avfilter";
         this.avfilter = (Libavfilter) Native.loadLibrary(findLib(avfilterName), Libavfilter.class);
-        this.checkLib(this.avfilter, avfilterName);
+        checkLib(this.avfilter, avfilterName);
 
         // Load "avdevice". Require: "avfilter", "avformat".
         final String avdeviceName = "avdevice";
         this.avdevice = (Libavdevice) Native.loadLibrary(findLib(avdeviceName), Libavdevice.class);
-        this.checkLib(this.avdevice, avdeviceName);
+        checkLib(this.avdevice, avdeviceName);
     }
 
     /**
