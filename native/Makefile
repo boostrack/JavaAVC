@@ -9,6 +9,13 @@ FFMPEG_LINK=http://ffmpeg.org/releases/$(FFMPEG_ARCH)
 
 
 # ==============================================================================
+# Main constants.
+# ------------------------------------------------------------------------------
+ROOT_DIR=$(shell pwd)
+BUILD_DIR=$(ROOT_DIR)/build
+
+
+# ==============================================================================
 # Configure options.
 # ------------------------------------------------------------------------------
 CONF= \
@@ -18,18 +25,13 @@ CONF= \
     --enable-shared \
     --disable-doc \
     --enable-pic \
-    --disable-symver \
-    --pkg-config=pkg-config
+    --enable-sram \
+    --enable-memalign-hack \
+    --pkg-config=pkg-config \
+    --enable-cross-compile \
+
 
 OUT=1> /dev/null
-
-
-# ==============================================================================
-# Main constants.
-# ------------------------------------------------------------------------------
-SEP=-
-WRAP_NAME=javaavc
-WRAP_DIR=$(WRAP_NAME)$(SEP)$(FFMPEG_VER)
 
 
 # ==============================================================================
@@ -43,21 +45,14 @@ LIB_DIR=$(BUILD_DIR)/lib
 
 
 # ==============================================================================
-# Common constants.
+# OS-specific and ARC-specific constants.
 # ------------------------------------------------------------------------------
-ROOT_DIR=$(shell pwd)
-BUILD_DIR=$(ROOT_DIR)/build
-
 LINUX=linux
 WINDOWS=windows
 
 ARCH_x86=x86
 ARCH_x86_64=x86_64
 
-
-# ==============================================================================
-# OS-specific names of directories.
-# ------------------------------------------------------------------------------
 LINUX_X86_DIR=$(WRAP_DIR)$(SEP)$(LINUX)$(SEP)$(ARCH_x86)
 LINUX_X86_64_DIR=$(WRAP_DIR)$(SEP)$(LINUX)$(SEP)$(ARCH_x86_64)
 
@@ -68,7 +63,11 @@ WINDOWS_X86_64_DIR=$(WRAP_DIR)$(SEP)$(WINDOWS)$(SEP)$(ARCH_x86_64)
 # ==============================================================================
 # Result JAR-files.
 # ------------------------------------------------------------------------------
+SEP=-
+WRAP_NAME=javaavc
+WRAP_DIR=$(WRAP_NAME)$(SEP)$(FFMPEG_VER)
 POSTFIX=native.jar
+
 LINUX_X86_JAR=$(WRAP_DIR)$(SEP)$(LINUX)$(SEP)$(ARCH_x86)$(SEP)$(POSTFIX)
 LINUX_X86_64_JAR=$(WRAP_DIR)$(SEP)$(LINUX)$(SEP)$(ARCH_x86_64)$(SEP)$(POSTFIX)
 
