@@ -27,6 +27,8 @@ Standard options:
   --shlibdir=DIR           install shared libs in DIR [PREFIX/lib]
   --incdir=DIR             install includes in DIR [PREFIX/include]
   --mandir=DIR             install man page in DIR [PREFIX/share/man]
+  --enable-rpath           use rpath to allow installing libraries in paths
+                           not part of the dynamic linker search path
 
 Licensing options:
   --enable-gpl             allow use of GPL code, the resulting libs
@@ -87,7 +89,7 @@ Component options:
 Hardware accelerators:
   --disable-dxva2          disable DXVA2 code [autodetect]
   --disable-vaapi          disable VAAPI code [autodetect]
-  --enable-vda             enable VDA code
+  --disable-vda            disable VDA code [autodetect]
   --disable-vdpau          disable VDPAU code [autodetect]
 
 Individual component options:
@@ -180,14 +182,18 @@ External library support:
                            native implementation exists [no]
   --enable-libvpx          enable VP8 and VP9 de/encoding via libvpx [no]
   --enable-libwavpack      enable wavpack encoding via libwavpack [no]
+  --enable-libwebp         enable WebP encoding via libwebp [no]
   --enable-libx264         enable H.264 encoding via x264 [no]
+  --enable-libx265         enable HEVC encoding via x265 [no]
   --enable-libxavs         enable AVS encoding via xavs [no]
   --enable-libxvid         enable Xvid encoding via xvidcore,
                            native MPEG-4/Xvid encoder exists [no]
   --enable-libzmq          enable message passing via libzmq [no]
   --enable-libzvbi         enable teletext support via libzvbi [no]
+  --enable-decklink        enable Blackmagick DeckLink output [no]
   --enable-openal          enable OpenAL 1.1 capture support [no]
   --enable-opencl          enable OpenCL code
+  --enable-opengl          enable OpenGL rendering [no]
   --enable-openssl         enable openssl [no]
   --enable-x11grab         enable X11 grabbing [no]
   --disable-zlib           disable zlib [autodetect]
@@ -206,6 +212,7 @@ Advanced options (experts only):
   --nm=NM                  use nm tool NM [nm -g]
   --ar=AR                  use archive tool AR [ar]
   --as=AS                  use assembler AS []
+  --windres=WINDRES        use windows resource compiler WINDRES [windres]
   --yasmexe=EXE            use yasm-compatible assembler EXE [yasm]
   --cc=CC                  use C compiler CC [gcc]
   --cxx=CXX                use C compiler CXX [g++]
@@ -255,6 +262,8 @@ Optimization options (experts only):
   --disable-sse4           disable SSE4 optimizations
   --disable-sse42          disable SSE4.2 optimizations
   --disable-avx            disable AVX optimizations
+  --disable-xop            disable XOP optimizations
+  --disable-fma3           disable FMA3 optimizations
   --disable-fma4           disable FMA4 optimizations
   --disable-avx2           disable AVX2 optimizations
   --disable-armv5te        disable armv5te optimizations
@@ -286,6 +295,8 @@ Developer options (useful when working on FFmpeg itself):
   --enable-ftrapv          Trap arithmetic overflows
   --samples=PATH           location of test samples for FATE, if not set use
                            $FATE_SAMPLES at make invocation time.
+  --enable-neon-clobber-test check NEON registers for clobbering (should be
+                           used only for debugging purposes)
   --enable-xmm-clobber-test check XMM registers for clobbering (Win64-only;
                            should be used only for debugging purposes)
   --enable-random          randomly enable/disable components
