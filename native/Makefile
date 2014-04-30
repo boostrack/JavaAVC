@@ -1,7 +1,8 @@
 # ==============================================================================
 # FFmpeg distrib.
 # ------------------------------------------------------------------------------
-FFMPEG_VER=2.2.1 # 11.04.2014
+# 11.04.2014
+FFMPEG_VER=2.2.1
 FFMPEG_DIR=ffmpeg-$(FFMPEG_VER)
 FFMPEG_ARCH=$(FFMPEG_DIR).tar.gz
 FFMPEG_LINK=http://ffmpeg.org/releases/$(FFMPEG_ARCH)
@@ -27,8 +28,7 @@ CONF= \
     --enable-sram \
     --enable-memalign-hack \
     --pkg-config=pkg-config \
-    --enable-cross-compile \
-
+    --enable-cross-compile
 
 OUT=1> /dev/null
 
