@@ -27,8 +27,7 @@ CONF= \
     --enable-pic \
     --enable-sram \
     --enable-memalign-hack \
-    --pkg-config=pkg-config \
-    --enable-cross-compile
+    --pkg-config=pkg-config
 
 OUT=1> /dev/null
 
