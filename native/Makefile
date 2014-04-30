@@ -80,7 +80,7 @@ LINUX_OPT=
 LINUX_X86_OPT=$(LINUX_OPT)    --arch=$(ARCH_x86)
 LINUX_X86_64_OPT=$(LINUX_OPT) --arch=$(ARCH_x86_64)
 
-WINDOWS_OPT=--enable-cross-compile --target-os=mingw32
+WINDOWS_OPT=--enable-cross-compile --target-os=mingw32 --extra-cflags=-static-libgcc
 WINDOWS_X86_OPT=$(WINDOWS_OPT)    --cross-prefix=i686-w64-mingw32- --arch=$(ARCH_x86)
 WINDOWS_X86_64_OPT=$(WINDOWS_OPT) --cross-prefix=x86_64-w64-mingw32- --arch=$(ARCH_x86_64)
 
