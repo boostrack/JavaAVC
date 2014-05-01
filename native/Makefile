@@ -26,8 +26,7 @@ CONF= \
     --disable-doc \
     #--disable-bzlib \
     #--disable-zlib \
-    --extra-cflags="-g -Wall -Wextra" \
-    --extra-ldflags="-Wl,--as-needed -static-libgcc -static-libstdc++" \
+    --extra-ldflags="-static-libgcc -static-libstdc++" \
     --enable-pic \
     --enable-sram \
     --enable-memalign-hack \

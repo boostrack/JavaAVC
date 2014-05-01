@@ -18,13 +18,12 @@ Required components:
    Oracle JRE (http://www.oracle.com/technetwork/java/javase/downloads/index.html)
  * OpenJDK (http://openjdk.java.net/) or
    Oracle JDK (http://www.oracle.com/technetwork/java/javase/downloads/index.html)
- * MinGW Windows cross-compiler (GCC) for C (http://www.mingw.org/)
+ * MinGW-w64 (http://mingw-w64.sourceforge.net/)
 
 Install requirements on Ubuntu:
     $ sudo apt-get install gcc make automake yasm
     $ sudo apt-get install openjdk-7-jre openjdk-7-jdk
     $ sudo apt-get install gcc-mingw-w64
-
 
 Install requirements on Fedora:
     $ sudo yum -y install gcc make automake yasm 
